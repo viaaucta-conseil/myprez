@@ -155,12 +155,24 @@ nav {
   display: flex; flex-direction: column; align-items: center; gap: 8px;
   animation: fadeUp .6s .5s ease both;
 }
-.scroll-line {
-  width: 1px; height: 48px;
-  background: linear-gradient(to bottom, var(--orange), transparent);
-  animation: scrollPulse 2s infinite;
+.scroll-arrow {
+  display: flex; flex-direction: column; align-items: center; gap: 0;
+  animation: arrowDrift 2s ease-in-out infinite;
 }
-@keyframes scrollPulse { 0%,100%{opacity:.4;transform:scaleY(1)} 50%{opacity:1;transform:scaleY(1.1)} }
+.scroll-arrow-shaft {
+  width: 1px; height: 36px;
+  background: linear-gradient(to bottom, transparent, var(--orange));
+}
+.scroll-arrow-head {
+  width: 10px; height: 10px;
+  border-right: 1.5px solid var(--orange);
+  border-bottom: 1.5px solid var(--orange);
+  transform: rotate(45deg) translate(-3px, -3px);
+}
+@keyframes arrowDrift {
+  0%,100% { transform: translateY(0);   opacity: .55; }
+  50%      { transform: translateY(7px); opacity: 1;   }
+}
 .scroll-label { font-size: 10px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
 
 /* ── FEATURES ── */
@@ -499,7 +511,7 @@ footer {
 
 <!-- Hero -->
 <section class="hero">
-  <div class="hero-badge">Nouveau · Générateur de présentation pour Réseaux Sociaux</div>
+  <div class="hero-badge">Nouveau · Générateur de présentations pour les Réseaux Sociaux</div>
 
   <h1>Créez des carrousels <em>LinkedIn, Tik Tok, Facebook et Instagram</em> qui convertissent</h1>
 
@@ -523,6 +535,13 @@ footer {
     </div>
   </div>
 
+  <div class="hero-scroll">
+    <span class="scroll-label">Découvrir</span>
+    <div class="scroll-arrow">
+      <div class="scroll-arrow-shaft"></div>
+      <div class="scroll-arrow-head"></div>
+    </div>
+  </div>
 </section>
 
 <!-- Fonctionnalités -->
@@ -687,7 +706,7 @@ footer {
     </div>
     <div class="faq-item reveal">
       <div class="faq-q">Puis-je utiliser My Prez sur plusieurs appareils ?</div>
-      <div class="faq-a">Oui, la licence est illimitée en nombre d'appareils. Par ce que chez Via Aucta conseil, on sait que la flexibilité n'est pas un compromis.</div>
+      <div class="faq-a">Oui. La licence est illimitée en nombre d'appareils. Par ce que chez Via Aucta conseil, on sait que la flexibilité n'est pas un compromis.</div>
     </div>
     <div class="faq-item reveal">
       <div class="faq-q">Y a-t-il un support en cas de problème ?</div>
