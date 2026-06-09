@@ -1,0 +1,2865 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Générateur Carrousels LinkedIn — Via Aucta</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,700;0,900;1,700&family=Barlow:wght@400;500;700&family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700;900&family=Syne:wght@400;600;700;800&family=Fraunces:ital,wght@0,300;0,700;0,900;1,700&family=Raleway:wght@400;700;800;900&family=Outfit:wght@300;400;700;900&family=Plus+Jakarta+Sans:wght@300;400;600;700&family=Space+Grotesk:wght@300;400;500;700&family=Inter:wght@300;400;600;700&family=Nunito:wght@300;400;600;700&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pptxgenjs/3.12.0/pptxgen.bundle.js"></script>
+<style>
+/* ═══════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0D2B4E; --navy2:#1B3F6E; --orange:#F05A1A; --orange2:#FF7A3D;
+  --dark:#060E1A; --white:#FFFFFF; --mist:#F4F4F2;
+  --gray:#8A9AB0; --border:#E2E8F0; --bg:#F0F2F5;
+}
+html,body{height:100%;font-family:'DM Sans',sans-serif;background:var(--bg);font-size:13px;color:var(--navy)}
+button{cursor:pointer;font-family:'DM Sans',sans-serif;border:none;outline:none}
+input,textarea,select{font-family:'DM Sans',sans-serif;outline:none}
+
+/* ═══════════════════════════════════════════
+   LAYOUT
+═══════════════════════════════════════════ */
+.app{display:flex;flex-direction:column;height:100vh;overflow:hidden}
+.topbar{background:var(--navy);border-bottom:3px solid var(--orange);padding:0 20px;display:flex;align-items:center;height:56px;gap:16px;flex-shrink:0}
+.topbar-logo{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:900;color:white;letter-spacing:3px}
+.topbar-logo span{color:var(--orange)}
+.topbar-logo small{font-size:9px;color:rgba(255,255,255,.3);letter-spacing:2px;display:block;margin-top:1px;font-family:'DM Sans',sans-serif;font-weight:400;text-transform:uppercase}
+.spacer{flex:1}
+.topbar-actions{display:flex;gap:6px}
+.tbtn{padding:6px 13px;border-radius:5px;font-size:11px;font-weight:700;transition:all .15s;letter-spacing:.5px}
+.tbtn-gray{background:rgba(255,255,255,.1);color:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.2)}
+.tbtn-gray:hover{background:rgba(255,255,255,.2)}
+.tbtn-orange{background:var(--orange);color:white}
+.tbtn-orange:hover{background:var(--orange2)}
+.tbtn-green{background:#16a34a;color:white}
+.tbtn-green:hover{background:#15803d}
+.tbtn-blue{background:#2563EB;color:white}
+.tbtn-blue:hover{background:#1D4ED8}
+/* Undo/Redo */
+.tbtn-hist{opacity:.4;cursor:not-allowed}
+.tbtn-hist.on{opacity:1;cursor:pointer}
+
+/* Format selector dans la topbar */
+.fmt-group{display:flex;gap:2px;background:rgba(255,255,255,.08);border-radius:6px;padding:3px}
+.fmt-btn{padding:4px 10px;border-radius:4px;font-size:10px;font-weight:700;color:rgba(255,255,255,.5);background:none;border:none;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:4px;white-space:nowrap}
+.fmt-btn:hover{color:rgba(255,255,255,.85);background:rgba(255,255,255,.1)}
+.fmt-btn.on{background:var(--orange);color:white}
+.fmt-icon{font-size:12px}
+
+.tabs-row{background:var(--navy);padding:0 20px;display:flex;gap:4px;align-items:flex-end;flex-shrink:0;border-bottom:1px solid rgba(255,255,255,.07)}
+.ctab{padding:8px 14px;font-size:11px;font-weight:600;border-radius:5px 5px 0 0;cursor:pointer;transition:all .15s;border:1px solid transparent;color:rgba(255,255,255,.45);background:rgba(255,255,255,.07);display:flex;align-items:center;gap:6px}
+.ctab:hover{color:rgba(255,255,255,.8);background:rgba(255,255,255,.12)}
+.ctab.on{background:var(--bg);color:var(--navy);border-color:rgba(255,255,255,.1)}
+.ctab-del{width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,.15);color:rgba(255,255,255,.5);font-size:9px;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.ctab.on .ctab-del{background:rgba(240,90,26,.15);color:var(--orange)}
+.ctab-del:hover{background:#EF4444!important;color:white!important}
+.ctab-new{border:1px dashed rgba(240,90,26,.4);color:rgba(240,90,26,.8);background:rgba(240,90,26,.08)}
+.ctab-new:hover{background:rgba(240,90,26,.15)!important;color:var(--orange)!important}
+.ctab-custom{border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.7);background:rgba(255,255,255,.06);margin-left:4px}
+.ctab-custom:hover{background:rgba(255,255,255,.14)!important;color:white!important}
+
+.body{display:flex;flex:1;overflow:hidden}
+
+/* ═══════════════════════════════════════════
+   LEFT PANEL — EDITOR
+═══════════════════════════════════════════ */
+.panel-left{width:320px;flex-shrink:0;background:white;border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+.panel-tabs{display:flex;border-bottom:1px solid var(--border)}
+.ptab{flex:1;padding:10px 6px;font-size:11px;font-weight:600;color:var(--gray);text-align:center;cursor:pointer;border-bottom:2px solid transparent;transition:all .15s}
+.ptab:hover{color:var(--navy)}
+.ptab.on{color:var(--orange);border-bottom-color:var(--orange)}
+.panel-content{flex:1;overflow-y:auto;padding:16px}
+.panel-content::-webkit-scrollbar{width:4px}
+.panel-content::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+
+/* Section titles */
+.sec-title{font-size:9px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:var(--orange);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.sec-title::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* Form fields */
+.field{margin-bottom:12px}
+.field label{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);display:block;margin-bottom:4px}
+.field input,.field textarea,.field select{width:100%;background:#F8FAFC;border:1px solid var(--border);border-radius:6px;padding:7px 10px;font-size:12px;color:var(--navy);transition:border-color .15s;resize:vertical}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--orange);background:white}
+.field-hint{font-size:10px;color:var(--gray);margin-top:3px;line-height:1.4}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.field-row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+
+/* Color picker row */
+.color-row{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.color-swatch{width:28px;height:28px;border-radius:6px;cursor:pointer;border:2px solid transparent;transition:all .15s;flex-shrink:0}
+.color-swatch.on,.color-swatch:hover{border-color:var(--navy);transform:scale(1.1)}
+.color-picker-wrap{display:flex;align-items:center;gap:6px}
+.color-input{width:36px;height:28px;border:1px solid var(--border);border-radius:6px;cursor:pointer;padding:2px}
+
+/* Slide list */
+.slide-list{display:flex;flex-direction:column;gap:4px}
+.slide-item{background:#F8FAFC;border:1px solid var(--border);border-radius:7px;padding:8px 10px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:8px}
+.slide-item:hover{border-color:var(--orange);background:white}
+.slide-item.on{background:var(--navy);border-color:var(--navy);color:white}
+.slide-badge{font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:2px 7px;border-radius:3px;flex-shrink:0}
+.slide-badge.cover{background:rgba(240,90,26,.15);color:var(--orange)}
+.slide-badge.dark{background:rgba(6,14,26,.1);color:#334155}
+.slide-badge.navy{background:rgba(13,43,78,.12);color:var(--navy)}
+.slide-badge.white{background:rgba(13,43,78,.08);color:var(--navy);border:1px solid var(--border)}
+.slide-badge.cta{background:rgba(240,90,26,.12);color:var(--orange)}
+.slide-item.on .slide-badge{background:rgba(255,255,255,.15);color:rgba(255,255,255,.8)}
+.slide-lbl{font-size:11px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.slide-actions{display:flex;gap:3px}
+.slide-act{width:20px;height:20px;border-radius:4px;background:rgba(255,255,255,.2);border:none;display:flex;align-items:center;justify-content:center;font-size:10px;cursor:pointer;transition:all .15s;opacity:.6}
+.slide-act:hover{opacity:1}
+.slide-act.del:hover{background:#EF4444;color:white}
+.slide-act.dup:hover{background:#16a34a;color:white}
+/* Drag & drop */
+.slide-handle{cursor:grab;font-size:11px;color:rgba(255,255,255,.3);padding:0 2px;flex-shrink:0;user-select:none}
+.slide-item.on .slide-handle{color:rgba(255,255,255,.5)}
+.slide-handle:hover{color:rgba(255,255,255,.8)}
+.slide-item.dragging{opacity:.4;border:1.5px dashed var(--orange)}
+.slide-item.drag-over{border-color:var(--orange);background:rgba(212,160,23,.1);transform:translateY(-1px)}
+.add-slide-row{display:flex;gap:6px;margin-top:8px}
+.add-slide-row select{flex:1;background:#F8FAFC;border:1px solid var(--border);border-radius:6px;padding:6px 8px;font-size:11px;color:var(--navy)}
+.btn-add-slide{background:var(--orange);color:white;padding:6px 12px;border-radius:6px;font-size:11px;font-weight:700;flex-shrink:0}
+
+/* Items editor */
+.items-editor{display:flex;flex-direction:column;gap:8px}
+.item-card{background:#F8FAFC;border:1px solid var(--border);border-radius:7px;padding:10px;position:relative}
+.item-num-badge{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:900;color:var(--orange);line-height:1;margin-bottom:6px}
+.item-del-btn{position:absolute;top:8px;right:8px;background:none;border:none;color:var(--border);font-size:13px;cursor:pointer;transition:color .15s}
+.item-del-btn:hover{color:#EF4444}
+.btn-add-item{background:rgba(240,90,26,.08);border:1px dashed rgba(240,90,26,.3);border-radius:6px;padding:7px;text-align:center;font-size:11px;color:var(--orange);font-weight:600;width:100%;cursor:pointer;transition:all .15s;margin-top:4px}
+.btn-add-item:hover{background:rgba(240,90,26,.14)}
+
+/* Background panel */
+.bg-type-row{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:14px}
+.bg-type-btn{padding:8px 4px;border-radius:6px;font-size:10px;font-weight:700;text-align:center;cursor:pointer;background:#F8FAFC;border:1px solid var(--border);color:var(--gray);transition:all .15s}
+.bg-type-btn:hover{border-color:var(--orange);color:var(--navy)}
+.bg-type-btn.on{background:var(--navy);color:white;border-color:var(--navy)}
+.gradient-presets{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:10px}
+.grad-preset{height:40px;border-radius:6px;cursor:pointer;border:2px solid transparent;transition:all .15s}
+.grad-preset:hover,.grad-preset.on{border-color:var(--navy);transform:scale(1.05)}
+.upload-zone{border:2px dashed var(--border);border-radius:8px;padding:20px;text-align:center;cursor:pointer;transition:all .15s}
+.upload-zone:hover{border-color:var(--orange);background:rgba(240,90,26,.04)}
+.upload-zone-icon{font-size:24px;margin-bottom:6px}
+.upload-zone p{font-size:11px;color:var(--gray)}
+.pattern-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+.pattern-btn{height:44px;border-radius:6px;cursor:pointer;border:2px solid transparent;transition:all .15s;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--gray);background:#F8FAFC}
+.pattern-btn:hover,.pattern-btn.on{border-color:var(--navy)}
+
+/* ═══════════════════════════════════════════
+   CENTER — PREVIEW
+═══════════════════════════════════════════ */
+.panel-center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;overflow:hidden;background:var(--bg);gap:10px;min-height:0}
+.preview-wrap{position:relative;border-radius:10px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.2);flex-shrink:0}
+.preview-frame{transform-origin:top left;position:absolute;top:0;left:0;overflow:hidden;font-family:'DM Sans',sans-serif}
+.slide-controls{display:flex;align-items:center;gap:8px}
+.sc-btn{width:34px;height:34px;border-radius:7px;background:white;border:1px solid var(--border);font-size:15px;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.sc-btn:hover{background:var(--navy);color:white;border-color:var(--navy)}
+.sc-btn:disabled{opacity:.3;cursor:default}
+.sc-cnt{font-size:12px;color:var(--gray);font-weight:600;min-width:70px;text-align:center}
+.sc-exp{background:var(--orange);color:white;padding:7px 16px;border-radius:7px;font-size:11px;font-weight:700}
+.sc-exp:hover{background:var(--orange2)}
+.prog-dots{display:flex;gap:4px;align-items:center}
+.pdot{width:8px;height:8px;border-radius:50%;background:var(--border);cursor:pointer;border:none;transition:all .15s}
+.pdot.on{background:var(--orange);transform:scale(1.3)}
+.pdot:hover{background:rgba(240,90,26,.5)}
+
+/* ═══════════════════════════════════════════
+   SLIDE DESIGNS — 1080×1080 — FULL FIDELITY
+═══════════════════════════════════════════ */
+.sl{width:100%;height:100%;position:relative;overflow:hidden;display:flex;flex-direction:column;font-family:'DM Sans',sans-serif}
+
+/* COVER */
+.sl-cov{justify-content:flex-end;padding:80px}
+.sl-cov .c1{position:absolute;top:-60px;right:-60px;width:380px;height:380px;border-radius:50%;background:rgba(240,90,26,0.18)}
+.sl-cov .c2{position:absolute;top:-15px;right:-15px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.04)}
+.sl-cov .gbar{position:absolute;top:0;left:0;right:0;height:6px;background:linear-gradient(90deg,#F05A1A,#FF7A3D)}
+.sl-cov .bgrid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:54px 54px}
+.sl-cov .ptag{position:absolute;top:52px;left:80px;background:#F05A1A;color:white;font-family:'Barlow Condensed',sans-serif;padding:7px 20px;font-weight:900;letter-spacing:4px;border-radius:4px;text-transform:uppercase}
+.sl-cov .sn{position:absolute;top:995px;left:80px;font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:700;color:rgba(255,255,255,0.28);letter-spacing:2px}
+/* ── UNIFIED BOT (footer) for all slides ── */
+.sl .bot{display:flex;align-items:center;justify-content:space-between;padding-top:28px;border-top-width:1px;border-top-style:solid}
+.sl .bot-dark{border-top-color:rgba(255,255,255,0.12)}
+.sl .bot-light{border-top-color:rgba(13,43,78,0.10)}
+.sl .bot-inner{display:flex;align-items:center;gap:14px}
+.sl .bot-dot{width:20px;height:5px;border-radius:3px;flex-shrink:0}
+.sl .bbrand{font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:700;letter-spacing:2px;white-space:nowrap}
+.sl .bcta{font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:700;letter-spacing:3px;white-space:nowrap}
+.sl-cov .ttl{font-family:'Barlow Condensed',sans-serif;font-weight:900;line-height:0.97;letter-spacing:-1px;margin-bottom:22px;white-space:pre-line;position:relative;z-index:2}
+.sl-cov .ttl em{color:#F05A1A;font-style:normal}
+.sl-cov .obar{width:52px;height:5px;background:#F05A1A;border-radius:3px;margin-bottom:20px;position:relative;z-index:2}
+.sl-cov .sub{margin-bottom:50px;line-height:1.5;position:relative;z-index:2}
+
+
+
+
+
+/* WHITE CONTENT */
+.sl-wh{
+  padding:80px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  background:#F4F4F2;
+}
+
+/* HEADER */
+.wh-header{
+  display:flex;
+  align-items:center;
+  gap:16px;
+}
+
+.wh-num{
+  background:#0D2B4E;
+  color:white;
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:800;
+  padding:10px 14px;
+  border-radius:10px;
+  text-align:center;
+}
+
+.wh-title{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;
+  color:#0D2B4E;
+}
+
+/* BODY */
+.wh-body{
+  flex:1;
+  margin-top:40px;
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+  line-height:1.5;
+  color:#334155;
+  overflow:hidden;
+}
+
+.wh-body .stmt{font-family:'Barlow',sans-serif;font-weight:700;font-stretch: 500%;line-height:1.05;color:white;margin-top:50px;margin-bottom:36px;white-space:pre-line}
+.wh-body .stmt em{color:#F05A1A;font-style:normal}
+
+/* TIP */
+.wh-tip{
+  background:#1B3F6E;
+  color:white;
+  padding:20px;
+  border-radius:12px;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  margin-top:24px;
+  flex-shrink:0;
+}
+
+.tip-label{
+  font-weight:900;
+  opacity:0.8;
+  letter-spacing:1px;
+  color:#F05A1A;
+}
+
+/* #previewWrap dimensions are set dynamically by scalePreview() */
+
+/* DARK HOOK */
+.sl-dk{padding:80px;justify-content:space-between}
+.sl-dk .top{display:flex;align-items:center;justify-content:space-between}
+.sl-dk .pill{font-family:'Barlow Condensed',sans-serif;font-weight:900;letter-spacing:3px;background:#F05A1A;color:white;padding:8px 18px;border-radius:6px;text-transform:uppercase}
+.sl-dk .pnum{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;color:rgba(255,255,255,0.1)}
+.sl-dk .body{flex:1;display:flex;flex-direction:column;justify-content:flex-start;padding-top:80px}
+.sl-dk .obar{width:56px;height:5px;background:#F05A1A;border-radius:3px;margin-bottom:36px}
+.sl-dk .stmt{font-family:'Barlow Condensed',sans-serif;font-weight:900;line-height:1.05;color:white;margin-bottom:36px;white-space:pre-line}
+.sl-dk .stmt em{color:#F05A1A;font-style:normal}
+.sl-dk .stxt{line-height:1.65;color:rgba(255,255,255,0.5)}
+
+
+
+
+
+/* NAVY STEPS */
+.sl-nv{padding:80px;justify-content:space-between}
+.sl-nv .top{display:flex;align-items:center;justify-content:space-between}
+.sl-nv .pill{font-family:'Barlow Condensed',sans-serif;font-weight:900;letter-spacing:3px;background:#F05A1A;color:white;padding:8px 18px;border-radius:6px;text-transform:uppercase}
+.sl-nv .pnum{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;color:rgba(255,255,255,0.1)}
+.sl-nv .body{flex:1;display:flex;flex-direction:column;justify-content:flex-start;padding-top:80px}
+.sl-nv .obar{width:56px;height:5px;background:#F05A1A;border-radius:3px;margin-bottom:32px}
+.sl-nv .items{display:flex;flex-direction:column;gap:26px}
+.sl-nv .item{display:flex;align-items:flex-start;gap:22px}
+.sl-nv .inum{font-family:'Barlow Condensed',sans-serif;font-weight:900;color:#F05A1A;line-height:1;flex-shrink:0;width:52px}
+.sl-nv .ititle{font-family:'Barlow Condensed',sans-serif;font-weight:700;color:white;line-height:1.2}
+.sl-nv .isub{color:rgba(255,255,255,0.42);margin-top:4px;line-height:1.45}
+
+
+
+
+
+/* WHITE QUOTE */
+.sl-wh{padding:80px;justify-content:space-between}
+.sl-wh .top{display:flex;align-items:center;justify-content:space-between}
+.sl-wh .pill{font-family:'Barlow Condensed',sans-serif;font-weight:900;letter-spacing:3px;background:#0D2B4E;color:white;padding:8px 18px;border-radius:6px;text-transform:uppercase}
+.sl-wh .pnum{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;color:rgba(13,43,78,0.15)}
+.sl-wh .body{flex:1;display:flex;flex-direction:column;justify-content:flex-start;padding-top:80px}
+.sl-wh .obar{width:56px;height:5px;background:#F05A1A;border-radius:3px;margin-bottom:36px}
+.sl-wh .quote{font-family:'Barlow Condensed',sans-serif;font-weight:900;line-height:1.05;color:#0D2B4E;white-space:pre-line}
+.sl-wh .quote em{color:#F05A1A;font-style:normal}
+.sl-wh .qsub{color:rgba(13,43,78,0.52);margin-top:32px;line-height:1.6}
+
+
+
+
+
+/* CTA ORANGE */
+.sl-ct{padding:80px;justify-content:center;align-items:center;text-align:center;position:relative}
+.sl-ct .c1{position:absolute;top:960px;right:-60px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,0.08)}
+.sl-ct .eyebrow{font-family:'Barlow Condensed',sans-serif;font-weight:400;letter-spacing:6px;color:rgba(255,255,255,0.55);text-transform:uppercase;margin-bottom:30px}
+.sl-ct .main-t{font-family:'Barlow Condensed',sans-serif;font-weight:900;line-height:1.0;color:white;letter-spacing:-1px;margin-bottom:42px;white-space:pre-line}
+.sl-ct .ctxt{color:rgba(255,255,255,0.78);line-height:1.6;margin-bottom:50px;max-width:800px}
+.sl-ct .cpill{background:#0D2B4E;color:white;font-family:'Barlow Condensed',sans-serif;font-weight:900;letter-spacing:3px;padding:20px 50px;border-radius:6px;display:inline-block}
+.sl-ct .clogo{position:absolute;top:962px;left:50%;transform:translateX(-50%);font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:900;letter-spacing:3px;color:rgba(255,255,255,0.28);white-space:nowrap}
+
+/* ═══════════════════════════════════════════
+   RIGHT PANEL — POST LINKEDIN
+═══════════════════════════════════════════ */
+.panel-right{width:280px;flex-shrink:0;background:white;border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+.panel-right-header{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.panel-right-title{font-size:11px;font-weight:700;color:var(--navy);letter-spacing:.5px}
+.panel-right-body{flex:1;padding:14px;overflow-y:auto;display:flex;flex-direction:column;gap:10px}
+.post-preview{background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:12px;font-size:11px;color:#334155;line-height:1.8;flex:1;white-space:pre-wrap;min-height:200px}
+.post-textarea{width:100%;flex:1;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:12px;font-size:11px;color:#334155;line-height:1.8;resize:none;min-height:300px}
+.post-textarea:focus{border-color:var(--orange);background:white}
+.copy-post-btn{background:var(--navy);color:white;padding:8px;border-radius:6px;font-size:11px;font-weight:700;width:100%;letter-spacing:.5px}
+.copy-post-btn:hover{background:var(--navy2)}
+.copy-post-btn.copied{background:#16a34a}
+.hashtag-row{display:flex;flex-wrap:wrap;gap:4px}
+.hashtag{font-size:10px;font-weight:600;color:var(--orange);background:rgba(212,160,23,.08);padding:3px 8px;border-radius:3px;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:4px}
+.hashtag:hover{background:rgba(212,160,23,.18)}
+.hashtag-del{font-size:9px;color:rgba(212,160,23,.5);line-height:1;padding:0;background:none;border:none;cursor:pointer;transition:color .15s}
+.hashtag-del:hover{color:#EF4444}
+.hashtag-add-row{display:flex;gap:5px;margin-top:6px}
+.hashtag-add-input{flex:1;background:#F8FAFC;border:1px solid var(--border);border-radius:5px;padding:4px 8px;font-size:11px;color:var(--navy)}
+.hashtag-add-input:focus{outline:none;border-color:var(--orange)}
+.hashtag-add-btn{background:var(--orange);color:white;border:none;border-radius:5px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer;flex-shrink:0}
+.hashtag-add-btn:hover{background:var(--orange2)}
+.hashtag-section-label{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);margin-bottom:5px;display:flex;align-items:center;justify-content:space-between}
+.hashtag-reset{font-size:9px;color:var(--gray);background:none;border:none;cursor:pointer;text-decoration:underline;padding:0}
+.hashtag-reset:hover{color:var(--orange)}
+
+/* ═══════════════════════════════════════════
+   BARRE DE MISE EN FORME INLINE
+═══════════════════════════════════════════ */
+.fmt-toolbar{display:flex;gap:3px;margin-bottom:4px;align-items:center;flex-wrap:wrap}
+.fmt-tb-btn{padding:3px 8px;border-radius:4px;font-size:11px;font-weight:700;border:1px solid var(--border);background:#F8FAFC;color:var(--navy);cursor:pointer;transition:all .15s;line-height:1.4}
+.fmt-tb-btn:hover{background:var(--orange);color:white;border-color:var(--orange)}
+.fmt-tb-sep{width:1px;height:16px;background:var(--border);margin:0 2px;flex-shrink:0}
+
+/* Logo upload branding */
+.logo-upload-zone{border:2px dashed var(--border);border-radius:8px;padding:12px;text-align:center;cursor:pointer;transition:all .15s;background:#F8FAFC}
+.logo-upload-zone:hover{border-color:var(--orange);background:rgba(212,160,23,.04)}
+.logo-preview-wrap{display:flex;align-items:center;gap:10px;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:8px 10px}
+.logo-preview-img{width:40px;height:40px;border-radius:50%;object-fit:cover;border:2px solid var(--border);flex-shrink:0}
+.logo-preview-img.square{border-radius:6px}
+.logo-remove-btn{background:none;border:none;color:var(--gray);cursor:pointer;font-size:16px;padding:0;transition:color .15s}
+.logo-remove-btn:hover{color:#EF4444}
+.logo-shape-row{display:flex;gap:5px;margin-top:6px}
+.logo-shape-btn{flex:1;padding:5px;border-radius:5px;font-size:10px;font-weight:600;border:1px solid var(--border);background:#F8FAFC;color:var(--gray);cursor:pointer;transition:all .15s}
+.logo-shape-btn.on{background:var(--navy);color:white;border-color:var(--navy)}
+
+/* ═══════════════════════════════════════════
+   BIBLIOTHÈQUE D'ICÔNES
+═══════════════════════════════════════════ */
+.icon-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:2000;align-items:center;justify-content:center;padding:20px}
+.icon-modal-overlay.open{display:flex}
+.icon-modal{background:white;border-radius:12px;padding:20px;width:480px;max-width:95vw;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.icon-modal-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.icon-modal-title{font-size:13px;font-weight:700;color:var(--navy);letter-spacing:.5px}
+.icon-modal-close{background:var(--border);color:var(--gray);padding:4px 10px;border-radius:5px;font-size:11px;font-weight:700;border:none;cursor:pointer}
+.icon-modal-close:hover{background:#EF4444;color:white}
+.icon-search{width:100%;border:1px solid var(--border);border-radius:6px;padding:7px 10px;font-size:12px;margin-bottom:12px;color:var(--navy)}
+.icon-search:focus{outline:none;border-color:var(--orange)}
+.icon-cats{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px}
+.icon-cat-btn{padding:3px 10px;border-radius:4px;font-size:10px;font-weight:600;border:1px solid var(--border);background:#F8FAFC;color:var(--gray);cursor:pointer;transition:all .15s}
+.icon-cat-btn:hover{border-color:var(--orange);color:var(--navy)}
+.icon-cat-btn.on{background:var(--orange);color:white;border-color:var(--orange)}
+.icon-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;overflow-y:auto;flex:1}
+.icon-btn{aspect-ratio:1;border-radius:7px;border:1px solid var(--border);background:#F8FAFC;font-size:18px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center}
+.icon-btn:hover{background:var(--orange);border-color:var(--orange);transform:scale(1.1)}
+.icon-btn[title]:hover::after{content:attr(title);position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);background:var(--navy);color:white;font-size:9px;padding:2px 6px;border-radius:3px;white-space:nowrap;pointer-events:none;z-index:10}
+.icon-insert-btn{background:none;border:1px dashed rgba(212,160,23,.4);border-radius:5px;padding:4px 8px;font-size:10px;color:var(--orange);cursor:pointer;transition:all .15s;font-weight:600}
+.icon-insert-btn:hover{background:rgba(212,160,23,.1)}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1000;align-items:center;justify-content:center;padding:20px}
+.overlay.open{display:flex}
+.modal{background:white;border-radius:12px;padding:22px;max-width:620px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.modal-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.modal-title{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:900;color:var(--navy);letter-spacing:1px}
+.modal-close{background:var(--border);color:var(--gray);padding:5px 12px;border-radius:5px;font-size:12px;font-weight:700}
+.modal-close:hover{background:#EF4444;color:white}
+.notice{background:#FFF4EF;border-left:3px solid var(--orange);border-radius:0 6px 6px 0;padding:10px 14px;font-size:11px;color:#334155;line-height:1.65;margin-bottom:14px}
+.notice strong{color:var(--navy)}
+.json-area{width:100%;height:180px;font-family:monospace;font-size:10px;border:1px solid var(--border);border-radius:6px;padding:10px;resize:vertical;background:#F8FAFC;color:var(--navy)}
+.export-img{width:100%;border-radius:8px;display:block;border:1px solid var(--border)}
+.export-loading{text-align:center;padding:40px 20px;color:var(--gray)}
+.export-loading .spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--orange);border-radius:50%;margin:0 auto 12px;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ═══════════════════════════════════════════
+   HIDDEN RENDER ZONE
+═══════════════════════════════════════════ */
+#rz{position:fixed;left:-2200px;top:0;width:1080px;height:1080px;overflow:hidden;font-family:'DM Sans',sans-serif;z-index:-1;background:transparent}
+
+/* Scrollbar global */
+*::-webkit-scrollbar{width:5px;height:5px}
+*::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+*::-webkit-scrollbar-track{background:transparent}
+
+/* Notification */
+.notif{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--navy);color:white;padding:10px 20px;border-radius:8px;font-size:12px;font-weight:600;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}
+.notif.show{opacity:1}
+
+/* ═══════════════════════════════════════════
+   ÉCRAN DE LICENCE
+═══════════════════════════════════════════ */
+#lic-overlay{
+  position:fixed;inset:0;z-index:99999;
+  background:#060E1A;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:20px;
+  font-family:'DM Sans',sans-serif;
+}
+#lic-overlay .lic-logo{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:22px;font-weight:900;color:white;letter-spacing:3px;margin-bottom:36px;
+}
+#lic-overlay .lic-logo span{color:#F05A1A}
+#lic-overlay .lic-card{
+  background:#12121a;border:1px solid #2a2a3a;border-radius:16px;
+  padding:40px;max-width:480px;width:100%;text-align:center;
+}
+#lic-overlay .lic-lock{font-size:52px;margin-bottom:18px}
+#lic-overlay h2{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;color:white;letter-spacing:1px;margin-bottom:8px}
+#lic-overlay p{color:#6b6b8a;font-size:13px;line-height:1.6;margin-bottom:26px}
+#lic-overlay .lic-input{
+  width:100%;background:#0a0a0f;border:1px solid #2a2a3a;border-radius:8px;
+  padding:13px 16px;color:white;font-family:'JetBrains Mono',monospace;font-size:11px;
+  text-align:center;outline:none;transition:border-color .2s;margin-bottom:10px;
+}
+#lic-overlay .lic-input:focus{border-color:#00e5ff}
+#lic-overlay .lic-input.err{border-color:#ff4444}
+#lic-overlay .lic-input.ok{border-color:#00ff88}
+#lic-overlay .lic-btn{
+  width:100%;background:linear-gradient(135deg,#F05A1A,#FF7A3D);color:white;border:none;
+  border-radius:8px;padding:13px;font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;font-size:16px;letter-spacing:1px;cursor:pointer;transition:opacity .2s;margin-bottom:6px;
+}
+#lic-overlay .lic-btn:hover{opacity:.85}
+#lic-overlay .lic-msg{
+  margin-top:12px;padding:9px 14px;border-radius:6px;font-size:12px;
+  font-family:'JetBrains Mono',monospace;display:none;line-height:1.5;
+}
+#lic-overlay .lic-msg.err{background:#1a0505;color:#ff4444;border:1px solid #ff4444;display:block}
+#lic-overlay .lic-msg.warn{background:#1a1000;color:#ffaa00;border:1px solid #ffaa00;display:block}
+#lic-overlay .lic-msg.ok{background:#051a0a;color:#00ff88;border:1px solid #00ff88;display:block}
+#lic-overlay .lic-divider{border:none;border-top:1px solid #2a2a3a;margin:20px 0}
+#lic-overlay .lic-buy{color:#F05A1A;font-size:12px;text-decoration:none;font-weight:700}
+#lic-overlay .lic-buy:hover{text-decoration:underline}
+
+/* Badge licence dans la topbar */
+#licBadgeTopbar{
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  padding:4px 10px;border-radius:20px;cursor:pointer;
+  background:#051a0a;border:1px solid #00ff88;color:#00ff88;
+  white-space:nowrap;
+}
+#licBadgeTopbar.expiring{background:#1a1000;border-color:#ffaa00;color:#ffaa00}
+
+/* ═══ MENTIONS LÉGALES + WATERMARK ═══ */
+#legal-modal-overlay {
+  position: fixed; inset: 0; z-index: 99998;
+  background: rgba(0,0,0,0.7); display: none;
+  align-items: center; justify-content: center; padding: 20px;
+}
+#legal-modal-overlay.open { display: flex; }
+#legal-modal {
+  background: #0D1628; border: 1px solid #1E3A5F;
+  border-radius: 10px; padding: 32px; max-width: 600px;
+  width: 100%; max-height: 80vh; overflow-y: auto;
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+  color: #8AA8C8; line-height: 1.8;
+}
+#legal-modal h3 { color: #F0F6FF; font-size: 13px; margin-bottom: 16px; letter-spacing: 0.05em; }
+#legal-modal .legal-close {
+  margin-top: 20px; background: #1E3A5F; color: #F0F6FF;
+  border: none; border-radius: 6px; padding: 8px 20px;
+  cursor: pointer; font-family: inherit; font-size: 11px;
+}
+#legal-modal strong { color: #F0F6FF; }
+
+/* Watermark discret en bas de page */
+#app-watermark {
+  position: fixed; bottom: 8px; right: 12px;
+  font-size: 9px; color: rgba(255,255,255,0.08);
+  font-family: 'IBM Plex Mono', monospace;
+  pointer-events: none; user-select: none;
+  z-index: 1000; letter-spacing: 0.05em;
+}
+
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     ÉCRAN DE LICENCE — affiché jusqu'à validation
+═══════════════════════════════════════════ -->
+<div id="lic-overlay">
+  <div class="lic-logo">VIA AUCTA <span>·</span> GÉNÉRATEUR</div>
+  <div class="lic-card">
+    <div class="lic-lock">🔐</div>
+    <h2>ACTIVATION REQUISE</h2>
+    <p>Ce logiciel est protégé par licence.<br>Entrez votre clé d'activation pour accéder à l'outil.</p>
+    <input type="text" class="lic-input" id="licInput"
+      placeholder="Collez votre clé de licence ici..."
+      autocomplete="off" spellcheck="false"
+      onkeydown="if(event.key==='Enter')licActivate()"/>
+    <button class="lic-btn" onclick="licActivate()">⚡ ACTIVER</button>
+    <div class="lic-msg" id="licMsg"></div>
+    <hr class="lic-divider"/>
+    <p style="font-size:11px;color:#6b6b8a">Pas encore de licence ?<br>
+      <a href="https://votre-site.com/acheter" class="lic-buy" target="_blank">→ Acheter une licence</a>
+    </p>
+  </div>
+</div>
+
+<div class="app">
+
+<!-- ═══ TOP BAR ═══ -->
+<div class="topbar">
+  <div class="topbar-logo">VIA AUCTA <span>·</span> GÉNÉRATEUR<small>Carrousels LinkedIn — Export PNG · PDF · PPT</small></div>
+  <div id="licBadgeTopbar" onclick="licShowInfo()" title="Informations sur la licence" style="display:none">✓ Licence active</div>
+  <div class="spacer"></div>
+  <div class="fmt-group" id="fmtGroup">
+    <button class="fmt-btn on" id="fmt-linkedin" onclick="setFormat('linkedin',this)"><span class="fmt-icon">💼</span>LinkedIn</button>
+    <button class="fmt-btn" id="fmt-instagram" onclick="setFormat('instagram',this)"><span class="fmt-icon">📷</span>Instagram</button>
+    <button class="fmt-btn" id="fmt-instagramPortrait" onclick="setFormat('instagramPortrait',this)"><span class="fmt-icon">📱</span>Portrait</button>
+    <button class="fmt-btn" id="fmt-tiktok" onclick="setFormat('tiktok',this)"><span class="fmt-icon">🎵</span>TikTok</button>
+	<button class="fmt-btn" id="fmt-PDF_A4" onclick="setFormat('PDF_A4',this)"><span class="fmt-icon">📄</span>PDF A4</button>
+  </div>
+  <div class="spacer"></div>
+  <div class="topbar-actions">
+    <button class="tbtn tbtn-gray" onclick="saveJSON()">💾 Sauvegarder</button>
+    <button class="tbtn tbtn-gray" onclick="document.getElementById('fileIn').click()">📥 Charger</button>
+    <input type="file" id="fileIn" accept=".json" style="display:none" onchange="loadFile(event)"/>
+    <button class="tbtn tbtn-gray tbtn-hist" id="btnUndo" onclick="histUndo()" title="Annuler (Ctrl+Z)">↩ Annuler</button>
+    <button class="tbtn tbtn-gray tbtn-hist" id="btnRedo" onclick="histRedo()" title="Refaire (Ctrl+Y)">↪ Refaire</button>
+    <button class="tbtn tbtn-gray" onclick="openIconModal()">🎨 Icônes</button>
+    <button class="tbtn tbtn-orange" onclick="exportAllPNG()">⬇ Export slides PNG</button>
+    <button class="tbtn tbtn-green" onclick="exportPDF()">📄 Export PDF</button>
+    <button class="tbtn tbtn-blue" onclick="exportPPT()">📊 Export PPT</button>
+    <button class="tbtn tbtn-orange" onclick="exportCurrentPNG()">⬇ PNG actuelle</button>
+  </div>
+</div>
+
+<!-- ═══ CAROUSEL TABS ═══ -->
+<div class="tabs-row" id="tabsRow">
+  <div id="tabsCarousels" style="display:flex;gap:4px;align-items:flex-end"></div>
+  <div class="spacer"></div>
+  <div class="ctab ctab-custom" onclick="openCustomModal()" title="Personnaliser l'interface">⚙ Customisation</div>
+</div>
+
+<!-- ═══ BODY ═══ -->
+<div class="body">
+
+  <!-- LEFT PANEL -->
+  <div class="panel-left">
+    <div class="panel-tabs">
+      <div class="ptab on" id="pt0" onclick="setPTab(0)">🎨 Contenu</div>
+      <div class="ptab" id="pt1" onclick="setPTab(1)">🖼 Fond</div>
+      <div class="ptab" id="pt2" onclick="setPTab(2)">🔧 Carrousel</div>
+    </div>
+
+    <!-- TAB 0 — CONTENU -->
+    <div class="panel-content" id="pc0">
+      <div class="sec-title">Slides</div>
+      <div class="slide-list" id="slideList"></div>
+      <div class="add-slide-row">
+        <select id="addSlideType">
+          <option value="cover">Cover (Fond Navy)</option>
+          <option value="whiteContent">Etape (Fond blanc)</option>
+		  <option value="hook">Statement (Fond sombre)</option>
+          <option value="step">Étapes (Fond Navy)</option>
+          <option value="quote">Citation (Fond blanc)</option>
+          <option value="cta">CTA (Fond orange)</option>
+        </select>
+        <button class="btn-add-slide" onclick="addSlide()">+ Ajouter</button>
+      </div>
+      <div style="height:16px"></div>
+      <div class="sec-title">Éditer la slide</div>
+      <div id="slideEditor"></div>
+    </div>
+
+    <!-- TAB 1 — FOND -->
+    <div class="panel-content" id="pc1" style="display:none">
+      <div class="sec-title">Type de fond</div>
+      <div class="bg-type-row">
+        <button class="bg-type-btn on" id="bgt-solid" onclick="setBgType('solid')">Couleur</button>
+        <button class="bg-type-btn" id="bgt-gradient" onclick="setBgType('gradient')">Dégradé</button>
+        <button class="bg-type-btn" id="bgt-image" onclick="setBgType('image')">Image</button>
+        <button class="bg-type-btn" id="bgt-pattern" onclick="setBgType('pattern')">Motif</button>
+      </div>
+
+      <div id="bg-solid">
+        <div class="sec-title">Couleur de fond</div>
+        <div class="color-row" style="margin-bottom:10px">
+          <div class="color-swatch on" style="background:#0D2B4E" onclick="setBgColor('#0D2B4E',this)"></div>
+          <div class="color-swatch" style="background:#060E1A" onclick="setBgColor('#060E1A',this)"></div>
+          <div class="color-swatch" style="background:#F4F4F2;border:1px solid #e2e8f0" onclick="setBgColor('#F4F4F2',this)"></div>
+          <div class="color-swatch" style="background:#F05A1A" onclick="setBgColor('#F05A1A',this)"></div>
+          <div class="color-swatch" style="background:#FFFFFF;border:1px solid #e2e8f0" onclick="setBgColor('#FFFFFF',this)"></div>
+          <div class="color-swatch" style="background:#1B3F6E" onclick="setBgColor('#1B3F6E',this)"></div>
+          <div class="color-swatch" style="background:#2D3748" onclick="setBgColor('#2D3748',this)"></div>
+          <div class="color-swatch" style="background:#1A1A2E" onclick="setBgColor('#1A1A2E',this)"></div>
+        </div>
+        <div class="field">
+          <label>Couleur personnalisée</label>
+          <div class="color-picker-wrap">
+            <input type="color" class="color-input" id="bgColorPicker" value="#0D2B4E" oninput="setBgColor(this.value,null)"/>
+            <input class="einp" id="bgColorHex" value="#0D2B4E" style="flex:1;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:6px;padding:5px 8px;font-size:12px;color:#0D2B4E" oninput="setBgColor(this.value,null)"/>
+          </div>
+        </div>
+        <div class="sec-title" style="margin-top:14px">Couleur du texte</div>
+        <div class="color-row">
+          <div class="color-swatch" style="background:#FFFFFF;border:1px solid #e2e8f0" onclick="setTextColor('#FFFFFF',this)"></div>
+          <div class="color-swatch on" style="background:#0D2B4E" onclick="setTextColor('#0D2B4E',this)"></div>
+          <div class="color-swatch" style="background:#334155" onclick="setTextColor('#334155',this)"></div>
+          <div class="color-swatch" style="background:#F05A1A" onclick="setTextColor('#F05A1A',this)"></div>
+          <input type="color" class="color-input" id="textColorPicker" value="#FFFFFF" oninput="setTextColor(this.value,null)"/>
+        </div>
+      </div>
+
+      <div id="bg-gradient" style="display:none">
+        <div class="sec-title">Dégradés prédéfinis</div>
+        <div class="gradient-presets">
+          <div class="grad-preset on" style="background:linear-gradient(135deg,#0D2B4E,#1B3F6E)" onclick="setGradient('135deg,#0D2B4E,#1B3F6E',this)"></div>
+          <div class="grad-preset" style="background:linear-gradient(135deg,#060E1A,#0D2B4E)" onclick="setGradient('135deg,#060E1A,#0D2B4E',this)"></div>
+          <div class="grad-preset" style="background:linear-gradient(135deg,#F05A1A,#FF7A3D)" onclick="setGradient('135deg,#F05A1A,#FF7A3D',this)"></div>
+          <div class="grad-preset" style="background:linear-gradient(135deg,#1A1A2E,#16213E)" onclick="setGradient('135deg,#1A1A2E,#16213E',this)"></div>
+          <div class="grad-preset" style="background:linear-gradient(135deg,#2D3748,#4A5568)" onclick="setGradient('135deg,#2D3748,#4A5568',this)"></div>
+          <div class="grad-preset" style="background:linear-gradient(135deg,#0D2B4E,#F05A1A)" onclick="setGradient('135deg,#0D2B4E,#F05A1A',this)"></div>
+          <div class="grad-preset" style="background:linear-gradient(180deg,#0D2B4E,#060E1A)" onclick="setGradient('180deg,#0D2B4E,#060E1A',this)"></div>
+          <div class="grad-preset" style="background:linear-gradient(135deg,#667eea,#764ba2)" onclick="setGradient('135deg,#667eea,#764ba2',this)"></div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Couleur 1</label>
+            <input type="color" class="color-input" id="grad1" value="#0D2B4E" style="width:100%;height:34px" oninput="updateGradient()"/>
+          </div>
+          <div class="field">
+            <label>Couleur 2</label>
+            <input type="color" class="color-input" id="grad2" value="#1B3F6E" style="width:100%;height:34px" oninput="updateGradient()"/>
+          </div>
+        </div>
+        <div class="field">
+          <label>Angle</label>
+          <input type="range" id="gradAngle" min="0" max="360" value="135" style="width:100%" oninput="updateGradient();document.getElementById('gradAngleLbl').textContent=this.value+'°'"/>
+          <span id="gradAngleLbl" style="font-size:11px;color:var(--gray)">135°</span>
+        </div>
+      </div>
+
+      <div id="bg-image" style="display:none">
+        <div class="sec-title">Image de fond</div>
+        <div id="bgImgPreview" style="display:none;background:#F8FAFC;border:1px solid var(--border);border-radius:7px;padding:8px 10px;margin-bottom:8px;align-items:center;gap:8px">
+          <span style="font-size:18px">🖼</span>
+          <span id="bgImgName" style="font-size:11px;color:var(--navy);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">image.jpg</span>
+          <button onclick="removeBgImage()" style="background:#EF4444;color:white;border:none;border-radius:4px;padding:3px 8px;font-size:10px;font-weight:700;cursor:pointer">✕ Supprimer</button>
+        </div>
+        <div class="upload-zone" onclick="document.getElementById('bgImgInput').click()">
+          <div class="upload-zone-icon">🖼</div>
+          <p><strong>Cliquez pour choisir une image</strong><br>JPG, PNG, WebP — transparence préservée</p>
+        </div>
+        <input type="file" id="bgImgInput" accept="image/*" style="display:none" onchange="loadBgImage(event)"/>
+
+        <div class="field" style="margin-top:10px">
+          <label>Position</label>
+          <select id="bgImgPos" onchange="updateImgBg()">
+            <option value="center">Centre</option>
+            <option value="top">Haut</option>
+            <option value="bottom">Bas</option>
+            <option value="left">Gauche</option>
+            <option value="right">Droite</option>
+            <option value="top left">Haut gauche</option>
+            <option value="top right">Haut droite</option>
+            <option value="bottom left">Bas gauche</option>
+            <option value="bottom right">Bas droite</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Taille</label>
+          <select id="bgImgSize" onchange="onImgSizeChange()">
+            <option value="cover">Cover (remplir)</option>
+            <option value="contain">Contain (tout voir)</option>
+            <option value="100% 100%">Étirer</option>
+            <option value="custom">Personnaliser…</option>
+          </select>
+        </div>
+        <div id="customSizeRow" style="display:none" class="field">
+          <label>Taille personnalisée — <span id="customSizeLbl">100%</span></label>
+          <input type="range" id="customSizeSlider" min="5" max="920" value="100" style="width:100%"
+            oninput="document.getElementById('customSizeLbl').textContent=this.value+'%';updateImgBg()"/>
+        </div>
+
+        <div class="field">
+          <label style="display:flex;align-items:center;gap:6px">
+            <input type="checkbox" id="bgTransparent" onchange="updateImgBg()" style="width:14px;height:14px;cursor:pointer"/>
+            Préserver la transparence (PNG/WebP)
+          </label>
+          <div class="field-hint">L'image est rendue par-dessus la couleur de fond ci-dessous</div>
+        </div>
+
+        <div id="bgColorField" class="field" style="display:none">
+          <label>Couleur de fond derrière l'image</label>
+          <div class="color-picker-wrap">
+            <input type="color" class="color-input" id="bgImgBgColor" value="#0D2B4E"
+              oninput="document.getElementById('bgImgBgColorHex').value=this.value;updateImgBg()"/>
+            <input class="einp2" id="bgImgBgColorHex" value="#0D2B4E" style="flex:1"
+              oninput="var v=this.value;if(/^#[0-9a-fA-F]{6}$/.test(v)){document.getElementById('bgImgBgColor').value=v;updateImgBg();}"/>
+          </div>
+          <div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:6px">
+            <div class="color-swatch" style="background:#0D2B4E" onclick="setBgImgColor('#0D2B4E')"></div>
+            <div class="color-swatch" style="background:#060E1A" onclick="setBgImgColor('#060E1A')"></div>
+            <div class="color-swatch" style="background:#F4F4F2;border:1px solid #e2e8f0" onclick="setBgImgColor('#F4F4F2')"></div>
+            <div class="color-swatch" style="background:#FFFFFF;border:1px solid #e2e8f0" onclick="setBgImgColor('#FFFFFF')"></div>
+            <div class="color-swatch" style="background:#F05A1A" onclick="setBgImgColor('#F05A1A')"></div>
+            <div class="color-swatch" style="background:#1B3F6E" onclick="setBgImgColor('#1B3F6E')"></div>
+            <div class="color-swatch" style="background:transparent;border:2px dashed #aaa;background-image:linear-gradient(45deg,#ccc 25%,transparent 25%,transparent 75%,#ccc 75%),linear-gradient(45deg,#ccc 25%,transparent 25%,transparent 75%,#ccc 75%);background-size:8px 8px;background-position:0 0,4px 4px" onclick="setBgImgColor('transparent')" title="Transparent"></div>
+          </div>
+        </div>
+
+        <div id="bgOverlayField" class="field">
+          <label>Superposition sombre — <span id="bgOverlayLbl">40%</span></label>
+          <input type="range" id="bgOverlay" min="0" max="90" value="40" style="width:100%"
+            oninput="updateImgBg();document.getElementById('bgOverlayLbl').textContent=this.value+'%'"/>
+        </div>
+      </div>
+
+      <div id="bg-pattern" style="display:none">
+        <div class="sec-title">Motif de fond</div>
+        <div class="pattern-grid">
+          <div class="pattern-btn on" style="background:linear-gradient(rgba(13,43,78,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(13,43,78,0.03) 1px,transparent 1px);background-size:40px 40px" onclick="setPattern('grid',this)">Grille</div>
+          <div class="pattern-btn" style="background:radial-gradient(circle,rgba(13,43,78,0.08) 1px,transparent 1px);background-size:24px 24px" onclick="setPattern('dots',this)">Points</div>
+          <div class="pattern-btn" style="background:repeating-linear-gradient(45deg,rgba(13,43,78,0.04),rgba(13,43,78,0.04) 1px,transparent 1px,transparent 12px)" onclick="setPattern('diagonal',this)">Diagonal</div>
+          <div class="pattern-btn" onclick="setPattern('none',this)">Aucun</div>
+        </div>
+        <div class="field" style="margin-top:10px">
+          <label>Couleur de fond sous le motif</label>
+          <input type="color" class="color-input" id="patBgColor" value="#0D2B4E" style="width:100%;height:34px" oninput="updatePatternBg()"/>
+        </div>
+      </div>
+
+      <div style="height:16px"></div>
+      <div class="sec-title">Appliquer à</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <button class="tbtn tbtn-orange" style="font-size:10px;padding:5px 10px" onclick="applyBgToAll()">Toutes les slides</button>
+        <button class="tbtn tbtn-gray" style="font-size:10px;padding:5px 10px;background:#0D2B4E;color:white" onclick="applyBgToCurrent()">Slide actuelle</button>
+      </div>
+    </div>
+
+    <!-- TAB 2 — CARROUSEL -->
+    <div class="panel-content" id="pc2" style="display:none">
+      <div class="sec-title">Infos générales</div>
+      <div style="display:flex;justify-content:flex-end;margin-bottom:10px">
+        <button class="tbtn tbtn-gray" style="font-size:10px;padding:5px 12px;background:#EF4444;color:white;border:none" onclick="resetCarDefaults()">↺ Réinitialiser les paramètres</button>
+      </div>
+      <div class="field"><label>Emoji</label><input id="carEmoji" style="width:70px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:6px;padding:6px 8px;font-size:14px;color:#0D2B4E" oninput="C[ac].emoji=this.value;renderTabs()"/></div>
+      <div class="field"><label>Titre (onglet)</label><input class="einp2" id="carTitle" oninput="C[ac].title=this.value;renderTabs()"/></div>
+      <div class="field"><label>Sous-titre</label><input class="einp2" id="carSubtitle" oninput="C[ac].subtitle=this.value"/></div>
+      <div class="field"><label>Tag / Pilier</label><input class="einp2" id="carTag" oninput="C[ac].tag=this.value"/></div>
+      <div class="field"><label>Pilier</label><input class="einp2" id="carPilier" oninput="C[ac].pilier=this.value"/></div>
+      <div style="height:16px"></div>
+      <div class="sec-title">Branding</div>
+      <div class="field"><label>Nom affiché sur les slides</label><input class="einp2" id="carBrand" oninput="C[ac].brand=this.value;renderSlide()"/></div>
+	  <div class="field">
+        <label>Logo / Photo de profil</label>
+        <div id="logoUploadZone" class="logo-upload-zone" onclick="document.getElementById('logoFileIn').click()">
+          <div style="font-size:20px;margin-bottom:4px">🖼</div>
+          <div style="font-size:10px;color:var(--gray)">Cliquez pour importer<br><span style="font-size:9px">PNG, JPG, WebP — recommandé 200×200px</span></div>
+        </div>
+        <input type="file" id="logoFileIn" accept="image/*" style="display:none" onchange="loadLogoImage(event)"/>
+        <div id="logoPreviewWrap" style="display:none">
+          <div class="logo-preview-wrap">
+            <img id="logoPreviewImg" class="logo-preview-img" src="" alt="Logo"/>
+            <div style="flex:1">
+              <div style="font-size:10px;font-weight:600;color:var(--navy);margin-bottom:4px">Logo chargé ✓</div>
+              <div style="font-size:9px;color:var(--gray)">Affiché dans le pied de page</div>
+            </div>
+            <button class="logo-remove-btn" onclick="removeLogo()" title="Supprimer">✕</button>
+          </div>
+          <div class="logo-shape-row">
+            <button class="logo-shape-btn on" id="logoShapeCircle" onclick="setLogoShape('circle')">⬤ Rond</button>
+            <button class="logo-shape-btn" id="logoShapeSquare" onclick="setLogoShape('square')">■ Carré</button>
+          </div>
+          <div class="field" style="margin-top:8px">
+            <label>Taille logo — <span id="logoSizeLbl">40px</span></label>
+            <input type="range" id="logoSize" min="24" max="80" value="40" style="width:100%;accent-color:var(--orange)"
+              oninput="C[ac].logoSize=+this.value;document.getElementById('logoSizeLbl').textContent=this.value+'px';renderSlide()"/>
+          </div>
+        </div>
+      </div>
+      <div class="field"><label>Couleur accent (orange par défaut)</label>
+        <div class="color-picker-wrap">
+          <input type="color" class="color-input" id="accentColor" value="#F05A1A" oninput="C[ac].accent=this.value;document.getElementById('accentHex').value=this.value;renderSlide()"/>
+          <input class="einp2" id="accentHex" value="#F05A1A" style="flex:1" oninput="document.getElementById('accentColor').value=this.value;C[ac].accent=this.value;renderSlide()"/>
+        </div>
+      </div>
+      <div style="height:16px"></div>
+      <div class="sec-title">Barre accent (obar) &amp; point pied de page</div>
+      <div class="field">
+        <label>Couleur</label>
+        <div class="color-picker-wrap">
+          <input type="color" class="color-input" id="obarColor" value="#F05A1A" oninput="C[ac].obar=C[ac].obar||{};C[ac].obar.color=this.value;document.getElementById('obarColorHex').value=this.value;renderSlide()"/>
+          <input class="einp2" id="obarColorHex" value="#F05A1A" style="flex:1" oninput="var v=this.value;if(/^#[0-9a-fA-F]{6}$/.test(v)){document.getElementById('obarColor').value=v;C[ac].obar=C[ac].obar||{};C[ac].obar.color=v;renderSlide();}"/>
+        </div>
+      </div>
+      <div class="field">
+        <label>Longueur barre — <span id="obarWLbl">52px</span></label>
+        <input type="range" id="obarW" min="10" max="920" value="52" style="width:100%;accent-color:var(--orange)" oninput="C[ac].obar=C[ac].obar||{};C[ac].obar.w=+this.value;document.getElementById('obarWLbl').textContent=this.value+'px';renderSlide()"/>
+      </div>
+      <div class="field">
+        <label>Épaisseur barre — <span id="obarHLbl">5px</span></label>
+        <input type="range" id="obarH" min="1" max="20" value="5" style="width:100%;accent-color:var(--orange)" oninput="C[ac].obar=C[ac].obar||{};C[ac].obar.h=+this.value;document.getElementById('obarHLbl').textContent=this.value+'px';renderSlide()"/>
+      </div>
+      <div class="field">
+        <label>Longueur point pied — <span id="dotWLbl">20px</span></label>
+        <input type="range" id="dotW" min="4" max="80" value="20" style="width:100%;accent-color:var(--orange)" oninput="C[ac].obar=C[ac].obar||{};C[ac].obar.dotW=+this.value;document.getElementById('dotWLbl').textContent=this.value+'px';renderSlide()"/>
+      </div>
+      <div class="field">
+        <label>Épaisseur point pied — <span id="dotHLbl">5px</span></label>
+        <input type="range" id="dotH" min="1" max="20" value="5" style="width:100%;accent-color:var(--orange)" oninput="C[ac].obar=C[ac].obar||{};C[ac].obar.dotH=+this.value;document.getElementById('dotHLbl').textContent=this.value+'px';renderSlide()"/>
+      </div>
+      <div class="field">
+        <label>Police des titres</label>
+        <select class="einp2" id="fontTitle" onchange="C[ac].fontTitle=this.value;renderSlide()">
+          <option value="'Barlow Condensed',sans-serif">Barlow Condensed (défaut)</option>
+          <option value="'DM Sans',sans-serif">DM Sans</option>
+          <option value="Georgia,serif">Georgia</option>
+          <option value="'Courier New',monospace">Courier New</option>
+          <option value="Arial,sans-serif">Arial</option>
+          <option value="Impact,sans-serif">Impact</option>
+		  <option value="'Playfair Display',serif">Playfair Display — Éditorial Premium ★</option>
+          <option value="'Syne',sans-serif">Syne — Moderne &amp; Audacieux</option>
+          <option value="'Fraunces',serif">Fraunces — Chaleureux Storytelling</option>
+          <option value="'Raleway',sans-serif">Raleway — Épuré &amp; Géométrique</option>
+          <option value="'Outfit',sans-serif">Outfit — Contemporain &amp; Polyvalent</option>
+          <option value="'Barlow Condensed',sans-serif">Barlow Condensed — Impactant</option>
+          <option value="'Plus Jakarta Sans',sans-serif">Plus Jakarta Sans — Pro &amp; Lisible</option>
+          <option value="'Space Grotesk',sans-serif">Space Grotesk — Tech &amp; Moderne</option>
+          <option value="'Inter',sans-serif">Inter — Neutre &amp; Universel</option>
+          <option value="'DM Sans',sans-serif">DM Sans — Minimaliste</option>
+          <option value="'Libre Baskerville',serif">Libre Baskerville — Classique &amp; Sérieux</option>
+          <option value="Georgia,serif">Georgia — Traditionnel</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Police du corps</label>
+        <select class="einp2" id="fontBody" onchange="C[ac].fontBody=this.value;renderSlide()">
+          <option value="'DM Sans',sans-serif">DM Sans (défaut)</option>
+          <option value="'Barlow Condensed',sans-serif">Barlow Condensed</option>
+          <option value="Georgia,serif">Georgia</option>
+          <option value="'Courier New',monospace">Courier New</option>
+          <option value="Arial,sans-serif">Arial</option>
+		  <option value="'Plus Jakarta Sans',sans-serif">Plus Jakarta Sans — Pro &amp; Lisible ★</option>
+          <option value="'Space Grotesk',sans-serif">Space Grotesk — Tech &amp; Moderne</option>
+          <option value="'Inter',sans-serif">Inter — Neutre &amp; Universel</option>
+          <option value="'Nunito',sans-serif">Nunito — Doux &amp; Accessible</option>
+          <option value="'DM Sans',sans-serif">DM Sans — Minimaliste</option>
+          <option value="'Outfit',sans-serif">Outfit — Contemporain</option>
+          <option value="'Raleway',sans-serif">Raleway — Élégant</option>
+          <option value="'Libre Baskerville',serif">Libre Baskerville — Classique</option>
+          <option value="'Barlow Condensed',sans-serif">Barlow Condensed — Condensé</option>
+          <option value="Georgia,serif">Georgia — Traditionnel</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Couleur du texte principal</label>
+        <div class="color-picker-wrap">
+          <input type="color" class="color-input" id="mainTextColor" value="#FFFFFF" oninput="C[ac].mainTextColor=this.value;document.getElementById('mainTextColorHex').value=this.value;renderSlide()"/>
+          <input class="einp2" id="mainTextColorHex" value="#FFFFFF" style="flex:1" oninput="document.getElementById('mainTextColor').value=this.value;C[ac].mainTextColor=this.value;renderSlide()"/>
+        </div>
+        <div class="field-hint">Appliqué aux slides foncées (cover, hook, step)</div>
+      </div>
+      <div class="field">
+        <label>Couleur du texte secondaire</label>
+        <div class="color-picker-wrap">
+          <input type="color" class="color-input" id="secTextColor" value="#0D2B4E" oninput="C[ac].secTextColor=this.value;document.getElementById('secTextColorHex').value=this.value;renderSlide()"/>
+          <input class="einp2" id="secTextColorHex" value="#0D2B4E" style="flex:1" oninput="document.getElementById('secTextColor').value=this.value;C[ac].secTextColor=this.value;renderSlide()"/>
+        </div>
+        <div class="field-hint">Appliqué aux slides claires (quote, white)</div>
+      </div>
+      <div style="height:8px"></div>
+      <div class="sec-title">Pied de page — branding</div>
+      <div class="field">
+        <label>Taille police branding — <span id="brandFsLbl">32px</span></label>
+        <input type="range" id="brandFs" min="12" max="60" value="32" style="width:100%;accent-color:var(--orange)" oninput="C[ac].brandFs=+this.value;document.getElementById('brandFsLbl').textContent=this.value+'px';renderSlide()"/>
+      </div>
+    </div>
+  </div>
+
+  <!-- CENTER PREVIEW -->
+  
+  
+  
+<div class="panel-center" id="centerPanel">
+	<div class="preview-wrap" id="previewWrap">
+      <div class="preview-frame" id="previewFrame"></div>
+    </div>
+	<div class="prog-dots" id="progDots"></div>
+    <div class="slide-controls">
+      <button class="sc-btn" id="btnPrev" onclick="goPrev()">←</button>
+      <span class="sc-cnt" id="scCnt"></span>
+      <button class="sc-btn" id="btnNext" onclick="goNext()">→</button>
+      <button class="sc-exp" onclick="exportCurrentPNG()">⬇ PNG 1080×1080</button>
+      <button class="sc-exp" style="background:var(--navy2)" onclick="render()">MàJ</button>
+    </div>
+  </div>
+
+
+  <!-- RIGHT PANEL — POST -->
+  <div class="panel-right">
+    <div class="panel-right-header">
+      <span class="panel-right-title">📝 Post LinkedIn</span>
+      <button class="copy-post-btn" id="copyPostBtn" style="width:auto;padding:5px 12px" onclick="copyPost()">📋 Copier</button>
+    </div>
+    <div class="panel-right-body">
+      <div class="field" style="flex:1;display:flex;flex-direction:column">
+        <label>Texte du post</label>
+        <textarea class="post-textarea" id="postArea" oninput="C[ac].post=this.value"></textarea>
+      </div>
+      <div>
+        <div class="hashtag-section-label">
+          Hashtags rapides
+          <button class="hashtag-reset" onclick="resetHashtags()">Réinitialiser</button>
+        </div>
+        <div class="hashtag-row" id="hashtagsRow"></div>
+        <div class="hashtag-add-row">
+          <input class="hashtag-add-input" id="hashtagInput" placeholder="#MonHashtag" maxlength="40"
+            onkeydown="if(event.key==='Enter')addCustomHashtag()"
+            oninput="this.value=this.value.replace(/\s/g,'')"/>
+          <button class="hashtag-add-btn" onclick="addCustomHashtag()">+ Ajouter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ═══ MODAL ICÔNES ═══ -->
+<div class="icon-modal-overlay" id="iconModal">
+  <div class="icon-modal">
+    <div class="icon-modal-hdr">
+      <span class="icon-modal-title">🎨 Bibliothèque d'icônes</span>
+      <button class="icon-modal-close" onclick="closeIconModal()">✕ Fermer</button>
+    </div>
+    <input class="icon-search" id="iconSearch" placeholder="Rechercher une icône..." oninput="filterIcons(this.value)"/>
+    <div class="icon-cats" id="iconCats"></div>
+    <div class="icon-grid" id="iconGrid"></div>
+    <div style="margin-top:10px;font-size:10px;color:var(--gray);text-align:center">
+      Cliquez une icône pour la copier dans le presse-papier, puis collez-la dans n'importe quel champ texte
+    </div>
+  </div>
+</div>
+
+<!-- HIDDEN RENDER ZONE -->
+<div id="rz"></div>
+
+<!-- MODALS -->
+<!-- ovJSON removed — saveJSON() now triggers a direct .json download -->
+
+<div class="overlay" id="ovPNG">
+  <div class="modal" style="max-width:580px">
+    <div class="modal-hdr">
+      <span class="modal-title">⬇ EXPORT PNG — <span id="pngLabel"></span></span>
+      <button class="modal-close" onclick="closeOverlay('ovPNG')">✕ Fermer</button>
+    </div>
+    <div class="notice"><strong>Clic droit sur l'image → "Enregistrer l'image sous"</strong> pour sauvegarder en PNG 1080×1080 sur votre ordinateur.</div>
+    <div id="expLoading" class="export-loading"><div class="spinner"></div>Génération en cours...</div>
+    <img id="pngImg" class="export-img" style="display:none" src="" alt=""/>
+  </div>
+</div>
+
+<div class="overlay" id="ovAllPNG">
+  <div class="modal" style="max-width:580px">
+    <div class="modal-hdr">
+      <span class="modal-title">⬇ TOUTES LES SLIDES</span>
+      <button class="modal-close" onclick="closeOverlay('ovAllPNG')">✕ Fermer</button>
+    </div>
+    <div class="notice"><strong>Clic droit → Enregistrer l'image sous</strong> sur chacune des images.</div>
+    <div id="allPngContainer" style="display:flex;flex-direction:column;gap:10px"></div>
+  </div>
+</div>
+
+<!-- ═══ MODAL PDF ═══ -->
+<div class="overlay" id="ovPDF">
+  <div class="modal" style="max-width:480px">
+    <div class="modal-hdr">
+      <span class="modal-title">📄 EXPORT PDF</span>
+      <button class="modal-close" onclick="closeOverlay('ovPDF')">✕ Fermer</button>
+    </div>
+    <div id="pdfProgress" class="export-loading">
+      <div class="spinner"></div>
+      <p id="pdfProgressTxt">Préparation…</p>
+    </div>
+    <div id="pdfDone" style="display:none;text-align:center;padding:20px 0">
+      <div style="font-size:40px;margin-bottom:12px">✅</div>
+      <p style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:6px">PDF généré avec succès !</p>
+      <p style="font-size:11px;color:var(--gray);margin-bottom:20px">Le téléchargement a démarré automatiquement.</p>
+      <button class="tbtn tbtn-orange" style="width:100%" onclick="closeOverlay('ovPDF')">Fermer</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL PPT ═══ -->
+<div class="overlay" id="ovPPT">
+  <div class="modal" style="max-width:480px">
+    <div class="modal-hdr">
+      <span class="modal-title">📊 EXPORT POWERPOINT</span>
+      <button class="modal-close" onclick="closeOverlay('ovPPT')">✕ Fermer</button>
+    </div>
+    <div id="pptProgress" class="export-loading">
+      <div class="spinner"></div>
+      <p id="pptProgressTxt">Préparation…</p>
+      <p style="font-size:10px;color:var(--gray);margin-top:8px">Rendu de chaque slide en image PNG, puis assemblage du fichier .pptx</p>
+    </div>
+    <div id="pptDone" style="display:none;text-align:center;padding:20px 0">
+      <div style="font-size:40px;margin-bottom:12px">✅</div>
+      <p style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:6px">PowerPoint généré avec succès !</p>
+      <p style="font-size:11px;color:var(--gray);margin-bottom:20px">Le téléchargement a démarré automatiquement.</p>
+      <button class="tbtn tbtn-orange" style="width:100%" onclick="closeOverlay('ovPPT')">Fermer</button>
+    </div>
+  </div>
+</div>
+<div class="overlay" id="ovCustom">
+  <div class="modal" style="max-width:520px">
+    <div class="modal-hdr">
+      <span class="modal-title">⚙ CUSTOMISATION DE L'INTERFACE</span>
+      <button class="modal-close" onclick="closeOverlay('ovCustom')">✕ Fermer</button>
+    </div>
+
+    <!-- Thème couleurs -->
+    <div class="sec-title" style="margin-bottom:10px">Couleurs de l'interface</div>
+    <div class="field-row" style="margin-bottom:14px">
+      <div class="field">
+        <label>Couleur principale (navy)</label>
+        <div class="color-picker-wrap">
+          <input type="color" class="color-input" id="uiNavy" value="#0D2B4E" oninput="applyUIColor('--navy',this.value);applyUIColor('--navy2',lightenColor(this.value,15))"/>
+          <input class="einp2" id="uiNavyHex" value="#0D2B4E" style="flex:1" oninput="document.getElementById('uiNavy').value=this.value;applyUIColor('--navy',this.value)"/>
+        </div>
+      </div>
+      <div class="field">
+        <label>Couleur accent (orange)</label>
+        <div class="color-picker-wrap">
+          <input type="color" class="color-input" id="uiOrange" value="#F05A1A" oninput="applyUIColor('--orange',this.value);applyUIColor('--orange2',lightenColor(this.value,15))"/>
+          <input class="einp2" id="uiOrangeHex" value="#F05A1A" style="flex:1" oninput="document.getElementById('uiOrange').value=this.value;applyUIColor('--orange',this.value)"/>
+        </div>
+      </div>
+    </div>
+    <div class="field-row" style="margin-bottom:14px">
+      <div class="field">
+        <label>Fond général</label>
+        <input type="color" class="color-input" id="uiBg" value="#F0F2F5" style="width:100%;height:34px" oninput="applyUIColor('--bg',this.value)"/>
+      </div>
+      <div class="field">
+        <label>Bordures</label>
+        <input type="color" class="color-input" id="uiBorder" value="#E2E8F0" style="width:100%;height:34px" oninput="applyUIColor('--border',this.value)"/>
+      </div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px">
+      <button class="tbtn tbtn-orange" style="font-size:10px;padding:5px 10px" onclick="resetUIColors()">↺ Réinitialiser</button>
+    </div>
+
+    <!-- Hashtags rapides -->
+    <div class="sec-title" style="margin-bottom:10px">Hashtags rapides</div>
+    <div class="field-hint" style="margin-bottom:8px">Un hashtag par ligne (avec le # devant)</div>
+    <textarea class="einp2" id="hashtagsEditor" rows="8" style="resize:vertical;font-size:11px;line-height:1.8" oninput="updateHashtags(this.value)">#LesPotentiels
+#ViaAucta
+#Entrepreneuriat
+#Stratégie
+#Leadership
+#BusinessPlan
+#Finances
+#Organisation
+#PULSE</textarea>
+  </div>
+</div>
+
+<div id="notif" class="notif"></div>
+
+<!-- INPUT CSS helper -->
+<style>.einp2{width:100%;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:6px;padding:6px 9px;font-family:'DM Sans',sans-serif;font-size:12px;color:#0D2B4E}.einp2:focus{border-color:#F05A1A;background:white}</style>
+
+<script>
+/* ═══════════════════════════════════════
+   STATE
+═══════════════════════════════════════ */
+
+var rz = document.getElementById('rz');
+
+
+/* init géré par le window.addEventListener('load') en bas de fichier */
+
+var FORMATS = {
+  linkedin: { w: 1080, h: 1080 },
+  instagram: { w: 1080, h: 1080 },
+  instagramPortrait: { w: 1080, h: 1350 },
+  tiktok: { w: 1080, h: 1920 },
+  PDF_A4: { w: 2480, h: 3508 }
+};
+
+var currentFormat = "linkedin";
+
+function applyFormatToElement(el){
+  var f = FORMATS[currentFormat];
+  el.style.width = f.w + 'px';
+  el.style.height = f.h + 'px';
+}
+
+var C = [
+  {id:1,emoji:"📋",pilier:"Pilier 3",title:"Business Plan",subtitle:"Construire son business plan",tag:"BUSINESS PLAN",brand:"Amaury LESNE - VIA AUCTA CONSEIL",accent:"#F05A1A",
+  post:"📋 Un business plan, ce n'est pas un document administratif.\nC'est la carte routière de votre entreprise.\n\nDans ce carrousel : les 7 blocs que tout business plan doit contenir.\n\n👉 Sauvegardez ce post.\n\n— Amaury | Via Aucta Conseil\n🎯 #Entrepreneuriat #BusinessPlan #LesPotentiels #ViaAucta",
+  slides:[
+    {t:"cover",bg:{type:"solid",color:"#0D2B4E",textColor:"#FFFFFF"},tag:"BUSINESS PLAN",title:"VOTRE BUSINESS PLAN\nEN 7 BLOCS",sub:"Ce que votre banquier veut vraiment voir"},
+    {t:"hook",bg:{type:"solid",color:"#060E1A",textColor:"#FFFFFF"},pill:"LE CONSTAT",stmt:"La plupart rédigent\nleur BP pour un lecteur.\n<em>Jamais pour eux-mêmes.</em>",stxt:"C'est là que tout déraille — avant même la première ligne de chiffres.",sn:"02"},
+    {t:"whiteContent",bg:{type:"solid",color:"#F4F4F2",textColor:"#0D2B4E"},pill:"TITRE",content:["Le texte en forme de paragraphe","Et encore un paragraphe"],stmt:'Votre statement\nfort ici.\n<em>Mot en orange.</em>',tip:'Les bons conseils ici',sn:"03"},
+    {t:"step",bg:{type:"solid",color:"#0D2B4E",textColor:"#FFFFFF"},pill:"LA MÉTHODE",items:[{n:"04",title:"La stratégie commerciale",sub:"Qui sont vos clients ? Comment les trouver ?"},{n:"05",title:"Les projections financières",sub:"3 scénarios sur 24 mois. Votre banquier veut voir le pire cas."},{n:"06",title:"Le plan de financement",sub:"Combien, d'où vient l'argent, où il va."}],sn:"04"},
+    {t:"quote",bg:{type:"solid",color:"#F4F4F2",textColor:"#0D2B4E"},pill:"LE PRINCIPE",quote:"Est-ce que moi,\navec ce que je sais,\nje mettrais <em>mon argent</em>\ndans cette entreprise ?",qsub:"Pas l'argent de la banque. Le vôtre.",sn:"05"},
+    {t:"hook",bg:{type:"solid",color:"#060E1A",textColor:"#FFFFFF"},pill:"LA VÉRITÉ",stmt:"Un business plan\nsans les questions\nqui font peur,\n<em>c'est du PowerPoint\navec des chiffres dedans.</em>",stxt:"",sn:"06"},
+    {t:"quote",bg:{type:"solid",color:"#F4F4F2",textColor:"#0D2B4E"},pill:"LA MÉTHODE",quote:"Rédigez-le seul,\nla nuit.\nHonnêtement.\n<em>Sans vous mentir.</em>",qsub:"C'est le seul business plan qui fonctionne vraiment.",sn:"07"},
+    {t:"hook",bg:{type:"solid",color:"#060E1A",textColor:"#FFFFFF"},pill:"LE BILAN",stmt:"Le banquier\nle sent.\n<em>Il le sent toujours.</em>",stxt:"Vous ne pouvez pas convaincre quelqu'un d'autre de ce dont vous n'êtes pas convaincu vous-même.",sn:"08"},
+    {t:"cta",bg:{type:"gradient",gradient:"135deg,#F05A1A,#FF7A3D",textColor:"#FFFFFF"},eyebrow:"Les Potentiels · Via Aucta",main:"Votre potentiel\na besoin\nd'une route.",ctxt:"Rejoignez la communauté des dirigeants et entrepreneurs qui construisent différemment.",pill:"PROGRAMME PULSE"},
+  ]},
+  {id:2,emoji:"📊",pilier:"Pilier 6",title:"Finances",subtitle:"Piloter ses finances au quotidien",tag:"FINANCES",brand:"Amaury · Via Aucta Conseil",accent:"#F05A1A",
+  post:"📊 Votre comptable vous remet votre bilan une fois par an.\n\nC'est déjà trop tard.\n\nLes entreprises meurent d'une trésorerie qu'on n'a pas vue partir.\n\n— Amaury | Via Aucta Conseil\n🎯 #Finances #Tresorerie #Entrepreneuriat #LesPotentiels",
+  slides:[
+    {t:"cover",bg:{type:"solid",color:"#0D2B4E",textColor:"#FFFFFF"},tag:"FINANCES",title:"6 CHIFFRES À\nREGARDER CHAQUE\nSEMAINE",sub:"Pilotez votre business comme un cockpit"},
+    {t:"hook",bg:{type:"solid",color:"#060E1A",textColor:"#FFFFFF"},pill:"LE PROBLÈME",stmt:"La plupart lisent\nleur bilan comme\n<em>un constat.</em>",stxt:"Les bons dirigeants le lisent comme un signal faible — une radiographie de ce qui vient.",sn:"02"},
+    {t:"step",bg:{type:"solid",color:"#0D2B4E",textColor:"#FFFFFF"},pill:"5 SIGNAUX",items:[{n:"🔴",title:"Résultat positif. Trésorerie s'effondre.",sub:"BFR qui s'emballe — vous financez vos clients avant qu'ils vous paient."},{n:"🔴",title:"Immobilisations ↑. EBE stagne.",sub:"Investissement déconnecté du modèle économique réel."},{n:"🟡",title:"Capitaux propres ↑. Moins vite que la dette.",sub:"Fragilité structurelle que votre banquier voit avant vous."}],sn:"03"},
+    {t:"step",bg:{type:"solid",color:"#0D2B4E",textColor:"#FFFFFF"},pill:"SUITE SIGNAUX",items:[{n:"🟡",title:"Délai client ↑. Délai fournisseur ↓.",sub:"Perte de pouvoir de négociation des deux côtés."},{n:"🟢",title:"Fonds de roulement > BFR.",sub:"Vous avez de l'oxygène. Liberté stratégique réelle."},{n:"1",title:"Lire en 10 minutes",sub:"Capitaux propres → Ratio dette/CP → BFR → Comparer N-1."}],sn:"04"},
+    {t:"quote",bg:{type:"solid",color:"#F4F4F2",textColor:"#0D2B4E"},pill:"LA DISTINCTION",quote:"Votre comptable\nlit pour <em>les impôts.</em>\nVous devez lire\npour <em>piloter.</em>",qsub:"Ce sont deux lectures différentes du même document.",sn:"05"},
+    {t:"hook",bg:{type:"solid",color:"#060E1A",textColor:"#FFFFFF"},pill:"L'ERREUR",stmt:"CA, marge, trésorerie :\n<em>80% des entrepreneurs</em>\nconfondent les trois.",stxt:"Ce ne sont pas des synonymes. Ce sont trois mesures de trois réalités radicalement différentes.",sn:"06"},
+    {t:"quote",bg:{type:"solid",color:"#F4F4F2",textColor:"#0D2B4E"},pill:"LE PRINCIPE",quote:"Un dirigeant qui lit\nson bilan une fois par an\n<em>subit</em> son entreprise.",qsub:"Celui qui le lit comme un tableau de bord la pilote.",sn:"07"},
+    {t:"cta",bg:{type:"gradient",gradient:"135deg,#F05A1A,#FF7A3D",textColor:"#FFFFFF"},eyebrow:"Les Potentiels · Via Aucta",main:"Votre potentiel\na besoin\nd'une route.",ctxt:"Rejoignez la communauté des dirigeants et entrepreneurs qui construisent différemment.",pill:"PROGRAMME PULSE"},
+  ]},
+  {id:3,emoji:"⚙️",pilier:"Pilier 7",title:"Organisation",subtitle:"Structurer son organisation",tag:"ORGANISATION",brand:"Amaury · Via Aucta Conseil",accent:"#F05A1A",
+  post:"⚙️ L'entrepreneur débordé n'a pas un problème de temps.\n\nIl a un problème de structure.\n\nCeux qui scalent ont mis des systèmes en place dès le départ.\n\n— Amaury | Via Aucta Conseil\n🎯 #Organisation #Entrepreneuriat #Systemes #LesPotentiels",
+  slides:[
+    {t:"cover",bg:{type:"solid",color:"#0D2B4E",textColor:"#FFFFFF"},tag:"ORGANISATION",title:"5 SYSTÈMES QUI\nFONT TOURNER\nVOTRE BUSINESS",sub:"Travaillez moins. Produisez plus."},
+    {t:"hook",bg:{type:"solid",color:"#060E1A",textColor:"#FFFFFF"},pill:"LE CONSTAT",stmt:"Occupé\nne veut pas dire\n<em>productif.</em>",stxt:"Les entrepreneurs les plus débordés confondent agitation et traction. Un business bien structuré tourne même quand vous n'êtes pas là.",sn:"02"},
+    {t:"step",bg:{type:"solid",color:"#0D2B4E",textColor:"#FFFFFF"},pill:"LES 5 SYSTÈMES",items:[{n:"01",title:"Capture",sub:"Toutes vos idées et tâches au même endroit. Un seul outil."},{n:"02",title:"Planification",sub:"Chaque dimanche : 3 priorités, temps bloqué dans l'agenda."},{n:"03",title:"Client",sub:"De la prospection à la facturation : un chemin documenté."}],sn:"03"},
+    {t:"step",bg:{type:"solid",color:"#0D2B4E",textColor:"#FFFFFF"},pill:"SUITE SYSTÈMES",items:[{n:"04",title:"Financier",sub:"Entrées. Sorties. Solde. Mis à jour chaque semaine."},{n:"05",title:"Revue mensuelle",sub:"1 heure avec vous-même. Ce qui a marché. Ce que vous changez."}],sn:"04"},
+    {t:"quote",bg:{type:"solid",color:"#F4F4F2",textColor:"#0D2B4E"},pill:"LE PRINCIPE",quote:"Un business\nsans système\nest <em>un emploi\ndéguisé.</em>",qsub:"La vraie liberté entrepreneuriale commence par des systèmes.",sn:"05"},
+    {t:"hook",bg:{type:"solid",color:"#060E1A",textColor:"#FFFFFF"},pill:"L'ANGLE MORT",stmt:"Votre organigramme\nvous ment.\n<em>La vraie structure\nn'est jamais celle\ndu document.</em>",stxt:"",sn:"06"},
+    {t:"quote",bg:{type:"solid",color:"#F4F4F2",textColor:"#0D2B4E"},pill:"LA VÉRITÉ",quote:"Vous êtes peut-être\nle principal obstacle\nà la croissance\nde <em>votre entreprise.</em>",qsub:"Ce n'est pas un jugement. C'est la réalité la plus fréquente après 15 ans de terrain.",sn:"07"},
+    {t:"cta",bg:{type:"gradient",gradient:"135deg,#F05A1A,#FF7A3D",textColor:"#FFFFFF"},eyebrow:"Les Potentiels · Via Aucta",main:"Votre potentiel\na besoin\nd'une route.",ctxt:"Rejoignez la communauté des dirigeants et entrepreneurs qui construisent différemment.",pill:"PROGRAMME PULSE"},
+  ]},
+];
+
+var ac=0, as=0, ptab=0;
+function car(){return C[ac];}
+function sl(){return car().slides[as];}
+
+/* changeFormat et applyFormat unifiés dans scalePreview() ci-dessous */
+
+function setFormat(fmt, btn){
+  currentFormat = fmt;
+  // Met à jour les boutons actifs
+  document.querySelectorAll('.fmt-btn').forEach(function(b){ b.classList.remove('on'); });
+  if(btn) btn.classList.add('on');
+  scalePreview();
+  render();
+}
+
+window.addEventListener('resize', scalePreview);
+
+function scalePreview() {
+  var frame = document.getElementById('previewFrame');
+  var wrap = document.getElementById('previewWrap');
+  var center = document.getElementById('centerPanel');
+
+  var f = FORMATS[currentFormat];
+  // Reserve space for format selector (~34px), dots (~20px), controls (~44px), gaps (~40px)
+  var reservedH = 155;
+  var availW = center.clientWidth - 32;
+  var availH = center.clientHeight - reservedH;
+
+  var s = Math.min(availW / f.w, availH / f.h);
+  if(s <= 0) s = 0.1;
+
+  var scaledW = Math.round(f.w * s);
+  var scaledH = Math.round(f.h * s);
+
+  frame.style.width  = f.w + 'px';
+  frame.style.height = f.h + 'px';
+  frame.style.transform = 'scale(' + s + ')';
+  frame.style.transformOrigin = 'top left';
+
+  wrap.style.width  = scaledW + 'px';
+  wrap.style.height = scaledH + 'px';
+  wrap.style.position = 'relative';
+  wrap.style.overflow = 'hidden';
+  wrap.style.flexShrink = '0';
+}
+
+
+/* ═══ SLIDE HTML ═══ */
+function slHTML(s,idx,tot,forExport){
+  var n=idx+1;
+  var bg=s.bg||{type:'solid',color:'#0D2B4E',textColor:'#FFFFFF'};
+  var bgStyle=getBgStyle(bg);
+  var tc=bg.textColor||'#FFFFFF';
+  var acc=(car().accent)||'#F05A1A';
+  var brand = car().brand || 'Amaury LESNE - VIA AUCTA CONSEIL';
+  var fontTitle = car().fontTitle || "'Barlow Condensed',sans-serif";
+  var fontBody  = car().fontBody  || "'DM Sans',sans-serif";
+  var mainTC    = car().mainTextColor || null;  // override for dark slides
+  var secTC     = car().secTextColor  || null;  // override for light slides
+
+  var imgTag = getBgImgTag(bg);  // '' unless transparent PNG mode
+  var fs = s.fs || {};
+  var fsp = function(k,d){ return (fs[k]!=null?fs[k]:d)+'px'; };
+  // Obar + bot-dot settings (stored per-carrousel)
+  var ob      = car().obar || {};
+  var obarColor = ob.color || acc;
+  var obarW     = ob.w    != null ? ob.w    : 52;
+  var obarH     = ob.h    != null ? ob.h    : 5;
+  var dotW      = ob.dotW != null ? ob.dotW : 20;
+  var dotH      = ob.dotH != null ? ob.dotH : 5;
+  var obarStyle = 'background:'+obarColor+';width:'+obarW+'px;height:'+obarH+'px';
+  var dotStyle  = 'background:'+obarColor+';width:'+dotW+'px;height:'+dotH+'px';
+
+  // Unified bot footer for all slide types
+  // dark=true → light text on dark bg ; dark=false → dark text on light bg
+  var brandFs   = car().brandFs  != null ? car().brandFs  : 32;
+  var logoData  = car().logo     || null;
+  var logoShape = car().logoShape|| 'circle';
+  var logoSize  = car().logoSize != null ? car().logoSize : 40;
+  function bot(dark, slideNum, totSlides){
+    var brandColor= dark ? 'rgba(255,255,255,0.28)' : 'rgba(13,43,78,0.35)';
+    var numColor  = dark ? 'rgba(255,255,255,0.45)' : 'rgba(13,43,78,0.45)';
+    var borderCls = dark ? 'bot-dark' : 'bot-light';
+    var numStr    = (slideNum||'') ? esc(String(slideNum).padStart(2,'0'))+'/'+String(totSlides||tot).padStart(2,'0') : '';
+    var logoHtml  = logoData
+      ? '<img src="'+logoData+'" style="width:'+logoSize+'px;height:'+logoSize+'px;object-fit:cover;border-radius:'+(logoShape==='circle'?'50%':'6px')+';flex-shrink:0;margin-right:10px;border:2px solid rgba(255,255,255,0.15)"/>'
+      : '';
+    return '<div class="bot '+borderCls+'">'
+      +(numStr ? '<span class="bcta" style="color:'+numColor+';font-size:'+brandFs+'px">'+numStr+'</span>' : '')
+      +'<div class="bot-inner">'
+      +(logoHtml || '<div class="bot-dot" style="background:'+obarColor+';width:'+dotW+'px;height:'+dotH+'px;border-radius:3px"></div>')
+      +'<span class="bbrand" style="color:'+brandColor+';font-size:'+brandFs+'px">'+esc(brand)+'</span>'
+      +'</div>'
+      +'</div>';
+  }
+
+  if(s.t==='cover'){
+    var coverTC = mainTC || tc;
+    return '<div class="sl sl-cov" style="'+bgStyle+';color:'+coverTC+';font-family:'+fontBody+'">'
+      +imgTag
+      +'<div class="c1" style="background:rgba(240,90,26,0.18)"></div>'
+      +'<div class="ptag" style="background:'+acc+';color:white;font-family:'+fontTitle+';font-size:'+fsp('ptag',50)+'">'+esc(s.tag||'')+'</div>'
+      +'<div style="position:relative;z-index:2">'
+      +'<div class="ttl" style="color:'+coverTC+';font-family:'+fontTitle+';font-size:'+fsp('ttl',140)+'">'+parseEM((s.title||'').replace(/\n/g,'↵'),acc).replace(/↵/g,'<br>')+'</div>'
+      +'<div class="obar" style="border-radius:3px;'+obarStyle+'"></div>'
+      +'<div class="sub" style="color:rgba(255,255,255,0.48);font-family:'+fontBody+';font-size:'+fsp('sub',60)+'">'+esc(s.sub||'')+'</div>'
+      +bot(true, n, tot)
+      +'</div></div>';
+  }
+  
+  if(s.t === 'whiteContent'){
+    var num = String(n).padStart(2,'0');
+    var wcTC = secTC || s.bg?.textColor || '#0D2B4E';
+    var wcBg = s.bg?.type === 'solid' ? 'background:'+s.bg.color+';color:'+wcTC : '';
+    return '<div class="sl sl-wh" style="'+wcBg+';font-family:'+fontBody+'">'
+      +imgTag
+      +'<div class="wh-header">'
+        +'<div class="wh-num" style="font-family:'+fontTitle+';font-size:'+fsp('wh_title',70)+'">'+num+'</div>'
+        +'<div class="wh-title" style="font-family:'+fontTitle+';font-size:'+fsp('wh_title',50)+'">'+esc(s.pill || '')+'</div>'
+      +'</div>'
+      +'<div class="wh-body" style="font-size:'+fsp('wh_body',40)+'">'
+        +(Array.isArray(s.content) ? s.content.map(function(p){return '<p>'+esc(p)+'</p>';}).join('') : '')
+        +(typeof s.stmt==='string'&&s.stmt.trim()!==''
+          ? '<div class="stmt" style="color:'+wcTC+';font-family:'+fontTitle+';font-size:'+fsp('wh_stmt',50)+'">'+parseEM(s.stmt,acc)+'</div>' : '')
+      +'</div>'
+      +(s.tip ? '<div class="wh-tip"><div class="tip-label" style="font-size:'+fsp('wh_tip',45)+'">💡 TIP</div><div style="font-size:'+fsp('wh_tip',45)+'">'+esc(s.tip)+'</div></div>' : '')
+      +bot(!isDarkColor(bg.color||'#F4F4F2') ? false : true, n, tot)
+    +'</div>';
+  }
+  
+  if(s.t==='hook'){
+    var isDark=isDarkColor(bg.color||'#060E1A');
+    var hookTC = mainTC || tc;
+    return '<div class="sl sl-dk" style="'+bgStyle+';font-family:'+fontBody+'">'
+      +imgTag
+      +'<div class="top"><div class="pill" style="background:'+acc+';color:white;font-family:'+fontTitle+';font-size:'+fsp('pill',50)+'">'+esc(s.pill||'')+'</div></div>'
+      +'<div class="body"><div class="obar" style="border-radius:3px;'+obarStyle+'"></div>'
+      +'<div class="stmt" style="color:'+hookTC+';font-family:'+fontTitle+';font-size:'+fsp('stmt',100)+'">'+parseEM(s.stmt||'',acc)+'</div>'
+      +(s.stxt?'<div class="stxt" style="color:'+(isDark?'rgba(255,255,255,0.5)':'rgba(13,43,78,0.55)')+';font-family:'+fontBody+';font-size:'+fsp('stxt',40)+'">'+esc(s.stxt)+'</div>':'')
+      +'</div>'
+      +bot(isDark, s.sn||String(n).padStart(2,'0'), tot)
+      +'</div>';
+  }
+  if(s.t==='step'){
+    var isDark2=isDarkColor(bg.color||'#0D2B4E');
+    var stepTC = mainTC || tc;
+    var items=(s.items||[]).map(function(it){
+      return '<div class="item"><div class="inum" style="color:'+acc+';font-family:'+fontTitle+';font-size:'+fsp('inum',70)+'">'+esc(it.n||'')+'</div>'
+        +'<div><div class="ititle" style="color:'+stepTC+';font-family:'+fontTitle+';font-size:'+fsp('ititle',45)+'">'+esc(it.title||'').replace(/\n/g,'<br>')+'</div>'
+        +(it.sub?'<div class="isub" style="color:'+(isDark2?'rgba(255,255,255,0.42)':'rgba(13,43,78,0.5)')+';font-family:'+fontBody+';font-size:'+fsp('isub',35)+'">'+esc(it.sub).replace(/\n/g,'<br>')+'</div>':'')
+        +'</div></div>';
+    }).join('');
+    return '<div class="sl sl-nv" style="'+bgStyle+';font-family:'+fontBody+'">'
+      +imgTag
+      +'<div class="top"><div class="pill" style="background:'+acc+';color:white;font-family:'+fontTitle+';font-size:'+fsp('pill',50)+'">'+esc(s.pill||'')+'</div></div>'
+      +'<div class="body"><div class="obar" style="border-radius:3px;'+obarStyle+'"></div>'
+      +'<div class="items">'+items+'</div></div>'
+      +bot(isDark2, s.sn||String(n).padStart(2,'0'), tot)
+      +'</div>';
+  }
+  if(s.t==='quote'){
+    var isD=isDarkColor(bg.color||'#F4F4F2');
+    var quoteTC = (isD ? mainTC : secTC) || tc;
+    var pillStyle='background:'+(isD?'rgba(240,90,26,0.15)':'#0D2B4E')+';color:'+(isD?acc:'white');
+    return '<div class="sl sl-wh" style="'+bgStyle+';font-family:'+fontBody+'">'
+      +imgTag
+      +'<div class="top"><div class="pill" style="'+pillStyle+';font-family:'+fontTitle+';font-size:'+fsp('pill',50)+'">'+esc(s.pill||'')+'</div></div>'
+      +'<div class="body"><div class="obar" style="border-radius:3px;'+obarStyle+'"></div>'
+      +'<div class="quote" style="color:'+quoteTC+';font-family:'+fontTitle+';font-size:'+fsp('quote',85)+'">'+parseEM(s.quote||'',acc)+'</div>'
+      +(s.qsub?'<div class="qsub" style="color:'+(isD?'rgba(255,255,255,0.5)':'rgba(13,43,78,0.52)')+';font-family:'+fontBody+';font-size:'+fsp('qsub',40)+'">'+esc(s.qsub)+'</div>':'')
+      +'</div>'
+      +bot(isD, s.sn||String(n).padStart(2,'0'), tot)
+      +'</div>';
+  }
+  if(s.t==='cta'){
+    var ctaTC = mainTC || '#FFFFFF';
+    var brandFs = car().brandFs != null ? car().brandFs : 32;
+    return '<div class="sl sl-ct" style="'+bgStyle+';font-family:'+fontBody+'">'
+      +imgTag
+      +'<div class="c1"></div>'
+      +'<div class="eyebrow" style="font-family:'+fontBody+';font-size:'+fsp('eyebrow',40)+'">'+esc(s.eyebrow||'Les Potentiels · Via Aucta')+'</div>'
+      +'<div class="main-t" style="color:'+ctaTC+';font-family:'+fontTitle+';font-size:'+fsp('main',100)+'">'+esc(s.main||'').replace(/\n/g,'<br>')+'</div>'
+      +'<div class="ctxt" style="font-family:'+fontBody+';font-size:'+fsp('ctxt',40)+'">'+esc(s.ctxt||'')+'</div>'
+      +'<div class="cpill" style="font-family:'+fontTitle+';font-size:'+fsp('cpill',40)+'">'+esc(s.pill||'PROGRAMME PULSE')+'</div>'
+      +'<div class="clogo" style="font-family:'+fontTitle+';font-size:'+brandFs+'px">'+esc(brand)+'</div>'
+      +'</div>';
+  }
+  return '<div class="sl" style="background:#F0F2F5"></div>';
+}
+
+function getBgStyle(bg){
+  if(!bg) return 'background:#0D2B4E';
+  if(bg.type==='gradient'&&bg.gradient) return 'background:linear-gradient('+bg.gradient+')';
+  if(bg.type==='image'&&bg.imageData){
+    if(bg.transparent){
+      // The <img> tag from getBgImgTag() sits above this background color
+      var bgCol = bg.imgBgColor || '#0D2B4E';
+      return bgCol === 'transparent' ? 'background:transparent' : 'background:'+bgCol;
+    }
+    var overlayVal = (bg.overlay != null ? bg.overlay : 40);
+    var overlay='rgba(0,0,0,'+overlayVal/100+')';
+    var sizeVal = getImgSizeValue(bg);
+    return 'background:linear-gradient('+overlay+','+overlay+'),url('+bg.imageData+') '+(bg.imgPos||'center')+'/'+sizeVal+' no-repeat';
+  }
+  if(bg.type==='pattern'){
+    var pat=bg.pattern||'grid';
+    var patStyles={
+      grid:'background-image:linear-gradient(rgba(255,255,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.04) 1px,transparent 1px);background-size:54px 54px',
+      dots:'background-image:radial-gradient(circle,rgba(255,255,255,0.08) 1px,transparent 1px);background-size:28px 28px',
+      diagonal:'background-image:repeating-linear-gradient(45deg,rgba(255,255,255,0.04),rgba(255,255,255,0.04) 1px,transparent 1px,transparent 14px)',
+      none:''
+    };
+    return 'background-color:'+(bg.color||'#0D2B4E')+';'+(patStyles[pat]||'');
+  }
+  return 'background:'+(bg.color||'#0D2B4E');
+}
+
+// Returns the CSS background-size value for an image bg
+function getImgSizeValue(bg){
+  if(bg.imgSize === 'custom'){
+    var pct = (bg.customSize != null ? bg.customSize : 100);
+    return pct+'%';
+  }
+  return bg.imgSize || 'cover';
+}
+
+// For transparent PNG/WebP: returns an <img> tag to be inserted inside .sl as absolute layer
+function getBgImgTag(bg){
+  if(!bg || bg.type !== 'image' || !bg.imageData || !bg.transparent) return '';
+
+  var pos = bg.imgPos || 'center';
+  var overlayVal = (bg.overlay != null ? bg.overlay : 0);
+
+  // CSS object-position works directly with background-position keywords
+  var objPos = pos; // "center", "top", "bottom left", etc. — all valid for object-position
+
+  var imgStyle;
+
+  if(bg.imgSize === 'custom'){
+    var pct = (bg.customSize != null ? bg.customSize : 100);
+    // Map position keyword to CSS top/left/right/bottom anchors
+    var posCSS = {
+      'center':         'top:50%;left:50%;transform:translate(-50%,-50%)',
+      'top':            'top:0;left:50%;transform:translateX(-50%)',
+      'bottom':         'bottom:0;left:50%;transform:translateX(-50%)',
+      'left':           'top:50%;left:0;transform:translateY(-50%)',
+      'right':          'top:50%;right:0;transform:translateY(-50%)',
+      'top left':       'top:0;left:0;transform:none',
+      'top right':      'top:0;right:0;transform:none',
+      'bottom left':    'bottom:0;left:0;transform:none',
+      'bottom right':   'bottom:0;right:0;transform:none'
+    };
+    var anchor = posCSS[pos] || posCSS['center'];
+    imgStyle = 'position:absolute;'+anchor+';width:'+pct+'%;height:auto;z-index:0;pointer-events:none';
+
+  } else if(bg.imgSize === '100% 100%'){
+    imgStyle = 'position:absolute;inset:0;width:100%;height:100%;object-fit:fill;z-index:0;pointer-events:none';
+
+  } else {
+    // cover or contain — object-position handles the alignment
+    var fit = bg.imgSize === 'contain' ? 'contain' : 'cover';
+    imgStyle = 'position:absolute;inset:0;width:100%;height:100%;object-fit:'+fit+';object-position:'+objPos+';z-index:0;pointer-events:none';
+  }
+
+  var overlayTag = overlayVal > 0
+    ? '<div style="position:absolute;inset:0;background:rgba(0,0,0,'+overlayVal/100+');z-index:1;pointer-events:none"></div>'
+    : '';
+  return '<img src="'+bg.imageData+'" style="'+imgStyle+'"/>'+overlayTag;
+}
+
+function parseEM(txt,acc){
+  return esc(txt)
+    // <em>texte</em> → couleur accent
+    .replace(/&lt;em&gt;/g,'<em style="color:'+acc+';font-style:normal">')
+    .replace(/&lt;\/em&gt;/g,'</em>')
+    // **texte** → gras
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
+}
+
+/* ── Mise en forme inline ── */
+function fmtInsert(key, type){
+  var el = document.getElementById('field_'+key);
+  if(!el) return;
+  var start = el.selectionStart, end = el.selectionEnd;
+  var val = el.value;
+  var sel = val.substring(start, end);
+  var before = val.substring(0, start);
+  var after  = val.substring(end);
+  var insert = '';
+
+  if(type === '**'){
+    // Gras — rendu dans la slide via parseEM
+    if(sel) insert = '**'+sel+'**';
+    else    insert = '**texte en gras**';
+  } else if(type === 'em'){
+    // Couleur accent
+    if(sel) insert = '<em>'+sel+'</em>';
+    else    insert = '<em>mot en accent</em>';
+  } else if(type === 'nl'){
+    insert = (sel ? sel : '') + '\n';
+    sel = '';
+  } else {
+    return; // type inconnu → ne rien faire
+  }
+
+  el.value = before + insert + after;
+  // Place le curseur après l'insertion
+  var newPos = before.length + insert.length;
+  el.setSelectionRange(newPos, newPos);
+  el.focus();
+  // Déclenche la mise à jour
+  updateSl(key, el.value);
+}
+function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function lighten(hex){return hex==='#D4A017'?'#F0BC3A':hex;}
+function isDarkColor(hex){
+  var r=parseInt(hex.slice(1,3)||'0',16),g=parseInt(hex.slice(3,5)||'0',16),b=parseInt(hex.slice(5,7)||'0',16);
+  return (r*299+g*587+b*114)/1000<128;
+}
+
+/* ═══ SCALE ═══ */
+function scale(){ scalePreview(); }
+
+/* ═══ RENDER ═══ */
+function renderTabs(){
+  var h='';
+  for(var i=0;i<C.length;i++){
+    h+='<div class="ctab'+(i===ac?' on':'')+'" onclick="pickCar('+i+')">'
+      +'<span>'+C[i].emoji+' '+C[i].title+'</span>'
+      +'<span class="ctab-del" onclick="event.stopPropagation();delCar('+i+')">✕</span>'
+      +'</div>';
+  }
+  h+='<div class="ctab ctab-new" onclick="addCar()">+ Nouveau carrousel</div>';
+  document.getElementById('tabsCarousels').innerHTML=h;
+}
+
+function renderSlide(){
+  var s=sl(),tot=car().slides.length;
+  document.getElementById('previewFrame').innerHTML=slHTML(s,as,tot,false);
+  scale();
+  var dc='';
+  for(var i=0;i<tot;i++) dc+='<div class="pdot'+(i===as?' on':'')+'" onclick="goSlide('+i+')"></div>';
+  document.getElementById('progDots').innerHTML=dc;
+  document.getElementById('scCnt').textContent='Slide '+(as+1)+' / '+tot;
+  document.getElementById('btnPrev').disabled=as===0;
+  document.getElementById('btnNext').disabled=as===tot-1;
+}
+
+function renderSlideList(){
+  var slides=car().slides,h='';
+  var types={cover:'cover',hook:'dark',step:'navy',quote:'white',cta:'cta'};
+  var labels={cover:'Couverture',hook:'Statement',step:'Étapes',quote:'Citation',cta:'CTA'};
+  for(var i=0;i<slides.length;i++){
+    var s=slides[i];
+    var t=types[s.t]||'navy';
+    var lbl=s.t==='cover'?'Couverture':s.t==='cta'?'Call to Action':(s.pill||labels[s.t]||s.t)+' '+String(i+1);
+    h+='<div class="slide-item'+(i===as?' on':'')+'" draggable="true" data-idx="'+i+'"'
+      +' onclick="goSlide('+i+')"'
+      +' ondragstart="dragStart(event,'+i+')"'
+      +' ondragover="dragOver(event,'+i+')"'
+      +' ondragleave="dragLeave(event)"'
+      +' ondrop="dragDrop(event,'+i+')"'
+      +' ondragend="dragEnd(event)">'
+      +'<span class="slide-handle" title="Glisser pour réordonner">⠿</span>'
+      +'<span class="slide-badge '+t+'">'+String(i+1).padStart(2,'0')+'</span>'
+      +'<span class="slide-lbl">'+esc(lbl)+'</span>'
+      +'<div class="slide-actions">'
+      +'<button class="slide-act dup" onclick="event.stopPropagation();dupSlide('+i+')" title="Dupliquer">⧉</button>'
+      +'<button class="slide-act" onclick="event.stopPropagation();moveSlide('+i+',-1)" title="Monter">↑</button>'
+      +'<button class="slide-act" onclick="event.stopPropagation();moveSlide('+i+',1)" title="Descendre">↓</button>'
+      +'<button class="slide-act del" onclick="event.stopPropagation();delSlide('+i+')" title="Supprimer">✕</button>'
+      +'</div></div>';
+  }
+  document.getElementById('slideList').innerHTML=h;
+}
+
+function renderEditor(){
+  var s=sl();
+  var fs=s.fs||{};
+  var h='';
+  // Génère une barre de mise en forme pour les champs textarea supportant <em>
+  var fmtBar=function(key){
+  return '<div class="fmt-toolbar" style="flex-wrap:wrap;">'
+    +'<div class="fmt-tb-sep"></div>'
+    +'<button type="button" class="fmt-tb-btn" onclick="fmtInsert(\''+key+'\',\'em\')" title="Colorer en accent (orange)" style="color:var(--orange)">● Accent</button>'
+    +'<button type="button" class="fmt-tb-btn" onclick="fmtInsert(\''+key+'\',\'nl\')" title="Saut de ligne">↵ Saut</button>'
+    +'<div class="fmt-tb-sep"></div>'
+    +'<div style="width:100%;font-size:9px;color:var(--gray);margin-top:4px;">Sélectionne du texte puis clique</div>'
+    +'</div>';
+};
+  var ea=function(key,label,val,rows,hint,hasFormat){
+    return '<div class="field"><label>'+label+'</label>'
+      +(hasFormat&&rows ? fmtBar(key) : '')
+      +(rows?'<textarea id="field_'+key+'" class="einp2" rows="'+rows+'" style="resize:vertical"'
+          +' onfocus="histSaveOnFocus()" onblur="histResetPending()"'
+          +' oninput="updateSl(\''+key+'\',this.value)">'+esc(val||'')+'</textarea>'
+        :'<input id="field_'+key+'" class="einp2" value="'+esc(val||'')+'"'
+          +' onfocus="histSaveOnFocus()" onblur="histResetPending()"'
+          +' oninput="updateSl(\''+key+'\',this.value)"/>')
+      +(hint?'<div class="field-hint">'+hint+'</div>':'')
+      +'</div>';
+  };
+  var eaFs=function(key,label,def,mn,mx){
+    var v=fs[key]!=null?fs[key]:def;
+    return '<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">'
+      +'<span style="font-size:10px;color:var(--gray);width:80px;flex-shrink:0">'+label+'</span>'
+      +'<input type="range" min="'+(mn||16)+'" max="'+(mx||160)+'" value="'+v+'" style="flex:1;accent-color:var(--orange)"'
+      +' oninput="updateSlFs(\''+key+'\',+this.value);this.nextSibling.textContent=this.value+\'px\'"/>'
+      +'<span style="font-size:10px;font-weight:700;color:var(--navy);width:34px;text-align:right;flex-shrink:0">'+v+'px</span>'
+      +'</div>';
+  };
+  h+='<div class="field"><label>Type de slide</label><select class="einp2" onchange="changeSlidetype(this.value)">';
+  ['cover','hook','step','quote','cta','whiteContent'].forEach(function(t){
+    h+='<option value="'+t+'"'+(s.t===t?' selected':'')+'>'+({cover:'Cover Navy',hook:'Statement Sombre',step:'Étapes Navy',quote:'Citation Blanc',cta:'CTA Orange',whiteContent:'Contenu Blanc'}[t]||t)+'</option>';
+  });
+  h+='</select></div>';
+  if(s.t==='cover'){
+    h+=ea('tag','Tag (badge)',s.tag);
+    h+=ea('title','Titre (↵ saut de ligne)',s.title,3,'Utilisez &lt;em&gt;mot&lt;/em&gt; pour la couleur accent',true);
+    h+=ea('sub','Sous-titre',s.sub);
+    h+='<div class="sec-title" style="margin-top:8px">Tailles de police</div>';
+    h+=eaFs('ttl','Titre',120,30,200);
+    h+=eaFs('sub','Sous-titre',60,14,80);
+    h+=eaFs('ptag','Badge/Tag',50,12,80);
+  }
+  if(s.t==='whiteContent'){
+    h+=ea('pill','Étiquette (badge)',s.pill);
+    h+=ea('content','Paragraphes',(s.content||[]).join('\n'),4,'1 ligne = 1 paragraphe');
+    h+=ea('stmt','Statement fort',s.stmt,4,'Utilisez &lt;em&gt;mot&lt;/em&gt; pour la couleur accent',true);
+    h+=ea('tip','Conseil (optionnel)',s.tip,2);
+    h+='<div class="sec-title" style="margin-top:8px">Tailles de police</div>';
+    h+=eaFs('wh_title','Titre / N°',70,14,120);
+    h+=eaFs('wh_body','Corps texte',40,12,80);
+    h+=eaFs('wh_stmt','Statement',50,14,120);
+    h+=eaFs('wh_tip','Tip',45,12,80);
+  }
+  if(s.t==='hook'){
+    h+=ea('pill','Étiquette (badge)',s.pill);
+    h+=ea('stmt','Statement fort',s.stmt,4,'Utilisez &lt;em&gt;mot&lt;/em&gt; pour la couleur accent',true);
+    h+=ea('stxt','Sous-texte (optionnel)',s.stxt,2);
+    h+=ea('sn','Numéro affiché',s.sn);
+    h+='<div class="sec-title" style="margin-top:8px">Tailles de police</div>';
+    h+=eaFs('pill','Badge',50,12,80);
+    h+=eaFs('stmt','Statement',80,24,200);
+    h+=eaFs('stxt','Sous-texte',40,12,80);
+  }
+  if(s.t==='step'){
+    h+=ea('pill','Étiquette (badge)',s.pill);
+    h+=ea('sn','Numéro affiché',s.sn);
+    h+='<div class="sec-title" style="margin-top:4px">Points de la slide</div>';
+    h+='<div class="items-editor" id="itemsEd">';
+    (s.items||[]).forEach(function(it,ix){
+      h+='<div class="item-card">'
+        +'<div class="item-num-badge">'+esc(it.n||String(ix+1).padStart(2,'0'))+'</div>'
+        +'<button class="item-del-btn" onclick="delItem('+ix+')">✕</button>'
+        +'<div class="field"><label>Numéro / Icône</label><input class="einp2" style="width:80px" value="'+esc(it.n||'')+'" oninput="updateItem('+ix+',\'n\',this.value)"/></div>'
+        +'<div class="field"><label>Titre</label><input class="einp2" value="'+esc(it.title||'')+'" oninput="updateItem('+ix+',\'title\',this.value)"/></div>'
+        +'<div class="field"><label>Sous-texte (↵ = saut de ligne)</label><textarea class="einp2" rows="3" style="resize:vertical" oninput="updateItem('+ix+',\'sub\',this.value)">'+esc(it.sub||'')+'</textarea></div>'
+        +'</div>';
+    });
+    h+='</div>';
+    h+='<button class="btn-add-item" onclick="addItem()">+ Ajouter un point</button>';
+    h+='<div class="sec-title" style="margin-top:8px">Tailles de police</div>';
+    h+=eaFs('pill','Badge',50,12,80);
+    h+=eaFs('inum','N° item',70,16,120);
+    h+=eaFs('ititle','Titre item',45,14,80);
+    h+=eaFs('isub','Sous-texte item',35,10,70);
+  }
+  if(s.t==='quote'){
+    h+=ea('pill','Étiquette (badge)',s.pill);
+    h+=ea('quote','Citation',s.quote,4,'Utilisez &lt;em&gt;mot&lt;/em&gt; pour la couleur accent',true);
+    h+=ea('qsub','Sous-texte',s.qsub,2);
+    h+=ea('sn','Numéro affiché',s.sn);
+    h+='<div class="sec-title" style="margin-top:8px">Tailles de police</div>';
+    h+=eaFs('pill','Badge',50,12,80);
+    h+=eaFs('quote','Citation',85,24,200);
+    h+=eaFs('qsub','Sous-texte',40,12,80);
+  }
+  if(s.t==='cta'){
+    h+=ea('eyebrow','Eyebrow (petit texte haut)',s.eyebrow);
+    h+=ea('main','Titre principal',s.main,3);
+    h+=ea('ctxt','Sous-texte',s.ctxt,2);
+    h+=ea('pill','Texte du bouton',s.pill);
+    h+='<div class="sec-title" style="margin-top:8px">Tailles de police</div>';
+    h+=eaFs('eyebrow','Eyebrow',40,10,80);
+    h+=eaFs('main','Titre',80,30,200);
+    h+=eaFs('ctxt','Sous-texte',40,12,80);
+    h+=eaFs('cpill','Bouton',40,12,80);
+  }
+  document.getElementById('slideEditor').innerHTML=h;
+}
+
+
+
+function renderRightPanel(){
+  var c=car();
+  document.getElementById('postArea').value=c.post||'';
+}
+
+function renderCarTab2(){
+  var c=car();
+  document.getElementById('carEmoji').value=c.emoji||'';
+  document.getElementById('carTitle').value=c.title||'';
+  document.getElementById('carSubtitle').value=c.subtitle||'';
+  document.getElementById('carTag').value=c.tag||'';
+  document.getElementById('carPilier').value=c.pilier||'';
+  document.getElementById('carBrand').value=c.brand||'';
+  var acc=c.accent||'#F05A1A';
+  document.getElementById('accentColor').value=acc;
+  document.getElementById('accentHex').value=acc;
+  // Obar + dot
+  var ob=c.obar||{};
+  var obarColor=ob.color||acc;
+  document.getElementById('obarColor').value=obarColor;
+  document.getElementById('obarColorHex').value=obarColor;
+  var obarW=ob.w!=null?ob.w:52; document.getElementById('obarW').value=obarW; document.getElementById('obarWLbl').textContent=obarW+'px';
+  var obarH=ob.h!=null?ob.h:5;  document.getElementById('obarH').value=obarH; document.getElementById('obarHLbl').textContent=obarH+'px';
+  var dotW=ob.dotW!=null?ob.dotW:20; document.getElementById('dotW').value=dotW; document.getElementById('dotWLbl').textContent=dotW+'px';
+  var dotH=ob.dotH!=null?ob.dotH:5;  document.getElementById('dotH').value=dotH; document.getElementById('dotHLbl').textContent=dotH+'px';
+  // Typography
+  var ftEl=document.getElementById('fontTitle');
+  if(ftEl) ftEl.value=c.fontTitle||"'Barlow Condensed',sans-serif";
+  var fbEl=document.getElementById('fontBody');
+  if(fbEl) fbEl.value=c.fontBody||"'DM Sans',sans-serif";
+  var mtcEl=document.getElementById('mainTextColor');
+  var mtcHex=document.getElementById('mainTextColorHex');
+  if(mtcEl){ var mtc=c.mainTextColor||'#FFFFFF'; mtcEl.value=mtc; if(mtcHex) mtcHex.value=mtc; }
+  var stcEl=document.getElementById('secTextColor');
+  var stcHex=document.getElementById('secTextColorHex');
+  if(stcEl){ var stc=c.secTextColor||'#0D2B4E'; stcEl.value=stc; if(stcHex) stcHex.value=stc; }
+  // Brand footer font size
+  var bfsEl=document.getElementById('brandFs');
+  var bfsLbl=document.getElementById('brandFsLbl');
+  // Logo
+  updateLogoUI();
+}
+
+function resetCarDefaults(){
+  if(!confirm('Remettre tous les paramètres du carrousel aux valeurs par défaut ?')) return;
+  var c = car();
+  c.accent        = '#F05A1A';
+  c.obar          = { color:'#F05A1A', w:52, h:5, dotW:20, dotH:5 };
+  c.fontTitle     = "'Barlow Condensed',sans-serif";
+  c.fontBody      = "'DM Sans',sans-serif";
+  c.mainTextColor = '#FFFFFF';
+  c.secTextColor  = '#0D2B4E';
+  c.brandFs       = 32;
+  renderCarTab2();
+  renderSlide();
+  notif('Paramètres remis aux valeurs par défaut.');
+}
+
+
+
+function render(){
+  renderTabs();
+  renderSlide();
+  renderSlideList();
+  renderEditor();
+  renderRightPanel();
+  if(ptab===2) renderCarTab2();
+}
+
+/* ═══ LOGO / PHOTO DE PROFIL ═══ */
+function loadLogoImage(e){
+  var file = e.target.files[0];
+  if(!file) return;
+  if(file.size > 2 * 1024 * 1024){
+    notif('Image trop lourde — max 2 Mo'); return;
+  }
+  var reader = new FileReader();
+  reader.onload = function(ev){
+    car().logo      = ev.target.result;
+    car().logoShape = car().logoShape || 'circle';
+    car().logoSize  = car().logoSize  || 40;
+    updateLogoUI();
+    renderSlide();
+    notif('Logo chargé ✓');
+  };
+  reader.readAsDataURL(file);
+  // Reset input pour permettre de recharger le même fichier
+  e.target.value = '';
+}
+
+function removeLogo(){
+  car().logo = null;
+  updateLogoUI();
+  renderSlide();
+  notif('Logo supprimé');
+}
+
+function setLogoShape(shape){
+  car().logoShape = shape;
+  document.getElementById('logoShapeCircle').classList.toggle('on', shape==='circle');
+  document.getElementById('logoShapeSquare').classList.toggle('on', shape==='square');
+  renderSlide();
+}
+
+function updateLogoUI(){
+  var logo = car().logo;
+  var zone = document.getElementById('logoUploadZone');
+  var prev = document.getElementById('logoPreviewWrap');
+  var img  = document.getElementById('logoPreviewImg');
+  if(!zone || !prev) return;
+  if(logo){
+    zone.style.display = 'none';
+    prev.style.display = '';
+    img.src = logo;
+    // Forme
+    var shape = car().logoShape || 'circle';
+    img.className = 'logo-preview-img' + (shape==='square' ? ' square' : '');
+    document.getElementById('logoShapeCircle').classList.toggle('on', shape==='circle');
+    document.getElementById('logoShapeSquare').classList.toggle('on', shape==='square');
+    // Taille
+    var size = car().logoSize != null ? car().logoSize : 40;
+    var sizeEl = document.getElementById('logoSize');
+    var sizeLbl = document.getElementById('logoSizeLbl');
+    if(sizeEl){ sizeEl.value = size; }
+    if(sizeLbl){ sizeLbl.textContent = size+'px'; }
+  } else {
+    zone.style.display = '';
+    prev.style.display = 'none';
+    img.src = '';
+  }
+}
+
+/* ═══════════════════════════════════════════
+   HISTORIQUE — ANNULER / REFAIRE (Ctrl+Z / Ctrl+Y)
+   Stocke jusqu'à 30 snapshots de C + ac + as
+═══════════════════════════════════════════ */
+var _hist     = [];   // pile des états passés
+var _histFwd  = [];   // pile des états futurs (redo)
+var _histLock = false;// évite de sauvegarder pendant une restauration
+var HIST_MAX  = 30;
+
+/* Prend un snapshot de l'état courant — à appeler AVANT toute mutation */
+function histSave(){
+  if(_histLock) return;
+  _histFwd = []; // toute nouvelle action efface le redo
+  _hist.push({
+    C  : JSON.parse(JSON.stringify(C)),
+    ac : ac,
+    as : as
+  });
+  if(_hist.length > HIST_MAX) _hist.shift();
+  histUpdateUI();
+}
+
+/* Restaure le dernier snapshot */
+function histUndo(){
+  if(_hist.length === 0) return;
+  // Sauvegarde l'état courant dans la pile redo
+  _histFwd.push({
+    C  : JSON.parse(JSON.stringify(C)),
+    ac : ac,
+    as : as
+  });
+  var snap = _hist.pop();
+  _histLock = true;
+  C  = snap.C;
+  ac = snap.ac;
+  as = snap.as;
+  _histLock = false;
+  render();
+  histUpdateUI();
+  notif('↩ Annulé (' + _hist.length + ' restant' + (_hist.length > 1 ? 's' : '') + ')');
+}
+
+/* Refait l'action annulée */
+function histRedo(){
+  if(_histFwd.length === 0) return;
+  _hist.push({
+    C  : JSON.parse(JSON.stringify(C)),
+    ac : ac,
+    as : as
+  });
+  var snap = _histFwd.pop();
+  _histLock = true;
+  C  = snap.C;
+  ac = snap.ac;
+  as = snap.as;
+  _histLock = false;
+  render();
+  histUpdateUI();
+  notif('↪ Refait');
+}
+
+/* Met à jour l'état actif/inactif des boutons */
+function histUpdateUI(){
+  var btnU = document.getElementById('btnUndo');
+  var btnR = document.getElementById('btnRedo');
+  if(btnU){ btnU.classList.toggle('on', _hist.length > 0); btnU.title = 'Annuler (Ctrl+Z) — '+_hist.length+' étape'+ (_hist.length!==1?'s':''); }
+  if(btnR){ btnR.classList.toggle('on', _histFwd.length > 0); btnR.title = 'Refaire (Ctrl+Y) — '+_histFwd.length+' étape'+(_histFwd.length!==1?'s':''); }
+}
+
+
+
+/* ═══ NAVIGATION ═══ */
+function pickCar(i){ac=i;as=0;render();}
+function goSlide(i){as=i;renderSlide();renderSlideList();renderEditor();}
+function goPrev(){if(as>0){as--;goSlide(as);}}
+function goNext(){if(as<car().slides.length-1){as++;goSlide(as);}}
+
+/* ═══ SLIDE ACTIONS ═══ */
+function addSlide(){
+  histSave();
+  var t=document.getElementById('addSlideType').value,c=car();
+  var n=String(c.slides.length+1).padStart(2,'0');
+  var bg0={type:'solid',color:'#0D2B4E',textColor:'#FFFFFF'};
+  var bgDk={type:'solid',color:'#060E1A',textColor:'#FFFFFF'};
+  var bgWh={type:'solid',color:'#F4F4F2',textColor:'#0D2B4E'};
+  var bgCt={type:'gradient',gradient:'135deg,#F05A1A,#FF7A3D',textColor:'#FFFFFF'};
+  var ns;
+  if(t==='cover') ns={t:'cover',bg:bg0,tag:'NOUVEAU',title:'TITRE DE LA SLIDE',sub:'Sous-titre accrocheur'};
+  else if(t === 'whiteContent'){
+  ns = {
+    t: 'whiteContent',
+  bg: {
+    type: 'solid',
+    color: '#F4F4F2',
+    textColor: '#0D2B4E'
+  },
+  pill: 'Titre de la slide',
+
+  // Liste de paragraphes (contenu principal)
+  content: [
+    'Premier paragraphe de contenu.',
+    'Deuxième paragraphe avec plus de détails.'
+  ],
+
+  // Punchline unique (string)
+  stmt: 'Voici la phrase clé qui marque les esprits.',
+
+  tip: 'Ton conseil clé ici'
+  };
+}
+  else if(t==='hook') ns={t:'hook',bg:bgDk,pill:'LE CONSTAT',stmt:'Votre statement\nfort ici.\n<em>Mot en orange.</em>',stxt:'Sous-texte explicatif.',sn:n};
+  else if(t==='step') ns={t:'step',bg:bg0,pill:'LA MÉTHODE',items:[{n:'01',title:'Premier point',sub:'Description.'},{n:'02',title:'Deuxième point',sub:''},{n:'03',title:'Troisième point',sub:''}],sn:n};
+  else if(t==='quote') ns={t:'quote',bg:bgWh,pill:'LE PRINCIPE',quote:'Votre citation\nforte ici.\n<em>Mot en orange.</em>',qsub:'Sous-texte de la citation.',sn:n};
+  else ns={t:'cta',bg:bgCt,eyebrow:'Les Potentiels · Via Aucta',main:'Votre potentiel\na besoin\nd\'une route.',ctxt:'Rejoignez la communauté des dirigeants et entrepreneurs.',pill:'PROGRAMME PULSE'};
+  c.slides.push(ns);as=c.slides.length-1;renderSlide();renderSlideList();renderEditor();
+}
+function delSlide(i){
+  if(car().slides.length<=2){notif('Minimum 2 slides.');return;}
+  histSave();
+  car().slides.splice(i,1);if(as>=car().slides.length)as=car().slides.length-1;render();
+}
+function moveSlide(i,dir){
+  var sl=car().slides;var ni=i+dir;
+  if(ni<0||ni>=sl.length)return;
+  histSave();
+  var tmp=sl[i];sl[i]=sl[ni];sl[ni]=tmp;
+  if(as===i)as=ni;render();
+}
+
+/* ── Dupliquer une slide ── */
+function dupSlide(i){
+  histSave();
+  var slides=car().slides;
+  var copy=JSON.parse(JSON.stringify(slides[i]));
+  slides.splice(i+1,0,copy);
+  as=i+1;
+  render();
+  notif('Slide dupliquée ✓');
+}
+
+/* ── Drag & Drop ── */
+var _dragIdx = null;
+
+function dragStart(e, i){
+  _dragIdx = i;
+  e.dataTransfer.effectAllowed = 'move';
+  // Légère attente pour que la classe s'applique après le drag start
+  setTimeout(function(){
+    var items = document.querySelectorAll('.slide-item');
+    if(items[i]) items[i].classList.add('dragging');
+  }, 0);
+}
+
+function dragOver(e, i){
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  if(_dragIdx === null || _dragIdx === i) return;
+  var items = document.querySelectorAll('.slide-item');
+  items.forEach(function(el){ el.classList.remove('drag-over'); });
+  if(items[i]) items[i].classList.add('drag-over');
+}
+
+function dragLeave(e){
+  if(e.currentTarget) e.currentTarget.classList.remove('drag-over');
+}
+
+function dragDrop(e, i){
+  e.preventDefault();
+  if(_dragIdx === null || _dragIdx === i) return;
+  histSave();
+  var slides = car().slides;
+  var moved = slides.splice(_dragIdx, 1)[0];
+  slides.splice(i, 0, moved);
+  // Suit la slide active
+  if(as === _dragIdx) as = i;
+  else if(as > _dragIdx && as <= i) as--;
+  else if(as < _dragIdx && as >= i) as++;
+  _dragIdx = null;
+  render();
+}
+
+function dragEnd(e){
+  _dragIdx = null;
+  document.querySelectorAll('.slide-item').forEach(function(el){
+    el.classList.remove('dragging','drag-over');
+  });
+}
+function changeSlidetype(t){
+  histSave();
+  sl().t=t;renderSlide();renderEditor();renderSlideList();
+}
+
+var _histPending = false;
+
+function histSaveOnFocus(){
+  if(!_histPending){
+    _histPending = true;
+    histSave();
+  }
+}
+
+function histResetPending(){
+  _histPending = false;
+}
+
+function updateSl(key, val){
+  try {
+    if(key === 'content'){
+      sl().content = String(val || '')
+        .split('\n')
+        .map(v => v.trim())
+        .filter(v => v.length > 0);
+    } else {
+      sl()[key] = val;
+    }
+    document.getElementById('previewFrame').innerHTML = slHTML(sl(), as, car().slides.length, false);
+    scale();
+  } catch(e){
+    console.error('updateSl error:', e);
+  }
+}
+
+function updateSlFs(key, val){
+  if(!sl().fs) sl().fs = {};
+  sl().fs[key] = val;
+  document.getElementById('previewFrame').innerHTML = slHTML(sl(), as, car().slides.length, false);
+  scale();
+}
+
+function updateItem(i,key,val){
+  sl().items[i][key]=val;
+  document.getElementById('previewFrame').innerHTML=slHTML(sl(),as,car().slides.length,false);
+  scale();
+}
+function addItem(){
+  if(!sl().items)sl().items=[];
+  var n=String(sl().items.length+1).padStart(2,'0');
+  sl().items.push({n:n,title:'Nouveau point',sub:''});
+  renderEditor();renderSlide();
+}
+function delItem(i){
+  if((sl().items||[]).length<=1){notif('Minimum 1 point.');return;}
+  sl().items.splice(i,1);renderEditor();renderSlide();
+}
+
+/* ═══ CAROUSEL ACTIONS ═══ */
+function addCar(){
+  C.push({id:Date.now(),emoji:'✨',pilier:'Nouveau',title:'Mon carrousel',subtitle:'Sous-titre',tag:'NOUVEAU',brand:'Amaury · Via Aucta Conseil',accent:'#F05A1A',
+    post:'Rédigez votre post LinkedIn ici...',
+    slides:[
+      {t:'cover',bg:{type:'solid',color:'#0D2B4E',textColor:'#FFFFFF'},tag:'NOUVEAU',title:'TITRE\nDU CARROUSEL',sub:'Sous-titre accrocheur'},
+      {t:'whiteContent',bg:{type:'solid',color:'#F4F4F2',textColor:'#0D2B4E'},pill:'LA MÉTHODE',content:["Mon paragraphe détaillé", "puis un autre"],stmt:'Votre statement\nfort ici.\n<em>Mot en orange.</em>',sn:'03'},
+	  {t:'hook',bg:{type:'solid',color:'#060E1A',textColor:'#FFFFFF'},pill:'LE CONSTAT',stmt:'Votre statement\nfort ici.\n<em>Mot en orange.</em>',stxt:'Sous-texte.',sn:'02'},
+      {t:'step',bg:{type:'solid',color:'#0D2B4E',textColor:'#FFFFFF'},pill:'LA MÉTHODE',items:[{n:'01',title:'Premier point',sub:'Description.'},{n:'02',title:'Deuxième point',sub:''}],sn:'03'},
+      {t:'quote',bg:{type:'solid',color:'#F4F4F2',textColor:'#0D2B4E'},pill:'LE PRINCIPE',quote:'Votre citation\nforte ici.\n<em>Mot en orange.</em>',qsub:'Sous-texte.',sn:'04'},
+      {t:'cta',bg:{type:'gradient',gradient:'135deg,#F05A1A,#FF7A3D',textColor:'#FFFFFF'},eyebrow:'Les Potentiels · Via Aucta',main:'Votre potentiel\na besoin\nd\'une route.',ctxt:'Rejoignez la communauté.',pill:'PROGRAMME PULSE'},
+    ]});
+  ac=C.length-1;as=0;render();
+}
+function delCar(i){
+  if(C.length<=1){notif('Minimum 1 carrousel.');return;}
+  if(!confirm('Supprimer ce carrousel ?'))return;
+  C.splice(i,1);if(ac>=C.length)ac=C.length-1;as=0;render();
+}
+
+/* ═══ PANEL TABS ═══ */
+function setPTab(i){
+  ptab=i;
+  for(var j=0;j<3;j++){
+    document.getElementById('pt'+j).className='ptab'+(j===i?' on':'');
+    document.getElementById('pc'+j).style.display=j===i?'block':'none';
+  }
+  if(i===2) renderCarTab2();
+}
+
+/* ═══ BACKGROUND ═══ */
+var currentBgType='solid';
+function setBgType(t){
+  currentBgType=t;
+  ['solid','gradient','image','pattern'].forEach(function(x){
+    document.getElementById('bgt-'+x).className='bg-type-btn'+(x===t?' on':'');
+    document.getElementById('bg-'+x).style.display=x===t?'block':'none';
+  });
+}
+function setBgColor(color,el){
+  if(el){document.querySelectorAll('#bg-solid .color-swatch').forEach(function(e){e.classList.remove('on')});el.classList.add('on');}
+  try{document.getElementById('bgColorPicker').value=color;}catch(e){}
+  try{document.getElementById('bgColorHex').value=color;}catch(e){}
+  currentBg={type:'solid',color:color,textColor:sl().bg?sl().bg.textColor:'#FFFFFF'};
+}
+function setTextColor(color,el){
+  if(el){document.querySelectorAll('#bg-solid .color-row:last-of-type .color-swatch').forEach(function(e){e.classList.remove('on')});if(el)el.classList.add('on');}
+  currentBg=currentBg||{};currentBg.textColor=color;
+}
+var currentBg={type:'solid',color:'#0D2B4E',textColor:'#FFFFFF'};
+function setGradient(g,el){
+  if(el){document.querySelectorAll('.grad-preset').forEach(function(e){e.classList.remove('on')});el.classList.add('on');}
+  currentBg={type:'gradient',gradient:g,textColor:'#FFFFFF'};
+  var parts=g.replace(/(^\w+deg,)/,'').split(',');
+  try{document.getElementById('grad1').value=parts[0]||'#0D2B4E';}catch(e){}
+  try{document.getElementById('grad2').value=parts[1]||'#1B3F6E';}catch(e){}
+}
+function updateGradient(){
+  var a=document.getElementById('gradAngle').value;
+  var c1=document.getElementById('grad1').value;
+  var c2=document.getElementById('grad2').value;
+  currentBg={type:'gradient',gradient:a+'deg,'+c1+','+c2,textColor:'#FFFFFF'};
+}
+function loadBgImage(e){
+  var f=e.target.files[0];if(!f)return;
+  var isPngWebp = /\.(png|webp)$/i.test(f.name) || f.type==='image/png' || f.type==='image/webp';
+  var r=new FileReader();
+  r.onload=function(ev){
+    currentBg={type:'image',imageData:ev.target.result,imgPos:'center',imgSize:'cover',customSize:100,overlay:40,transparent:false,imgBgColor:'#0D2B4E',textColor:'#FFFFFF'};
+    var prev=document.getElementById('bgImgPreview');
+    document.getElementById('bgImgName').textContent=f.name;
+    prev.style.display='flex';
+    // Auto-suggest transparency for PNG/WebP
+    if(isPngWebp){
+      document.getElementById('bgTransparent').checked=true;
+      currentBg.transparent=true;
+      currentBg.overlay=0;
+      document.getElementById('bgOverlay').value=0;
+      document.getElementById('bgOverlayLbl').textContent='0%';
+      document.getElementById('bgOverlayField').style.display='none';
+      document.getElementById('bgColorField').style.display='block';
+      notif('PNG/WebP détecté — transparence activée automatiquement');
+    } else {
+      document.getElementById('bgTransparent').checked=false;
+      document.getElementById('bgOverlayField').style.display='block';
+      document.getElementById('bgColorField').style.display='none';
+      notif('Image chargée. Cliquez "Appliquer".');
+    }
+  };
+  r.readAsDataURL(f);
+  e.target.value='';
+}
+function removeBgImage(){
+  currentBg={type:'solid',color:'#0D2B4E',textColor:'#FFFFFF'};
+  document.getElementById('bgImgPreview').style.display='none';
+  document.getElementById('bgImgInput').value='';
+  // Switch panel back to solid
+  setBgType('solid');
+  notif('Image supprimée. Cliquez "Appliquer" pour confirmer.');
+}
+function onImgSizeChange(){
+  var v = document.getElementById('bgImgSize').value;
+  document.getElementById('customSizeRow').style.display = v==='custom' ? 'block' : 'none';
+  updateImgBg();
+}
+function updateImgBg(){
+  if(currentBg.type!=='image') return;
+  currentBg.imgPos      = document.getElementById('bgImgPos').value;
+  currentBg.imgSize     = document.getElementById('bgImgSize').value;
+  currentBg.customSize  = parseInt(document.getElementById('customSizeSlider').value);
+  currentBg.overlay     = parseInt(document.getElementById('bgOverlay').value);
+  currentBg.transparent = document.getElementById('bgTransparent').checked;
+  currentBg.imgBgColor  = document.getElementById('bgImgBgColor').value;
+  // Show/hide controls based on transparent mode
+  var isTransp = currentBg.transparent;
+  document.getElementById('bgOverlayField').style.display = isTransp ? 'none' : 'block';
+  document.getElementById('bgColorField').style.display   = isTransp ? 'block' : 'none';
+}
+function setBgImgColor(color){
+  currentBg.imgBgColor = color;
+  if(color !== 'transparent'){
+    document.getElementById('bgImgBgColor').value = color;
+    document.getElementById('bgImgBgColorHex').value = color;
+  }
+}
+function setPattern(p,el){
+  if(el){document.querySelectorAll('.pattern-btn').forEach(function(e){e.classList.remove('on')});el.classList.add('on');}
+  currentBg={type:'pattern',pattern:p,color:document.getElementById('patBgColor').value,textColor:'#FFFFFF'};
+}
+function updatePatternBg(){
+  if(currentBg.type!=='pattern')currentBg={type:'pattern',pattern:'grid',textColor:'#FFFFFF'};
+  currentBg.color=document.getElementById('patBgColor').value;
+}
+function applyBgToAll(){
+  car().slides.forEach(function(s){s.bg=JSON.parse(JSON.stringify(currentBg));});
+  renderSlide();notif('Fond appliqué à toutes les slides');
+}
+function applyBgToCurrent(){
+  sl().bg=JSON.parse(JSON.stringify(currentBg));
+  renderSlide();notif('Fond appliqué à la slide '+( as+1));
+}
+
+/* ═══ POST ═══ */
+function copyPost(){
+  var txt=document.getElementById('postArea').value;
+  navigator.clipboard.writeText(txt).then(function(){
+    var btn=document.getElementById('copyPostBtn');
+    btn.textContent='✓ Copié !';btn.className='copy-post-btn copied';
+    setTimeout(function(){btn.textContent='📋 Copier';btn.className='copy-post-btn';},2000);
+  });
+}
+/* ═══ HASHTAGS ═══ */
+var HASHTAGS_KEY = '__cg_hashtags__';
+var DEFAULT_HASHTAGS = ['#LinkedIn','#Carrousel','#Branding','#Communication','#Entrepreneuriat','#PersonalBranding','#Marketing','#Contenu','#Réseaux'];
+
+function loadHashtags(){
+  try {
+    var saved = localStorage.getItem(HASHTAGS_KEY);
+    return saved ? JSON.parse(saved) : DEFAULT_HASHTAGS.slice();
+  } catch(e) { return DEFAULT_HASHTAGS.slice(); }
+}
+
+function saveHashtags(list){
+  try { localStorage.setItem(HASHTAGS_KEY, JSON.stringify(list)); } catch(e){}
+}
+
+function renderHashtags(){
+  var list = loadHashtags();
+  var row = document.getElementById('hashtagsRow');
+  if(!row) return;
+  var h = '';
+  list.forEach(function(tag, i){
+    h += '<span class="hashtag">'
+      + '<span onclick="addHashtag(\''+tag.replace(/'/g,"\\'")+'\')" title="Insérer dans le post">'+tag+'</span>'
+      + '<button class="hashtag-del" onclick="removeHashtag('+i+')" title="Supprimer">✕</button>'
+      + '</span>';
+  });
+  row.innerHTML = h;
+}
+
+function addHashtag(tag){
+  var ta = document.getElementById('postArea');
+  var v = ta.value;
+  if(v && v[v.length-1] !== ' ' && v[v.length-1] !== '\n') v += ' ';
+  v += tag; ta.value = v; C[ac].post = v;
+}
+
+function addCustomHashtag(){
+  var input = document.getElementById('hashtagInput');
+  var val = (input.value || '').trim();
+  if(!val) return;
+  if(!val.startsWith('#')) val = '#' + val;
+  var list = loadHashtags();
+  if(list.indexOf(val) !== -1){ notif('Hashtag déjà présent.'); return; }
+  list.push(val);
+  saveHashtags(list);
+  input.value = '';
+  renderHashtags();
+  notif(val + ' ajouté ✓');
+}
+
+function removeHashtag(i){
+  var list = loadHashtags();
+  list.splice(i, 1);
+  saveHashtags(list);
+  renderHashtags();
+}
+
+function resetHashtags(){
+  if(!confirm('Réinitialiser la liste des hashtags ?')) return;
+  saveHashtags(DEFAULT_HASHTAGS.slice());
+  renderHashtags();
+  notif('Hashtags réinitialisés ✓');
+}
+
+/* ═══ JSON ═══ */
+function saveJSON(){
+  var json = JSON.stringify(C, null, 2);
+  var blob = new Blob([json], {type:'application/json'});
+  var url  = URL.createObjectURL(blob);
+  var a    = document.createElement('a');
+  var filename = (C.length===1 ? C[0].title : 'mes-carousels')
+    .replace(/[^a-zA-Z0-9_\-àâäéèêëîïôùûüç ]/g,'')
+    .trim().replace(/\s+/g,'-').toLowerCase() || 'carousels';
+  a.href     = url;
+  a.download = filename + '.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+  notif('✓ Fichier ' + a.download + ' téléchargé !');
+}
+function loadFile(e){
+  var f=e.target.files[0];if(!f)return;
+  var r=new FileReader();
+  r.onload=function(ev){
+    try{
+      var d=JSON.parse(ev.target.result);
+      if(Array.isArray(d)&&d.length){C=d;ac=0;as=0;render();notif(d.length+' carrousel(s) chargé(s) !');}
+      else alert('Format JSON non reconnu.');
+    }catch(err){alert('Fichier JSON invalide : '+err.message);}
+  };
+  r.readAsText(f);e.target.value='';
+}
+function closeOverlay(id){document.getElementById(id).classList.remove('open');}
+
+/* ═══ PNG EXPORT ═══ */
+function exportCurrentPNG(){
+  var f = FORMATS[currentFormat];
+  document.getElementById('expLoading').style.display='block';
+  document.getElementById('pngImg').style.display='none';
+  document.getElementById('pngLabel').textContent='Slide '+(as+1)+'/'+car().slides.length+' — '+car().title;
+  document.getElementById('ovPNG').classList.add('open');
+  var rz=document.getElementById('rz');
+  applyFormatToElement(rz);
+  rz.innerHTML=slHTML(sl(),as,car().slides.length,true);
+  setTimeout(function(){
+    html2canvas(rz,{width:f.w,height:f.h,scale:1,useCORS:true,allowTaint:true,backgroundColor:null,logging:false})
+    .then(function(canvas){
+      document.getElementById('pngImg').src=canvas.toDataURL('image/png');
+      document.getElementById('pngImg').style.display='block';
+      document.getElementById('expLoading').style.display='none';
+      rz.innerHTML='';
+    }).catch(function(e){document.getElementById('expLoading').innerHTML='<p style="color:#EF4444">Erreur : '+e.message+'</p>';});
+  },300);
+}
+
+function exportAllPNG(){
+  var f = FORMATS[currentFormat];
+  var slides=car().slides;
+  document.getElementById('allPngContainer').innerHTML='<div class="export-loading"><div class="spinner"></div>Génération de '+slides.length+' slides...</div>';
+  document.getElementById('ovAllPNG').classList.add('open');
+  var rz=document.getElementById('rz');
+  var results=[];
+  var idx=0;
+  function next(){
+    if(idx>=slides.length){
+      var h='<p style="font-size:11px;color:#64748b;margin-bottom:12px">'+slides.length+' slides générées — clic droit → Enregistrer l\'image sous</p>';
+      results.forEach(function(dataURL,i){
+        h+='<div style="margin-bottom:8px"><p style="font-size:10px;color:#64748b;margin-bottom:4px">Slide '+(i+1)+' / '+slides.length+'</p><img src="'+dataURL+'" style="width:100%;border-radius:6px;border:1px solid #E2E8F0"/></div>';
+      });
+      document.getElementById('allPngContainer').innerHTML=h;
+      return;
+    }
+    rz.innerHTML=slHTML(slides[idx],idx,slides.length,true);
+	rz.style.width = f.w + 'px';
+	rz.style.height = f.h + 'px';
+    setTimeout(function(){
+      html2canvas(rz,{width:f.w,height:f.h,scale:1,useCORS:true,allowTaint:true,backgroundColor:null,logging:false})
+      .then(function(canvas){
+        results.push(canvas.toDataURL('image/png'));
+        rz.innerHTML='';idx++;next();
+      });
+    },200);
+  }
+  next();
+}
+
+function exportPDF(){
+  var f = FORMATS[currentFormat];
+  var slides = car().slides;
+  var title = car().title || 'carrousel';
+
+  // Reset modal state
+  document.getElementById('pdfProgress').style.display='block';
+  document.getElementById('pdfDone').style.display='none';
+  document.getElementById('pdfProgressTxt').textContent='Slide 0 / '+slides.length+'…';
+  document.getElementById('ovPDF').classList.add('open');
+
+  var rz = document.getElementById('rz');
+  rz.style.width  = f.w + 'px';
+  rz.style.height = f.h + 'px';
+
+  // PDF orientation & dimensions in mm — keep aspect ratio
+  var pdfW = 297; // A4 landscape width
+  var pdfH = Math.round(pdfW * f.h / f.w);
+  var orientation = f.w >= f.h ? 'landscape' : 'portrait';
+  if(orientation === 'portrait'){
+    pdfW = 210;
+    pdfH = Math.round(pdfW * f.h / f.w);
+  }
+
+  var { jsPDF } = window.jspdf;
+  var doc = new jsPDF({ orientation: orientation, unit: 'mm', format: [pdfW, pdfH] });
+
+  var idx = 0;
+  function next(){
+    if(idx >= slides.length){
+      doc.save(title.replace(/\s+/g,'-').toLowerCase() + '.pdf');
+      document.getElementById('pdfProgress').style.display='none';
+      document.getElementById('pdfDone').style.display='block';
+      rz.innerHTML='';
+      return;
+    }
+    document.getElementById('pdfProgressTxt').textContent = 'Slide '+(idx+1)+' / '+slides.length+'…';
+    rz.innerHTML = slHTML(slides[idx], idx, slides.length, true);
+    var slideHasTransparency = slides[idx].bg && slides[idx].bg.type === 'image' && slides[idx].bg.transparent;
+    setTimeout(function(){
+      html2canvas(rz, {
+        width:f.w, height:f.h, scale:1,
+        useCORS:true, allowTaint:true, backgroundColor:null, logging:false
+      }).then(function(canvas){
+        var imgData, imgFmt;
+        if(slideHasTransparency){
+          imgData = canvas.toDataURL('image/png');
+          imgFmt = 'PNG';
+        } else {
+          imgData = canvas.toDataURL('image/jpeg', 0.92);
+          imgFmt = 'JPEG';
+        }
+        if(idx > 0) doc.addPage([pdfW, pdfH], orientation);
+        doc.addImage(imgData, imgFmt, 0, 0, pdfW, pdfH);
+        rz.innerHTML='';
+        idx++;
+        next();
+      }).catch(function(e){
+        document.getElementById('pdfProgressTxt').textContent = '❌ Erreur slide '+(idx+1)+' : '+e.message;
+      });
+    }, 220);
+  }
+  next();
+}
+
+function exportPPT(){
+  var f = FORMATS[currentFormat];
+  var slides = car().slides;
+  var title = car().title || 'carrousel';
+
+  // Show modal
+  document.getElementById('pptProgress').style.display = 'block';
+  document.getElementById('pptDone').style.display = 'none';
+  document.getElementById('pptProgressTxt').textContent = 'Slide 0 / ' + slides.length + '…';
+  document.getElementById('ovPPT').classList.add('open');
+
+  var rz = document.getElementById('rz');
+  rz.style.width  = f.w + 'px';
+  rz.style.height = f.h + 'px';
+
+  // Dimensions PPTX en pouces — largeur de base 10", hauteur proportionnelle
+  var pptW = 10;
+  var pptH = +(pptW * f.h / f.w).toFixed(4);
+
+  var pres = new PptxGenJS();
+  // Layout personnalisé pour conserver le ratio exact du format
+  pres.defineLayout({ name: 'CUSTOM', width: pptW, height: pptH });
+  pres.layout = 'CUSTOM';
+  pres.author = car().brand || 'Via Aucta Conseil';
+  pres.title  = title;
+
+  var images = [];
+  var idx = 0;
+
+  function next(){
+    if(idx >= slides.length){
+      // Assemblage : chaque image occupe toute la slide
+      images.forEach(function(imgData){
+        var slide = pres.addSlide();
+        // imgData est "data:image/png;base64,..."  — PptxGenJS attend "image/png;base64,..."
+        slide.addImage({ data: imgData.replace(/^data:/, ''), x: 0, y: 0, w: pptW, h: pptH });
+      });
+      var filename = title.replace(/[^a-zA-Z0-9_\-àâäéèêëîïôùûüç ]/g,'').trim()
+                        .replace(/\s+/g,'-').toLowerCase() || 'carrousel';
+      pres.writeFile({ fileName: filename + '.pptx' })
+        .then(function(){
+          document.getElementById('pptProgress').style.display = 'none';
+          document.getElementById('pptDone').style.display = 'block';
+          rz.innerHTML = '';
+        })
+        .catch(function(e){
+          document.getElementById('pptProgressTxt').textContent = '❌ Erreur : ' + e.message;
+        });
+      return;
+    }
+    document.getElementById('pptProgressTxt').textContent = 'Slide ' + (idx+1) + ' / ' + slides.length + '…';
+    rz.innerHTML = slHTML(slides[idx], idx, slides.length, true);
+    setTimeout(function(){
+      html2canvas(rz, {
+        width: f.w, height: f.h, scale: 1,
+        useCORS: true, allowTaint: true, backgroundColor: null, logging: false
+      }).then(function(canvas){
+        images.push(canvas.toDataURL('image/png'));
+        rz.innerHTML = '';
+        idx++;
+        next();
+      }).catch(function(e){
+        document.getElementById('pptProgressTxt').textContent = '❌ Erreur slide '+(idx+1)+' : '+e.message;
+      });
+    }, 220);
+  }
+  next();
+}
+
+function changeFormat(format){
+  currentFormat = format;
+  scalePreview();
+  renderSlide();
+  var btn = document.querySelector('.sc-exp');
+  var f = FORMATS[currentFormat];
+  if(btn) btn.textContent = '⬇ PNG ' + f.w + '×' + f.h;
+}
+
+
+/* resizePreviewWrap() remplacée par scalePreview() */
+
+/* ═══ UTILS ═══ */
+function notif(msg){
+  var el=document.getElementById('notif');
+  el.textContent=msg;el.className='notif show';
+  setTimeout(function(){el.className='notif';},2500);
+}
+
+/* ═══ CUSTOMISATION UI ═══ */
+var UI_DEFAULTS = {
+  '--navy':   '#0D2B4E',
+  '--navy2':  '#1B3F6E',
+  '--orange': '#F05A1A',
+  '--orange2':'#FF7A3D',
+  '--bg':     '#F0F2F5',
+  '--border': '#E2E8F0'
+};
+
+function openCustomModal(){
+  document.getElementById('ovCustom').classList.add('open');
+}
+
+function applyUIColor(varName, val){
+  document.documentElement.style.setProperty(varName, val);
+}
+
+function lightenColor(hex, pct){
+  // Simple lighten: blend toward white
+  var r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+  r=Math.min(255,Math.round(r+(255-r)*pct/100));
+  g=Math.min(255,Math.round(g+(255-g)*pct/100));
+  b=Math.min(255,Math.round(b+(255-b)*pct/100));
+  return '#'+[r,g,b].map(function(x){return x.toString(16).padStart(2,'0')}).join('');
+}
+
+function resetUIColors(){
+  Object.keys(UI_DEFAULTS).forEach(function(v){
+    document.documentElement.style.setProperty(v, UI_DEFAULTS[v]);
+  });
+  document.getElementById('uiNavy').value    = UI_DEFAULTS['--navy'];
+  document.getElementById('uiNavyHex').value = UI_DEFAULTS['--navy'];
+  document.getElementById('uiOrange').value    = UI_DEFAULTS['--orange'];
+  document.getElementById('uiOrangeHex').value = UI_DEFAULTS['--orange'];
+  document.getElementById('uiBg').value     = UI_DEFAULTS['--bg'];
+  document.getElementById('uiBorder').value = UI_DEFAULTS['--border'];
+  notif('✓ Couleurs réinitialisées');
+}
+
+/* ═══ HASHTAGS RAPIDES ═══ */
+function updateHashtags(val){
+  var tags = val.split('\n').map(function(t){return t.trim();}).filter(Boolean);
+  var row = document.getElementById('hashtagsRow');
+  if(!row) return;
+  row.innerHTML = tags.map(function(t){
+    return '<span class="hashtag" onclick="addHashtag(\''+t+'\')">'+t+'</span>';
+  }).join('');
+}
+
+window.addEventListener('resize', function(){
+  scalePreview();
+});
+window.addEventListener('load',function(){
+  render();
+  scalePreview();
+  updateHashtags(document.getElementById('hashtagsEditor').value);
+});
+
+/* ═══════════════════════════════════════════
+   BIBLIOTHÈQUE D'ICÔNES
+═══════════════════════════════════════════ */
+var ICONS = [
+  // Flèches & navigation
+  {cat:'Flèches', icons:[
+    {e:'→',l:'Flèche droite'},{e:'←',l:'Flèche gauche'},{e:'↑',l:'Flèche haut'},{e:'↓',l:'Flèche bas'},
+    {e:'↗',l:'Flèche diagonale haut-droite'},{e:'↘',l:'Flèche diagonale bas-droite'},{e:'⟶',l:'Longue flèche'},{e:'⇒',l:'Double flèche'},
+    {e:'▶',l:'Triangle droite'},{e:'◀',l:'Triangle gauche'},{e:'►',l:'Lecture'},{e:'⬆',l:'Grande flèche haut'},
+    {e:'⬇',l:'Grande flèche bas'},{e:'↩',l:'Retour'},{e:'↪',l:'Aller'},{e:'🔄',l:'Cycle'},
+  ]},
+  // Validation & statut
+  {cat:'Statut', icons:[
+    {e:'✓',l:'Coche simple'},{e:'✔',l:'Coche épaisse'},{e:'✅',l:'Coche verte'},{e:'❌',l:'Croix rouge'},
+    {e:'⚠',l:'Attention'},{e:'⛔',l:'Interdit'},{e:'🔴',l:'Point rouge'},{e:'🟡',l:'Point orange'},
+    {e:'🟢',l:'Point vert'},{e:'🔵',l:'Point bleu'},{e:'⭕',l:'Cercle vide'},{e:'💡',l:'Idée'},
+    {e:'🔥',l:'Feu / Tendance'},{e:'⚡',l:'Éclair'},{e:'🎯',l:'Cible'},{e:'🏆',l:'Trophée'},
+  ]},
+  // Business & stratégie
+  {cat:'Business', icons:[
+    {e:'📈',l:'Graphique hausse'},{e:'📉',l:'Graphique baisse'},{e:'💰',l:'Argent'},{e:'💼',l:'Valise'},
+    {e:'🤝',l:'Poignée de main'},{e:'📊',l:'Graphique barres'},{e:'🔑',l:'Clé'},{e:'🚀',l:'Fusée'},
+    {e:'⚙',l:'Engrenage'},{e:'🛠',l:'Outils'},{e:'📋',l:'Presse-papier'},{e:'📌',l:'Punaise'},
+    {e:'💡',l:'Ampoule'},{e:'🧠',l:'Cerveau'},{e:'📢',l:'Mégaphone'},{e:'🎪',l:'Événement'},
+  ]},
+  // Chiffres stylisés
+  {cat:'Chiffres', icons:[
+    {e:'①',l:'1 cerclé'},{e:'②',l:'2 cerclé'},{e:'③',l:'3 cerclé'},{e:'④',l:'4 cerclé'},
+    {e:'⑤',l:'5 cerclé'},{e:'⑥',l:'6 cerclé'},{e:'⑦',l:'7 cerclé'},{e:'⑧',l:'8 cerclé'},
+    {e:'⑨',l:'9 cerclé'},{e:'⑩',l:'10 cerclé'},{e:'❶',l:'1 plein'},{e:'❷',l:'2 plein'},
+    {e:'❸',l:'3 plein'},{e:'❹',l:'4 plein'},{e:'❺',l:'5 plein'},{e:'❻',l:'6 plein'},
+  ]},
+  // Formes & déco
+  {cat:'Formes', icons:[
+    {e:'◆',l:'Losange plein'},{e:'◇',l:'Losange vide'},{e:'●',l:'Cercle plein'},{e:'○',l:'Cercle vide'},
+    {e:'■',l:'Carré plein'},{e:'□',l:'Carré vide'},{e:'▪',l:'Petit carré plein'},{e:'▫',l:'Petit carré vide'},
+    {e:'★',l:'Étoile pleine'},{e:'☆',l:'Étoile vide'},{e:'✦',l:'Étoile 4 branches'},{e:'✧',l:'Étoile 4 branches vide'},
+    {e:'•',l:'Point médian'},{e:'‣',l:'Triangle puce'},{e:'⁃',l:'Tiret puce'},{e:'—',l:'Tiret long'},
+  ]},
+  // Personnes & social
+  {cat:'Social', icons:[
+    {e:'👤',l:'Personne'},{e:'👥',l:'Groupe'},{e:'🙋',l:'Lever la main'},{e:'💬',l:'Bulle dialogue'},
+    {e:'❤',l:'Cœur'},{e:'👍',l:'Pouce levé'},{e:'🌍',l:'Globe'},{e:'📱',l:'Mobile'},
+    {e:'✉',l:'Enveloppe'},{e:'📧',l:'Email'},{e:'🔗',l:'Lien'},{e:'🌐',l:'Web'},
+    {e:'📸',l:'Photo'},{e:'🎥',l:'Vidéo'},{e:'🎙',l:'Micro'},{e:'📻',l:'Radio'},
+  ]},
+  // Temps & processus
+  {cat:'Temps', icons:[
+    {e:'⏱',l:'Chronomètre'},{e:'⏰',l:'Réveil'},{e:'📅',l:'Calendrier'},{e:'🗓',l:'Agenda'},
+    {e:'⌛',l:'Sablier'},{e:'🔁',l:'Répéter'},{e:'🔃',l:'Actualiser'},{e:'⏩',l:'Avance rapide'},
+    {e:'1️⃣',l:'Étape 1'},{e:'2️⃣',l:'Étape 2'},{e:'3️⃣',l:'Étape 3'},{e:'4️⃣',l:'Étape 4'},
+    {e:'5️⃣',l:'Étape 5'},{e:'6️⃣',l:'Étape 6'},{e:'7️⃣',l:'Étape 7'},{e:'8️⃣',l:'Étape 8'},
+  ]},
+];
+
+var _iconCat = 'Flèches';
+
+function openIconModal(){
+  renderIconCats();
+  renderIconGrid('');
+  document.getElementById('iconModal').classList.add('open');
+  document.getElementById('iconSearch').focus();
+}
+function closeIconModal(){
+  document.getElementById('iconModal').classList.remove('open');
+}
+
+function renderIconCats(){
+  var h = '';
+  ICONS.forEach(function(cat){
+    h += '<button class="icon-cat-btn'+(_iconCat===cat.cat?' on':'')+'" onclick="selectIconCat(\''+cat.cat+'\')">'+cat.cat+'</button>';
+  });
+  document.getElementById('iconCats').innerHTML = h;
+}
+
+function selectIconCat(cat){
+  _iconCat = cat;
+  document.getElementById('iconSearch').value = '';
+  renderIconCats();
+  renderIconGrid('');
+}
+
+function filterIcons(q){
+  renderIconGrid(q.toLowerCase());
+}
+
+function renderIconGrid(query){
+  var h = '';
+  var shown = 0;
+  ICONS.forEach(function(cat){
+    if(query){
+      cat.icons.forEach(function(ic){
+        if(ic.l.toLowerCase().indexOf(query) !== -1 || ic.e === query){
+          h += '<button class="icon-btn" title="'+ic.l+'" onclick="copyIcon(\''+ic.e+'\')">'+ic.e+'</button>';
+          shown++;
+        }
+      });
+    } else if(cat.cat === _iconCat){
+      cat.icons.forEach(function(ic){
+        h += '<button class="icon-btn" title="'+ic.l+'" onclick="copyIcon(\''+ic.e+'\')">'+ic.e+'</button>';
+        shown++;
+      });
+    }
+  });
+  if(shown === 0) h = '<div style="grid-column:1/-1;text-align:center;color:var(--gray);font-size:12px;padding:20px">Aucune icône trouvée</div>';
+  document.getElementById('iconGrid').innerHTML = h;
+}
+
+function copyIcon(emoji){
+  navigator.clipboard.writeText(emoji).then(function(){
+    notif(emoji + ' copié ! Collez-le dans un champ texte (Ctrl+V)');
+  }).catch(function(){
+    // Fallback si clipboard non disponible
+    notif(emoji + ' — copiez manuellement : ' + emoji);
+  });
+}
+</script>
+
+<script>
+var _LS_KEY = '__cg_state_v2__';
+function _autoSave(){
+  try { localStorage.setItem(_LS_KEY, JSON.stringify({C:C,ac:ac,as:as})); } catch(e){}
+}
+function _tryRestoreLS(){
+  try {
+    var raw = localStorage.getItem(_LS_KEY);
+    if(!raw) return;
+    var saved = JSON.parse(raw);
+    if(!saved||!Array.isArray(saved.C)||!saved.C.length) return;
+    if(JSON.stringify(saved.C)!==JSON.stringify(C)){
+      if(confirm('Des modifications non sauvegardées ont été trouvées.\nVoulez-vous les restaurer ?')){
+        C=saved.C; ac=Math.min(saved.ac||0,C.length-1); as=0; render();
+      }
+    }
+  } catch(e){}
+}
+(function(){
+  var _orig=window.render;
+  if(typeof _orig==='function'){
+    window.render=function(){ _orig.apply(this,arguments); _autoSave(); };
+  }
+})();
+window.addEventListener('load',function(){ setTimeout(_tryRestoreLS,100); });
+</script>
+
+<!-- ═══ MOTEUR DE LICENCE — VÉRIFICATION SERVEUR ═══ -->
+<script>
+(function(){
+  var WORKER_URL  = 'https://QuickConnect.to/VOTRE-IDENTIFIANT:8443/licence/check.php';
+  var STORAGE_KEY = 'viaaucta_lic_v1';
+  var _licData    = null;
+
+  async function verifyLicense(key) {
+    try {
+      var resp = await fetch(WORKER_URL, {
+        method:  'POST',
+        headers: {'Content-Type': 'application/json'},
+        body:    JSON.stringify({ key: key.trim() })
+      });
+      if (!resp.ok) return { valid: false, reason: 'Serveur inaccessible (HTTP ' + resp.status + ').' };
+      return await resp.json();
+    } catch(e) {
+      return { valid: false, reason: 'Impossible de joindre le serveur de licence. Vérifiez votre connexion.' };
+    }
+  }
+
+  function unlockApp(data) {
+    _licData = data;
+    var ov = document.getElementById('lic-overlay');
+    if (ov) ov.style.display = 'none';
+    var badge = document.getElementById('licBadgeTopbar');
+    if (badge) {
+      badge.style.display = '';
+      if (data.daysLeft <= 30) {
+        badge.textContent = '⚠️ Expire dans ' + data.daysLeft + 'j';
+        badge.classList.add('expiring');
+      } else {
+        badge.textContent = '✓ Licence ' + data.type + ' — ' + data.daysLeft + 'j';
+      }
+    }
+  }
+
+  async function licActivate() {
+    var input  = document.getElementById('licInput');
+    var key    = input.value.trim();
+    if (!key) { showLicMsg('err', '⚠️ Entrez une clé de licence.'); return; }
+    showLicMsg('', '🔄 Vérification en cours…');
+    var result = await verifyLicense(key);
+    if (!result.valid) {
+      input.classList.add('err'); input.classList.remove('ok');
+      showLicMsg(result.expired ? 'warn' : 'err',
+                 (result.expired ? '⏰ ' : '✗ ') + result.reason);
+      return;
+    }
+    input.classList.add('ok'); input.classList.remove('err');
+    showLicMsg('ok', '✓ Activation réussie ! Bienvenue, ' + result.client + '.');
+    localStorage.setItem(STORAGE_KEY, key);
+    setTimeout(function() { unlockApp(result); }, 1000);
+  }
+
+  function licShowInfo() {
+    if (!_licData) return;
+    alert('Licence ' + _licData.type.toUpperCase()
+      + '
+Client : '        + _licData.client
+      + '
+Expire le : '      + _licData.expDate
+      + '
+Jours restants : ' + _licData.daysLeft);
+  }
+
+  function showLicMsg(type, txt) {
+    var el = document.getElementById('licMsg');
+    if (!el) return;
+    el.className   = 'lic-msg' + (type ? ' ' + type : '');
+    el.textContent = txt;
+    if (!type) { el.style.display = 'block'; el.style.opacity = '.5'; }
+  }
+
+  window.addEventListener('DOMContentLoaded', async function() {
+    var btn   = document.getElementById('licBtn');
+    var input = document.getElementById('licInput');
+    var badge = document.getElementById('licBadgeTopbar');
+    if (btn)   btn.addEventListener('click',   licActivate);
+    if (input) input.addEventListener('keydown', function(e) { if (e.key === 'Enter') licActivate(); });
+    if (badge) badge.addEventListener('click',  licShowInfo);
+
+    var saved = localStorage.getItem(STORAGE_KEY);
+    if (!saved) return;
+    showLicMsg('', '🔄 Vérification de la licence…');
+    var result = await verifyLicense(saved);
+    if (result.valid) {
+      showLicMsg('', '');
+      unlockApp(result);
+    } else {
+      localStorage.removeItem(STORAGE_KEY);
+      if (result.expired) showLicMsg('warn', '⏰ ' + result.reason);
+      else showLicMsg('err', '✗ ' + result.reason);
+    }
+  });
+})();
+
+
+// ═══ MENTIONS LÉGALES + WATERMARK ═══
+(function() {
+  // Watermark : affiche le nom du client si licence connue
+  var saved = localStorage.getItem('viaaucta_lic_v1');
+  if (saved) {
+    try {
+      var payload = atob(saved.split('.')[0]);
+      var client  = payload.split('|')[0];
+      var wm = document.getElementById('app-watermark');
+      if (wm && client) {
+        wm.textContent = '© 2026 Via Aucta Conseil — Licence : ' + client;
+      }
+    } catch(e) {}
+  }
+
+  // Lien mentions légales
+  window.showLegal = function() {
+    document.getElementById('legal-modal-overlay').classList.add('open');
+  };
+})();
+
+</script>
+
+<!-- ═══ MODAL MENTIONS LÉGALES ═══ -->
+<div id="legal-modal-overlay">
+  <div id="legal-modal">
+    <h3>⚖️ MENTIONS LÉGALES &amp; CONDITIONS D'UTILISATION</h3>
+    <p>
+      <strong>Éditeur du logiciel</strong><br>
+      Via Aucta Conseil<br>
+      © 2026 — Tous droits réservés<br><br>
+
+      <strong>Propriété intellectuelle</strong><br>
+      Ce logiciel (My Prez) est une œuvre protégée par le Code de la propriété
+      intellectuelle français, notamment les articles L111-1 et suivants.<br><br>
+
+      Toute reproduction, modification, distribution, vente ou mise à disposition
+      de ce logiciel ou de l'un de ses composants, sous quelque forme que ce soit,
+      sans autorisation écrite préalable de Via Aucta Conseil, est strictement
+      interdite et constitue une contrefaçon punissable conformément à
+      l'article L335-2 du Code de la propriété intellectuelle
+      (jusqu'à 3 ans d'emprisonnement et 300 000 € d'amende).<br><br>
+
+      <strong>Licence d'utilisation</strong><br>
+      La licence accordée est personnelle, non exclusive et non transférable.
+      Elle autorise uniquement l'utilisation du logiciel par le titulaire
+      de la licence pour ses besoins propres.<br><br>
+
+      <strong>Données personnelles</strong><br>
+      Aucune donnée personnelle n'est collectée ni transmise à des tiers
+      sans votre consentement explicite.<br><br>
+
+      <strong>Responsabilité</strong><br>
+      Via Aucta Conseil ne saurait être tenu responsable de tout dommage
+      direct ou indirect résultant de l'utilisation de ce logiciel.<br><br>
+
+      <strong>Contact</strong><br>
+      Pour toute question : contact@viaaucta.com
+    </p>
+    <button class="legal-close" onclick="document.getElementById('legal-modal-overlay').classList.remove('open')">
+      Fermer
+    </button>
+  </div>
+</div>
+
+<!-- Watermark dynamique -->
+<div id="app-watermark">© 2026 Via Aucta Conseil</div>
+
+
+</body>
+</html>
