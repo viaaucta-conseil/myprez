@@ -9,17 +9,17 @@
 <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
 <style>
 :root {
-  --bg:       #060E1A;
-  --bg2:      #0A1628;
-  --bg3:      #0D2040;
-  --navy:     #0F2952;
+  --bg:       #0B1627;
+  --bg2:      #111F35;
+  --bg3:      #152843;
+  --navy:     #1A3560;
   --orange:   #F05A1A;
   --orange2:  #FF7A3D;
-  --bright:   #F0F6FF;
-  --text:     #A8C0D8;
-  --muted:    #4A6A88;
-  --border:   #1A3050;
-  --border2:  #243D5A;
+  --bright:   #F4F8FF;
+  --text:     #BACED8;
+  --muted:    #7090AA;
+  --border:   #233D5A;
+  --border2:  #2E4E6E;
   --green:    #34D399;
 }
 
@@ -42,7 +42,7 @@ body::before {
   position: fixed; inset: 0; z-index: 0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
   pointer-events: none;
-  opacity: .5;
+  opacity: .25;
 }
 
 /* ── NAVIGATION ── */
@@ -87,15 +87,12 @@ nav {
   overflow: hidden;
 }
 
-/* Grille de fond */
+/* Lueur de fond subtile */
 .hero::after {
   content: '';
   position: absolute; inset: 0;
-  background-image:
-    linear-gradient(rgba(26,48,80,0.3) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(26,48,80,0.3) 1px, transparent 1px);
-  background-size: 60px 60px;
-  mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 30%, transparent 80%);
+  background: radial-gradient(ellipse 70% 55% at 50% 40%, rgba(240,90,26,0.07), transparent 70%),
+              radial-gradient(ellipse 50% 40% at 30% 80%, rgba(26,53,96,0.3), transparent 60%);
   pointer-events: none;
 }
 
@@ -189,13 +186,19 @@ nav {
 
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 1px;
   background: var(--border);
   border: 1px solid var(--border);
   border-radius: 12px;
   overflow: hidden;
   margin-top: 64px;
+}
+@media (max-width: 860px) {
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .features-grid { grid-template-columns: 1fr; }
 }
 .feature-card {
   background: var(--bg2);
@@ -496,12 +499,12 @@ footer {
 
 <!-- Hero -->
 <section class="hero">
-  <div class="hero-badge">Nouveau · Générateur de carrousels LinkedIn</div>
+  <div class="hero-badge">Nouveau · Générateur de présentation pour Réseaux Sociaux</div>
 
   <h1>Créez des carrousels <em>LinkedIn, Tik Tok, Facebook et Instagram</em> qui convertissent</h1>
 
   <p class="hero-sub">
-    My Prez transforme vos idées en carrousels professionnels prêts à publier,
+    My Prez transforme vos idées en carrousels et présentations professionnels prêts à publier,
     en quelques minutes, sans designer, avec export PNG · PDF · PPT.
   </p>
 
@@ -520,10 +523,6 @@ footer {
     </div>
   </div>
 
-  <div class="hero-scroll">
-    <div class="scroll-line"></div>
-    <span class="scroll-label">Découvrir</span>
-  </div>
 </section>
 
 <!-- Fonctionnalités -->
@@ -688,7 +687,7 @@ footer {
     </div>
     <div class="faq-item reveal">
       <div class="faq-q">Puis-je utiliser My Prez sur plusieurs appareils ?</div>
-      <div class="faq-a">Oui. La licence est illimitée en nombre d'appareils. Par ce que chez Via Aucta conseil, on sait que la flexibilité n'est pas un compromis.</div>
+      <div class="faq-a">Oui, la licence est illimitée en nombre d'appareils. Par ce que chez Via Aucta conseil, on sait que la flexibilité n'est pas un compromis.</div>
     </div>
     <div class="faq-item reveal">
       <div class="faq-q">Y a-t-il un support en cas de problème ?</div>
