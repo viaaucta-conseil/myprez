@@ -67,6 +67,18 @@ nav {
   color: var(--muted); text-decoration: none; transition: color .2s;
 }
 .nav-links a:hover { color: var(--bright); }
+.nav-login {
+  color: var(--bright) !important;
+  border: 1px solid var(--border2);
+  padding: 7px 18px;
+  border-radius: 4px;
+  font-weight: 400 !important;
+  transition: border-color .2s, background .2s !important;
+}
+.nav-login:hover {
+  border-color: var(--bright) !important;
+  background: rgba(255,255,255,0.06) !important;
+}
 .nav-cta {
   background: var(--orange);
   color: white !important;
@@ -508,6 +520,7 @@ footer {
     <a href="#comment">Comment ça marche</a>
     <a href="#tarifs">Tarifs</a>
     <a href="#faq">FAQ</a>
+    <a href="https://viaaucta-conseil.github.io/myprez/myprez" class="nav-login" target="_blank">Se connecter</a>
     <a href="#tarifs" class="nav-cta">Commencer →</a>
   </div>
 </nav>
