@@ -2736,11 +2736,13 @@ window.addEventListener('load',function(){ setTimeout(_tryRestoreLS,100); });
     var key    = input.value.trim();
     if (!key) { showLicMsg('err', '⚠️ Entrez une clé de licence.'); return; }
     showLicMsg('', '🔄 Vérification en cours…');
+    console.log('[Licence] Envoi clé :', key);
     var result = await verifyLicense(key);
+    console.log('[Licence] Réponse worker :', JSON.stringify(result));
     if (!result.valid) {
       input.classList.add('err'); input.classList.remove('ok');
       showLicMsg(result.expired ? 'warn' : 'err',
-                 (result.expired ? '⏰ ' : '✗ ') + result.reason);
+                 (result.expired ? '⏰ ' : '✗ ') + (result.reason || 'Clé invalide'));
       return;
     }
     input.classList.add('ok'); input.classList.remove('err');
@@ -2762,7 +2764,8 @@ window.addEventListener('load',function(){ setTimeout(_tryRestoreLS,100); });
     if (!el) return;
     el.className   = 'lic-msg' + (type ? ' ' + type : '');
     el.textContent = txt;
-    if (!type) { el.style.display = 'block'; el.style.opacity = '.5'; }
+    el.style.display = (txt && txt.length) ? 'block' : 'none';
+    el.style.opacity = type ? '1' : '0.6';
   }
 
   window.addEventListener('DOMContentLoaded', async function() {
@@ -2775,11 +2778,11 @@ window.addEventListener('load',function(){ setTimeout(_tryRestoreLS,100); });
 
     var saved = localStorage.getItem(STORAGE_KEY);
     if (!saved) return;
-    showLicMsg('', '🔄 Vérification de la licence…');
+    showLicMsg('', '🔄 Vérification de la licence sauvegardée…');
     var result = await verifyLicense(saved);
     if (result.valid) {
-      showLicMsg('', '');
-      unlockApp(result);
+      showLicMsg('ok', '✓ Licence reconnue — ' + result.client);
+      setTimeout(function() { unlockApp(result); }, 800);
     } else {
       localStorage.removeItem(STORAGE_KEY);
       if (result.expired) showLicMsg('warn', '⏰ ' + result.reason);
