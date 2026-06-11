@@ -2723,7 +2723,10 @@ window.addEventListener('load',function(){ setTimeout(_tryRestoreLS,100); });
     var badge = document.getElementById('licBadgeTopbar');
     if (badge) {
       badge.style.display = '';
-      if (data.daysLeft <= 30) {
+      if (data.isShort) {
+        badge.textContent = '⚙ TEST — ' + data.minutesLeft + ' min restante' + (data.minutesLeft > 1 ? 's' : '');
+        badge.classList.add('expiring');
+      } else if (data.daysLeft <= 30) {
         badge.textContent = '⚠️ Expire dans ' + data.daysLeft + 'j';
         badge.classList.add('expiring');
       } else {
