@@ -2690,8 +2690,6 @@ function _tryRestoreLS(){
   if(typeof _orig==='function'){
     window.render=function(){ _orig.apply(this,arguments); _autoSave(); };
   }
-window.licActivate = licActivate;
-window.licShowInfo = licShowInfo;
 })();
 window.addEventListener('load',function(){ setTimeout(_tryRestoreLS,100); });
 </script>
@@ -2754,12 +2752,9 @@ window.addEventListener('load',function(){ setTimeout(_tryRestoreLS,100); });
   function licShowInfo() {
     if (!_licData) return;
     alert('Licence ' + _licData.type.toUpperCase()
-      + '
-Client : '        + _licData.client
-      + '
-Expire le : '      + _licData.expDate
-      + '
-Jours restants : ' + _licData.daysLeft);
+      + '\nClient : '        + _licData.client
+      + '\nExpire le : '      + _licData.expDate
+      + '\nJours restants : ' + _licData.daysLeft);
   }
 
   function showLicMsg(type, txt) {
@@ -2791,6 +2786,10 @@ Jours restants : ' + _licData.daysLeft);
       else showLicMsg('err', '✗ ' + result.reason);
     }
   });
+
+  // Expose globally for inline onclick handlers
+  window.licActivate = licActivate;
+  window.licShowInfo = licShowInfo;
 })();
 
 
