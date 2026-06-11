@@ -526,7 +526,7 @@ input,textarea,select{font-family:'DM Sans',sans-serif;outline:none}
       placeholder="Collez votre clé de licence ici..."
       autocomplete="off" spellcheck="false"
       onkeydown="if(event.key==='Enter')licActivate()"/>
-    <button class="lic-btn" onclick="licActivate()">⚡ ACTIVER</button>
+    <button class="lic-btn" id="licBtn">⚡ ACTIVER</button>
     <div class="lic-msg" id="licMsg"></div>
     <hr class="lic-divider"/>
     <p style="font-size:11px;color:#6b6b8a">Pas encore de licence ?<br>
@@ -2690,6 +2690,8 @@ function _tryRestoreLS(){
   if(typeof _orig==='function'){
     window.render=function(){ _orig.apply(this,arguments); _autoSave(); };
   }
+window.licActivate = licActivate;
+window.licShowInfo = licShowInfo;
 })();
 window.addEventListener('load',function(){ setTimeout(_tryRestoreLS,100); });
 </script>
