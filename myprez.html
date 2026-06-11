@@ -541,6 +541,7 @@ input,textarea,select{font-family:'DM Sans',sans-serif;outline:none}
 <div class="topbar">
   <div class="topbar-logo">VIA AUCTA <span>·</span> GÉNÉRATEUR<small>Carrousels LinkedIn — Export PNG · PDF · PPT</small></div>
   <div id="licBadgeTopbar" onclick="licShowInfo()" title="Informations sur la licence" style="display:none">✓ Licence active</div>
+  <button id="licLogoutBtn" onclick="licLogout()" title="Déconnecter la licence" style="display:none;font-family:'JetBrains Mono',monospace;font-size:10px;padding:4px 10px;border-radius:20px;cursor:pointer;background:#1a0505;border:1px solid #ff4444;color:#ff4444;white-space:nowrap;margin-left:6px">🔓 Déconnexion</button>
   <div class="spacer"></div>
   <div class="fmt-group" id="fmtGroup">
     <button class="fmt-btn on" id="fmt-linkedin" onclick="setFormat('linkedin',this)"><span class="fmt-icon">💼</span>LinkedIn</button>
@@ -2729,6 +2730,34 @@ window.addEventListener('load',function(){ setTimeout(_tryRestoreLS,100); });
         badge.textContent = '✓ Licence ' + data.type + ' — ' + data.daysLeft + 'j';
       }
     }
+    var logoutBtn = document.getElementById('licLogoutBtn');
+    if (logoutBtn) logoutBtn.style.display = '';
+  }
+
+  function licLogout() {
+    var confirmed = confirm(
+      '⚠️ Déconnexion de la licence\n\n' +
+      'Cette action va supprimer votre licence de cet appareil.\n' +
+      'Vous devrez saisir à nouveau votre clé pour accéder à l\'outil.\n\n' +
+      'Voulez-vous vraiment continuer ?'
+    );
+    if (!confirmed) return;
+    localStorage.removeItem('viaaucta_lic_v1');
+    _licData = null;
+    // Masquer le badge et le bouton
+    var badge = document.getElementById('licBadgeTopbar');
+    if (badge) { badge.style.display = 'none'; badge.classList.remove('expiring'); }
+    var logoutBtn = document.getElementById('licLogoutBtn');
+    if (logoutBtn) logoutBtn.style.display = 'none';
+    // Réafficher l'écran de licence
+    var ov = document.getElementById('lic-overlay');
+    if (ov) {
+      ov.style.display = 'flex';
+      var input = document.getElementById('licInput');
+      if (input) { input.value = ''; input.className = 'lic-input'; input.focus(); }
+      var msg = document.getElementById('licMsg');
+      if (msg) { msg.style.display = 'none'; msg.textContent = ''; }
+    }
   }
 
   async function licActivate() {
@@ -2793,6 +2822,7 @@ window.addEventListener('load',function(){ setTimeout(_tryRestoreLS,100); });
   // Expose globally for inline onclick handlers
   window.licActivate = licActivate;
   window.licShowInfo = licShowInfo;
+  window.licLogout   = licLogout;
 })();
 
 
