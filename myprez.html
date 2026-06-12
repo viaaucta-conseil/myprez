@@ -2747,12 +2747,10 @@ window.addEventListener('load',function(){ setTimeout(_tryRestoreLS,100); });
     if (!confirmed) return;
     localStorage.removeItem('viaaucta_lic_v1');
     _licData = null;
-    // Masquer le badge et le bouton
     var badge = document.getElementById('licBadgeTopbar');
     if (badge) { badge.style.display = 'none'; badge.classList.remove('expiring'); }
     var logoutBtn = document.getElementById('licLogoutBtn');
     if (logoutBtn) logoutBtn.style.display = 'none';
-    // Réafficher l'écran de licence
     var ov = document.getElementById('lic-overlay');
     if (ov) {
       ov.style.display = 'flex';
@@ -2794,8 +2792,8 @@ window.addEventListener('load',function(){ setTimeout(_tryRestoreLS,100); });
   function showLicMsg(type, txt) {
     var el = document.getElementById('licMsg');
     if (!el) return;
-    el.className   = 'lic-msg' + (type ? ' ' + type : '');
-    el.textContent = txt;
+    el.className     = 'lic-msg' + (type ? ' ' + type : '');
+    el.textContent   = txt;
     el.style.display = (txt && txt.length) ? 'block' : 'none';
     el.style.opacity = type ? '1' : '0.6';
   }
