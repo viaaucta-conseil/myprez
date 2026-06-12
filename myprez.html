@@ -2716,6 +2716,18 @@ window.addEventListener('load',function(){ setTimeout(_tryRestoreLS,100); });
     }
   }
 
+  function formatExpiry(data) {
+    // Reconstruit l'heure en heure LOCALE du navigateur à partir du timestamp brut
+    if (!data.expiryMs) return data.expDate || '—';
+    var d = new Date(data.expiryMs);
+    var pad = function(n){ return String(n).padStart(2,'0'); };
+    var dateStr = d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate());
+    if (data.isShort) {
+      return dateStr + ' à ' + pad(d.getHours()) + ':' + pad(d.getMinutes()) + ' (heure locale)';
+    }
+    return dateStr;
+  }
+
   function unlockApp(data) {
     _licData = data;
     var ov = document.getElementById('lic-overlay');
@@ -2785,7 +2797,7 @@ window.addEventListener('load',function(){ setTimeout(_tryRestoreLS,100); });
     if (!_licData) return;
     alert('Licence ' + _licData.type.toUpperCase()
       + '\nClient : '        + _licData.client
-      + '\nExpire le : '      + _licData.expDate
+      + '\nExpire le : '      + formatExpiry(_licData)
       + '\nJours restants : ' + _licData.daysLeft);
   }
 
@@ -2815,8 +2827,14 @@ window.addEventListener('load',function(){ setTimeout(_tryRestoreLS,100); });
       setTimeout(function() { unlockApp(result); }, 800);
     } else {
       localStorage.removeItem(STORAGE_KEY);
-      if (result.expired) showLicMsg('warn', '⏰ ' + result.reason);
-      else showLicMsg('err', '✗ ' + result.reason);
+      if (result.expired) {
+        var expMsg = result.expiryMs
+          ? 'Licence expirée le ' + formatExpiry(result)
+          : result.reason;
+        showLicMsg('warn', '⏰ ' + expMsg);
+      } else {
+        showLicMsg('err', '✗ ' + result.reason);
+      }
     }
   });
 
