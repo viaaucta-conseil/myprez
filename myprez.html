@@ -45,6 +45,14 @@ input,textarea,select{font-family:'DM Sans',sans-serif;outline:none}
 .tbtn-hist{opacity:.4;cursor:not-allowed}
 .tbtn-hist.on{opacity:1;cursor:pointer}
 
+/* Menu déroulant (regroupement des boutons d'export) */
+.export-dropdown{position:relative;display:inline-block}
+.export-menu{display:none;position:absolute;top:calc(100% + 6px);right:0;background:white;border:1px solid var(--border);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.18);min-width:200px;z-index:50;overflow:hidden}
+.export-menu.open{display:block}
+.export-menu button{display:flex;align-items:center;gap:8px;width:100%;text-align:left;padding:10px 14px;font-size:12px;font-weight:600;color:var(--navy);background:white;border:none;border-bottom:1px solid var(--border);transition:background .15s,color .15s}
+.export-menu button:last-child{border-bottom:none}
+.export-menu button:hover{background:#F8FAFC;color:var(--orange)}
+
 /* Format selector dans la topbar */
 .fmt-group{display:flex;gap:2px;background:rgba(255,255,255,.08);border-radius:6px;padding:3px}
 .fmt-btn{padding:4px 10px;border-radius:4px;font-size:10px;font-weight:700;color:rgba(255,255,255,.5);background:none;border:none;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:4px;white-space:nowrap}
@@ -558,10 +566,15 @@ input,textarea,select{font-family:'DM Sans',sans-serif;outline:none}
     <button class="tbtn tbtn-gray tbtn-hist" id="btnUndo" onclick="histUndo()" title="Annuler (Ctrl+Z)">↩ Annuler</button>
     <button class="tbtn tbtn-gray tbtn-hist" id="btnRedo" onclick="histRedo()" title="Refaire (Ctrl+Y)">↪ Refaire</button>
     <button class="tbtn tbtn-gray" onclick="openIconModal()">🎨 Icônes</button>
-    <button class="tbtn tbtn-orange" onclick="exportAllPNG()">⬇ Export slides PNG</button>
-    <button class="tbtn tbtn-green" onclick="exportPDF()">📄 Export PDF</button>
-    <button class="tbtn tbtn-blue" onclick="exportPPT()">📊 Export PPT</button>
-    <button class="tbtn tbtn-orange" onclick="exportCurrentPNG()">⬇ PNG actuelle</button>
+    <div class="export-dropdown" id="exportDropdown">
+      <button class="tbtn tbtn-orange" onclick="toggleExportMenu(event)">⬇ Export ▾</button>
+      <div class="export-menu" id="exportMenu">
+        <button onclick="closeExportMenu();exportCurrentPNG()">⬇ PNG actuelle</button>
+        <button onclick="closeExportMenu();exportAllPNG()">⬇ Export slides PNG</button>
+        <button onclick="closeExportMenu();exportPDF()">📄 Export PDF</button>
+        <button onclick="closeExportMenu();exportPPT()">📊 Export PPT</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -752,13 +765,17 @@ input,textarea,select{font-family:'DM Sans',sans-serif;outline:none}
         <div class="sec-title">Motif de fond</div>
         <div class="pattern-grid">
           <div class="pattern-btn on" style="background:linear-gradient(rgba(13,43,78,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(13,43,78,0.03) 1px,transparent 1px);background-size:40px 40px" onclick="setPattern('grid',this)">Grille</div>
-          <div class="pattern-btn" style="background:radial-gradient(circle,rgba(13,43,78,0.08) 1px,transparent 1px);background-size:24px 24px" onclick="setPattern('dots',this)">Points</div>
+          <div class="pattern-btn" style="background:radial-gradient(circle,rgba(13,43,78,0.18) 3px,transparent 3px);background-size:24px 24px" onclick="setPattern('dots',this)">Points</div>
           <div class="pattern-btn" style="background:repeating-linear-gradient(45deg,rgba(13,43,78,0.04),rgba(13,43,78,0.04) 1px,transparent 1px,transparent 12px)" onclick="setPattern('diagonal',this)">Diagonal</div>
           <div class="pattern-btn" onclick="setPattern('none',this)">Aucun</div>
         </div>
         <div class="field" style="margin-top:10px">
           <label>Couleur de fond sous le motif</label>
           <input type="color" class="color-input" id="patBgColor" value="#0D2B4E" style="width:100%;height:34px" oninput="updatePatternBg()"/>
+        </div>
+        <div class="field" style="margin-top:10px">
+          <label>Couleur du motif (lignes / points)</label>
+          <input type="color" class="color-input" id="patColor" value="#FFFFFF" style="width:100%;height:34px" oninput="updatePatternBg()"/>
         </div>
       </div>
 
@@ -1375,10 +1392,12 @@ function getBgStyle(bg){
   }
   if(bg.type==='pattern'){
     var pat=bg.pattern||'grid';
+    var pc04=hexToRgba(bg.patternColor||'#FFFFFF',0.04);
+    var pc08=hexToRgba(bg.patternColor||'#FFFFFF',0.08);
     var patStyles={
-      grid:'background-image:linear-gradient(rgba(255,255,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.04) 1px,transparent 1px);background-size:54px 54px',
-      dots:'background-image:radial-gradient(circle,rgba(255,255,255,0.08) 1px,transparent 1px);background-size:28px 28px',
-      diagonal:'background-image:repeating-linear-gradient(45deg,rgba(255,255,255,0.04),rgba(255,255,255,0.04) 1px,transparent 1px,transparent 14px)',
+      grid:'background-image:linear-gradient('+pc04+' 1px,transparent 1px),linear-gradient(90deg,'+pc04+' 1px,transparent 1px);background-size:54px 54px',
+      dots:'background-image:radial-gradient(circle,'+pc08+' 3px,transparent 3px);background-size:28px 28px',
+      diagonal:'background-image:repeating-linear-gradient(45deg,'+pc04+','+pc04+' 1px,transparent 1px,transparent 14px)',
       none:''
     };
     return 'background-color:'+(bg.color||'#0D2B4E')+';'+(patStyles[pat]||'');
@@ -1487,6 +1506,11 @@ function lighten(hex){return hex==='#D4A017'?'#F0BC3A':hex;}
 function isDarkColor(hex){
   var r=parseInt(hex.slice(1,3)||'0',16),g=parseInt(hex.slice(3,5)||'0',16),b=parseInt(hex.slice(5,7)||'0',16);
   return (r*299+g*587+b*114)/1000<128;
+}
+function hexToRgba(hex,alpha){
+  hex=hex||'#FFFFFF';
+  var r=parseInt(hex.slice(1,3)||'ff',16),g=parseInt(hex.slice(3,5)||'ff',16),b=parseInt(hex.slice(5,7)||'ff',16);
+  return 'rgba('+r+','+g+','+b+','+alpha+')';
 }
 
 /* ═══ SCALE ═══ */
@@ -2167,11 +2191,12 @@ function setBgImgColor(color){
 }
 function setPattern(p,el){
   if(el){document.querySelectorAll('.pattern-btn').forEach(function(e){e.classList.remove('on')});el.classList.add('on');}
-  currentBg={type:'pattern',pattern:p,color:document.getElementById('patBgColor').value,textColor:'#FFFFFF'};
+  currentBg={type:'pattern',pattern:p,color:document.getElementById('patBgColor').value,patternColor:document.getElementById('patColor').value,textColor:'#FFFFFF'};
 }
 function updatePatternBg(){
   if(currentBg.type!=='pattern')currentBg={type:'pattern',pattern:'grid',textColor:'#FFFFFF'};
   currentBg.color=document.getElementById('patBgColor').value;
+  currentBg.patternColor=document.getElementById('patColor').value;
 }
 function applyBgToAll(){
   car().slides.forEach(function(s){s.bg=JSON.parse(JSON.stringify(currentBg));});
@@ -2285,6 +2310,19 @@ function loadFile(e){
   r.readAsText(f);e.target.value='';
 }
 function closeOverlay(id){document.getElementById(id).classList.remove('open');}
+
+/* ═══ MENU EXPORT (bandeau supérieur) ═══ */
+function toggleExportMenu(e){
+  if(e) e.stopPropagation();
+  document.getElementById('exportMenu').classList.toggle('open');
+}
+function closeExportMenu(){
+  document.getElementById('exportMenu').classList.remove('open');
+}
+document.addEventListener('click', function(e){
+  var dd = document.getElementById('exportDropdown');
+  if(dd && !dd.contains(e.target)) closeExportMenu();
+});
 
 /* ═══ PNG EXPORT ═══ */
 function exportCurrentPNG(){
