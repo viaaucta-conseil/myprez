@@ -1146,7 +1146,7 @@ var C = [
   post:"📋 Un business plan, ce n'est pas un document administratif.\nC'est la carte routière de votre entreprise.\n\nDans ce carrousel : les 7 blocs que tout business plan doit contenir.\n\n👉 Sauvegardez ce post.\n\n— YOUR NAME - YOUR BRAND\n🎯 #Entrepreneuriat #BusinessPlan #Entreprendre #Industrie",
   slides:[
     {t:"cover",bg:{type:"solid",color:"#0D2B4E",textColor:"#FFFFFF"},tag:"BUSINESS PLAN",title:"VOTRE BUSINESS PLAN\nEN 7 BLOCS",sub:"Ce que votre banquier veut vraiment voir"},
-    {t:"hook",bg:{type:"solid",color:"#060E1A",textColor:"#FFFFFF"},pill:"LE CONSTAT",stmt:"La plupart rédigent\nleur BP pour un lecteur.\n<em>Jamais pour eux-mêmes.</em>",stxt:"C'est là que tout déraille — avant même la première ligne de chiffres.",sn:"02"},
+    {t:"hook",bg:{type:"solid",color:"#060E1A",textColor:"#FFFFFF"},pill:"LE CONSTAT",stmt:"La plupart rédigent\nleur BP pour la banque.\n<em>Jamais pour eux-mêmes.</em>",stxt:"C'est là que tout déraille — avant même la première ligne de chiffres.",sn:"02"},
     {t:"whiteContent",bg:{type:"solid",color:"#F4F4F2",textColor:"#0D2B4E"},pill:"TITRE",content:["Le texte en forme de paragraphe","Et encore un paragraphe"],stmt:'Votre statement\nfort ici.\n<em>Mot en orange.</em>',tip:'Les bons conseils ici',sn:"03"},
     {t:"step",bg:{type:"solid",color:"#0D2B4E",textColor:"#FFFFFF"},pill:"LA MÉTHODE",items:[{n:"04",title:"La stratégie commerciale",sub:"Qui sont vos clients ? Comment les trouver ?"},{n:"05",title:"Les projections financières",sub:"3 scénarios sur 24 mois. Votre banquier veut voir le pire cas."},{n:"06",title:"Le plan de financement",sub:"Combien, d'où vient l'argent, où il va."}],sn:"04"},
     {t:"quote",bg:{type:"solid",color:"#F4F4F2",textColor:"#0D2B4E"},pill:"LE PRINCIPE",quote:"Est-ce que moi,\navec ce que je sais,\nje mettrais <em>mon argent</em>\ndans cette entreprise ?",qsub:"Pas l'argent de la banque. Le vôtre.",sn:"05"},
@@ -1317,7 +1317,7 @@ function slHTML(s,idx,tot,forExport){
       +imgTag
       +'<div class="top"><div class="pill" style="background:'+acc+';color:white;font-family:'+fontTitle+';font-size:'+fsp('pill',50)+'">'+esc(s.pill||'')+'</div></div>'
       +'<div class="body"><div class="obar" style="border-radius:3px;'+obarStyle+'"></div>'
-      +'<div class="stmt" style="color:'+hookTC+';font-family:'+fontTitle+';font-size:'+fsp('stmt',100)+'">'+parseEM(s.stmt||'',acc)+'</div>'
+      +'<div class="stmt" style="color:'+hookTC+';font-family:'+fontTitle+';font-size:'+fsp('stmt',80)+'">'+parseEM(s.stmt||'',acc)+'</div>'
       +(s.stxt?'<div class="stxt" style="color:'+(isDark?'rgba(255,255,255,0.5)':'rgba(13,43,78,0.55)')+';font-family:'+fontBody+';font-size:'+fsp('stxt',40)+'">'+esc(s.stxt)+'</div>':'')
       +'</div>'
       +bot(isDark, s.sn||String(n).padStart(2,'0'), tot)
@@ -1327,7 +1327,7 @@ function slHTML(s,idx,tot,forExport){
     var isDark2=isDarkColor(bg.color||'#0D2B4E');
     var stepTC = mainTC || tc;
     var items=(s.items||[]).map(function(it){
-      return '<div class="item"><div class="inum" style="color:'+acc+';font-family:'+fontTitle+';font-size:'+fsp('inum',70)+'">'+esc(it.n||'')+'</div>'
+      return '<div class="item"><div class="inum" style="color:'+acc+';font-family:'+fontTitle+';font-size:'+fsp('inum',15)+'">'+esc(it.n||'')+'</div>'
         +'<div><div class="ititle" style="color:'+stepTC+';font-family:'+fontTitle+';font-size:'+fsp('ititle',45)+'">'+esc(it.title||'').replace(/\n/g,'<br>')+'</div>'
         +(it.sub?'<div class="isub" style="color:'+(isDark2?'rgba(255,255,255,0.42)':'rgba(13,43,78,0.5)')+';font-family:'+fontBody+';font-size:'+fsp('isub',35)+'">'+esc(it.sub).replace(/\n/g,'<br>')+'</div>':'')
         +'</div></div>';
