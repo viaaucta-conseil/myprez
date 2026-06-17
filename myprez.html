@@ -551,8 +551,8 @@ input,textarea,select{font-family:'DM Sans',sans-serif;outline:none}
   <button id="licLogoutBtn" onclick="licLogout()" title="Déconnecter la licence" style="display:none;font-family:'JetBrains Mono',monospace;font-size:10px;padding:4px 10px;border-radius:20px;cursor:pointer;background:#1a0505;border:1px solid #ff4444;color:#ff4444;white-space:nowrap;margin-left:6px">🔓 Déconnexion</button>
   <div class="spacer"></div>
   <div class="fmt-group" id="fmtGroup">
-    <button class="fmt-btn on" id="fmt-linkedin" onclick="setFormat('linkedin',this)"><span class="fmt-icon">💼</span>LinkedIn</button>
-    <button class="fmt-btn" id="fmt-instagram" onclick="setFormat('instagram',this)"><span class="fmt-icon">📷</span>Instagram</button>
+    <button class="fmt-btn on" id="fmt-linkedin" onclick="setFormat('linkedin',this)"><span class="fmt-icon">💼</span>LinkedIn & IG</button>
+    <button class="fmt-btn" id="fmt-facebook" onclick="setFormat('facebook',this)"><span class="fmt-icon">📷</span>facebook</button>
     <button class="fmt-btn" id="fmt-instagramPortrait" onclick="setFormat('instagramPortrait',this)"><span class="fmt-icon">📱</span>Portrait</button>
     <button class="fmt-btn" id="fmt-tiktok" onclick="setFormat('tiktok',this)"><span class="fmt-icon">🎵</span>TikTok</button>
 	<button class="fmt-btn" id="fmt-PDF_A4" onclick="setFormat('PDF_A4',this)"><span class="fmt-icon">📄</span>PDF A4</button>
@@ -1127,7 +1127,7 @@ var rz = document.getElementById('rz');
 
 var FORMATS = {
   linkedin: { w: 1080, h: 1080 },
-  instagram: { w: 1080, h: 1080 },
+  facebook: { w: 1080, h: 1350 },
   instagramPortrait: { w: 1080, h: 1350 },
   tiktok: { w: 1080, h: 1920 },
   PDF_A4: { w: 2480, h: 3508 }
