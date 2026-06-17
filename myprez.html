@@ -1327,7 +1327,7 @@ function slHTML(s,idx,tot,forExport){
     var isDark2=isDarkColor(bg.color||'#0D2B4E');
     var stepTC = mainTC || tc;
     var items=(s.items||[]).map(function(it){
-      return '<div class="item"><div class="inum" style="color:'+acc+';font-family:'+fontTitle+';font-size:'+fsp('inum',15)+'">'+esc(it.n||'')+'</div>'
+      return '<div class="item"><div class="inum" style="color:'+acc+';font-family:'+fontTitle+';font-size:'+fsp('inum',50)+'">'+esc(it.n||'')+'</div>'
         +'<div><div class="ititle" style="color:'+stepTC+';font-family:'+fontTitle+';font-size:'+fsp('ititle',45)+'">'+esc(it.title||'').replace(/\n/g,'<br>')+'</div>'
         +(it.sub?'<div class="isub" style="color:'+(isDark2?'rgba(255,255,255,0.42)':'rgba(13,43,78,0.5)')+';font-family:'+fontBody+';font-size:'+fsp('isub',35)+'">'+esc(it.sub).replace(/\n/g,'<br>')+'</div>':'')
         +'</div></div>';
