@@ -1145,7 +1145,7 @@ function applyFormatToElement(el){
 
 var C = [
   {id:1,emoji:"📋",pilier:"Pilier 3",title:"Business Plan",subtitle:"Construire son business plan",tag:"BUSINESS PLAN",brand:"YOUR NAME - YOUR BRAND",accent:"#F05A1A",
-  post:"📋 Un business plan, ce n'est pas un document administratif.\nC'est la carte routière de votre entreprise.\n\nDans ce carrousel : les 7 blocs que tout business plan doit contenir.\n\n👉 Sauvegardez ce post.\n\n— Amaury | Via Aucta Conseil\n🎯 #Entrepreneuriat #BusinessPlan #LesPotentiels #ViaAucta",
+  post:"📋 Un business plan, ce n'est pas un document administratif.\nC'est la carte routière de votre entreprise.\n\nDans ce carrousel : les 7 blocs que tout business plan doit contenir.\n\n👉 Sauvegardez ce post.\n\n— YOUR NAME - YOUR BRAND\n🎯 #Entrepreneuriat #BusinessPlan #Entreprendre #Industrie",
   slides:[
     {t:"cover",bg:{type:"solid",color:"#0D2B4E",textColor:"#FFFFFF"},tag:"BUSINESS PLAN",title:"VOTRE BUSINESS PLAN\nEN 7 BLOCS",sub:"Ce que votre banquier veut vraiment voir"},
     {t:"hook",bg:{type:"solid",color:"#060E1A",textColor:"#FFFFFF"},pill:"LE CONSTAT",stmt:"La plupart rédigent\nleur BP pour un lecteur.\n<em>Jamais pour eux-mêmes.</em>",stxt:"C'est là que tout déraille — avant même la première ligne de chiffres.",sn:"02"},
@@ -1362,7 +1362,7 @@ function slHTML(s,idx,tot,forExport){
     return '<div class="sl sl-ct" style="'+bgStyle+';font-family:'+fontBody+'">'
       +imgTag
       +'<div class="c1"></div>'
-      +'<div class="eyebrow" style="font-family:'+fontBody+';font-size:'+fsp('eyebrow',40)+'">'+esc(s.eyebrow||'Les Potentiels · Via Aucta')+'</div>'
+      +'<div class="eyebrow" style="font-family:'+fontBody+';font-size:'+fsp('eyebrow',40)+'">'+esc(s.eyebrow||'YOUR TAGLINE')+'</div>'
       +'<div class="main-t" style="color:'+ctaTC+';font-family:'+fontTitle+';font-size:'+fsp('main',100)+'">'+esc(s.main||'').replace(/\n/g,'<br>')+'</div>'
       +'<div class="ctxt" style="font-family:'+fontBody+';font-size:'+fsp('ctxt',40)+'">'+esc(s.ctxt||'')+'</div>'
       +'<div class="cpill" style="font-family:'+fontTitle+';font-size:'+fsp('cpill',40)+'">'+esc(s.pill||'PROGRAMME PULSE')+'</div>'
@@ -1922,7 +1922,7 @@ function addSlide(){
   else if(t==='hook') ns={t:'hook',bg:bgDk,pill:'LE CONSTAT',stmt:'Votre statement\nfort ici.\n<em>Mot en orange.</em>',stxt:'Sous-texte explicatif.',sn:n};
   else if(t==='step') ns={t:'step',bg:bg0,pill:'LA MÉTHODE',items:[{n:'01',title:'Premier point',sub:'Description.'},{n:'02',title:'Deuxième point',sub:''},{n:'03',title:'Troisième point',sub:''}],sn:n};
   else if(t==='quote') ns={t:'quote',bg:bgWh,pill:'LE PRINCIPE',quote:'Votre citation\nforte ici.\n<em>Mot en orange.</em>',qsub:'Sous-texte de la citation.',sn:n};
-  else ns={t:'cta',bg:bgCt,eyebrow:'Les Potentiels · Via Aucta',main:'Votre potentiel\na besoin\nd\'une route.',ctxt:'Rejoignez la communauté des dirigeants et entrepreneurs.',pill:'PROGRAMME PULSE'};
+  else ns={t:'cta',bg:bgCt,eyebrow:'YOUR TAGLINE',main:'Votre potentiel\na besoin\nd\'une route.',ctxt:'Rejoignez la communauté des dirigeants et entrepreneurs.',pill:'PROGRAMME PULSE'};
   c.slides.push(ns);as=c.slides.length-1;renderSlide();renderSlideList();renderEditor();
 }
 function delSlide(i){
@@ -2056,7 +2056,7 @@ function delItem(i){
 
 /* ═══ CAROUSEL ACTIONS ═══ */
 function addCar(){
-  C.push({id:Date.now(),emoji:'✨',pilier:'Nouveau',title:'Mon carrousel',subtitle:'Sous-titre',tag:'NOUVEAU',brand:'Amaury · Via Aucta Conseil',accent:'#F05A1A',
+  C.push({id:Date.now(),emoji:'✨',pilier:'Nouveau',title:'Mon carrousel',subtitle:'Sous-titre',tag:'NOUVEAU',brand:'YOUR NAME - YOUR BRAND',accent:'#F05A1A',
     post:'Rédigez votre post LinkedIn ici...',
     slides:[
       {t:'cover',bg:{type:'solid',color:'#0D2B4E',textColor:'#FFFFFF'},tag:'NOUVEAU',title:'TITRE\nDU CARROUSEL',sub:'Sous-titre accrocheur'},
@@ -2064,7 +2064,7 @@ function addCar(){
 	  {t:'hook',bg:{type:'solid',color:'#060E1A',textColor:'#FFFFFF'},pill:'LE CONSTAT',stmt:'Votre statement\nfort ici.\n<em>Mot en orange.</em>',stxt:'Sous-texte.',sn:'02'},
       {t:'step',bg:{type:'solid',color:'#0D2B4E',textColor:'#FFFFFF'},pill:'LA MÉTHODE',items:[{n:'01',title:'Premier point',sub:'Description.'},{n:'02',title:'Deuxième point',sub:''}],sn:'03'},
       {t:'quote',bg:{type:'solid',color:'#F4F4F2',textColor:'#0D2B4E'},pill:'LE PRINCIPE',quote:'Votre citation\nforte ici.\n<em>Mot en orange.</em>',qsub:'Sous-texte.',sn:'04'},
-      {t:'cta',bg:{type:'gradient',gradient:'135deg,#F05A1A,#FF7A3D',textColor:'#FFFFFF'},eyebrow:'Les Potentiels · Via Aucta',main:'Votre potentiel\na besoin\nd\'une route.',ctxt:'Rejoignez la communauté.',pill:'PROGRAMME PULSE'},
+      {t:'cta',bg:{type:'gradient',gradient:'135deg,#F05A1A,#FF7A3D',textColor:'#FFFFFF'},eyebrow:'YOUR TAGLINE',main:'Votre potentiel\na besoin\nd\'une route.',ctxt:'Rejoignez la communauté.',pill:'PROGRAMME PULSE'},
     ]});
   ac=C.length-1;as=0;render();
 }
@@ -2454,7 +2454,7 @@ function exportPPT(){
   // Layout personnalisé pour conserver le ratio exact du format
   pres.defineLayout({ name: 'CUSTOM', width: pptW, height: pptH });
   pres.layout = 'CUSTOM';
-  pres.author = car().brand || 'Via Aucta Conseil';
+  pres.author = car().brand || 'YOUR BRAND';
   pres.title  = title;
 
   var images = [];
@@ -2930,7 +2930,7 @@ window.addEventListener('load',function(){ setTimeout(_tryRestoreLS,100); });
       direct ou indirect résultant de l'utilisation de ce logiciel.<br><br>
 
       <strong>Contact</strong><br>
-      Pour toute question : contact@viaaucta.com
+      Pour toute question : viaauctaconseil@gmail.com
     </p>
     <button class="legal-close" onclick="document.getElementById('legal-modal-overlay').classList.remove('open')">
       Fermer
