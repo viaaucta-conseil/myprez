@@ -2452,11 +2452,54 @@ function exportPPT(){
   // Layout personnalisé pour conserver le ratio exact du format
   pres.defineLayout({ name: 'CUSTOM', width: pptW, height: pptH });
   pres.layout = 'CUSTOM';
-  pres.author = car().brand || 'YOUR BRAND';
+  pres.author = car().brand || 'Via Aucta Conseil';
   pres.title  = title;
 
   var images = [];
   var idx = 0;
+
+  // Garde-fou : si rien ne se passe après 45s (CDN bloqué, génération bloquée…),
+  // on affiche un message au lieu de laisser le spinner tourner indéfiniment.
+  var safetyTimer = setTimeout(function(){
+    document.getElementById('pptProgressTxt').textContent =
+      '❌ Délai dépassé. Réessayez, ou utilisez l\'export PDF en attendant.';
+  }, 45000);
+
+  function finish(){
+    // Assemblage : chaque image occupe toute la slide
+    images.forEach(function(imgData){
+      var slide = pres.addSlide();
+      // imgData est "data:image/png;base64,..."  — PptxGenJS attend "image/png;base64,..."
+      slide.addImage({ data: imgData.replace(/^data:/, ''), x: 0, y: 0, w: pptW, h: pptH });
+    });
+    var filename = title.replace(/[^a-zA-Z0-9_\-àâäéèêëîïôùûüç ]/g,'').trim()
+                      .replace(/\s+/g,'-').toLowerCase() || 'carrousel';
+
+    // On récupère un Blob nous-mêmes et on déclenche le téléchargement à la main
+    // (même logique que saveJSON()), plutôt que de laisser writeFile() décider :
+    // selon l'environnement du navigateur, writeFile() peut tenter d'écrire via
+    // une logique pensée pour Node (fs) au lieu de déclencher le téléchargement,
+    // ce qui ne renvoie alors ni résultat ni erreur — d'où le blocage observé.
+    pres.write({ outputType: 'blob' })
+      .then(function(blob){
+        clearTimeout(safetyTimer);
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = filename + '.pptx';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+        document.getElementById('pptProgress').style.display = 'none';
+        document.getElementById('pptDone').style.display = 'block';
+        rz.innerHTML = '';
+      })
+      .catch(function(e){
+        clearTimeout(safetyTimer);
+        document.getElementById('pptProgressTxt').textContent = '❌ Erreur : ' + e.message;
+      });
+  }
 
   function next(){
     if(idx >= slides.length){
