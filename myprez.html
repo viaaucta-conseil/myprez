@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Générateur Carrousels LinkedIn — Via Aucta</title>
+<title>Générateur de présentation — Via Aucta</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,700;0,900;1,700&family=Barlow:wght@400;500;700&family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700;900&family=Syne:wght@400;600;700;800&family=Fraunces:ital,wght@0,300;0,700;0,900;1,700&family=Raleway:wght@400;700;800;900&family=Outfit:wght@300;400;700;900&family=Plus+Jakarta+Sans:wght@300;400;600;700&family=Space+Grotesk:wght@300;400;500;700&family=Inter:wght@300;400;600;700&family=Nunito:wght@300;400;600;700&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -1103,14 +1103,12 @@ input,textarea,select{font-family:'DM Sans',sans-serif;outline:none}
     <div class="sec-title" style="margin-bottom:10px">Hashtags rapides</div>
     <div class="field-hint" style="margin-bottom:8px">Un hashtag par ligne (avec le # devant)</div>
     <textarea class="einp2" id="hashtagsEditor" rows="8" style="resize:vertical;font-size:11px;line-height:1.8" oninput="updateHashtags(this.value)">#LesPotentiels
-#ViaAucta
 #Entrepreneuriat
 #Stratégie
 #Leadership
 #BusinessPlan
 #Finances
-#Organisation
-#PULSE</textarea>
+#Organisation</textarea>
   </div>
 </div>
 
@@ -1146,7 +1144,7 @@ function applyFormatToElement(el){
 }
 
 var C = [
-  {id:1,emoji:"📋",pilier:"Pilier 3",title:"Business Plan",subtitle:"Construire son business plan",tag:"BUSINESS PLAN",brand:"Amaury LESNE - VIA AUCTA CONSEIL",accent:"#F05A1A",
+  {id:1,emoji:"📋",pilier:"Pilier 3",title:"Business Plan",subtitle:"Construire son business plan",tag:"BUSINESS PLAN",brand:"YOUR NAME - YOUR BRAND",accent:"#F05A1A",
   post:"📋 Un business plan, ce n'est pas un document administratif.\nC'est la carte routière de votre entreprise.\n\nDans ce carrousel : les 7 blocs que tout business plan doit contenir.\n\n👉 Sauvegardez ce post.\n\n— Amaury | Via Aucta Conseil\n🎯 #Entrepreneuriat #BusinessPlan #LesPotentiels #ViaAucta",
   slides:[
     {t:"cover",bg:{type:"solid",color:"#0D2B4E",textColor:"#FFFFFF"},tag:"BUSINESS PLAN",title:"VOTRE BUSINESS PLAN\nEN 7 BLOCS",sub:"Ce que votre banquier veut vraiment voir"},
@@ -1157,10 +1155,10 @@ var C = [
     {t:"hook",bg:{type:"solid",color:"#060E1A",textColor:"#FFFFFF"},pill:"LA VÉRITÉ",stmt:"Un business plan\nsans les questions\nqui font peur,\n<em>c'est du PowerPoint\navec des chiffres dedans.</em>",stxt:"",sn:"06"},
     {t:"quote",bg:{type:"solid",color:"#F4F4F2",textColor:"#0D2B4E"},pill:"LA MÉTHODE",quote:"Rédigez-le seul,\nla nuit.\nHonnêtement.\n<em>Sans vous mentir.</em>",qsub:"C'est le seul business plan qui fonctionne vraiment.",sn:"07"},
     {t:"hook",bg:{type:"solid",color:"#060E1A",textColor:"#FFFFFF"},pill:"LE BILAN",stmt:"Le banquier\nle sent.\n<em>Il le sent toujours.</em>",stxt:"Vous ne pouvez pas convaincre quelqu'un d'autre de ce dont vous n'êtes pas convaincu vous-même.",sn:"08"},
-    {t:"cta",bg:{type:"gradient",gradient:"135deg,#F05A1A,#FF7A3D",textColor:"#FFFFFF"},eyebrow:"Les Potentiels · Via Aucta",main:"Votre potentiel\na besoin\nd'une route.",ctxt:"Rejoignez la communauté des dirigeants et entrepreneurs qui construisent différemment.",pill:"PROGRAMME PULSE"},
+    {t:"cta",bg:{type:"gradient",gradient:"135deg,#F05A1A,#FF7A3D",textColor:"#FFFFFF"},eyebrow:"YOUR NAME - YOUR BRAND",main:"Votre potentiel\na besoin\nd'une route.",ctxt:"Rejoignez la communauté des dirigeants et entrepreneurs qui construisent différemment.",pill:"PROGRAMME PULSE"},
   ]},
-  {id:2,emoji:"📊",pilier:"Pilier 6",title:"Finances",subtitle:"Piloter ses finances au quotidien",tag:"FINANCES",brand:"Amaury · Via Aucta Conseil",accent:"#F05A1A",
-  post:"📊 Votre comptable vous remet votre bilan une fois par an.\n\nC'est déjà trop tard.\n\nLes entreprises meurent d'une trésorerie qu'on n'a pas vue partir.\n\n— Amaury | Via Aucta Conseil\n🎯 #Finances #Tresorerie #Entrepreneuriat #LesPotentiels",
+  {id:2,emoji:"📊",pilier:"Pilier 6",title:"Finances",subtitle:"Piloter ses finances au quotidien",tag:"FINANCES",brand:"YOUR NAME - YOUR BRAND",accent:"#F05A1A",
+  post:"📊 Votre comptable vous remet votre bilan une fois par an.\n\nC'est déjà trop tard.\n\nLes entreprises meurent d'une trésorerie qu'on n'a pas vue partir.\n\n— YOUR NAME | YOUR BRAND\n🎯 #Finances #Tresorerie #Entrepreneuriat #LesPotentiels",
   slides:[
     {t:"cover",bg:{type:"solid",color:"#0D2B4E",textColor:"#FFFFFF"},tag:"FINANCES",title:"6 CHIFFRES À\nREGARDER CHAQUE\nSEMAINE",sub:"Pilotez votre business comme un cockpit"},
     {t:"hook",bg:{type:"solid",color:"#060E1A",textColor:"#FFFFFF"},pill:"LE PROBLÈME",stmt:"La plupart lisent\nleur bilan comme\n<em>un constat.</em>",stxt:"Les bons dirigeants le lisent comme un signal faible — une radiographie de ce qui vient.",sn:"02"},
@@ -1169,10 +1167,10 @@ var C = [
     {t:"quote",bg:{type:"solid",color:"#F4F4F2",textColor:"#0D2B4E"},pill:"LA DISTINCTION",quote:"Votre comptable\nlit pour <em>les impôts.</em>\nVous devez lire\npour <em>piloter.</em>",qsub:"Ce sont deux lectures différentes du même document.",sn:"05"},
     {t:"hook",bg:{type:"solid",color:"#060E1A",textColor:"#FFFFFF"},pill:"L'ERREUR",stmt:"CA, marge, trésorerie :\n<em>80% des entrepreneurs</em>\nconfondent les trois.",stxt:"Ce ne sont pas des synonymes. Ce sont trois mesures de trois réalités radicalement différentes.",sn:"06"},
     {t:"quote",bg:{type:"solid",color:"#F4F4F2",textColor:"#0D2B4E"},pill:"LE PRINCIPE",quote:"Un dirigeant qui lit\nson bilan une fois par an\n<em>subit</em> son entreprise.",qsub:"Celui qui le lit comme un tableau de bord la pilote.",sn:"07"},
-    {t:"cta",bg:{type:"gradient",gradient:"135deg,#F05A1A,#FF7A3D",textColor:"#FFFFFF"},eyebrow:"Les Potentiels · Via Aucta",main:"Votre potentiel\na besoin\nd'une route.",ctxt:"Rejoignez la communauté des dirigeants et entrepreneurs qui construisent différemment.",pill:"PROGRAMME PULSE"},
+    {t:"cta",bg:{type:"gradient",gradient:"135deg,#F05A1A,#FF7A3D",textColor:"#FFFFFF"},eyebrow:"YOUR NAME - YOUR BRAND",main:"Votre potentiel\na besoin\nd'une route.",ctxt:"Rejoignez la communauté des dirigeants et entrepreneurs qui construisent différemment.",pill:"PROGRAMME PULSE"},
   ]},
-  {id:3,emoji:"⚙️",pilier:"Pilier 7",title:"Organisation",subtitle:"Structurer son organisation",tag:"ORGANISATION",brand:"Amaury · Via Aucta Conseil",accent:"#F05A1A",
-  post:"⚙️ L'entrepreneur débordé n'a pas un problème de temps.\n\nIl a un problème de structure.\n\nCeux qui scalent ont mis des systèmes en place dès le départ.\n\n— Amaury | Via Aucta Conseil\n🎯 #Organisation #Entrepreneuriat #Systemes #LesPotentiels",
+  {id:3,emoji:"⚙️",pilier:"Pilier 7",title:"Organisation",subtitle:"Structurer son organisation",tag:"ORGANISATION",brand:"YOUR NAME - YOUR BRAND",accent:"#F05A1A",
+  post:"⚙️ L'entrepreneur débordé n'a pas un problème de temps.\n\nIl a un problème de structure.\n\nCeux qui scalent ont mis des systèmes en place dès le départ.\n\n— YOUR NAME | YOUR BRAND\n🎯 #Organisation #Entrepreneuriat #Systemes #LesPotentiels",
   slides:[
     {t:"cover",bg:{type:"solid",color:"#0D2B4E",textColor:"#FFFFFF"},tag:"ORGANISATION",title:"5 SYSTÈMES QUI\nFONT TOURNER\nVOTRE BUSINESS",sub:"Travaillez moins. Produisez plus."},
     {t:"hook",bg:{type:"solid",color:"#060E1A",textColor:"#FFFFFF"},pill:"LE CONSTAT",stmt:"Occupé\nne veut pas dire\n<em>productif.</em>",stxt:"Les entrepreneurs les plus débordés confondent agitation et traction. Un business bien structuré tourne même quand vous n'êtes pas là.",sn:"02"},
@@ -1181,7 +1179,7 @@ var C = [
     {t:"quote",bg:{type:"solid",color:"#F4F4F2",textColor:"#0D2B4E"},pill:"LE PRINCIPE",quote:"Un business\nsans système\nest <em>un emploi\ndéguisé.</em>",qsub:"La vraie liberté entrepreneuriale commence par des systèmes.",sn:"05"},
     {t:"hook",bg:{type:"solid",color:"#060E1A",textColor:"#FFFFFF"},pill:"L'ANGLE MORT",stmt:"Votre organigramme\nvous ment.\n<em>La vraie structure\nn'est jamais celle\ndu document.</em>",stxt:"",sn:"06"},
     {t:"quote",bg:{type:"solid",color:"#F4F4F2",textColor:"#0D2B4E"},pill:"LA VÉRITÉ",quote:"Vous êtes peut-être\nle principal obstacle\nà la croissance\nde <em>votre entreprise.</em>",qsub:"Ce n'est pas un jugement. C'est la réalité la plus fréquente après 15 ans de terrain.",sn:"07"},
-    {t:"cta",bg:{type:"gradient",gradient:"135deg,#F05A1A,#FF7A3D",textColor:"#FFFFFF"},eyebrow:"Les Potentiels · Via Aucta",main:"Votre potentiel\na besoin\nd'une route.",ctxt:"Rejoignez la communauté des dirigeants et entrepreneurs qui construisent différemment.",pill:"PROGRAMME PULSE"},
+    {t:"cta",bg:{type:"gradient",gradient:"135deg,#F05A1A,#FF7A3D",textColor:"#FFFFFF"},eyebrow:"YOUR NAME - YOUR BRAND",main:"Votre potentiel\na besoin\nd'une route.",ctxt:"Rejoignez la communauté des dirigeants et entrepreneurs qui construisent différemment.",pill:"PROGRAMME PULSE"},
   ]},
 ];
 
@@ -1239,7 +1237,7 @@ function slHTML(s,idx,tot,forExport){
   var bgStyle=getBgStyle(bg);
   var tc=bg.textColor||'#FFFFFF';
   var acc=(car().accent)||'#F05A1A';
-  var brand = car().brand || 'Amaury LESNE - VIA AUCTA CONSEIL';
+  var brand = car().brand || 'YOUR NAME - YOUR BRAND';
   var fontTitle = car().fontTitle || "'Barlow Condensed',sans-serif";
   var fontBody  = car().fontBody  || "'DM Sans',sans-serif";
   var mainTC    = car().mainTextColor || null;  // override for dark slides
