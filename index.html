@@ -4,9 +4,27 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>My Prez — Via Aucta Conseil</title>
+<meta name="description" content="My Prez transforme vos idées en carrousels professionnels pour LinkedIn, Instagram et TikTok en quelques minutes, sans designer. Export PNG, PDF et PowerPoint.">
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+<!-- Open Graph / LinkedIn / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="My Prez — Créez des carrousels LinkedIn qui convertissent">
+<meta property="og:description" content="Transformez vos idées en carrousels professionnels en quelques minutes, sans designer. Export PNG, PDF, PowerPoint.">
+<meta property="og:image" content="https://viaaucta-conseil.github.io/myprez/og-image.png">
+<meta property="og:url" content="https://viaaucta-conseil.github.io/myprez/">
+<meta property="og:locale" content="fr_FR">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="My Prez — Créez des carrousels LinkedIn qui convertissent">
+<meta name="twitter:description" content="Transformez vos idées en carrousels professionnels en quelques minutes, sans designer.">
+<meta name="twitter:image" content="https://viaaucta-conseil.github.io/myprez/og-image.png">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="icon" type="image/x-icon" href="/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500&family=Montserrat:wght@400;500;600;700&family=Playfair+Display+SC:wght@400;700;900&display=swap" rel="stylesheet">
 <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
 <style>
 :root {
@@ -260,9 +278,185 @@ nav {
   text-align: center;
 }
 
+/* ── APERÇU / PARAMÈTRES ── */
+.preview-section {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.preview-layout {
+  display: grid;
+  grid-template-columns: 0.85fr 1fr;
+  gap: 72px;
+  align-items: center;
+  margin-top: 56px;
+}
+@media (max-width: 900px) {
+  .preview-layout { grid-template-columns: 1fr; gap: 48px; }
+}
+
+/* Mockup de carrousel — éventail de 3 fausses slides */
+.mock-stage {
+  position: relative;
+  height: 420px;
+  display: flex; align-items: center; justify-content: center;
+}
+.mock-slide {
+  position: absolute;
+  width: 220px; height: 275px;
+  border-radius: 10px;
+  box-shadow: 0 24px 48px rgba(0,0,0,.45);
+  border: 1px solid rgba(255,255,255,0.08);
+  display: flex; flex-direction: column;
+  padding: 18px;
+  font-family: 'Barlow Condensed', sans-serif;
+  overflow: hidden;
+}
+.mock-slide.s1 {
+  background: linear-gradient(160deg, #0D2B4E, #122F58);
+  transform: rotate(-9deg) translateX(-92px);
+  z-index: 1;
+}
+.mock-slide.s2 {
+  background: #F4F4F2;
+  transform: rotate(0deg);
+  z-index: 2;
+}
+.mock-slide.s3 {
+  background: linear-gradient(160deg, var(--orange), var(--orange2));
+  transform: rotate(9deg) translateX(92px);
+  z-index: 1;
+}
+.mock-tag {
+  align-self: flex-start;
+  background: var(--orange);
+  color: white;
+  font-size: 9px; font-weight: 700; letter-spacing: 0.1em;
+  padding: 3px 8px; border-radius: 3px; text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.mock-slide.s2 .mock-tag { background: #0D2B4E; }
+.mock-slide.s3 .mock-tag { background: rgba(255,255,255,0.25); }
+.mock-title {
+  font-weight: 900; font-size: 1.5rem; line-height: 1.05;
+  color: white; margin-bottom: 10px;
+}
+.mock-slide.s2 .mock-title { color: #0D2B4E; }
+.mock-bar { width: 30px; height: 4px; background: var(--orange); border-radius: 2px; margin-bottom: 12px; }
+.mock-slide.s2 .mock-bar { background: var(--orange); }
+.mock-slide.s3 .mock-bar { background: rgba(255,255,255,0.6); }
+.mock-line { height: 7px; border-radius: 3px; background: rgba(255,255,255,0.18); margin-bottom: 6px; }
+.mock-line.w80 { width: 80%; }
+.mock-line.w60 { width: 60%; }
+.mock-slide.s2 .mock-line { background: rgba(13,43,78,0.15); }
+.mock-foot {
+  margin-top: auto;
+  display: flex; align-items: center; gap: 8px;
+  font-size: 9px; letter-spacing: 0.08em; color: rgba(255,255,255,0.4);
+  border-top: 1px solid rgba(255,255,255,0.12); padding-top: 10px;
+}
+.mock-slide.s2 .mock-foot { color: rgba(13,43,78,0.4); border-top-color: rgba(13,43,78,0.12); }
+.mock-dot { width: 14px; height: 4px; border-radius: 2px; background: var(--orange); }
+.mock-caption {
+  text-align: center; margin-top: 28px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: 0.08em;
+  color: var(--muted); text-transform: uppercase;
+}
+
+.param-groups { display: flex; flex-direction: column; gap: 28px; }
+.param-group {
+  border-left: 2px solid var(--border2);
+  padding-left: 20px;
+  transition: border-color .2s;
+}
+.param-group:hover { border-color: var(--orange); }
+.param-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--orange2); margin-bottom: 6px;
+}
+.param-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500; font-size: 1.05rem;
+  color: var(--bright); margin-bottom: 6px;
+}
+.param-desc { font-size: 13px; color: var(--text); line-height: 1.7; }
+
+/* ── CARROUSEL DE CAPTURES D'ÉCRAN ── */
+.shot-carousel {
+  position: relative;
+  max-width: 980px;
+  margin: 56px auto 0;
+  outline: none;
+}
+.shot-frame {
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid var(--border2);
+  box-shadow: 0 30px 70px rgba(0,0,0,.4);
+  background: var(--bg);
+}
+.shot-track {
+  display: flex;
+  transition: transform .45s cubic-bezier(.4,0,.2,1);
+}
+.shot-slide {
+  flex: 0 0 100%;
+  width: 100%;
+}
+.shot-slide img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.shot-caption {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text);
+  min-height: 38px;
+  padding: 0 40px;
+}
+.shot-arrow {
+  position: absolute;
+  top: 42%;
+  transform: translateY(-50%);
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: rgba(6,14,26,0.55);
+  border: 1px solid var(--border2);
+  color: var(--bright);
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .2s, border-color .2s;
+  backdrop-filter: blur(4px);
+}
+.shot-arrow:hover { background: var(--orange); border-color: var(--orange); }
+.shot-prev { left: -22px; }
+.shot-next { right: -22px; }
+@media (max-width: 720px) {
+  .shot-prev { left: 6px; }
+  .shot-next { right: 6px; }
+  .shot-arrow { width: 36px; height: 36px; }
+}
+.shot-dots {
+  display: flex; justify-content: center; gap: 8px;
+  margin-top: 18px;
+}
+.shot-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--border2);
+  border: none; cursor: pointer;
+  transition: background .2s, transform .2s;
+  padding: 0;
+}
+.shot-dot.on { background: var(--orange); transform: scale(1.3); }
+
 /* ── HOW IT WORKS ── */
 .how-section {
-  background: var(--bg2);
+  background: var(--bg);
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
 }
@@ -481,33 +675,37 @@ footer {
 .btn-primary:active { transform: translateY(0); }
 
 /* ── MODAL LÉGAL ── */
-#legal-modal-overlay {
+#legal-modal-overlay, #cgv-modal-overlay {
   position: fixed; inset: 0; z-index: 9999;
   background: rgba(0,0,0,0.75);
   display: none; align-items: center; justify-content: center; padding: 20px;
 }
-#legal-modal-overlay.open { display: flex; }
-#legal-modal {
+#legal-modal-overlay.open, #cgv-modal-overlay.open { display: flex; }
+#legal-modal, #cgv-modal {
   background: var(--bg2); border: 1px solid var(--border2);
   border-radius: 10px; padding: 36px;
-  max-width: 600px; width: 100%;
+  max-width: 640px; width: 100%;
   max-height: 80vh; overflow-y: auto;
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px; color: var(--text); line-height: 1.9;
 }
-#legal-modal h3 { color: var(--bright); font-size: 13px; margin-bottom: 16px; }
-#legal-modal strong { color: var(--bright); }
-#legal-modal .close-btn {
+#legal-modal h3, #cgv-modal h3 { color: var(--bright); font-size: 13px; margin-bottom: 16px; }
+#legal-modal strong, #cgv-modal strong { color: var(--bright); }
+#legal-modal .close-btn, #cgv-modal .close-btn {
   margin-top: 20px; background: var(--border2);
   color: var(--bright); border: none;
   border-radius: 6px; padding: 8px 20px;
   cursor: pointer; font-family: inherit; font-size: 11px;
 }
+#cgv-modal h4 { color: var(--orange2); font-size: 11px; margin: 18px 0 6px; letter-spacing: 0.05em; }
 
 /* ── RESPONSIVE ── */
 @media (max-width: 640px) {
   .hero-stats { gap: 24px; }
-  .nav-links { display: none; }
+  .nav-links { gap: 10px; }
+  .nav-links a:not(.nav-cta):not(.nav-login) { display: none; }
+  .nav-login { padding: 7px 12px; font-size: 11px; }
+  .nav-cta { padding: 8px 14px; font-size: 11px; }
   .steps::before { display: none; }
 }
 </style>
@@ -602,6 +800,96 @@ footer {
   </div>
 </section>
 
+<!-- Aperçu de l'interface / Paramètres -->
+<section class="section preview-section" id="parametres">
+  <div style="text-align:center">
+    <div class="section-tag">// Sous le capot</div>
+    <h2 class="section-title reveal">Un contrôle total<br>sur chaque détail</h2>
+    <p class="section-lead reveal" style="margin:0 auto">Chaque carrousel se construit slide par slide, avec un réglage précis de chaque paramètre visuel.</p>
+  </div>
+
+  <div class="preview-layout">
+    <div class="reveal">
+      <div class="mock-stage">
+        <div class="mock-slide s1">
+          <div class="mock-tag">LE CONSTAT</div>
+          <div class="mock-title">90% des posts<br>passent inaperçus</div>
+          <div class="mock-foot"><div class="mock-dot"></div>VIA AUCTA</div>
+        </div>
+        <div class="mock-slide s2">
+          <div class="mock-tag">LA MÉTHODE</div>
+          <div class="mock-bar"></div>
+          <div class="mock-line w80"></div>
+          <div class="mock-line w60"></div>
+          <div class="mock-foot">01 / 09</div>
+        </div>
+        <div class="mock-slide s3">
+          <div class="mock-tag">CTA</div>
+          <div class="mock-title">Rejoignez<br>le mouvement</div>
+          <div class="mock-foot"><div class="mock-dot" style="background:white"></div>PULSE</div>
+        </div>
+      </div>
+      <div class="mock-caption">Aperçu illustratif du rendu — pas une capture d'écran réelle</div>
+    </div>
+
+    <div class="param-groups">
+      <div class="param-group reveal">
+        <div class="param-label">Formats</div>
+        <div class="param-title">Un design, cinq formats</div>
+        <p class="param-desc">LinkedIn et Instagram carré, Instagram portrait, TikTok story, ou PDF A4 pour l'impression. Changez de format sans retoucher votre contenu.</p>
+      </div>
+      <div class="param-group reveal">
+        <div class="param-label">Fonds</div>
+        <div class="param-title">Couleur, dégradé, image ou motif</div>
+        <p class="param-desc">Couleur unie, dégradé à deux tons et angle réglable, image personnelle avec transparence préservée, ou motif géométrique discret en arrière-plan.</p>
+      </div>
+      <div class="param-group reveal">
+        <div class="param-label">Typographie</div>
+        <div class="param-title">Vos polices, votre voix</div>
+        <p class="param-desc">Une police pour les titres, une autre pour le corps de texte, choisies parmi une quinzaine de familles pensées pour le print comme pour l'écran.</p>
+      </div>
+      <div class="param-group reveal">
+        <div class="param-label">Branding</div>
+        <div class="param-title">Votre marque, partout</div>
+        <p class="param-desc">Logo, couleur d'accent et nom affiché en pied de page sur chaque slide, appliqués automatiquement à tout le carrousel.</p>
+      </div>
+      <div class="param-group reveal">
+        <div class="param-label">Export</div>
+        <div class="param-title">Prêt à publier, dans le bon format</div>
+        <p class="param-desc">PNG haute résolution slide par slide, PDF multi-pages prêt à imprimer, ou PowerPoint entièrement modifiable.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Captures d'écran réelles -->
+<section class="section" id="captures">
+  <div style="text-align:center">
+    <div class="section-tag">// Aperçu</div>
+    <h2 class="section-title reveal">L'interface, en situation réelle</h2>
+    <p class="section-lead reveal" style="margin:0 auto">Cinq captures prises directement dans l'outil, pas des maquettes.</p>
+  </div>
+
+  <div class="shot-carousel reveal" id="shotCarousel" tabindex="0">
+    <div class="shot-frame">
+      <div class="shot-track" id="shotTrack">
+        <div class="shot-slide"><img src="screenshot-1.jpg" alt="Éditeur My Prez avec la liste des slides, l'aperçu central et le post LinkedIn à droite" loading="lazy"></div>
+        <div class="shot-slide"><img src="screenshot-2.jpg" alt="Slide de type Étapes avec numérotation automatique des points clés" loading="lazy"></div>
+        <div class="shot-slide"><img src="screenshot-3.jpg" alt="Slide d'appel à l'action avec fond dégradé orange" loading="lazy"></div>
+        <div class="shot-slide"><img src="screenshot-4.jpg" alt="Panneau de personnalisation du fond : couleur, dégradé, image ou motif" loading="lazy"></div>
+        <div class="shot-slide"><img src="screenshot-5.jpg" alt="Rendu final d'une slide, prêt à être exporté" loading="lazy"></div>
+        <div class="shot-slide"><img src="screenshot-6.jpg" alt="Format TikTok en portrait 1080x1920 appliqué instantanément" loading="lazy"></div>
+        <div class="shot-slide"><img src="screenshot-7.jpg" alt="Réglages du pied de page, de la barre d'accent et des polices de titre et de corps" loading="lazy"></div>
+        <div class="shot-slide"><img src="screenshot-8.jpg" alt="Bibliothèque d'icônes intégrée, catégorie Business" loading="lazy"></div>
+      </div>
+    </div>
+    <button class="shot-arrow shot-prev" aria-label="Image précédente">←</button>
+    <button class="shot-arrow shot-next" aria-label="Image suivante">→</button>
+    <div class="shot-caption" id="shotCaption"></div>
+    <div class="shot-dots" id="shotDots"></div>
+  </div>
+</section>
+
 <!-- Comment ça marche -->
 <section class="section how-section" id="comment">
   <div style="text-align:center">
@@ -692,7 +980,7 @@ footer {
   </div>
 
   <div class="pricing-guarantee">
-    Paiement 100% sécurisé par Stripe · Clé de licence envoyée par email sous 24h
+    Paiement 100% sécurisé par Stripe · Clé de licence envoyée par email en quelques minutes
   </div>
 </section>
 
@@ -714,7 +1002,7 @@ footer {
   <div class="faq-list">
     <div class="faq-item reveal">
       <div class="faq-q">Comment reçois-je mon logiciel après l'achat ?</div>
-      <div class="faq-a">Après validation de votre paiement, vous recevez un email avec votre clé de licence sous 24 à 48h. Le fichier My Prez est activé directement depuis votre navigateur grâce à cette clé.</div>
+      <div class="faq-a">Après validation de votre paiement, vous recevez automatiquement un email avec votre clé de licence en quelques minutes. Le fichier My Prez est activé directement depuis votre navigateur grâce à cette clé.</div>
     </div>
     <div class="faq-item reveal">
       <div class="faq-q">Que se passe-t-il à l'expiration de ma licence ?</div>
@@ -742,6 +1030,7 @@ footer {
     <a href="#tarifs">Tarifs</a>
     <a href="#faq">FAQ</a>
     <a href="#" onclick="document.getElementById('legal-modal-overlay').classList.add('open');return false;">Mentions légales</a>
+    <a href="#" onclick="document.getElementById('cgv-modal-overlay').classList.add('open');return false;">Conditions de vente</a>
     <a href="mailto:viaauctaconseil@gmail.com">Contact</a>
   </div>
   <div class="footer-copy">© 2026 Via Aucta Conseil — Tous droits réservés · Code de la propriété intellectuelle Art. L122-4</div>
@@ -776,6 +1065,85 @@ footer {
   </div>
 </div>
 
+<!-- Modal Conditions Générales de Vente -->
+<div id="cgv-modal-overlay">
+  <div id="cgv-modal">
+    <h3>📄 CONDITIONS GÉNÉRALES DE VENTE</h3>
+    <p>
+      <strong>Dernière mise à jour : 2026</strong><br><br>
+
+      <strong>Article 1 — Identification du vendeur</strong><br>
+      Via Aucta Conseil, micro-entreprise individuelle.<br>
+      Contact : contact@viaaucta.com<br>
+      TVA non applicable, article 293 B du Code général des impôts.<br><br>
+
+      <strong>Article 2 — Objet</strong><br>
+      Les présentes conditions régissent la vente de licences d'utilisation du
+      logiciel My Prez, outil de génération de présentations visuelles pour
+      réseaux sociaux, commercialisé sous forme de licence numérique mensuelle
+      ou annuelle.<br><br>
+
+      <strong>Article 3 — Prix</strong><br>
+      Les prix sont indiqués en euros, toutes taxes comprises le cas échéant.
+      Licence mensuelle : 14,99 €. Licence annuelle : 149,99 €. Via Aucta
+      Conseil se réserve le droit de modifier ses prix à tout moment, les
+      licences déjà acquises restant valables aux conditions tarifaires en
+      vigueur au moment de l'achat.<br><br>
+
+      <strong>Article 4 — Paiement</strong><br>
+      Le paiement s'effectue en ligne, en une seule fois, via la plateforme
+      sécurisée Stripe. Via Aucta Conseil ne collecte ni ne conserve aucune
+      donnée bancaire.<br><br>
+
+      <strong>Article 5 — Livraison</strong><br>
+      La clé de licence est délivrée automatiquement par email à l'adresse
+      renseignée lors du paiement, dans les minutes suivant la confirmation
+      de la transaction. Il appartient au client de vérifier l'exactitude de
+      l'adresse email fournie.<br><br>
+
+      <strong>Article 6 — Droit de rétractation</strong><br>
+      Conformément à l'article L221-28 13° du Code de la consommation, le
+      droit de rétractation de 14 jours ne s'applique pas aux contenus
+      numériques fournis sur support immatériel dont l'exécution a commencé
+      après accord préalable exprès du consommateur et renoncement exprès à
+      son droit de rétractation. En finalisant son achat et en activant sa
+      clé de licence, le client reconnaît avoir demandé l'exécution immédiate
+      du service et renonce expressément à son droit de rétractation.<br><br>
+
+      <strong>Article 7 — Durée et renouvellement</strong><br>
+      La licence mensuelle ou annuelle est valable pour la durée indiquée à
+      compter de la date d'achat. Elle n'est pas renouvelée automatiquement.
+      À l'expiration, l'accès au logiciel est suspendu jusqu'à l'achat d'une
+      nouvelle licence.<br><br>
+
+      <strong>Article 8 — Responsabilité</strong><br>
+      Via Aucta Conseil met en œuvre tous les moyens raisonnables pour
+      assurer le bon fonctionnement de My Prez, sans garantie d'absence
+      totale d'erreur ou d'interruption. Via Aucta Conseil ne pourra être
+      tenu responsable des dommages indirects résultant de l'utilisation du
+      logiciel.<br><br>
+
+      <strong>Article 9 — Médiation de la consommation</strong><br>
+      Conformément à l'article L616-1 du Code de la consommation, en cas de
+      litige non résolu directement avec Via Aucta Conseil, le client peut
+      recourir gratuitement à un médiateur de la consommation. Les
+      coordonnées du médiateur compétent seront communiquées sur demande à
+      contact@viaaucta.com.<br><br>
+
+      <strong>Article 10 — Droit applicable</strong><br>
+      Les présentes conditions sont soumises au droit français. En cas de
+      litige, et à défaut de résolution amiable, les tribunaux français
+      seront seuls compétents.<br><br>
+
+      <em style="color:var(--muted)">Ce document a été rédigé à titre informatif et ne remplace pas une
+      validation par un professionnel du droit. Il est recommandé de le
+      faire relire par un avocat ou un expert-comptable avant publication
+      définitive.</em>
+    </p>
+    <button class="close-btn" onclick="document.getElementById('cgv-modal-overlay').classList.remove('open')">Fermer</button>
+  </div>
+</div>
+
 <script>
 // ── Scroll reveal
 const revealEls = document.querySelectorAll('.reveal');
@@ -798,6 +1166,75 @@ document.querySelectorAll('.faq-q').forEach(q => {
     if (!wasOpen) item.classList.add('open');
   });
 });
+
+// ── Carrousel de captures d'écran
+(function(){
+  const track   = document.getElementById('shotTrack');
+  const dotsEl  = document.getElementById('shotDots');
+  const capEl   = document.getElementById('shotCaption');
+  const wrap    = document.getElementById('shotCarousel');
+  if (!track) return;
+
+  const captions = [
+    "L'éditeur complet : liste des slides, aperçu en temps réel, post LinkedIn généré à côté.",
+    "Mise en page « Étapes », avec numérotation et sous-textes automatiquement alignés.",
+    "Une slide de fin sur fond dégradé, pour marquer l'appel à l'action.",
+    "Le fond de chaque slide se règle indépendamment : couleur, dégradé, image ou motif.",
+    "Le résultat final d'une slide, prêt à être exporté en PNG, PDF ou PowerPoint.",
+    "Le format TikTok (1080×1920) s'applique instantanément, sans retoucher le contenu.",
+    "Pied de page, barre d'accent et polices de titre et de corps, tout est réglable au pixel près.",
+    "Une bibliothèque de plus de cent icônes prêtes à coller, classées par catégorie — ici Business."
+  ];
+  const slides = track.children.length;
+  let i = 0;
+  let timer = null;
+
+  dotsEl.innerHTML = captions.map((_, idx) =>
+    `<button class="shot-dot${idx === 0 ? ' on' : ''}" aria-label="Aller à l'image ${idx + 1}"></button>`
+  ).join('');
+  const dots = dotsEl.querySelectorAll('.shot-dot');
+
+  function render(){
+    track.style.transform = `translateX(-${i * 100}%)`;
+    dots.forEach((d, idx) => d.classList.toggle('on', idx === i));
+    capEl.textContent = captions[i];
+  }
+  function goTo(idx){
+    i = (idx + slides) % slides;
+    render();
+  }
+  function next(){ goTo(i + 1); }
+  function prev(){ goTo(i - 1); }
+
+  function startAutoplay(){ timer = setInterval(next, 5000); }
+  function stopAutoplay(){ clearInterval(timer); }
+
+  wrap.querySelector('.shot-next').addEventListener('click', () => { next(); stopAutoplay(); startAutoplay(); });
+  wrap.querySelector('.shot-prev').addEventListener('click', () => { prev(); stopAutoplay(); startAutoplay(); });
+  dots.forEach((d, idx) => d.addEventListener('click', () => { goTo(idx); stopAutoplay(); startAutoplay(); }));
+
+  wrap.addEventListener('mouseenter', stopAutoplay);
+  wrap.addEventListener('mouseleave', startAutoplay);
+  wrap.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') { next(); stopAutoplay(); startAutoplay(); }
+    if (e.key === 'ArrowLeft')  { prev(); stopAutoplay(); startAutoplay(); }
+  });
+
+  // Glissement tactile basique
+  let touchX = null;
+  track.addEventListener('touchstart', (e) => { touchX = e.touches[0].clientX; stopAutoplay(); });
+  track.addEventListener('touchend', (e) => {
+    if (touchX === null) return;
+    const delta = e.changedTouches[0].clientX - touchX;
+    if (delta > 40) prev();
+    else if (delta < -40) next();
+    touchX = null;
+    startAutoplay();
+  });
+
+  render();
+  startAutoplay();
+})();
 </script>
 </body>
 </html>
