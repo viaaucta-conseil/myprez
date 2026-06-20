@@ -703,6 +703,63 @@ footer {
 }
 #cgv-modal h4 { color: var(--orange2); font-size: 11px; margin: 18px 0 6px; letter-spacing: 0.05em; }
 
+/* ── LIGHTBOX CAPTURES D'ÉCRAN ── */
+#lightbox-overlay {
+  position: fixed; inset: 0; z-index: 10000;
+  background: rgba(4,9,17,0.94);
+  display: none; flex-direction: column; align-items: center; justify-content: center;
+  padding: 40px; gap: 18px;
+  outline: none;
+}
+#lightbox-overlay.open { display: flex; }
+#lightbox-img {
+  max-width: min(92vw, 1200px);
+  max-height: 78vh;
+  border-radius: 10px;
+  border: 1px solid var(--border2);
+  box-shadow: 0 30px 80px rgba(0,0,0,.6);
+  display: block;
+}
+.lightbox-caption {
+  color: var(--text);
+  font-size: 13px;
+  text-align: center;
+  max-width: 680px;
+}
+.lightbox-close {
+  position: absolute; top: 22px; right: 28px;
+  width: 40px; height: 40px; border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border2);
+  color: var(--bright);
+  font-size: 1.1rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .2s, border-color .2s;
+}
+.lightbox-close:hover { background: var(--orange); border-color: var(--orange); }
+.lightbox-prev, .lightbox-next {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 48px; height: 48px; border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border2);
+  color: var(--bright);
+  font-size: 1.2rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .2s, border-color .2s;
+}
+.lightbox-prev:hover, .lightbox-next:hover { background: var(--orange); border-color: var(--orange); }
+.lightbox-prev { left: 24px; }
+.lightbox-next { right: 24px; }
+@media (max-width: 640px) {
+  .lightbox-prev { left: 8px; width: 38px; height: 38px; }
+  .lightbox-next { right: 8px; width: 38px; height: 38px; }
+  .lightbox-close { top: 12px; right: 12px; width: 36px; height: 36px; }
+}
+
+/* Affordance de clic sur les captures du carrousel */
+.shot-slide img { cursor: zoom-in; transition: opacity .15s; }
+.shot-slide img:hover { opacity: .92; }
+
 /* ── RESPONSIVE MOBILE ── */
 
 /* Tablettes ≤ 768px */
@@ -1225,6 +1282,15 @@ footer {
   </div>
 </div>
 
+<!-- Lightbox captures d'écran -->
+<div id="lightbox-overlay" tabindex="-1">
+  <button class="lightbox-close" aria-label="Fermer l'aperçu">✕</button>
+  <button class="lightbox-prev" aria-label="Image précédente">←</button>
+  <button class="lightbox-next" aria-label="Image suivante">→</button>
+  <img id="lightbox-img" src="" alt="">
+  <div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
+
 <script>
 // ── Scroll reveal
 const revealEls = document.querySelectorAll('.reveal');
@@ -1324,6 +1390,51 @@ document.querySelectorAll('.faq-q').forEach(q => {
 
   render();
   startAutoplay();
+
+  // ── Lightbox (agrandissement des captures au clic)
+  const lightbox    = document.getElementById('lightbox-overlay');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const lightboxCap = document.getElementById('lightbox-caption');
+  const imgs        = Array.from(track.querySelectorAll('img'));
+
+  function showLightboxImage(){
+    lightboxImg.src = imgs[i].src;
+    lightboxImg.alt = imgs[i].alt;
+    lightboxCap.textContent = activeCaptions[i] || '';
+  }
+  function openLightbox(idx){
+    goTo(idx);
+    stopAutoplay();
+    showLightboxImage();
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    lightbox.focus();
+  }
+  function closeLightbox(){
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+    startAutoplay();
+  }
+
+  imgs.forEach((img, idx) => {
+    img.addEventListener('click', () => openLightbox(idx));
+  });
+
+  lightbox.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
+  lightbox.querySelector('.lightbox-prev').addEventListener('click', () => { prev(); showLightboxImage(); });
+  lightbox.querySelector('.lightbox-next').addEventListener('click', () => { next(); showLightboxImage(); });
+
+  // Clic sur le fond sombre (hors image) = fermeture
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+
+  // Clavier : Échap pour fermer, flèches pour naviguer, uniquement si la lightbox est ouverte
+  lightbox.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape')    closeLightbox();
+    if (e.key === 'ArrowRight'){ next(); showLightboxImage(); }
+    if (e.key === 'ArrowLeft') { prev(); showLightboxImage(); }
+  });
 })();
 </script>
 </body>
