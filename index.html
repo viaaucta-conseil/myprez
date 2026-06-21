@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>My Prez — Via Aucta Conseil</title>
-<meta name="description" content="My Prez transforme vos idées en carrousels professionnels pour LinkedIn, Instagram et TikTok en quelques minutes, sans designer. Export PNG, PDF et PowerPoint.">
+<meta name="description" content="My Prez transforme vos idées en présentations et carrousels professionnels en quelques minutes pour les réseaux sociaux. <br> Compatible pour LinkedIn, Instagram Facebook et TikTok en quelques minutes, sans designer.<br>Formats d'export PNG, PDF et PowerPoint.">
 
 <!-- Favicon -->
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
 <!-- Open Graph / LinkedIn / Facebook -->
 <meta property="og:type" content="website">
-<meta property="og:title" content="My Prez — Créez des carrousels LinkedIn qui convertissent">
+<meta property="og:title" content="My Prez — Créez des présentations qui vous apportent de la visibilité">
 <meta property="og:description" content="Transformez vos idées en carrousels professionnels en quelques minutes, sans designer. Export PNG, PDF, PowerPoint.">
 <meta property="og:image" content="https://viaaucta-conseil.github.io/myprez/og-image.png">
 <meta property="og:url" content="https://viaaucta-conseil.github.io/myprez/">
@@ -81,6 +81,7 @@ nav {
   white-space: nowrap;
 }
 .nav-logo span { color: var(--orange); }
+.nav-logo .logo-tail { color: var(--bright); }
 .nav-links { display: flex; gap: 32px; align-items: center; }
 .nav-links a {
   font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
@@ -216,7 +217,7 @@ nav {
 }
 .section-tag {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 16px; letter-spacing: 0.15em; text-transform: uppercase;
+  font-size: 22px; letter-spacing: 0.15em; text-transform: uppercase;
   color: var(--orange); margin-bottom: 16px;
   text-align: center;
 }
@@ -271,13 +272,13 @@ nav {
 }
 .feature-title {
   font-family: 'Montserrat', sans-serif;
-  font-weight: 400; font-size: 1.1rem;
+  font-weight: 500; font-size: 1.1rem;
   letter-spacing: 0.03em; color: var(--bright);
   margin-bottom: 8px; text-transform: uppercase;
   text-align: center;
 }
 .feature-desc {
-  font-size: 13px; color: var(--text); line-height: 1.7;
+  font-size: 18px; color: var(--text); line-height: 1.7;
   text-align: center;
 }
 
@@ -785,7 +786,7 @@ footer {
   .section, .preview-section, .how-section, .pricing-section, .trust-section { padding: 64px 5%; }
   .section-title { font-size: clamp(1.6rem, 5.5vw, 2.2rem); }
   .section-lead { font-size: 0.92rem; }
-  .section-tag { font-size: 13px; }
+  .section-tag { font-size: 22px; }
 
   /* Mock stage — slides latérales légèrement réduites pour éviter le débordement */
   .mock-stage { height: 340px; }
@@ -816,6 +817,10 @@ footer {
   /* Navigation */
   nav { padding: 12px 4%; }
   .nav-logo { font-size: 0.88rem; letter-spacing: 0.06em; }
+  .logo-tail { display: none; }
+  .nav-links { gap: 4px; }
+  .nav-login { padding: 5px 7px; font-size: 9px; }
+  .nav-cta { padding: 6px 9px; font-size: 9px; }
 
   /* Hero */
   .hero { padding: 84px 4% 48px; }
@@ -836,7 +841,7 @@ footer {
   /* Sections */
   .section, .preview-section, .how-section, .pricing-section { padding: 52px 4%; }
   .section-title { font-size: clamp(1.5rem, 7vw, 2rem); }
-  .section-tag { font-size: 11px; }
+  .section-tag { font-size: 22px; }
 
   /* Mock stage — masquer les slides latérales pour éviter le débordement */
   .mock-slide.s1, .mock-slide.s3 { display: none; }
@@ -893,13 +898,20 @@ footer {
   /* Modals légaux */
   #legal-modal, #cgv-modal { padding: 24px 20px; font-size: 10px; }
 }
+
+/* Écrans très étroits ≤ 340px (ex. iPhone SE 1ère génération) */
+@media (max-width: 340px) {
+  nav { flex-wrap: wrap; row-gap: 8px; }
+  .nav-logo { width: 100%; }
+  .nav-links { width: 100%; justify-content: flex-end; }
+}
 </style>
 </head>
 <body>
 
 <!-- Navigation -->
 <nav>
-  <a href="#" class="nav-logo">VIA <span>AUCTA</span> Conseil</a>
+  <a href="#" class="nav-logo">VIA <span>AUCTA</span><span class="logo-tail"> Conseil</span></a>
   <div class="nav-links">
     <a href="#fonctionnalites">Fonctionnalités</a>
     <a href="#comment">Comment ça marche</a>
@@ -914,11 +926,10 @@ footer {
 <section class="hero">
   <!--<div class="hero-badge">Générateur de présentations pour les Réseaux Sociaux</div> -->
 
-  <h1>Créez des présentations pour <em>réseaux sociaux</em> qui convertissent</h1>
+  <h1>Créez des présentations pour <em>réseaux sociaux</em> qui vous apporte de la visibilité</h1>
 
   <p class="hero-sub">
-    My Prez transforme vos idées en carrousels et présentations professionnels prêts à publier,
-    en quelques minutes, sans designer, avec export PNG · PDF · PPT pour <em>LinkedIn, Tik Tok, Instagram, Facebook ou format A4</em> en PDF ou PowerPoint.
+    My Prez transforme vos idées en présentations et carrousels professionnels en quelques minutes pour les réseaux sociaux. <br>Compatible <em></em>LinkedIn, Instagram Facebook et TikTok</em> en quelques minutes, sans designer.<br>Formats d'export <em>PNG, PDF et PowerPoint</em>.
   </p>
 
   <div class="hero-stats">
@@ -949,18 +960,18 @@ footer {
 <section class="section" id="fonctionnalites">
   <div class="section-tag">// Fonctionnalités</div>
   <h2 class="section-title reveal" style="text-align:center">Tout ce dont vous avez<br>besoin pour performer</h2>
-  <p class="section-lead reveal" style="margin:0 auto; text-align:center;">Un outil conçu pour les créateurs LinkedIn qui veulent publier vite, bien, et régulièrement.</p>
+  <p class="section-lead reveal" style="margin:0 auto; text-align:center;">Un outil conçu pour les créateurs qui veulent publier vite, bien, et régulièrement.</p>
 
   <div class="features-grid reveal">
     <div class="feature-card">
       <span class="feature-icon">🎨</span>
       <div class="feature-title">Templates Pro</div>
-      <p class="feature-desc">Des mises en page pensées pour les réseaux sociaux - typographies, couleurs et espacements optimisés pour l'engagement.</p>
+      <p class="feature-desc">Des mises en page pensées pour les réseaux sociaux - typographies, couleurs et espacements optimisés pour gagner en visibilité.</p>
     </div>
     <div class="feature-card">
       <span class="feature-icon">⚡</span>
       <div class="feature-title">Export Instantané</div>
-      <p class="feature-desc">Exportez vos carrousels en PNG, PDF ou PowerPoint en un clic. Compatible avec tous les outils de publication.</p>
+      <p class="feature-desc">Exportez vos présentations en PNG, PDF ou PowerPoint en un clic. Compatible avec tous les outils de publication.</p>
     </div>
     <div class="feature-card">
       <span class="feature-icon">🔧</span>
@@ -970,7 +981,7 @@ footer {
     <div class="feature-card">
       <span class="feature-icon">📱</span>
       <div class="feature-title">Optimisé Mobile</div>
-      <p class="feature-desc">Formats parfaitement calibrés pour l'affichage LinkedIn sur mobile, où 80% des lectures ont lieu.</p>
+      <p class="feature-desc">Formats parfaitement calibrés pour l'affichage des réseaux sociaux sur mobile, où 80% des lectures ont lieu.</p>
     </div>
     <div class="feature-card">
       <span class="feature-icon">🔒</span>
@@ -990,7 +1001,7 @@ footer {
   <div style="text-align:center">
     <div class="section-tag">// Sous le capot</div>
     <h2 class="section-title reveal">Un contrôle total<br>sur chaque détail</h2>
-    <p class="section-lead reveal" style="margin:0 auto">Chaque carrousel se construit slide par slide, avec un réglage précis de chaque paramètre visuel.</p>
+    <p class="section-lead reveal" style="margin:0 auto">Chaque carrousel se construit slide par slide, avec un réglage possible de chaque paramètre visuel.</p>
   </div>
 
   <div class="preview-layout">
@@ -1025,7 +1036,7 @@ footer {
       <div class="param-group reveal">
         <div class="param-label">Fonds</div>
         <div class="param-title">Couleur, dégradé, image ou motif</div>
-        <p class="param-desc">Couleur unie, dégradé à deux tons et angle réglable, image personnelle avec transparence préservée, ou motif géométrique discret en arrière-plan.</p>
+        <p class="param-desc">Couleur unie, dégradé à deux tons, image personnelle avec transparence préservée, ou motif géométrique discret en arrière-plan, etc.</p>
       </div>
       <div class="param-group reveal">
         <div class="param-label">Typographie</div>
@@ -1035,7 +1046,7 @@ footer {
       <div class="param-group reveal">
         <div class="param-label">Branding</div>
         <div class="param-title">Votre marque, partout</div>
-        <p class="param-desc">Logo, couleur d'accent et nom affiché en pied de page sur chaque slide, appliqués automatiquement à tout le carrousel.</p>
+        <p class="param-desc">Logo, couleur et pied de page personnalisé avec votre identité de marque, appliqués automatiquement.</p>
       </div>
       <div class="param-group reveal">
         <div class="param-label">Export</div>
@@ -1124,7 +1135,7 @@ footer {
   </div>
 
   <div class="pricing-guarantee">
-    Paiement 100% sécurisé par Stripe · Clé de licence envoyée par email en quelques minutes
+    Choisissez votre formule et bénéficiez d'un paiement sécurisé via Stripe · Clé de licence envoyée par email en quelques minutes.
   </div>
 </section>
 
@@ -1132,7 +1143,7 @@ footer {
 <div class="cta-band">
   <h2>Prêt à créer des carrousels<br>qui font la différence ?</h2>
   <p>Rejoignez les professionnels qui publient avec My Prez chaque semaine.</p>
-  <a href="#tarifs" class="btn-primary">Voir les tarifs →</a>
+  <a href="https://viaaucta-conseil.github.io/myprez/myprez" class="btn-primary">Commencer →</a>
 </div>
 
 <!-- FAQ -->
@@ -1157,7 +1168,7 @@ footer {
     </div>
     <div class="faq-item reveal">
       <div class="faq-q">Puis-je utiliser My Prez sur plusieurs appareils ?</div>
-      <div class="faq-a">Oui. La licence est illimitée en nombre d'appareils. Par ce que chez Via Aucta conseil, on sait que la flexibilité n'est pas un compromis.</div>
+      <div class="faq-a">Oui. La licence est illimitée en nombre d'appareils, pour que vous pissiez en bénéficier où que vous vous trouviez.</div>
     </div>
     <div class="faq-item reveal">
       <div class="faq-q">Y a-t-il un support en cas de problème ?</div>
@@ -1216,9 +1227,9 @@ footer {
       <strong>Dernière mise à jour : juin 2026</strong><br><br>
 
       <strong>Article 1 — Identification du vendeur</strong><br>
-      Via Aucta Conseil, micro-entreprise individuelle.<br>
+      Via Aucta Conseil,<br>
       Contact : viaauctaconseil@gmail.com<br>
-      TVA non applicable, article 293 B du Code général des impôts.<br><br>
+      <br><br>
 
       <strong>Article 2 — Objet</strong><br>
       Les présentes conditions régissent la vente de licences d'utilisation du
@@ -1234,7 +1245,7 @@ footer {
       vigueur au moment de l'achat.<br><br>
 
       <strong>Article 4 — Paiement</strong><br>
-      Le paiement s'effectue en ligne, en une seule fois, via la plateforme
+      Le paiement s'effectue en ligne par carte, en une seule fois, via la plateforme
       sécurisée Stripe. Via Aucta Conseil ne collecte ni ne conserve aucune
       donnée bancaire.<br><br>
 
