@@ -928,6 +928,22 @@ input,textarea,select{font-family:'DM Sans',sans-serif;outline:none}
         <label>Taille police branding — <span id="brandFsLbl">32px</span></label>
         <input type="range" id="brandFs" min="12" max="60" value="32" style="width:100%;accent-color:var(--orange)" oninput="C[ac].brandFs=+this.value;document.getElementById('brandFsLbl').textContent=this.value+'px';renderSlide()"/>
       </div>
+      <div class="field">
+        <label>Couleur branding — fond sombre</label>
+        <div class="color-picker-wrap">
+          <input type="color" class="color-input" id="brandColorDark" value="#FFFFFF" oninput="C[ac].brandColorDark=hexToRgba(this.value,0.28);document.getElementById('brandColorDarkHex').value=this.value;renderSlide()"/>
+          <input class="einp2" id="brandColorDarkHex" value="#FFFFFF" style="flex:1" oninput="document.getElementById('brandColorDark').value=this.value;C[ac].brandColorDark=hexToRgba(this.value,0.28);renderSlide()"/>
+        </div>
+        <div class="field-hint">Utilisée quand le fond de la slide est sombre (cover, hook, step)</div>
+      </div>
+      <div class="field">
+        <label>Couleur branding — fond clair</label>
+        <div class="color-picker-wrap">
+          <input type="color" class="color-input" id="brandColorLight" value="#0D2B4E" oninput="C[ac].brandColorLight=hexToRgba(this.value,0.35);document.getElementById('brandColorLightHex').value=this.value;renderSlide()"/>
+          <input class="einp2" id="brandColorLightHex" value="#0D2B4E" style="flex:1" oninput="document.getElementById('brandColorLight').value=this.value;C[ac].brandColorLight=hexToRgba(this.value,0.35);renderSlide()"/>
+        </div>
+        <div class="field-hint">Utilisée quand le fond de la slide est clair (quote, white)</div>
+      </div>
     </div>
   </div>
 
@@ -1265,8 +1281,10 @@ function slHTML(s,idx,tot,forExport){
   var logoData  = car().logo     || null;
   var logoShape = car().logoShape|| 'circle';
   var logoSize  = car().logoSize != null ? car().logoSize : 40;
+  var brandColorDark  = car().brandColorDark  || 'rgba(255,255,255,0.28)';
+  var brandColorLight = car().brandColorLight || 'rgba(13,43,78,0.35)';
   function bot(dark, slideNum, totSlides){
-    var brandColor= dark ? 'rgba(255,255,255,0.28)' : 'rgba(13,43,78,0.35)';
+    var brandColor= dark ? brandColorDark : brandColorLight;
     var numColor  = dark ? 'rgba(255,255,255,0.45)' : 'rgba(13,43,78,0.45)';
     var borderCls = dark ? 'bot-dark' : 'bot-light';
     var numStr    = (slideNum||'') ? esc(String(slideNum).padStart(2,'0'))+'/'+String(totSlides||tot).padStart(2,'0') : '';
@@ -1505,6 +1523,19 @@ function isDarkColor(hex){
   var r=parseInt(hex.slice(1,3)||'0',16),g=parseInt(hex.slice(3,5)||'0',16),b=parseInt(hex.slice(5,7)||'0',16);
   return (r*299+g*587+b*114)/1000<128;
 }
+function hexToRgba(hex, alpha){
+  var r=parseInt(hex.slice(1,3)||'0',16),g=parseInt(hex.slice(3,5)||'0',16),b=parseInt(hex.slice(5,7)||'0',16);
+  return 'rgba('+r+','+g+','+b+','+alpha+')';
+}
+function rgbaToHex(rgba){
+  // Extrait r,g,b d'une chaîne "rgba(r,g,b,a)" et la convertit en hex (ignore l'alpha pour l'input color)
+  var m = (rgba||'').match(/rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/);
+  if(!m) return '#FFFFFF';
+  var r=parseInt(m[1]).toString(16).padStart(2,'0');
+  var g=parseInt(m[2]).toString(16).padStart(2,'0');
+  var b=parseInt(m[3]).toString(16).padStart(2,'0');
+  return '#'+r+g+b;
+}
 
 /* ═══ SCALE ═══ */
 function scale(){ scalePreview(); }
@@ -1719,6 +1750,14 @@ function renderCarTab2(){
   // Brand footer font size
   var bfsEl=document.getElementById('brandFs');
   var bfsLbl=document.getElementById('brandFsLbl');
+  if(bfsEl){ var bfs=c.brandFs!=null?c.brandFs:32; bfsEl.value=bfs; if(bfsLbl) bfsLbl.textContent=bfs+'px'; }
+  // Brand colors (dark bg / light bg)
+  var bcdEl=document.getElementById('brandColorDark');
+  var bcdHex=document.getElementById('brandColorDarkHex');
+  if(bcdEl){ var bcdHexVal=rgbaToHex(c.brandColorDark||'rgba(255,255,255,0.28)'); bcdEl.value=bcdHexVal; if(bcdHex) bcdHex.value=bcdHexVal; }
+  var bclEl=document.getElementById('brandColorLight');
+  var bclHex=document.getElementById('brandColorLightHex');
+  if(bclEl){ var bclHexVal=rgbaToHex(c.brandColorLight||'rgba(13,43,78,0.35)'); bclEl.value=bclHexVal; if(bclHex) bclHex.value=bclHexVal; }
   // Logo
   updateLogoUI();
 }
@@ -1726,13 +1765,15 @@ function renderCarTab2(){
 function resetCarDefaults(){
   if(!confirm('Remettre tous les paramètres du carrousel aux valeurs par défaut ?')) return;
   var c = car();
-  c.accent        = '#F05A1A';
-  c.obar          = { color:'#F05A1A', w:52, h:5, dotW:20, dotH:5 };
-  c.fontTitle     = "'Playfair Display',sans-serif";
-  c.fontBody      = "'DM Sans',sans-serif";
-  c.mainTextColor = '#FFFFFF';
-  c.secTextColor  = '#0D2B4E';
-  c.brandFs       = 32;
+  c.accent          = '#F05A1A';
+  c.obar            = { color:'#F05A1A', w:52, h:5, dotW:20, dotH:5 };
+  c.fontTitle       = "'Playfair Display',sans-serif";
+  c.fontBody        = "'DM Sans',sans-serif";
+  c.mainTextColor   = '#FFFFFF';
+  c.secTextColor    = '#0D2B4E';
+  c.brandFs         = 32;
+  c.brandColorDark  = 'rgba(255,255,255,0.28)';
+  c.brandColorLight = 'rgba(13,43,78,0.35)';
   renderCarTab2();
   renderSlide();
   notif('Paramètres remis aux valeurs par défaut.');
