@@ -1788,6 +1788,7 @@ function render(){
   renderEditor();
   renderRightPanel();
   if(ptab===2) renderCarTab2();
+  if(ptab===1) syncBgPanelFromSlide();
 }
 
 /* ═══ LOGO / PHOTO DE PROFIL ═══ */
@@ -2125,8 +2126,36 @@ function setPTab(i){
     document.getElementById('pt'+j).className='ptab'+(j===i?' on':'');
     document.getElementById('pc'+j).style.display=j===i?'block':'none';
   }
-  if(i===2) renderCarTab2();
-  if(i===1) syncBgPanelFromSlide();
+  if(i===2){ renderCarTab2(); wireHistoryForPanel('pc2'); }
+  if(i===1){ syncBgPanelFromSlide(); wireHistoryForPanel('pc1'); }
+}
+
+// Attache un snapshot d'historique unique par interaction (au premier focus/mousedown,
+// pas à chaque pixel glissé sur un slider) à tous les contrôles d'un panneau donné.
+// Évite de spammer 200 entrées d'historique quand on glisse un slider de taille de police,
+// tout en garantissant qu'Annuler/Refaire fonctionnent aussi pour les couleurs, polices,
+// curseurs obar/dot, et tout réglage de l'onglet Fond ou Carrousel.
+var _wiredPanels = {};
+function wireHistoryForPanel(panelId){
+  if(_wiredPanels[panelId]) return; // déjà câblé, ne pas dupliquer les écouteurs
+  _wiredPanels[panelId] = true;
+  var panel = document.getElementById(panelId);
+  if(!panel) return;
+  panel.querySelectorAll('input, select').forEach(function(el){
+    if(el.type === 'range' || el.type === 'color'){
+      el.addEventListener('mousedown', histSaveOnFocus);
+      el.addEventListener('touchstart', histSaveOnFocus);
+      el.addEventListener('change', histResetPending); // relâchement = fin de l'interaction
+    } else {
+      el.addEventListener('focus', histSaveOnFocus);
+      el.addEventListener('blur', histResetPending);
+    }
+  });
+  // Swatches, presets et boutons à clic unique (pas des <input>) : un clic = un snapshot avant l'action.
+  // capture:true pour s'exécuter avant le onclick inline existant (qui modifie l'état).
+  panel.querySelectorAll('.color-swatch, .grad-preset, .pattern-btn, .bg-type-btn').forEach(function(el){
+    el.addEventListener('mousedown', function(){ histSave(); }, true);
+  });
 }
 
 // Initialise le panneau Fond avec les valeurs réelles de la slide active
@@ -2283,10 +2312,12 @@ function updatePatternBg(){
   livePreviewBg();
 }
 function applyBgToAll(){
+  histSave();
   car().slides.forEach(function(s){s.bg=JSON.parse(JSON.stringify(currentBg));});
   renderSlide();notif('Fond appliqué à toutes les slides');
 }
 function applyBgToCurrent(){
+  histSave();
   sl().bg=JSON.parse(JSON.stringify(currentBg));
   renderSlide();notif('Fond appliqué à la slide '+( as+1));
 }
