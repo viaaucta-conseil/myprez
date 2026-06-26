@@ -195,7 +195,7 @@ input,textarea,select{font-family:'DM Sans',sans-serif;outline:none}
 .sl-cov .ptag{position:absolute;top:52px;left:80px;background:#F05A1A;color:white;font-family:'Playfair Display',sans-serif;padding:7px 20px;font-weight:900;letter-spacing:4px;border-radius:4px;text-transform:uppercase}
 .sl-cov .sn{position:absolute;top:995px;left:80px;font-family:'Playfair Display',sans-serif;font-size:30px;font-weight:700;color:rgba(255,255,255,0.28);letter-spacing:2px}
 /* ── UNIFIED BOT (footer) for all slides ── */
-.sl .bot{display:flex;align-items:center;justify-content:space-between;padding-top:28px;border-top-width:1px;border-top-style:solid}
+.sl .bot{display:flex;align-items:center;justify-content:space-between;padding-top:28px;border-top-width:1px;border-top-style:solid;position:relative;z-index:2}
 .sl .bot-dark{border-top-color:rgba(255,255,255,0.12)}
 .sl .bot-light{border-top-color:rgba(13,43,78,0.10)}
 .sl .bot-inner{display:flex;align-items:center;gap:14px}
@@ -282,10 +282,10 @@ input,textarea,select{font-family:'DM Sans',sans-serif;outline:none}
 
 /* DARK HOOK */
 .sl-dk{padding:80px;justify-content:space-between}
-.sl-dk .top{display:flex;align-items:center;justify-content:space-between}
+.sl-dk .top{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:2}
 .sl-dk .pill{font-family:'Playfair Display',sans-serif;font-weight:900;letter-spacing:3px;background:#F05A1A;color:white;padding:8px 18px;border-radius:6px;text-transform:uppercase}
 .sl-dk .pnum{font-family:'Playfair Display',sans-serif;font-size:20px;font-weight:700;color:rgba(255,255,255,0.1)}
-.sl-dk .body{flex:1;display:flex;flex-direction:column;justify-content:flex-start;padding-top:80px}
+.sl-dk .body{flex:1;display:flex;flex-direction:column;justify-content:flex-start;padding-top:80px;position:relative;z-index:2}
 .sl-dk .obar{width:56px;height:5px;background:#F05A1A;border-radius:3px;margin-bottom:36px}
 .sl-dk .stmt{font-family:'Playfair Display',sans-serif;font-weight:900;line-height:1.05;color:white;margin-bottom:36px;white-space:pre-line}
 .sl-dk .stmt em{color:#F05A1A;font-style:normal}
@@ -297,10 +297,10 @@ input,textarea,select{font-family:'DM Sans',sans-serif;outline:none}
 
 /* NAVY STEPS */
 .sl-nv{padding:80px;justify-content:space-between}
-.sl-nv .top{display:flex;align-items:center;justify-content:space-between}
+.sl-nv .top{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:2}
 .sl-nv .pill{font-family:'Playfair Display',sans-serif;font-weight:900;letter-spacing:3px;background:#F05A1A;color:white;padding:8px 18px;border-radius:6px;text-transform:uppercase}
 .sl-nv .pnum{font-family:'Playfair Display',sans-serif;font-size:20px;font-weight:700;color:rgba(255,255,255,0.1)}
-.sl-nv .body{flex:1;display:flex;flex-direction:column;justify-content:flex-start;padding-top:80px}
+.sl-nv .body{flex:1;display:flex;flex-direction:column;justify-content:flex-start;padding-top:80px;position:relative;z-index:2}
 .sl-nv .obar{width:56px;height:5px;background:#F05A1A;border-radius:3px;margin-bottom:32px}
 .sl-nv .items{display:flex;flex-direction:column;gap:26px}
 .sl-nv .item{display:flex;align-items:flex-start;gap:22px}
@@ -314,10 +314,10 @@ input,textarea,select{font-family:'DM Sans',sans-serif;outline:none}
 
 /* WHITE QUOTE */
 .sl-wh{padding:80px;justify-content:space-between}
-.sl-wh .top{display:flex;align-items:center;justify-content:space-between}
+.sl-wh .top{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:2}
 .sl-wh .pill{font-family:'Playfair Display',sans-serif;font-weight:900;letter-spacing:3px;background:#0D2B4E;color:white;padding:8px 18px;border-radius:6px;text-transform:uppercase}
 .sl-wh .pnum{font-family:'Playfair Display',sans-serif;font-size:20px;font-weight:700;color:rgba(13,43,78,0.15)}
-.sl-wh .body{flex:1;display:flex;flex-direction:column;justify-content:flex-start;padding-top:80px}
+.sl-wh .body{flex:1;display:flex;flex-direction:column;justify-content:flex-start;padding-top:80px;position:relative;z-index:2}
 .sl-wh .obar{width:56px;height:5px;background:#F05A1A;border-radius:3px;margin-bottom:36px}
 .sl-wh .quote{font-family:'Playfair Display',sans-serif;font-weight:900;line-height:1.05;color:#0D2B4E;white-space:pre-line}
 .sl-wh .quote em{color:#F05A1A;font-style:normal}
@@ -330,11 +330,11 @@ input,textarea,select{font-family:'DM Sans',sans-serif;outline:none}
 /* CTA ORANGE */
 .sl-ct{padding:80px;justify-content:center;align-items:center;text-align:center;position:relative}
 .sl-ct .c1{position:absolute;top:960px;right:-60px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,0.08)}
-.sl-ct .eyebrow{font-family:'Playfair Display',sans-serif;font-weight:400;letter-spacing:6px;color:rgba(255,255,255,0.55);text-transform:uppercase;margin-bottom:30px}
-.sl-ct .main-t{font-family:'Playfair Display',sans-serif;font-weight:900;line-height:1.0;color:white;letter-spacing:-1px;margin-bottom:42px;white-space:pre-line}
-.sl-ct .ctxt{color:rgba(255,255,255,0.78);line-height:1.6;margin-bottom:50px;max-width:800px}
-.sl-ct .cpill{background:#0D2B4E;color:white;font-family:'Playfair Display',sans-serif;font-weight:900;letter-spacing:3px;padding:20px 50px;border-radius:6px;display:inline-block}
-.sl-ct .clogo{position:absolute;top:962px;left:50%;transform:translateX(-50%);font-family:'Playfair Display',sans-serif;font-size:17px;font-weight:900;letter-spacing:3px;color:rgba(255,255,255,0.28);white-space:nowrap}
+.sl-ct .eyebrow{font-family:'Playfair Display',sans-serif;font-weight:400;letter-spacing:6px;color:rgba(255,255,255,0.55);text-transform:uppercase;margin-bottom:30px;position:relative;z-index:2}
+.sl-ct .main-t{font-family:'Playfair Display',sans-serif;font-weight:900;line-height:1.0;color:white;letter-spacing:-1px;margin-bottom:42px;white-space:pre-line;position:relative;z-index:2}
+.sl-ct .ctxt{color:rgba(255,255,255,0.78);line-height:1.6;margin-bottom:50px;max-width:800px;position:relative;z-index:2}
+.sl-ct .cpill{background:#0D2B4E;color:white;font-family:'Playfair Display',sans-serif;font-weight:900;letter-spacing:3px;padding:20px 50px;border-radius:6px;display:inline-block;position:relative;z-index:2}
+.sl-ct .clogo{position:absolute;top:962px;left:50%;transform:translateX(-50%);font-family:'Playfair Display',sans-serif;font-size:17px;font-weight:900;letter-spacing:3px;color:rgba(255,255,255,0.28);white-space:nowrap;z-index:2}
 
 /* ═══════════════════════════════════════════
    RIGHT PANEL — POST LINKEDIN
@@ -2085,6 +2085,34 @@ function setPTab(i){
     document.getElementById('pc'+j).style.display=j===i?'block':'none';
   }
   if(i===2) renderCarTab2();
+  if(i===1) syncBgPanelFromSlide();
+}
+
+// Initialise le panneau Fond avec les valeurs réelles de la slide active
+// — sans ça, currentBg repartait toujours du défaut (#0D2B4E) au lieu de la couleur en place.
+function syncBgPanelFromSlide(){
+  var bg = sl().bg || {type:'solid', color:'#0D2B4E', textColor:'#FFFFFF'};
+  currentBg = JSON.parse(JSON.stringify(bg));
+
+  if(bg.type === 'gradient'){
+    setBgType('gradient');
+    var parts = (bg.gradient||'135deg,#0D2B4E,#1B3F6E').split(',');
+    var angle = parts[0].replace('deg','');
+    try{document.getElementById('gradAngle').value=angle;document.getElementById('gradAngleLbl').textContent=angle+'°';}catch(e){}
+    try{document.getElementById('grad1').value=parts[1]||'#0D2B4E';}catch(e){}
+    try{document.getElementById('grad2').value=parts[2]||'#1B3F6E';}catch(e){}
+  } else if(bg.type === 'image'){
+    setBgType('image');
+  } else if(bg.type === 'pattern'){
+    setBgType('pattern');
+    try{document.getElementById('patBgColor').value=bg.color||'#0D2B4E';}catch(e){}
+    try{document.getElementById('patColor').value=bg.patternColor||'#FFFFFF';}catch(e){}
+  } else {
+    setBgType('solid');
+    try{document.getElementById('bgColorPicker').value=bg.color||'#0D2B4E';}catch(e){}
+    try{document.getElementById('bgColorHex').value=bg.color||'#0D2B4E';}catch(e){}
+  }
+  try{document.getElementById('textColorPicker').value=bg.textColor||'#FFFFFF';}catch(e){}
 }
 
 /* ═══ BACKGROUND ═══ */
@@ -2096,29 +2124,45 @@ function setBgType(t){
     document.getElementById('bg-'+x).style.display=x===t?'block':'none';
   });
 }
+var currentBg={type:'solid',color:'#0D2B4E',textColor:'#FFFFFF'};
+
 function setBgColor(color,el){
   if(el){document.querySelectorAll('#bg-solid .color-swatch').forEach(function(e){e.classList.remove('on')});el.classList.add('on');}
   try{document.getElementById('bgColorPicker').value=color;}catch(e){}
   try{document.getElementById('bgColorHex').value=color;}catch(e){}
-  currentBg={type:'solid',color:color,textColor:sl().bg?sl().bg.textColor:'#FFFFFF'};
+  currentBg={type:'solid',color:color,textColor:currentBg.textColor||'#FFFFFF'};
+  livePreviewBg();
 }
 function setTextColor(color,el){
   if(el){document.querySelectorAll('#bg-solid .color-row:last-of-type .color-swatch').forEach(function(e){e.classList.remove('on')});if(el)el.classList.add('on');}
-  currentBg=currentBg||{};currentBg.textColor=color;
+  currentBg=currentBg||{type:'solid',color:'#0D2B4E'};
+  currentBg.textColor=color;
+  try{document.getElementById('textColorPicker').value=color;}catch(e){}
+  livePreviewBg();
 }
-var currentBg={type:'solid',color:'#0D2B4E',textColor:'#FFFFFF'};
 function setGradient(g,el){
   if(el){document.querySelectorAll('.grad-preset').forEach(function(e){e.classList.remove('on')});el.classList.add('on');}
-  currentBg={type:'gradient',gradient:g,textColor:'#FFFFFF'};
+  currentBg={type:'gradient',gradient:g,textColor:currentBg.textColor||'#FFFFFF'};
   var parts=g.replace(/(^\w+deg,)/,'').split(',');
   try{document.getElementById('grad1').value=parts[0]||'#0D2B4E';}catch(e){}
   try{document.getElementById('grad2').value=parts[1]||'#1B3F6E';}catch(e){}
+  livePreviewBg();
 }
 function updateGradient(){
   var a=document.getElementById('gradAngle').value;
   var c1=document.getElementById('grad1').value;
   var c2=document.getElementById('grad2').value;
-  currentBg={type:'gradient',gradient:a+'deg,'+c1+','+c2,textColor:'#FFFFFF'};
+  currentBg={type:'gradient',gradient:a+'deg,'+c1+','+c2,textColor:currentBg.textColor||'#FFFFFF'};
+  livePreviewBg();
+}
+
+// Met à jour l'aperçu en direct sur la slide actuelle SANS écraser sl().bg
+// — tant que l'utilisateur n'a pas cliqué sur "Appliquer", c'est un aperçu temporaire.
+function livePreviewBg(){
+  var s = sl();
+  var preview = JSON.parse(JSON.stringify(currentBg));
+  document.getElementById('previewFrame').innerHTML = slHTML(Object.assign({}, s, {bg: preview}), as, car().slides.length, false);
+  scale();
 }
 function loadBgImage(e){
   var f=e.target.files[0];if(!f)return;
@@ -2145,16 +2189,18 @@ function loadBgImage(e){
       document.getElementById('bgColorField').style.display='none';
       notif('Image chargée. Cliquez "Appliquer".');
     }
+    livePreviewBg();
   };
   r.readAsDataURL(f);
   e.target.value='';
 }
 function removeBgImage(){
-  currentBg={type:'solid',color:'#0D2B4E',textColor:'#FFFFFF'};
+  currentBg={type:'solid',color:'#0D2B4E',textColor:currentBg.textColor||'#FFFFFF'};
   document.getElementById('bgImgPreview').style.display='none';
   document.getElementById('bgImgInput').value='';
   // Switch panel back to solid
   setBgType('solid');
+  livePreviewBg();
   notif('Image supprimée. Cliquez "Appliquer" pour confirmer.');
 }
 function onImgSizeChange(){
@@ -2174,6 +2220,7 @@ function updateImgBg(){
   var isTransp = currentBg.transparent;
   document.getElementById('bgOverlayField').style.display = isTransp ? 'none' : 'block';
   document.getElementById('bgColorField').style.display   = isTransp ? 'block' : 'none';
+  livePreviewBg();
 }
 function setBgImgColor(color){
   currentBg.imgBgColor = color;
@@ -2181,15 +2228,18 @@ function setBgImgColor(color){
     document.getElementById('bgImgBgColor').value = color;
     document.getElementById('bgImgBgColorHex').value = color;
   }
+  livePreviewBg();
 }
 function setPattern(p,el){
   if(el){document.querySelectorAll('.pattern-btn').forEach(function(e){e.classList.remove('on')});el.classList.add('on');}
-  currentBg={type:'pattern',pattern:p,color:document.getElementById('patBgColor').value,patternColor:document.getElementById('patColor').value,textColor:'#FFFFFF'};
+  currentBg={type:'pattern',pattern:p,color:document.getElementById('patBgColor').value,patternColor:document.getElementById('patColor').value,textColor:currentBg.textColor||'#FFFFFF'};
+  livePreviewBg();
 }
 function updatePatternBg(){
   if(currentBg.type!=='pattern')currentBg={type:'pattern',pattern:'grid',textColor:'#FFFFFF'};
   currentBg.color=document.getElementById('patBgColor').value;
   currentBg.patternColor=document.getElementById('patColor').value;
+  livePreviewBg();
 }
 function applyBgToAll(){
   car().slides.forEach(function(s){s.bg=JSON.parse(JSON.stringify(currentBg));});
