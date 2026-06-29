@@ -931,17 +931,21 @@ input,textarea,select{font-family:'DM Sans',sans-serif;outline:none}
       <div class="field">
         <label>Couleur branding — fond sombre</label>
         <div class="color-picker-wrap">
-          <input type="color" class="color-input" id="brandColorDark" value="#FFFFFF" oninput="C[ac].brandColorDark=hexToRgba(this.value,0.28);document.getElementById('brandColorDarkHex').value=this.value;renderSlide()"/>
-          <input class="einp2" id="brandColorDarkHex" value="#FFFFFF" style="flex:1" oninput="document.getElementById('brandColorDark').value=this.value;C[ac].brandColorDark=hexToRgba(this.value,0.28);renderSlide()"/>
+          <input type="color" class="color-input" id="brandColorDark" value="#FFFFFF" oninput="updateBrandColor('Dark')"/>
+          <input class="einp2" id="brandColorDarkHex" value="#FFFFFF" style="flex:1" oninput="document.getElementById('brandColorDark').value=this.value;updateBrandColor('Dark')"/>
         </div>
+        <label style="margin-top:8px">Opacité — <span id="brandOpacityDarkLbl">28%</span></label>
+        <input type="range" id="brandOpacityDark" min="0" max="100" value="28" style="width:100%;accent-color:var(--orange)" oninput="document.getElementById('brandOpacityDarkLbl').textContent=this.value+'%';updateBrandColor('Dark')"/>
         <div class="field-hint">Utilisée quand le fond de la slide est sombre (cover, hook, step)</div>
       </div>
       <div class="field">
         <label>Couleur branding — fond clair</label>
         <div class="color-picker-wrap">
-          <input type="color" class="color-input" id="brandColorLight" value="#0D2B4E" oninput="C[ac].brandColorLight=hexToRgba(this.value,0.35);document.getElementById('brandColorLightHex').value=this.value;renderSlide()"/>
-          <input class="einp2" id="brandColorLightHex" value="#0D2B4E" style="flex:1" oninput="document.getElementById('brandColorLight').value=this.value;C[ac].brandColorLight=hexToRgba(this.value,0.35);renderSlide()"/>
+          <input type="color" class="color-input" id="brandColorLight" value="#0D2B4E" oninput="updateBrandColor('Light')"/>
+          <input class="einp2" id="brandColorLightHex" value="#0D2B4E" style="flex:1" oninput="document.getElementById('brandColorLight').value=this.value;updateBrandColor('Light')"/>
         </div>
+        <label style="margin-top:8px">Opacité — <span id="brandOpacityLightLbl">35%</span></label>
+        <input type="range" id="brandOpacityLight" min="0" max="100" value="35" style="width:100%;accent-color:var(--orange)" oninput="document.getElementById('brandOpacityLightLbl').textContent=this.value+'%';updateBrandColor('Light')"/>
         <div class="field-hint">Utilisée quand le fond de la slide est clair (quote, white)</div>
       </div>
     </div>
@@ -1301,6 +1305,7 @@ function slHTML(s,idx,tot,forExport){
   }
 
   if(s.t==='cover'){
+    var isDarkCov = isDarkColor(bg.color||'#0D2B4E');
     var coverTC = mainTC || tc;
     return '<div class="sl sl-cov" style="'+bgStyle+';color:'+coverTC+';font-family:'+fontBody+'">'
       +imgTag
@@ -1308,8 +1313,8 @@ function slHTML(s,idx,tot,forExport){
       +'<div style="position:relative;z-index:2">'
       +'<div class="ttl" style="color:'+coverTC+';font-family:'+fontTitle+';font-size:'+fsp('ttl',120)+'">'+parseEM((s.title||'').replace(/\n/g,'↵'),acc).replace(/↵/g,'<br>')+'</div>'
       +'<div class="obar" style="border-radius:3px;'+obarStyle+'"></div>'
-      +'<div class="sub" style="color:rgba(255,255,255,0.48);font-family:'+fontBody+';font-size:'+fsp('sub',60)+'">'+esc(s.sub||'')+'</div>'
-      +bot(true, n, tot)
+      +'<div class="sub" style="color:'+(isDarkCov?'rgba(255,255,255,0.48)':'rgba(13,43,78,0.55)')+';font-family:'+fontBody+';font-size:'+fsp('sub',60)+'">'+esc(s.sub||'')+'</div>'
+      +bot(isDarkCov, n, tot)
       +'</div></div>';
   }
   
@@ -1329,7 +1334,7 @@ function slHTML(s,idx,tot,forExport){
           ? '<div class="stmt" style="color:'+wcTC+';font-family:'+fontTitle+';font-size:'+fsp('wh_stmt',50)+'">'+parseEM(s.stmt,acc)+'</div>' : '')
       +'</div>'
       +(s.tip ? '<div class="wh-tip"><div class="tip-label" style="font-size:'+fsp('wh_tip',45)+'">💡 TIP</div><div style="font-size:'+fsp('wh_tip',45)+'">'+esc(s.tip)+'</div></div>' : '')
-      +bot(!isDarkColor(bg.color||'#F4F4F2') ? false : true, n, tot)
+      +bot(isDarkColor(bg.color||'#F4F4F2'), n, tot)
     +'</div>';
   }
   
@@ -1535,6 +1540,21 @@ function rgbaToHex(rgba){
   var g=parseInt(m[2]).toString(16).padStart(2,'0');
   var b=parseInt(m[3]).toString(16).padStart(2,'0');
   return '#'+r+g+b;
+}
+function rgbaToAlphaPct(rgba, fallback){
+  // Extrait l'alpha d'une chaîne "rgba(r,g,b,a)" et le renvoie en pourcentage (0-100)
+  var m = (rgba||'').match(/rgba?\([^,]+,[^,]+,[^,]+,\s*([\d.]+)\s*\)/);
+  if(!m) return fallback!=null ? fallback : 100;
+  return Math.round(parseFloat(m[1]) * 100);
+}
+// Point d'entrée unique pour les couleurs de branding (fond sombre/clair) :
+// lit le hex + le slider d'opacité correspondant, recompose la rgba, et met à jour C[ac].
+function updateBrandColor(variant){
+  var hexInput = document.getElementById('brandColor'+variant);
+  var pct      = parseInt(document.getElementById('brandOpacity'+variant).value, 10);
+  document.getElementById('brandColor'+variant+'Hex').value = hexInput.value;
+  C[ac]['brandColor'+variant] = hexToRgba(hexInput.value, (pct/100).toFixed(2));
+  renderSlide();
 }
 
 /* ═══ SCALE ═══ */
@@ -1754,10 +1774,26 @@ function renderCarTab2(){
   // Brand colors (dark bg / light bg)
   var bcdEl=document.getElementById('brandColorDark');
   var bcdHex=document.getElementById('brandColorDarkHex');
-  if(bcdEl){ var bcdHexVal=rgbaToHex(c.brandColorDark||'rgba(255,255,255,0.28)'); bcdEl.value=bcdHexVal; if(bcdHex) bcdHex.value=bcdHexVal; }
+  var bcdOp=document.getElementById('brandOpacityDark');
+  var bcdOpLbl=document.getElementById('brandOpacityDarkLbl');
+  if(bcdEl){
+    var bcdRgba=c.brandColorDark||'rgba(255,255,255,0.28)';
+    var bcdHexVal=rgbaToHex(bcdRgba);
+    bcdEl.value=bcdHexVal; if(bcdHex) bcdHex.value=bcdHexVal;
+    var bcdPct=rgbaToAlphaPct(bcdRgba,28);
+    if(bcdOp){ bcdOp.value=bcdPct; if(bcdOpLbl) bcdOpLbl.textContent=bcdPct+'%'; }
+  }
   var bclEl=document.getElementById('brandColorLight');
   var bclHex=document.getElementById('brandColorLightHex');
-  if(bclEl){ var bclHexVal=rgbaToHex(c.brandColorLight||'rgba(13,43,78,0.35)'); bclEl.value=bclHexVal; if(bclHex) bclHex.value=bclHexVal; }
+  var bclOp=document.getElementById('brandOpacityLight');
+  var bclOpLbl=document.getElementById('brandOpacityLightLbl');
+  if(bclEl){
+    var bclRgba=c.brandColorLight||'rgba(13,43,78,0.35)';
+    var bclHexVal=rgbaToHex(bclRgba);
+    bclEl.value=bclHexVal; if(bclHex) bclHex.value=bclHexVal;
+    var bclPct=rgbaToAlphaPct(bclRgba,35);
+    if(bclOp){ bclOp.value=bclPct; if(bclOpLbl) bclOpLbl.textContent=bclPct+'%'; }
+  }
   // Logo
   updateLogoUI();
 }
