@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -291,6 +292,13 @@ input,textarea,select{font-family:'DM Sans',sans-serif;outline:none}
 .sl-dk .stmt em{color:#F05A1A;font-style:normal}
 .sl-dk .stxt{line-height:1.65;color:rgba(255,255,255,0.5)}
 
+/* ── Slide type IMAGE ── */
+.sl-img{padding:0;position:relative;overflow:hidden;justify-content:flex-end}
+.sl-img .img-layer{position:absolute;object-fit:contain;pointer-events:none;z-index:1}
+.sl-img .img-pill{position:absolute;top:52px;left:80px;font-family:'Playfair Display',sans-serif;font-weight:900;letter-spacing:3px;padding:8px 18px;border-radius:6px;text-transform:uppercase;z-index:3}
+.sl-img .img-empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.4);font-family:'DM Sans',sans-serif;font-size:22px;font-weight:600;letter-spacing:2px;text-transform:uppercase;z-index:2}
+.sl-img .img-bot-wrap{padding:0 80px 40px 80px;position:relative;z-index:3;background:linear-gradient(to top,rgba(0,0,0,0.55),rgba(0,0,0,0))}
+
 
 
 
@@ -498,28 +506,143 @@ input,textarea,select{font-family:'DM Sans',sans-serif;outline:none}
 }
 #legal-modal-overlay.open { display: flex; }
 #legal-modal {
-  background: #0D1628; border: 1px solid #1E3A5F;
+  background: #F4F4F2; border: 1px solid #1E3A5F;
   border-radius: 10px; padding: 32px; max-width: 600px;
   width: 100%; max-height: 80vh; overflow-y: auto;
-  font-family: 'IBM Plex Mono', monospace; font-size: 11px;
-  color: #8AA8C8; line-height: 1.8;
+  font-family: 'DM Sans';sans-serif; font-size: 12px;
+  color: #0D2B4E; line-height: 1.8;
 }
-#legal-modal h3 { color: #F0F6FF; font-size: 13px; margin-bottom: 16px; letter-spacing: 0.05em; }
+#legal-modal h3 { color: #0D2B4E; font-size: 23px; margin-bottom: 16px; letter-spacing: 0.05em; text-align:center; }
 #legal-modal .legal-close {
   margin-top: 20px; background: #1E3A5F; color: #F0F6FF;
   border: none; border-radius: 6px; padding: 8px 20px;
   cursor: pointer; font-family: inherit; font-size: 11px;
 }
-#legal-modal strong { color: #F0F6FF; }
+#legal-modal strong { font-family: 'DM Sans';sans-serif; font-size: 12px;
+  color: #0D2B4E; line-height: 1.8; }
 
 /* Watermark discret en bas de page */
 #app-watermark {
   position: fixed; bottom: 8px; right: 12px;
   font-size: 9px; color: rgba(255,255,255,0.08);
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: 'DM Sans';sans-serif; 
   pointer-events: none; user-select: none;
   z-index: 1000; letter-spacing: 0.05em;
 }
+
+
+/*=========================================================
+  Fenêtre Licence
+=========================================================*/
+
+.license-box{
+    width:min(850px,90vw);
+    max-height:85vh;
+    background:#FFF;
+    border-radius:14px;
+    box-shadow:0 20px 60px rgba(0,0,0,.25);
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+}
+
+.license-content{
+    padding:22px 30px;
+    overflow-y:auto;
+    line-height:1.5;
+    font-size:14px;
+    text-align:justify;
+}
+
+.license-content h2{
+    margin:10px 0 8px;
+    text-align:center;
+    color:#0D2B4E;
+    font-size:18px;
+    font-weight:700;
+}
+
+.license-content p{
+    margin:0;
+	text-align:justify;
+}
+
+.license-separator{
+    height:1px;
+    background:#D8D8D8;
+    margin:14px 0;
+}
+
+.license-content strong{
+    color:#0D2B4E;
+	text-align:justify;
+}
+
+
+.modal{
+    position:fixed;
+    inset:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:rgba(0,0,0,.45);
+    z-index:99999;
+    padding:30px;
+    box-sizing:border-box;
+}
+
+.license-modal{
+    position:fixed;
+    inset:0;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:rgba(0,0,0,.45);
+
+    z-index:99999;
+
+    padding:30px;
+    box-sizing:border-box;
+}
+
+.license-modal.hidden{
+    display:none;
+}
+
+.hidden{
+    display:none;
+}
+
+.modal-box{
+    background:white;
+    border-radius:16px;
+    box-shadow:0 20px 60px rgba(0,0,0,.25);
+}
+
+.modal-header{
+    position:relative;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:18px 24px;
+    border-bottom:1px solid #E5E7EB;
+    font-size:22px;
+    font-weight:700;
+    color:#0D2B4E;
+}
+
+.modal-header .icon-btn{
+    position:absolute;
+    right:16px;
+    top:50%;
+    transform:translateY(-50%);
+}
+
+
+
+
 
 </style>
 </head>
@@ -612,6 +735,7 @@ input,textarea,select{font-family:'DM Sans',sans-serif;outline:none}
           <option value="step">Étapes (Fond Navy)</option>
           <option value="quote">Citation (Fond blanc)</option>
           <option value="cta">CTA (Fond orange)</option>
+          <option value="image">Image (Plein écran)</option>
         </select>
         <button class="btn-add-slide" onclick="addSlide()">+ Ajouter</button>
       </div>
@@ -1395,6 +1519,27 @@ function slHTML(s,idx,tot,forExport){
       +'<div class="clogo" style="font-family:'+fontTitle+';font-size:'+brandFs+'px">'+esc(brand)+'</div>'
       +'</div>';
   }
+  if(s.t==='image'){
+    var imgBg     = (bg && bg.type==='solid') ? ('background:'+(bg.color||'#0D2B4E')) : bgStyle;
+    var imgIsDark = isDarkColor(bg.color||'#0D2B4E');
+    var imgSize   = s.imgSize != null ? s.imgSize : 100;
+    var imgHPos   = s.imgHPos != null ? s.imgHPos : 50;
+    var imgVPos   = s.imgVPos != null ? s.imgVPos : 50;
+    // Horizontal : 0=left, 100=right
+    // Vertical (user) : 0=bas, 100=haut  →  CSS top = 100 - imgVPos
+    var cssTop = 100 - imgVPos;
+    var imgLayer = s.imageData
+      ? '<img class="img-layer" src="'+s.imageData+'" style="width:'+imgSize+'%;height:'+imgSize+'%;left:'+imgHPos+'%;top:'+cssTop+'%;transform:translate(-'+imgHPos+'%,-'+cssTop+'%)"/>'
+      : '<div class="img-empty">Aucune image — Ajoutez-en une dans l\'éditeur</div>';
+    var pillHtml = (s.pill||'').trim()
+      ? '<div class="img-pill" style="background:'+acc+';color:white;font-family:'+fontTitle+';font-size:'+fsp('pill',50)+'">'+esc(s.pill)+'</div>'
+      : '';
+    return '<div class="sl sl-img" style="'+imgBg+';font-family:'+fontBody+'">'
+      +imgLayer
+      +pillHtml
+      +'<div class="img-bot-wrap">'+bot(imgIsDark, s.sn||String(n).padStart(2,'0'), tot)+'</div>'
+      +'</div>';
+  }
   return '<div class="sl" style="background:#F0F2F5"></div>';
 }
 
@@ -1587,8 +1732,8 @@ function renderSlide(){
 
 function renderSlideList(){
   var slides=car().slides,h='';
-  var types={cover:'cover',hook:'dark',step:'navy',quote:'white',cta:'cta'};
-  var labels={cover:'Couverture',hook:'Statement',step:'Étapes',quote:'Citation',cta:'CTA'};
+  var types={cover:'cover',hook:'dark',step:'navy',quote:'white',cta:'cta',image:'cover'};
+  var labels={cover:'Couverture',hook:'Statement',step:'Étapes',quote:'Citation',cta:'CTA',image:'Image'};
   for(var i=0;i<slides.length;i++){
     var s=slides[i];
     var t=types[s.t]||'navy';
@@ -1649,8 +1794,8 @@ function renderEditor(){
       +'</div>';
   };
   h+='<div class="field"><label>Type de slide</label><select class="einp2" onchange="changeSlidetype(this.value)">';
-  ['cover','hook','step','quote','cta','whiteContent'].forEach(function(t){
-    h+='<option value="'+t+'"'+(s.t===t?' selected':'')+'>'+({cover:'Cover Navy',hook:'Statement Sombre',step:'Étapes Navy',quote:'Citation Blanc',cta:'CTA Orange',whiteContent:'Contenu Blanc'}[t]||t)+'</option>';
+  ['cover','hook','step','quote','cta','whiteContent','image'].forEach(function(t){
+    h+='<option value="'+t+'"'+(s.t===t?' selected':'')+'>'+({cover:'Cover Navy',hook:'Statement Sombre',step:'Étapes Navy',quote:'Citation Blanc',cta:'CTA Orange',whiteContent:'Contenu Blanc',image:'Image Plein Écran'}[t]||t)+'</option>';
   });
   h+='</select></div>';
   if(s.t==='cover'){
@@ -1725,6 +1870,44 @@ function renderEditor(){
     h+=eaFs('main','Titre',80,30,200);
     h+=eaFs('ctxt','Sous-texte',40,12,80);
     h+=eaFs('cpill','Bouton',40,12,80);
+  }
+  if(s.t==='image'){
+    var imgSize = s.imgSize != null ? s.imgSize : 100;
+    var imgHPos = s.imgHPos != null ? s.imgHPos : 50;
+    var imgVPos = s.imgVPos != null ? s.imgVPos : 50;
+    var hasImg  = !!s.imageData;
+    h+=ea('pill','Étiquette (badge)',s.pill);
+    h+='<div class="field"><label>Image de la slide</label>';
+    h+='<input type="file" id="imgSlideInput" accept="image/*" style="display:none" onchange="loadImgSlide(event)"/>';
+    h+='<div style="display:flex;gap:6px;flex-wrap:wrap">';
+    h+='<button class="btn-add-slide" style="background:var(--navy)" onclick="document.getElementById(\'imgSlideInput\').click()">'+(hasImg?'🔄 Changer l\'image':'📁 Charger une image')+'</button>';
+    if(hasImg) h+='<button class="btn-add-slide" style="background:#EF4444" onclick="removeImgSlide()">✕ Retirer</button>';
+    h+='</div>';
+    if(hasImg) h+='<div style="margin-top:6px;padding:4px;border:1px solid var(--border);border-radius:6px;background:#F8FAFC"><img src="'+s.imageData+'" style="max-width:100%;max-height:90px;display:block;margin:auto;object-fit:contain"/></div>';
+    h+='</div>';
+    h+='<div class="sec-title" style="margin-top:8px">Réglages de l\'image</div>';
+    h+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">'
+      +'<span style="font-size:10px;color:var(--gray);width:80px;flex-shrink:0">Taille</span>'
+      +'<input type="range" min="10" max="100" value="'+imgSize+'" style="flex:1;accent-color:var(--orange)"'
+      +' oninput="updateSlKey(\'imgSize\',+this.value);this.nextSibling.textContent=this.value+\'%\'"/>'
+      +'<span style="font-size:10px;font-weight:700;color:var(--navy);width:34px;text-align:right;flex-shrink:0">'+imgSize+'%</span>'
+      +'</div>';
+    h+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">'
+      +'<span style="font-size:10px;color:var(--gray);width:80px;flex-shrink:0">Horizontal</span>'
+      +'<input type="range" min="0" max="100" value="'+imgHPos+'" style="flex:1;accent-color:var(--orange)"'
+      +' oninput="updateSlKey(\'imgHPos\',+this.value);this.nextSibling.textContent=this.value+\'%\'"/>'
+      +'<span style="font-size:10px;font-weight:700;color:var(--navy);width:34px;text-align:right;flex-shrink:0">'+imgHPos+'%</span>'
+      +'</div>';
+    h+='<div class="field-hint" style="font-size:9px;color:var(--gray);margin:0 0 8px 88px">← Gauche · Droite →</div>';
+    h+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">'
+      +'<span style="font-size:10px;color:var(--gray);width:80px;flex-shrink:0">Vertical</span>'
+      +'<input type="range" min="0" max="100" value="'+imgVPos+'" style="flex:1;accent-color:var(--orange)"'
+      +' oninput="updateSlKey(\'imgVPos\',+this.value);this.nextSibling.textContent=this.value+\'%\'"/>'
+      +'<span style="font-size:10px;font-weight:700;color:var(--navy);width:34px;text-align:right;flex-shrink:0">'+imgVPos+'%</span>'
+      +'</div>';
+    h+='<div class="field-hint" style="font-size:9px;color:var(--gray);margin:0 0 8px 88px">← Bas · Haut →</div>';
+    h+='<div class="sec-title" style="margin-top:8px">Tailles de police</div>';
+    h+=eaFs('pill','Badge',50,12,80);
   }
   document.getElementById('slideEditor').innerHTML=h;
 }
@@ -2003,6 +2186,7 @@ function addSlide(){
   else if(t==='hook') ns={t:'hook',bg:bgDk,pill:'LE CONSTAT',stmt:'Votre statement\nfort ici.\n<em>Mot en orange.</em>',stxt:'Sous-texte explicatif.',sn:n};
   else if(t==='step') ns={t:'step',bg:bg0,pill:'LA MÉTHODE',items:[{n:'01',title:'Premier point',sub:'Description.'},{n:'02',title:'Deuxième point',sub:''},{n:'03',title:'Troisième point',sub:''}],sn:n};
   else if(t==='quote') ns={t:'quote',bg:bgWh,pill:'LE PRINCIPE',quote:'Votre citation\nforte ici.\n<em>Mot en orange.</em>',qsub:'Sous-texte de la citation.',sn:n};
+  else if(t==='image') ns={t:'image',bg:bg0,pill:'IMAGE',imageData:null,imgSize:100,imgHPos:50,imgVPos:50,sn:n};
   else ns={t:'cta',bg:bgCt,eyebrow:'YOUR TAGLINE',main:'Votre Tagline\nVotre accroche\nVotre slogan',ctxt:'Rejoignez la communauté des dirigeants et entrepreneurs.',pill:'REJOINGNEZ-MOI'};
   c.slides.push(ns);as=c.slides.length-1;renderSlide();renderSlideList();renderEditor();
 }
@@ -2110,6 +2294,36 @@ function updateSl(key, val){
   } catch(e){
     console.error('updateSl error:', e);
   }
+}
+
+/* ═══ IMAGE SLIDE ═══ */
+function updateSlKey(key, val){
+  sl()[key] = val;
+  document.getElementById('previewFrame').innerHTML = slHTML(sl(), as, car().slides.length, false);
+  scale();
+}
+function loadImgSlide(e){
+  var file = e.target.files[0];
+  if(!file) return;
+  if(file.size > 5 * 1024 * 1024){ notif('Image trop lourde — max 5 Mo'); return; }
+  histSave();
+  var reader = new FileReader();
+  reader.onload = function(ev){
+    sl().imageData = ev.target.result;
+    if(sl().imgSize == null) sl().imgSize = 100;
+    if(sl().imgHPos == null) sl().imgHPos = 50;
+    if(sl().imgVPos == null) sl().imgVPos = 50;
+    renderEditor(); renderSlide();
+    notif('Image chargée ✓');
+  };
+  reader.readAsDataURL(file);
+  e.target.value = '';
+}
+function removeImgSlide(){
+  histSave();
+  sl().imageData = null;
+  renderEditor(); renderSlide();
+  notif('Image retirée');
 }
 
 function updateSlFs(key, val){
@@ -3025,13 +3239,77 @@ window.addEventListener('load',function(){ setTimeout(_tryRestoreLS,100); });
     setTimeout(function() { unlockApp(result); }, 1000);
   }
 
-  function licShowInfo() {
-    if (!_licData) return;
-    alert('Licence ' + _licData.type.toUpperCase()
-      + '\nClient : '        + _licData.client
-      + '\nExpire le : '      + formatExpiry(_licData)
-      + '\nJours restants : ' + _licData.daysLeft);
-  }
+function licShowInfo(){
+
+    if(!_licData) return;
+
+    const html = `
+
+<h2>Informations de licence</h2>
+
+<p>
+<strong>Type :</strong> ${_licData.type.toUpperCase()}<br>
+<strong>Client :</strong> ${_licData.client}<br>
+<strong>Expiration :</strong> ${formatExpiry(_licData)}<br>
+<strong>Jours restants :</strong> ${_licData.daysLeft}
+</p>
+
+<div class="license-separator"></div>
+
+<h2>Éditeur</h2>
+
+<p>
+Via Aucta Conseil<br>
+© 2026 — Tous droits réservés
+</p>
+
+<div class="license-separator"></div>
+
+<h2>Propriété intellectuelle</h2>
+
+<p>
+Ce logiciel <strong>My Prez</strong> est protégé par le Code de la propriété intellectuelle français.
+
+Toute reproduction, adaptation, distribution ou commercialisation sans autorisation écrite préalable est interdite.
+</p>
+
+<div class="license-separator"></div>
+
+<h2>Licence d'utilisation</h2>
+
+<p>
+La licence est personnelle, non exclusive et non transférable.
+</p>
+
+<div class="license-separator"></div>
+
+<h2>Données personnelles</h2>
+
+<p>
+Aucune donnée personnelle n'est collectée ni transmise sans votre consentement.
+</p>
+
+<div class="license-separator"></div>
+
+<h2>Responsabilité</h2>
+
+<p>
+Via Aucta Conseil ne pourra être tenu responsable des dommages directs ou indirects liés à l'utilisation du logiciel.
+</p>
+
+<div class="license-separator"></div>
+
+<h2>Contact</h2>
+
+<p>
+viaauctaconseil@gmail.com
+</p>
+
+`;
+
+    openLegalModal("🔑 Informations de licence", html);
+
+}
 
   function showLicMsg(type, txt) {
     var el = document.getElementById('licMsg');
@@ -3098,49 +3376,76 @@ window.addEventListener('load',function(){ setTimeout(_tryRestoreLS,100); });
   };
 })();
 
+function licCloseInfo(){
+
+    document
+        .getElementById("licInfoModal")
+        .classList
+        .add("hidden");
+
+}
+
+function openLegalModal(title, html){
+
+    document.getElementById("legal-modal-title").innerHTML = title;
+
+    document.getElementById("legal-modal-content").innerHTML = html;
+
+    document.getElementById("legal-modal-overlay")
+        .classList.add("open");
+
+}
+
 </script>
 
 <!-- ═══ MODAL MENTIONS LÉGALES ═══ -->
+<!-- ═══ MODAL GÉNÉRIQUE ═══ -->
 <div id="legal-modal-overlay">
+
   <div id="legal-modal">
-    <h3>⚖️ MENTIONS LÉGALES &amp; CONDITIONS D'UTILISATION</h3>
-    <p>
-      <strong>Éditeur du logiciel</strong><br>
-      Via Aucta Conseil<br>
-      © 2026 — Tous droits réservés<br><br>
 
-      <strong>Propriété intellectuelle</strong><br>
-      Ce logiciel (My Prez) est une œuvre protégée par le Code de la propriété
-      intellectuelle français, notamment les articles L111-1 et suivants.<br><br>
+    <h3 id="legal-modal-title">
+      ⚖️ MENTIONS LÉGALES & CONDITIONS D'UTILISATION
+    </h3>
 
-      Toute reproduction, modification, distribution, vente ou mise à disposition
-      de ce logiciel ou de l'un de ses composants, sous quelque forme que ce soit,
-      sans autorisation écrite préalable de Via Aucta Conseil, est strictement
-      interdite et constitue une contrefaçon punissable conformément à
-      l'article L335-2 du Code de la propriété intellectuelle
-      (jusqu'à 3 ans d'emprisonnement et 300 000 € d'amende).<br><br>
+    <div id="legal-modal-content"></div>
 
-      <strong>Licence d'utilisation</strong><br>
-      La licence accordée est personnelle, non exclusive et non transférable.
-      Elle autorise uniquement l'utilisation du logiciel par le titulaire
-      de la licence pour ses besoins propres.<br><br>
-
-      <strong>Données personnelles</strong><br>
-      Aucune donnée personnelle n'est collectée ni transmise à des tiers
-      sans votre consentement explicite.<br><br>
-
-      <strong>Responsabilité</strong><br>
-      Via Aucta Conseil ne saurait être tenu responsable de tout dommage
-      direct ou indirect résultant de l'utilisation de ce logiciel.<br><br>
-
-      <strong>Contact</strong><br>
-      Pour toute question : viaauctaconseil@gmail.com
-    </p>
-    <button class="legal-close" onclick="document.getElementById('legal-modal-overlay').classList.remove('open')">
+    <button class="legal-close"
+            onclick="document.getElementById('legal-modal-overlay').classList.remove('open')">
       Fermer
     </button>
+
   </div>
+
 </div>
+
+<!-- Watermark dynamique -->
+<div id="app-watermark">© 2026 Via Aucta Conseil</div>
+
+
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"7f7b0fd8732c4326aae4b9d58d5c514a","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+
+<!-- ===========================================================
+     Fenêtre Informations de licence
+=========================================================== -->
+
+<div id="licInfoModal" class="modal license-modal hidden">
+
+  <div class="modal-box license-box">
+
+    <div class="modal-header">
+      <span>Informations de licence</span>
+
+      <button class="icon-btn" onclick="licCloseInfo()">✕</button>
+    </div>
+
+    <div id="licInfoContent" class="license-content"></div>
+
+  </div>
+
+</div>
+
+
 
 <!-- Watermark dynamique -->
 <div id="app-watermark">© 2026 Via Aucta Conseil</div>
