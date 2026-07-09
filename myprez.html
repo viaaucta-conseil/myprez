@@ -295,7 +295,7 @@ input,textarea,select{font-family:'DM Sans',sans-serif;outline:none}
 /* ── Slide type IMAGE ── */
 .sl-img{padding:0;position:relative;overflow:hidden;justify-content:flex-end}
 .sl-img .img-layer{position:absolute;object-fit:contain;pointer-events:none;z-index:1}
-.sl-img .img-pill{position:absolute;top:52px;left:80px;font-family:'Playfair Display',sans-serif;font-weight:900;letter-spacing:3px;padding:8px 18px;border-radius:6px;text-transform:uppercase;z-index:3}
+.sl-img .img-pill{position:absolute;top:80px;left:80px;font-family:'Playfair Display',sans-serif;font-weight:900;letter-spacing:3px;background:#F05A1A;color:white;padding:8px 18px;border-radius:6px;text-transform:uppercase}
 .sl-img .img-empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.4);font-family:'DM Sans',sans-serif;font-size:22px;font-weight:600;letter-spacing:2px;text-transform:uppercase;z-index:2}
 .sl-img .img-bot-wrap{padding:0 80px 40px 80px;position:relative;z-index:3;background:linear-gradient(to top,rgba(0,0,0,0.55),rgba(0,0,0,0))}
 
@@ -734,8 +734,8 @@ input,textarea,select{font-family:'DM Sans',sans-serif;outline:none}
 		  <option value="hook">Statement (Fond sombre)</option>
           <option value="step">Étapes (Fond Navy)</option>
           <option value="quote">Citation (Fond blanc)</option>
+		  <option value="image">Image (Plein écran)</option>
           <option value="cta">CTA (Fond orange)</option>
-          <option value="image">Image (Plein écran)</option>
         </select>
         <button class="btn-add-slide" onclick="addSlide()">+ Ajouter</button>
       </div>
@@ -1732,8 +1732,8 @@ function renderSlide(){
 
 function renderSlideList(){
   var slides=car().slides,h='';
-  var types={cover:'cover',hook:'dark',step:'navy',quote:'white',cta:'cta',image:'cover'};
-  var labels={cover:'Couverture',hook:'Statement',step:'Étapes',quote:'Citation',cta:'CTA',image:'Image'};
+  var types={cover:'cover',hook:'dark',step:'navy',quote:'white',image:'cover',cta:'cta'};
+  var labels={cover:'Couverture',hook:'Statement',step:'Étapes',quote:'Citation',image:'Image',cta:'CTA'};
   for(var i=0;i<slides.length;i++){
     var s=slides[i];
     var t=types[s.t]||'navy';
@@ -1876,7 +1876,7 @@ function renderEditor(){
     var imgHPos = s.imgHPos != null ? s.imgHPos : 50;
     var imgVPos = s.imgVPos != null ? s.imgVPos : 50;
     var hasImg  = !!s.imageData;
-    h+=ea('pill','Étiquette (badge)',s.pill);
+    h+=ea('pill','Badge',s.pill);
     h+='<div class="field"><label>Image de la slide</label>';
     h+='<input type="file" id="imgSlideInput" accept="image/*" style="display:none" onchange="loadImgSlide(event)"/>';
     h+='<div style="display:flex;gap:6px;flex-wrap:wrap">';
