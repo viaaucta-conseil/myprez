@@ -297,7 +297,7 @@ input,textarea,select{font-family:'DM Sans',sans-serif;outline:none}
 .sl-img .img-layer{position:absolute;object-fit:contain;pointer-events:none;z-index:1}
 .sl-img .img-pill{position:absolute;top:80px;left:80px;font-family:'Playfair Display',sans-serif;font-weight:900;letter-spacing:3px;background:#F05A1A;color:white;padding:8px 18px;border-radius:6px;text-transform:uppercase}
 .sl-img .img-empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.4);font-family:'DM Sans',sans-serif;font-size:22px;font-weight:600;letter-spacing:2px;text-transform:uppercase;z-index:2}
-.sl-img .img-bot-wrap{padding:0 80px 40px 80px;position:relative;z-index:3;background:linear-gradient(to top,rgba(0,0,0,0.55),rgba(0,0,0,0))}
+.sl-img .img-bot-wrap{padding:0 80px 80px 80px;position:relative;z-index:3}
 
 
 
@@ -1298,10 +1298,11 @@ var C = [
     {t:"hook",bg:{type:"solid",color:"#060E1A",textColor:"#FFFFFF"},pill:"LE CONSTAT",stmt:"La plupart rédigent\nleur BP pour la banque.\n<em>Jamais pour eux-mêmes.</em>",stxt:"C'est là que tout déraille — avant même la première ligne de chiffres.",sn:"02"},
     {t:"whiteContent",bg:{type:"solid",color:"#F4F4F2",textColor:"#0D2B4E"},pill:"TITRE",content:["Le texte en forme de paragraphe","Et encore un paragraphe"],stmt:'Votre statement\nfort ici.\n<em>Mot en orange.</em>',tip:'Les bons conseils ici',sn:"03"},
     {t:"step",bg:{type:"solid",color:"#0D2B4E",textColor:"#FFFFFF"},pill:"LA MÉTHODE",items:[{n:"04",title:"La stratégie commerciale",sub:"Qui sont vos clients ? Comment les trouver ?"},{n:"05",title:"Les projections financières",sub:"3 scénarios sur 24 mois. Votre banquier veut voir le pire cas."},{n:"06",title:"Le plan de financement",sub:"Combien, d'où vient l'argent, où il va."}],sn:"04"},
-    {t:"quote",bg:{type:"solid",color:"#F4F4F2",textColor:"#0D2B4E"},pill:"LE PRINCIPE",quote:"Est-ce que moi,\navec ce que je sais,\nje mettrais <em>mon argent</em>\ndans cette entreprise ?",qsub:"Pas l'argent de la banque. Le vôtre.",sn:"05"},
-    {t:"hook",bg:{type:"solid",color:"#060E1A",textColor:"#FFFFFF"},pill:"LA VÉRITÉ",stmt:"Un business plan\nsans les questions\nqui font peur,\n<em>c'est du PowerPoint\navec des chiffres dedans.</em>",stxt:"",sn:"06"},
-    {t:"quote",bg:{type:"solid",color:"#F4F4F2",textColor:"#0D2B4E"},pill:"LA MÉTHODE",quote:"Rédigez-le seul,\nla nuit.\nHonnêtement.\n<em>Sans vous mentir.</em>",qsub:"C'est le seul business plan qui fonctionne vraiment.",sn:"07"},
-    {t:"hook",bg:{type:"solid",color:"#060E1A",textColor:"#FFFFFF"},pill:"LE BILAN",stmt:"Le banquier\nle sent.\n<em>Il le sent toujours.</em>",stxt:"Vous ne pouvez pas convaincre quelqu'un d'autre de ce dont vous n'êtes pas convaincu vous-même.",sn:"08"},
+    {t:"image",bg:{type:"solid",color:"#0D2B4E",textColor:"#FFFFFF"},pill:"EN VISUEL",imageData:null,imgSize:100,imgHPos:50,imgVPos:50,imgOpacity:100,sn:"05"},
+    {t:"quote",bg:{type:"solid",color:"#F4F4F2",textColor:"#0D2B4E"},pill:"LE PRINCIPE",quote:"Est-ce que moi,\navec ce que je sais,\nje mettrais <em>mon argent</em>\ndans cette entreprise ?",qsub:"Pas l'argent de la banque. Le vôtre.",sn:"06"},
+    {t:"hook",bg:{type:"solid",color:"#060E1A",textColor:"#FFFFFF"},pill:"LA VÉRITÉ",stmt:"Un business plan\nsans les questions\nqui font peur,\n<em>c'est du PowerPoint\navec des chiffres dedans.</em>",stxt:"",sn:"07"},
+    {t:"quote",bg:{type:"solid",color:"#F4F4F2",textColor:"#0D2B4E"},pill:"LA MÉTHODE",quote:"Rédigez-le seul,\nla nuit.\nHonnêtement.\n<em>Sans vous mentir.</em>",qsub:"C'est le seul business plan qui fonctionne vraiment.",sn:"08"},
+    {t:"hook",bg:{type:"solid",color:"#060E1A",textColor:"#FFFFFF"},pill:"LE BILAN",stmt:"Le banquier\nle sent.\n<em>Il le sent toujours.</em>",stxt:"Vous ne pouvez pas convaincre quelqu'un d'autre de ce dont vous n'êtes pas convaincu vous-même.",sn:"09"},
     {t:"cta",bg:{type:"gradient",gradient:"135deg,#F05A1A,#FF7A3D",textColor:"#FFFFFF"},eyebrow:"YOUR NAME - YOUR BRAND",main:"Votre Tagline\nVotre accroche\nVotre slogan",ctxt:"Rejoignez la communauté des dirigeants et entrepreneurs qui construisent différemment.",pill:"REJOINGNEZ-MOI"},
   ]},
   {id:2,emoji:"📊",pilier:"Pilier 6",title:"Finances",subtitle:"Piloter ses finances au quotidien",tag:"FINANCES",brand:"YOUR NAME - YOUR BRAND",accent:"#F05A1A",
@@ -1525,11 +1526,12 @@ function slHTML(s,idx,tot,forExport){
     var imgSize   = s.imgSize != null ? s.imgSize : 100;
     var imgHPos   = s.imgHPos != null ? s.imgHPos : 50;
     var imgVPos   = s.imgVPos != null ? s.imgVPos : 50;
+    var imgOpacity= s.imgOpacity != null ? s.imgOpacity : 100;
     // Horizontal : 0=left, 100=right
     // Vertical (user) : 0=bas, 100=haut  →  CSS top = 100 - imgVPos
     var cssTop = 100 - imgVPos;
     var imgLayer = s.imageData
-      ? '<img class="img-layer" src="'+s.imageData+'" style="width:'+imgSize+'%;height:'+imgSize+'%;left:'+imgHPos+'%;top:'+cssTop+'%;transform:translate(-'+imgHPos+'%,-'+cssTop+'%)"/>'
+      ? '<img class="img-layer" src="'+s.imageData+'" style="width:'+imgSize+'%;height:'+imgSize+'%;left:'+imgHPos+'%;top:'+cssTop+'%;transform:translate(-'+imgHPos+'%,-'+cssTop+'%);opacity:'+(imgOpacity/100)+'"/>'
       : '<div class="img-empty">Aucune image — Ajoutez-en une dans l\'éditeur</div>';
     var pillHtml = (s.pill||'').trim()
       ? '<div class="img-pill" style="background:'+acc+';color:white;font-family:'+fontTitle+';font-size:'+fsp('pill',50)+'">'+esc(s.pill)+'</div>'
@@ -1875,8 +1877,10 @@ function renderEditor(){
     var imgSize = s.imgSize != null ? s.imgSize : 100;
     var imgHPos = s.imgHPos != null ? s.imgHPos : 50;
     var imgVPos = s.imgVPos != null ? s.imgVPos : 50;
+    var imgOpacity = s.imgOpacity != null ? s.imgOpacity : 100;
     var hasImg  = !!s.imageData;
     h+=ea('pill','Badge',s.pill);
+    h+=ea('sn','Numéro affiché',s.sn);
     h+='<div class="field"><label>Image de la slide</label>';
     h+='<input type="file" id="imgSlideInput" accept="image/*" style="display:none" onchange="loadImgSlide(event)"/>';
     h+='<div style="display:flex;gap:6px;flex-wrap:wrap">';
@@ -1906,6 +1910,12 @@ function renderEditor(){
       +'<span style="font-size:10px;font-weight:700;color:var(--navy);width:34px;text-align:right;flex-shrink:0">'+imgVPos+'%</span>'
       +'</div>';
     h+='<div class="field-hint" style="font-size:9px;color:var(--gray);margin:0 0 8px 88px">← Bas · Haut →</div>';
+    h+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">'
+      +'<span style="font-size:10px;color:var(--gray);width:80px;flex-shrink:0">Opacité</span>'
+      +'<input type="range" min="0" max="100" value="'+imgOpacity+'" style="flex:1;accent-color:var(--orange)"'
+      +' oninput="updateSlKey(\'imgOpacity\',+this.value);this.nextSibling.textContent=this.value+\'%\'"/>'
+      +'<span style="font-size:10px;font-weight:700;color:var(--navy);width:34px;text-align:right;flex-shrink:0">'+imgOpacity+'%</span>'
+      +'</div>';
     h+='<div class="sec-title" style="margin-top:8px">Tailles de police</div>';
     h+=eaFs('pill','Badge',50,12,80);
   }
@@ -2186,7 +2196,7 @@ function addSlide(){
   else if(t==='hook') ns={t:'hook',bg:bgDk,pill:'LE CONSTAT',stmt:'Votre statement\nfort ici.\n<em>Mot en orange.</em>',stxt:'Sous-texte explicatif.',sn:n};
   else if(t==='step') ns={t:'step',bg:bg0,pill:'LA MÉTHODE',items:[{n:'01',title:'Premier point',sub:'Description.'},{n:'02',title:'Deuxième point',sub:''},{n:'03',title:'Troisième point',sub:''}],sn:n};
   else if(t==='quote') ns={t:'quote',bg:bgWh,pill:'LE PRINCIPE',quote:'Votre citation\nforte ici.\n<em>Mot en orange.</em>',qsub:'Sous-texte de la citation.',sn:n};
-  else if(t==='image') ns={t:'image',bg:bg0,pill:'IMAGE',imageData:null,imgSize:100,imgHPos:50,imgVPos:50,sn:n};
+  else if(t==='image') ns={t:'image',bg:bg0,pill:'IMAGE',imageData:null,imgSize:100,imgHPos:50,imgVPos:50,imgOpacity:100,sn:n};
   else ns={t:'cta',bg:bgCt,eyebrow:'YOUR TAGLINE',main:'Votre Tagline\nVotre accroche\nVotre slogan',ctxt:'Rejoignez la communauté des dirigeants et entrepreneurs.',pill:'REJOINGNEZ-MOI'};
   c.slides.push(ns);as=c.slides.length-1;renderSlide();renderSlideList();renderEditor();
 }
