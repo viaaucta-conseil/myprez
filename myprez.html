@@ -515,15 +515,6 @@ input,textarea,select{font-family:'DM Sans',sans-serif;outline:none}
 #lic-overlay .lic-buy{color:#F05A1A;font-size:12px;text-decoration:none;font-weight:700}
 #lic-overlay .lic-buy:hover{text-decoration:underline}
 
-/* Badge licence dans la topbar */
-#licBadgeTopbar{
-  font-family:'JetBrains Mono',monospace;font-size:10px;
-  padding:4px 10px;border-radius:20px;cursor:pointer;
-  background:#051a0a;border:1px solid #00ff88;color:#00ff88;
-  white-space:nowrap;
-}
-#licBadgeTopbar.expiring{background:#1a1000;border-color:#ffaa00;color:#ffaa00}
-
 /* ═══ MENTIONS LÉGALES + WATERMARK ═══ */
 #legal-modal-overlay {
   position: fixed; inset: 0; z-index: 99998;
@@ -689,8 +680,6 @@ input,textarea,select{font-family:'DM Sans',sans-serif;outline:none}
 <!-- ═══ TOP BAR ═══ -->
 <div class="topbar">
   <div class="topbar-logo">VIA AUCTA <span>·</span> GÉNÉRATEUR<small>Carrousels et présentations</small></div>
-  <div id="licBadgeTopbar" onclick="licShowInfo()" title="Informations sur la licence" style="display:none">✓ Licence active</div>
-  <button id="licLogoutBtn" onclick="licLogout()" title="Déconnecter la licence" style="display:none;font-family:'JetBrains Mono',monospace;font-size:10px;padding:4px 10px;border-radius:20px;cursor:pointer;background:#1a0505;border:1px solid #ff4444;color:#ff4444;white-space:nowrap;margin-left:6px">🔓 Déconnexion</button>
   <div class="spacer"></div>
   <div class="fmt-group" id="fmtGroup">
     <button class="fmt-btn on" id="fmt-linkedin" onclick="setFormat('linkedin',this)"><span class="fmt-icon">💼</span>LinkedIn & IG</button>
@@ -701,12 +690,18 @@ input,textarea,select{font-family:'DM Sans',sans-serif;outline:none}
   </div>
   <div class="spacer"></div>
   <div class="topbar-actions">
-    <button class="tbtn tbtn-gray" onclick="saveJSON()">💾 Sauvegarder</button>
-    <button class="tbtn tbtn-gray" onclick="document.getElementById('fileIn').click()">📥 Charger</button>
     <input type="file" id="fileIn" accept=".json" style="display:none" onchange="loadFile(event)"/>
     <button class="tbtn tbtn-gray tbtn-hist" id="btnUndo" onclick="histUndo()" title="Annuler (Ctrl+Z)">↩ Annuler</button>
     <button class="tbtn tbtn-gray tbtn-hist" id="btnRedo" onclick="histRedo()" title="Refaire (Ctrl+Y)">↪ Refaire</button>
-    <button class="tbtn tbtn-gray" onclick="openIconModal()">🎨 Icônes</button>
+    <div class="export-dropdown" id="moreMenuDropdown">
+      <button class="tbtn tbtn-gray" onclick="toggleMoreMenu(event)">☰ Menu ▾</button>
+      <div class="export-menu" id="moreMenu">
+        <button onclick="closeMoreMenu();document.getElementById('fileIn').click()">📥 Charger</button>
+        <button onclick="closeMoreMenu();saveJSON()">💾 Sauvegarder</button>
+        <button id="licMenuBtn" style="display:none" onclick="closeMoreMenu();licShowInfo()">🔑 <span id="licMenuLabel">Licence</span></button>
+        <button id="licLogoutMenuBtn" style="display:none;color:#EF4444" onclick="closeMoreMenu();licLogout()">🔓 Déconnexion</button>
+      </div>
+    </div>
     <div class="export-dropdown" id="exportDropdown">
       <button class="tbtn tbtn-orange" onclick="toggleExportMenu(event)">⬇ Export ▾</button>
       <div class="export-menu" id="exportMenu">
@@ -723,6 +718,7 @@ input,textarea,select{font-family:'DM Sans',sans-serif;outline:none}
 <div class="tabs-row" id="tabsRow">
   <div id="tabsCarousels" style="display:flex;gap:4px;align-items:flex-end"></div>
   <div class="spacer"></div>
+  <div class="ctab ctab-custom" onclick="openIconModal()" title="Bibliothèque d'icônes">🎨 Icônes</div>
   <div class="ctab ctab-custom" onclick="openCustomModal()" title="Personnaliser l'interface">⚙ Customisation</div>
 </div>
 
@@ -2239,8 +2235,10 @@ function renderEditor(){
   });
   h+='</div>';
   if((s.shapes||[]).length){
-    h+='<div class="field-hint" style="margin-bottom:8px">Glissez une forme sur l\'aperçu pour la déplacer, tirez son coin ▪ pour la redimensionner, utilisez ↻ pour la faire pivoter. Elle s\'aimante légèrement au centre de la slide et aux autres formes.</div>';
-    s.shapes.forEach(function(sh,shIx){
+    h+='<div class="field-hint" style="margin-bottom:8px">Calques :</div>';
+    var shapesForList = s.shapes.slice().reverse();
+    shapesForList.forEach(function(sh){
+      var shIx = s.shapes.indexOf(sh);
       var sd=SHAPE_DEFS.filter(function(d){return d.type===sh.type;})[0]||{icon:'⬛',label:sh.type};
       var isText = sh.type==='text';
       var isRound = sh.type==='roundrect';
@@ -2257,8 +2255,8 @@ function renderEditor(){
         if(isRound) h+='<input type="range" min="0" max="50" value="'+(sh.rx!=null?sh.rx:14)+'" title="Rayon des coins" oninput="updateShapeKey(\''+sh.id+'\',\'rx\',+this.value)"/>';
       }
       h+='<input type="range" min="10" max="100" value="'+(sh.opacity!=null?sh.opacity:100)+'" title="Opacité" oninput="updateShapeKey(\''+sh.id+'\',\'opacity\',+this.value)"/>'
-        +'<button class="item-del-btn" style="position:static" title="Monter d\'un cran" '+(shIx===0?'disabled':'')+' onclick="moveShapeZ(\''+sh.id+'\',-1)">▲</button>'
-        +'<button class="item-del-btn" style="position:static" title="Descendre d\'un cran" '+(shIx===s.shapes.length-1?'disabled':'')+' onclick="moveShapeZ(\''+sh.id+'\',1)">▼</button>'
+        +'<button class="item-del-btn" style="position:static" title="Monter d\'un cran (vers l\'avant)" '+(shIx===s.shapes.length-1?'disabled':'')+' onclick="moveShapeZ(\''+sh.id+'\',1)">▲</button>'
+        +'<button class="item-del-btn" style="position:static" title="Descendre d\'un cran (vers l\'arrière)" '+(shIx===0?'disabled':'')+' onclick="moveShapeZ(\''+sh.id+'\',-1)">▼</button>'
         +'<button class="item-del-btn" style="position:static;margin-left:auto" title="Supprimer" onclick="delShape(\''+sh.id+'\')">✕</button>'
         +'</div>';
     });
@@ -3280,6 +3278,19 @@ document.addEventListener('click', function(e){
   if(dd && !dd.contains(e.target)) closeExportMenu();
 });
 
+/* ═══ MENU ☰ (Charger / Sauvegarder / Licence / Déconnexion) ═══ */
+function toggleMoreMenu(e){
+  if(e) e.stopPropagation();
+  document.getElementById('moreMenu').classList.toggle('open');
+}
+function closeMoreMenu(){
+  document.getElementById('moreMenu').classList.remove('open');
+}
+document.addEventListener('click', function(e){
+  var dd = document.getElementById('moreMenuDropdown');
+  if(dd && !dd.contains(e.target)) closeMoreMenu();
+});
+
 /* ═══ PNG EXPORT ═══ */
 function exportCurrentPNG(){
   var f = FORMATS[currentFormat];
@@ -3769,20 +3780,19 @@ window.addEventListener('load',function(){ setTimeout(_tryRestoreLS,100); });
     _licData = data;
     var ov = document.getElementById('lic-overlay');
     if (ov) ov.style.display = 'none';
-    var badge = document.getElementById('licBadgeTopbar');
-    if (badge) {
-      badge.style.display = '';
+    var licBtn = document.getElementById('licMenuBtn');
+    var licLabel = document.getElementById('licMenuLabel');
+    if (licBtn && licLabel) {
+      licBtn.style.display = '';
       if (data.isShort) {
-        badge.textContent = '⚙ TEST — ' + data.minutesLeft + ' min restante' + (data.minutesLeft > 1 ? 's' : '');
-        badge.classList.add('expiring');
+        licLabel.textContent = 'TEST — ' + data.minutesLeft + ' min restante' + (data.minutesLeft > 1 ? 's' : '');
       } else if (data.daysLeft <= 30) {
-        badge.textContent = '⚠️ Expire dans ' + data.daysLeft + 'j';
-        badge.classList.add('expiring');
+        licLabel.textContent = '⚠️ Licence — ' + data.daysLeft + ' jr';
       } else {
-        badge.textContent = '✓ Licence ' + data.type + ' — ' + data.daysLeft + 'j';
+        licLabel.textContent = 'Licence — ' + data.daysLeft + ' jr';
       }
     }
-    var logoutBtn = document.getElementById('licLogoutBtn');
+    var logoutBtn = document.getElementById('licLogoutMenuBtn');
     if (logoutBtn) logoutBtn.style.display = '';
   }
 
@@ -3796,9 +3806,9 @@ window.addEventListener('load',function(){ setTimeout(_tryRestoreLS,100); });
     if (!confirmed) return;
     localStorage.removeItem('viaaucta_lic_v1');
     _licData = null;
-    var badge = document.getElementById('licBadgeTopbar');
-    if (badge) { badge.style.display = 'none'; badge.classList.remove('expiring'); }
-    var logoutBtn = document.getElementById('licLogoutBtn');
+    var licBtn = document.getElementById('licMenuBtn');
+    if (licBtn) licBtn.style.display = 'none';
+    var logoutBtn = document.getElementById('licLogoutMenuBtn');
     if (logoutBtn) logoutBtn.style.display = 'none';
     var ov = document.getElementById('lic-overlay');
     if (ov) {
@@ -3914,10 +3924,8 @@ viaauctaconseil@gmail.com
   window.addEventListener('DOMContentLoaded', async function() {
     var btn   = document.getElementById('licBtn');
     var input = document.getElementById('licInput');
-    var badge = document.getElementById('licBadgeTopbar');
     if (btn)   btn.addEventListener('click',   licActivate);
     if (input) input.addEventListener('keydown', function(e) { if (e.key === 'Enter') licActivate(); });
-    if (badge) badge.addEventListener('click',  licShowInfo);
 
     var saved = localStorage.getItem(STORAGE_KEY);
     if (!saved) return;
