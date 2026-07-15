@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -27,7 +26,7 @@
   --text-1:#0D2B4E; --text-2:#334155;
   --app-font:'DM Sans',sans-serif;
 }
-html,body{height:100%;font-family:var(--app-font);background:var(--bg);font-size:14px;color:var(--text-1)}
+html,body{height:100%;font-family:var(--app-font);background:var(--bg);font-size:13px;color:var(--text-1)}
 button{cursor:pointer;font-family:var(--app-font);border:none;outline:none}
 input,textarea,select{font-family:var(--app-font);outline:none}
 
@@ -36,12 +35,12 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 ═══════════════════════════════════════════ */
 .app{display:flex;flex-direction:column;height:100vh;overflow:hidden}
 .topbar{background:var(--navy);border-bottom:3px solid var(--orange);padding:0 20px;display:flex;align-items:center;height:56px;gap:16px;flex-shrink:0}
-.topbar-logo{font-family:'Playfair Display',sans-serif;font-size:14px;font-weight:900;color:white;letter-spacing:3px}
+.topbar-logo{font-family:'Playfair Display',sans-serif;font-size:12px;font-weight:900;color:white;letter-spacing:3px}
 .topbar-logo span{color:var(--orange)}
-.topbar-logo small{font-size:14px;color:rgba(255,255,255,.3);letter-spacing:2px;display:block;margin-top:1px;font-family:'DM Sans',sans-serif;font-weight:400;text-transform:uppercase}
+.topbar-logo small{font-size:9px;color:rgba(255,255,255,.3);letter-spacing:2px;display:block;margin-top:1px;font-family:'DM Sans',sans-serif;font-weight:400;text-transform:uppercase}
 .spacer{flex:1}
 .topbar-actions{display:flex;gap:6px}
-.tbtn{padding:6px 13px;border-radius:5px;font-size:14px;font-weight:700;transition:all .15s;letter-spacing:.5px}
+.tbtn{padding:6px 13px;border-radius:5px;font-size:11px;font-weight:700;transition:all .15s;letter-spacing:.5px}
 .tbtn-gray{background:rgba(255,255,255,.1);color:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.2)}
 .tbtn-gray:hover{background:rgba(255,255,255,.2)}
 .tbtn-orange{background:var(--orange);color:white}
@@ -58,22 +57,22 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 .export-dropdown{position:relative;display:inline-block}
 .export-menu{display:none;position:absolute;top:calc(100% + 6px);right:0;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.18);min-width:200px;z-index:50;overflow:hidden}
 .export-menu.open{display:block}
-.export-menu button{display:flex;align-items:center;gap:8px;width:100%;text-align:left;padding:10px 14px;14px;font-weight:600;color:var(--text-1);background:var(--surface-2);border:none;border-bottom:1px solid var(--border);transition:background .15s,color .15s}
+.export-menu button{display:flex;align-items:center;gap:8px;width:100%;text-align:left;padding:10px 14px;font-size:12px;font-weight:600;color:var(--text-1);background:var(--surface-2);border:none;border-bottom:1px solid var(--border);transition:background .15s,color .15s}
 .export-menu button:last-child{border-bottom:none}
 .export-menu button:hover{background:var(--surface-1);color:var(--orange)}
 
 /* Format selector dans la topbar */
 .fmt-group{display:flex;gap:2px;background:rgba(255,255,255,.08);border-radius:6px;padding:3px}
-.fmt-btn{padding:4px 10px;border-radius:4px;font-size:14px;font-weight:700;color:rgba(255,255,255,.5);background:none;border:none;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:4px;white-space:nowrap}
+.fmt-btn{padding:4px 10px;border-radius:4px;font-size:10px;font-weight:700;color:rgba(255,255,255,.5);background:none;border:none;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:4px;white-space:nowrap}
 .fmt-btn:hover{color:rgba(255,255,255,.85);background:rgba(255,255,255,.1)}
 .fmt-btn.on{background:var(--orange);color:white}
-.fmt-icon{font-size:14px}
+.fmt-icon{font-size:12px}
 
 .tabs-row{background:var(--navy);padding:0 20px;display:flex;gap:4px;align-items:flex-end;flex-shrink:0;border-bottom:1px solid rgba(255,255,255,.07)}
-.ctab{padding:8px 14px;font-size:14px;font-weight:600;border-radius:5px 5px 0 0;cursor:pointer;transition:all .15s;border:1px solid transparent;color:rgba(255,255,255,.45);background:rgba(255,255,255,.07);display:flex;align-items:center;gap:6px}
+.ctab{padding:8px 14px;font-size:11px;font-weight:600;border-radius:5px 5px 0 0;cursor:pointer;transition:all .15s;border:1px solid transparent;color:rgba(255,255,255,.45);background:rgba(255,255,255,.07);display:flex;align-items:center;gap:6px}
 .ctab:hover{color:rgba(255,255,255,.8);background:rgba(255,255,255,.12)}
 .ctab.on{background:var(--bg);color:var(--text-1);border-color:rgba(255,255,255,.1)}
-.ctab-del{width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,.15);color:rgba(255,255,255,.5);font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.ctab-del{width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,.15);color:rgba(255,255,255,.5);font-size:9px;display:flex;align-items:center;justify-content:center;transition:all .15s}
 .ctab.on .ctab-del{background:rgba(240,90,26,.15);color:var(--orange)}
 .ctab-del:hover{background:#EF4444!important;color:white!important}
 .ctab-new{border:1px dashed rgba(240,90,26,.4);color:rgba(240,90,26,.8);background:rgba(240,90,26,.08)}
@@ -88,7 +87,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 ═══════════════════════════════════════════ */
 .panel-left{width:320px;flex-shrink:0;background:var(--surface-2);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
 .panel-tabs{display:flex;border-bottom:1px solid var(--border)}
-.ptab{flex:1;padding:10px 6px;font-size:14px;font-weight:600;color:var(--gray);text-align:center;cursor:pointer;border-bottom:2px solid transparent;transition:all .15s}
+.ptab{flex:1;padding:10px 6px;font-size:11px;font-weight:600;color:var(--gray);text-align:center;cursor:pointer;border-bottom:2px solid transparent;transition:all .15s}
 .ptab:hover{color:var(--text-1)}
 .ptab.on{color:var(--orange);border-bottom-color:var(--orange)}
 .panel-content{flex:1;overflow-y:auto;padding:16px}
@@ -96,15 +95,15 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 .panel-content::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
 
 /* Section titles */
-.sec-title{font-size:14px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:var(--orange);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.sec-title{font-size:9px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:var(--orange);margin-bottom:10px;display:flex;align-items:center;gap:8px}
 .sec-title::after{content:'';flex:1;height:1px;background:var(--border)}
 
 /* Form fields */
 .field{margin-bottom:12px}
-.field label{font-size:14px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);display:block;margin-bottom:4px}
-.field input,.field textarea,.field select{width:100%;background:var(--surface-1);border:1px solid var(--border);border-radius:6px;padding:7px 10px;font-size:14px;color:var(--text-1);transition:border-color .15s;resize:vertical}
+.field label{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);display:block;margin-bottom:4px}
+.field input,.field textarea,.field select{width:100%;background:var(--surface-1);border:1px solid var(--border);border-radius:6px;padding:7px 10px;font-size:12px;color:var(--text-1);transition:border-color .15s;resize:vertical}
 .field input:focus,.field textarea:focus,.field select:focus{border-color:var(--orange);background:var(--surface-2)}
-.field-hint{font-size:14px;color:var(--gray);margin-top:3px;line-height:1.4}
+.field-hint{font-size:10px;color:var(--gray);margin-top:3px;line-height:1.4}
 .field-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .field-row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
 
@@ -120,36 +119,36 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 .slide-item{background:var(--surface-1);border:1px solid var(--border);border-radius:7px;padding:8px 10px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:8px}
 .slide-item:hover{border-color:var(--orange);background:var(--surface-2)}
 .slide-item.on{background:var(--navy);border-color:var(--navy);color:white}
-.slide-badge{font-size:14px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:2px 7px;border-radius:3px;flex-shrink:0}
+.slide-badge{font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:2px 7px;border-radius:3px;flex-shrink:0}
 .slide-badge.cover{background:rgba(240,90,26,.15);color:var(--orange)}
 .slide-badge.dark{background:rgba(6,14,26,.1);color:var(--text-2)}
 .slide-badge.navy{background:rgba(13,43,78,.12);color:var(--text-1)}
 .slide-badge.white{background:rgba(13,43,78,.08);color:var(--text-1);border:1px solid var(--border)}
 .slide-badge.cta{background:rgba(240,90,26,.12);color:var(--orange)}
 .slide-item.on .slide-badge{background:rgba(255,255,255,.15);color:rgba(255,255,255,.8)}
-.slide-lbl{font-size:14px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.slide-lbl{font-size:11px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
 .slide-actions{display:flex;gap:3px}
-.slide-act{width:20px;height:20px;border-radius:4px;background:rgba(255,255,255,.2);border:none;display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;transition:all .15s;opacity:.6}
+.slide-act{width:20px;height:20px;border-radius:4px;background:rgba(255,255,255,.2);border:none;display:flex;align-items:center;justify-content:center;font-size:10px;cursor:pointer;transition:all .15s;opacity:.6}
 .slide-act:hover{opacity:1}
 .slide-act.del:hover{background:#EF4444;color:white}
 .slide-act.dup:hover{background:#16a34a;color:white}
 /* Drag & drop */
-.slide-handle{cursor:grab;font-size:14px;color:rgba(255,255,255,.3);padding:0 2px;flex-shrink:0;user-select:none}
+.slide-handle{cursor:grab;font-size:11px;color:rgba(255,255,255,.3);padding:0 2px;flex-shrink:0;user-select:none}
 .slide-item.on .slide-handle{color:rgba(255,255,255,.5)}
 .slide-handle:hover{color:rgba(255,255,255,.8)}
 .slide-item.dragging{opacity:.4;border:1.5px dashed var(--orange)}
 .slide-item.drag-over{border-color:var(--orange);background:rgba(212,160,23,.1);transform:translateY(-1px)}
 .add-slide-row{display:flex;gap:6px;margin-top:8px}
-.add-slide-row select{flex:1;background:var(--surface-1);border:1px solid var(--border);border-radius:6px;padding:6px 8px;font-size:14px;color:var(--text-1)}
-.btn-add-slide{background:var(--orange);color:white;padding:6px 12px;border-radius:6px;font-size:14px;font-weight:700;flex-shrink:0}
+.add-slide-row select{flex:1;background:var(--surface-1);border:1px solid var(--border);border-radius:6px;padding:6px 8px;font-size:11px;color:var(--text-1)}
+.btn-add-slide{background:var(--orange);color:white;padding:6px 12px;border-radius:6px;font-size:11px;font-weight:700;flex-shrink:0}
 
 /* Items editor */
 .items-editor{display:flex;flex-direction:column;gap:8px}
 .item-card{background:var(--surface-1);border:1px solid var(--border);border-radius:7px;padding:10px;position:relative}
 .item-num-badge{font-family:'Playfair Display',sans-serif;font-size:18px;font-weight:900;color:var(--orange);line-height:1;margin-bottom:6px}
-.item-del-btn{position:absolute;top:8px;right:8px;background:none;border:none;color:var(--border);font-size:14px;cursor:pointer;transition:color .15s}
+.item-del-btn{position:absolute;top:8px;right:8px;background:none;border:none;color:var(--border);font-size:13px;cursor:pointer;transition:color .15s}
 .item-del-btn:hover{color:#EF4444}
-.btn-add-item{background:rgba(240,90,26,.08);border:1px dashed rgba(240,90,26,.3);border-radius:6px;padding:7px;text-align:center;font-size:14px;color:var(--orange);font-weight:600;width:100%;cursor:pointer;transition:all .15s;margin-top:4px}
+.btn-add-item{background:rgba(240,90,26,.08);border:1px dashed rgba(240,90,26,.3);border-radius:6px;padding:7px;text-align:center;font-size:11px;color:var(--orange);font-weight:600;width:100%;cursor:pointer;transition:all .15s;margin-top:4px}
 .btn-add-item:hover{background:rgba(240,90,26,.14)}
 
 /* TABLE SLIDE */
@@ -168,7 +167,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 .shape-list-item{display:flex;align-items:center;gap:7px;background:var(--surface-1);border:1px solid var(--border);border-radius:7px;padding:6px 8px;margin-bottom:6px;flex-wrap:wrap}
 .shape-list-item input[type=color]{width:26px;height:26px;border:none;padding:0;border-radius:5px;cursor:pointer;flex-shrink:0}
 .shape-list-item input[type=range]{width:46px;accent-color:var(--orange)}
-.shape-list-fill{font-size:14px;color:var(--gray);display:flex;align-items:center;gap:3px;white-space:nowrap}
+.shape-list-fill{font-size:9px;color:var(--gray);display:flex;align-items:center;gap:3px;white-space:nowrap}
 
 .shape-editable{position:absolute;z-index:40}
 .shape-outline{position:absolute;inset:-3px;border:1.5px dashed rgba(240,90,26,.85);border-radius:2px;pointer-events:none;opacity:0;transition:opacity .1s}
@@ -180,7 +179,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 
 /* Background panel */
 .bg-type-row{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:14px}
-.bg-type-btn{padding:8px 4px;border-radius:6px;font-size:14px;font-weight:700;text-align:center;cursor:pointer;background:var(--surface-1);border:1px solid var(--border);color:var(--gray);transition:all .15s}
+.bg-type-btn{padding:8px 4px;border-radius:6px;font-size:10px;font-weight:700;text-align:center;cursor:pointer;background:var(--surface-1);border:1px solid var(--border);color:var(--gray);transition:all .15s}
 .bg-type-btn:hover{border-color:var(--orange);color:var(--text-1)}
 .bg-type-btn.on{background:var(--navy);color:white;border-color:var(--navy)}
 .gradient-presets{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:10px}
@@ -189,9 +188,9 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 .upload-zone{border:2px dashed var(--border);border-radius:8px;padding:20px;text-align:center;cursor:pointer;transition:all .15s}
 .upload-zone:hover{border-color:var(--orange);background:rgba(240,90,26,.04)}
 .upload-zone-icon{font-size:24px;margin-bottom:6px}
-.upload-zone p{font-size:14px;color:var(--gray)}
+.upload-zone p{font-size:11px;color:var(--gray)}
 .pattern-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
-.pattern-btn{height:44px;border-radius:6px;cursor:pointer;border:2px solid transparent;transition:all .15s;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--gray);background:var(--surface-1)}
+.pattern-btn{height:44px;border-radius:6px;cursor:pointer;border:2px solid transparent;transition:all .15s;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--gray);background:var(--surface-1)}
 .pattern-btn:hover,.pattern-btn.on{border-color:var(--navy)}
 
 /* ═══════════════════════════════════════════
@@ -204,8 +203,8 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 .sc-btn{width:34px;height:34px;border-radius:7px;background:var(--surface-1);border:1px solid var(--border);font-size:15px;display:flex;align-items:center;justify-content:center;transition:all .15s}
 .sc-btn:hover{background:var(--navy);color:white;border-color:var(--navy)}
 .sc-btn:disabled{opacity:.3;cursor:default}
-.sc-cnt{font-size:14px;color:var(--gray);font-weight:600;min-width:70px;text-align:center}
-.sc-exp{background:var(--orange);color:white;padding:7px 16px;border-radius:7px;font-size:14px;font-weight:700}
+.sc-cnt{font-size:12px;color:var(--gray);font-weight:600;min-width:70px;text-align:center}
+.sc-exp{background:var(--orange);color:white;padding:7px 16px;border-radius:7px;font-size:11px;font-weight:700}
 .sc-exp:hover{background:var(--orange2)}
 .prog-dots{display:flex;gap:4px;align-items:center}
 .pdot{width:8px;height:8px;border-radius:50%;background:var(--border);cursor:pointer;border:none;transition:all .15s}
@@ -378,33 +377,33 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 ═══════════════════════════════════════════ */
 .panel-right{width:280px;flex-shrink:0;background:var(--surface-2);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
 .panel-right-header{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.panel-right-title{font-size:14px;font-weight:700;color:var(--text-1);letter-spacing:.5px}
+.panel-right-title{font-size:11px;font-weight:700;color:var(--text-1);letter-spacing:.5px}
 .panel-right-body{flex:1;padding:14px;overflow-y:auto;display:flex;flex-direction:column;gap:10px}
-.post-preview{background:var(--surface-1);border:1px solid var(--border);border-radius:8px;padding:12px;font-size:14px;color:var(--text-2);line-height:1.8;flex:1;white-space:pre-wrap;min-height:200px}
-.post-textarea{width:100%;flex:1;background:var(--surface-1);border:1px solid var(--border);border-radius:8px;padding:12px;font-size:14px;color:var(--text-2);line-height:1.8;resize:none;min-height:300px}
+.post-preview{background:var(--surface-1);border:1px solid var(--border);border-radius:8px;padding:12px;font-size:11px;color:var(--text-2);line-height:1.8;flex:1;white-space:pre-wrap;min-height:200px}
+.post-textarea{width:100%;flex:1;background:var(--surface-1);border:1px solid var(--border);border-radius:8px;padding:12px;font-size:11px;color:var(--text-2);line-height:1.8;resize:none;min-height:300px}
 .post-textarea:focus{border-color:var(--orange);background:var(--surface-2)}
-.copy-post-btn{background:var(--navy);color:white;padding:8px;border-radius:6px;font-size:14px;font-weight:700;width:100%;letter-spacing:.5px}
+.copy-post-btn{background:var(--navy);color:white;padding:8px;border-radius:6px;font-size:11px;font-weight:700;width:100%;letter-spacing:.5px}
 .copy-post-btn:hover{background:var(--navy2)}
 .copy-post-btn.copied{background:#16a34a}
 .hashtag-row{display:flex;flex-wrap:wrap;gap:4px}
-.hashtag{font-size:14px;font-weight:600;color:var(--orange);background:rgba(212,160,23,.08);padding:3px 8px;border-radius:3px;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:4px}
+.hashtag{font-size:10px;font-weight:600;color:var(--orange);background:rgba(212,160,23,.08);padding:3px 8px;border-radius:3px;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:4px}
 .hashtag:hover{background:rgba(212,160,23,.18)}
-.hashtag-del{font-size:14px;color:rgba(212,160,23,.5);line-height:1;padding:0;background:none;border:none;cursor:pointer;transition:color .15s}
+.hashtag-del{font-size:9px;color:rgba(212,160,23,.5);line-height:1;padding:0;background:none;border:none;cursor:pointer;transition:color .15s}
 .hashtag-del:hover{color:#EF4444}
 .hashtag-add-row{display:flex;gap:5px;margin-top:6px}
-.hashtag-add-input{flex:1;background:var(--surface-1);border:1px solid var(--border);border-radius:5px;padding:4px 8px;font-size:14px;color:var(--text-1)}
+.hashtag-add-input{flex:1;background:var(--surface-1);border:1px solid var(--border);border-radius:5px;padding:4px 8px;font-size:11px;color:var(--text-1)}
 .hashtag-add-input:focus{outline:none;border-color:var(--orange)}
-.hashtag-add-btn{background:var(--orange);color:white;border:none;border-radius:5px;padding:4px 10px;font-size:14px;font-weight:700;cursor:pointer;flex-shrink:0}
+.hashtag-add-btn{background:var(--orange);color:white;border:none;border-radius:5px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer;flex-shrink:0}
 .hashtag-add-btn:hover{background:var(--orange2)}
-.hashtag-section-label{font-size:14px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);margin-bottom:5px;display:flex;align-items:center;justify-content:space-between}
-.hashtag-reset{font-size:14px;color:var(--gray);background:none;border:none;cursor:pointer;text-decoration:underline;padding:0}
+.hashtag-section-label{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);margin-bottom:5px;display:flex;align-items:center;justify-content:space-between}
+.hashtag-reset{font-size:9px;color:var(--gray);background:none;border:none;cursor:pointer;text-decoration:underline;padding:0}
 .hashtag-reset:hover{color:var(--orange)}
 
 /* ═══════════════════════════════════════════
    BARRE DE MISE EN FORME INLINE
 ═══════════════════════════════════════════ */
 .fmt-toolbar{display:flex;gap:3px;margin-bottom:4px;align-items:center;flex-wrap:wrap}
-.fmt-tb-btn{padding:3px 8px;border-radius:4px;font-size:14px;font-weight:700;border:1px solid var(--border);background:var(--surface-1);color:var(--text-1);cursor:pointer;transition:all .15s;line-height:1.4}
+.fmt-tb-btn{padding:3px 8px;border-radius:4px;font-size:11px;font-weight:700;border:1px solid var(--border);background:var(--surface-1);color:var(--text-1);cursor:pointer;transition:all .15s;line-height:1.4}
 .fmt-tb-btn:hover{background:var(--orange);color:white;border-color:var(--orange)}
 .fmt-tb-sep{width:1px;height:16px;background:var(--border);margin:0 2px;flex-shrink:0}
 
@@ -417,7 +416,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 .logo-remove-btn{background:none;border:none;color:var(--gray);cursor:pointer;font-size:16px;padding:0;transition:color .15s}
 .logo-remove-btn:hover{color:#EF4444}
 .logo-shape-row{display:flex;gap:5px;margin-top:6px}
-.logo-shape-btn{flex:1;padding:5px;border-radius:5px;font-size:14px;font-weight:600;border:1px solid var(--border);background:var(--surface-1);color:var(--gray);cursor:pointer;transition:all .15s}
+.logo-shape-btn{flex:1;padding:5px;border-radius:5px;font-size:10px;font-weight:600;border:1px solid var(--border);background:var(--surface-1);color:var(--gray);cursor:pointer;transition:all .15s}
 .logo-shape-btn.on{background:var(--navy);color:white;border-color:var(--navy)}
 
 /* ═══════════════════════════════════════════
@@ -427,37 +426,37 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 .icon-modal-overlay.open{display:flex}
 .icon-modal{background:var(--surface-2);border-radius:12px;padding:20px;width:480px;max-width:95vw;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.3)}
 .icon-modal-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-.icon-modal-title{font-size:14px;font-weight:700;color:var(--text-1);letter-spacing:.5px}
-.icon-modal-close{background:var(--border);color:var(--gray);padding:4px 10px;border-radius:5px;font-size:14px;font-weight:700;border:none;cursor:pointer}
+.icon-modal-title{font-size:13px;font-weight:700;color:var(--text-1);letter-spacing:.5px}
+.icon-modal-close{background:var(--border);color:var(--gray);padding:4px 10px;border-radius:5px;font-size:11px;font-weight:700;border:none;cursor:pointer}
 .icon-modal-close:hover{background:#EF4444;color:white}
-.icon-search{width:100%;background:var(--surface-1);border:1px solid var(--border);border-radius:6px;padding:7px 10px;font-size:14px;margin-bottom:12px;color:var(--text-1)}
+.icon-search{width:100%;background:var(--surface-1);border:1px solid var(--border);border-radius:6px;padding:7px 10px;font-size:12px;margin-bottom:12px;color:var(--text-1)}
 .icon-search:focus{outline:none;border-color:var(--orange)}
 .icon-cats{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px}
-.icon-cat-btn{padding:3px 10px;border-radius:4px;font-size:14px;font-weight:600;border:1px solid var(--border);background:var(--surface-1);color:var(--gray);cursor:pointer;transition:all .15s}
+.icon-cat-btn{padding:3px 10px;border-radius:4px;font-size:10px;font-weight:600;border:1px solid var(--border);background:var(--surface-1);color:var(--gray);cursor:pointer;transition:all .15s}
 .icon-cat-btn:hover{border-color:var(--orange);color:var(--text-1)}
 .icon-cat-btn.on{background:var(--orange);color:white;border-color:var(--orange)}
 .icon-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;overflow-y:auto;flex:1}
 .icon-btn{aspect-ratio:1;border-radius:7px;border:1px solid var(--border);background:var(--surface-1);font-size:18px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center}
 .icon-btn:hover{background:var(--orange);border-color:var(--orange);transform:scale(1.1)}
-.icon-btn[title]:hover::after{content:attr(title);position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);background:var(--navy);color:white;font-size:14px;padding:2px 6px;border-radius:3px;white-space:nowrap;pointer-events:none;z-index:10}
-.icon-insert-btn{background:none;border:1px dashed rgba(212,160,23,.4);border-radius:5px;padding:4px 8px;font-size:14px;color:var(--orange);cursor:pointer;transition:all .15s;font-weight:600}
+.icon-btn[title]:hover::after{content:attr(title);position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);background:var(--navy);color:white;font-size:9px;padding:2px 6px;border-radius:3px;white-space:nowrap;pointer-events:none;z-index:10}
+.icon-insert-btn{background:none;border:1px dashed rgba(212,160,23,.4);border-radius:5px;padding:4px 8px;font-size:10px;color:var(--orange);cursor:pointer;transition:all .15s;font-weight:600}
 .icon-insert-btn:hover{background:rgba(212,160,23,.1)}
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1000;align-items:center;justify-content:center;padding:20px}
 .overlay.open{display:flex}
 .modal{background:var(--surface-2);border-radius:12px;padding:22px;max-width:620px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3)}
 .modal-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--border)}
 .modal-title{font-family:'Playfair Display',sans-serif;font-size:18px;font-weight:900;color:var(--text-1);letter-spacing:1px}
-.modal-close{background:var(--border);color:var(--gray);padding:5px 12px;border-radius:5px;font-size:14px;font-weight:700}
+.modal-close{background:var(--border);color:var(--gray);padding:5px 12px;border-radius:5px;font-size:12px;font-weight:700}
 .modal-close:hover{background:#EF4444;color:white}
-.notice{background:#FFF4EF;border-left:3px solid var(--orange);border-radius:0 6px 6px 0;padding:10px 14px;font-size:14px;color:#334155;line-height:1.65;margin-bottom:14px}
+.notice{background:#FFF4EF;border-left:3px solid var(--orange);border-radius:0 6px 6px 0;padding:10px 14px;font-size:11px;color:#334155;line-height:1.65;margin-bottom:14px}
 .ui-theme-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px}
 .ui-theme-btn{border:2px solid transparent;border-radius:8px;padding:10px;display:flex;flex-direction:column;gap:6px;cursor:pointer;transition:all .15s;text-align:left}
 .ui-theme-btn.on{box-shadow:0 0 0 2px var(--orange)}
 .ui-theme-btn:hover{transform:translateY(-1px)}
 .ui-theme-swatch{display:inline-block;width:14px;height:14px;border-radius:50%;margin-right:4px}
-.ui-theme-name{display:block;font-size:14px;font-weight:700;margin-top:2px}
+.ui-theme-name{display:block;font-size:11px;font-weight:700;margin-top:2px}
 .notice strong{color:var(--text-1)}
-.json-area{width:100%;height:180px;font-family:monospace;font-size:14px;border:1px solid var(--border);border-radius:6px;padding:10px;resize:vertical;background:var(--surface-1);color:var(--text-1)}
+.json-area{width:100%;height:180px;font-family:monospace;font-size:10px;border:1px solid var(--border);border-radius:6px;padding:10px;resize:vertical;background:var(--surface-1);color:var(--text-1)}
 .export-img{width:100%;border-radius:8px;display:block;border:1px solid var(--border)}
 .export-loading{text-align:center;padding:40px 20px;color:var(--gray)}
 .export-loading .spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--orange);border-radius:50%;margin:0 auto 12px;animation:spin .8s linear infinite}
@@ -474,7 +473,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 *::-webkit-scrollbar-track{background:transparent}
 
 /* Notification */
-.notif{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--navy);color:white;padding:10px 20px;border-radius:8px;font-size:14px;font-weight:600;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}
+.notif{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--navy);color:white;padding:10px 20px;border-radius:8px;font-size:12px;font-weight:600;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}
 .notif.show{opacity:1}
 
 /* ═══════════════════════════════════════════
@@ -498,10 +497,10 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 }
 #lic-overlay .lic-lock{font-size:52px;margin-bottom:18px}
 #lic-overlay h2{font-family:'Playfair Display',sans-serif;font-size:28px;font-weight:900;color:white;letter-spacing:1px;margin-bottom:8px}
-#lic-overlay p{color:#6b6b8a;font-size:14px;line-height:1.6;margin-bottom:26px}
+#lic-overlay p{color:#6b6b8a;font-size:13px;line-height:1.6;margin-bottom:26px}
 #lic-overlay .lic-input{
   width:100%;background:#0a0a0f;border:1px solid #2a2a3a;border-radius:8px;
-  padding:13px 16px;color:white;font-family:'JetBrains Mono',monospace;font-size:14px;
+  padding:13px 16px;color:white;font-family:'JetBrains Mono',monospace;font-size:11px;
   text-align:center;outline:none;transition:border-color .2s;margin-bottom:10px;
 }
 #lic-overlay .lic-input:focus{border-color:#00e5ff}
@@ -514,14 +513,14 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 }
 #lic-overlay .lic-btn:hover{opacity:.85}
 #lic-overlay .lic-msg{
-  margin-top:12px;padding:9px 14px;border-radius:6px;font-size:14px;
+  margin-top:12px;padding:9px 14px;border-radius:6px;font-size:12px;
   font-family:'JetBrains Mono',monospace;display:none;line-height:1.5;
 }
 #lic-overlay .lic-msg.err{background:#1a0505;color:#ff4444;border:1px solid #ff4444;display:block}
 #lic-overlay .lic-msg.warn{background:#1a1000;color:#ffaa00;border:1px solid #ffaa00;display:block}
 #lic-overlay .lic-msg.ok{background:#051a0a;color:#00ff88;border:1px solid #00ff88;display:block}
 #lic-overlay .lic-divider{border:none;border-top:1px solid #2a2a3a;margin:20px 0}
-#lic-overlay .lic-buy{color:#F05A1A;font-size:14px;text-decoration:none;font-weight:700}
+#lic-overlay .lic-buy{color:#F05A1A;font-size:12px;text-decoration:none;font-weight:700}
 #lic-overlay .lic-buy:hover{text-decoration:underline}
 
 /* ═══ MENTIONS LÉGALES + WATERMARK ═══ */
@@ -542,15 +541,15 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 #legal-modal .legal-close {
   margin-top: 20px; background: #1E3A5F; color: #F0F6FF;
   border: none; border-radius: 6px; padding: 8px 20px;
-  cursor: pointer; font-family: inherit; font-size: 14px;
+  cursor: pointer; font-family: inherit; font-size: 11px;
 }
-#legal-modal strong { font-family: 'DM Sans';sans-serif; font-size: 14px;
+#legal-modal strong { font-family: 'DM Sans';sans-serif; font-size: 12px;
   color: #0D2B4E; line-height: 1.8; }
 
 /* Watermark discret en bas de page */
 #app-watermark {
   position: fixed; bottom: 8px; right: 12px;
-  font-size: 12px; color: rgba(255,255,255,0.08);
+  font-size: 9px; color: rgba(255,255,255,0.08);
   font-family: 'DM Sans';sans-serif; 
   pointer-events: none; user-select: none;
   z-index: 1000; letter-spacing: 0.05em;
@@ -678,7 +677,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
     <button class="lic-btn" id="licBtn">⚡ ACTIVER</button>
     <div class="lic-msg" id="licMsg"></div>
     <hr class="lic-divider"/>
-    <p style="font-size:14px;color:#6b6b8a">Pas encore de licence ?<br>
+    <p style="font-size:11px;color:#6b6b8a">Pas encore de licence ?<br>
       <a href="https://viaaucta-conseil.github.io/myprez/" class="lic-buy" target="_blank">→ Acheter une licence</a>
     </p>
   </div>
@@ -688,7 +687,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 
 <!-- ═══ TOP BAR ═══ -->
 <div class="topbar">
-  <div class="topbar-logo">VIA AUCTA <span>·</span> GÉNÉRATEUR<small>Carrousels et présentations</small></div>
+  <div class="topbar-logo">VIA AUCTA <span>·</span> GÉNÉRATEUR<small>Carrousels et présentations — Export PNG · PDF · PPT</small></div>
   <div class="spacer"></div>
   <div class="fmt-group" id="fmtGroup">
     <button class="fmt-btn on" id="fmt-linkedin" onclick="setFormat('linkedin',this)"><span class="fmt-icon">💼</span>LinkedIn & IG</button>
@@ -791,7 +790,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
           <label>Couleur personnalisée</label>
           <div class="color-picker-wrap">
             <input type="color" class="color-input" id="bgColorPicker" value="#0D2B4E" oninput="setBgColor(this.value,null)"/>
-            <input class="einp" id="bgColorHex" value="#0D2B4E" style="flex:1;background:var(--surface-1);border:1px solid var(--border);border-radius:6px;padding:5px 8px;font-size:14px;color:var(--text-1)" oninput="setBgColor(this.value,null)"/>
+            <input class="einp" id="bgColorHex" value="#0D2B4E" style="flex:1;background:var(--surface-1);border:1px solid var(--border);border-radius:6px;padding:5px 8px;font-size:12px;color:var(--text-1)" oninput="setBgColor(this.value,null)"/>
           </div>
         </div>
         <div class="sec-title" style="margin-top:14px">Couleur du texte</div>
@@ -829,7 +828,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
         <div class="field">
           <label>Angle</label>
           <input type="range" id="gradAngle" min="0" max="360" value="135" style="width:100%" oninput="updateGradient();document.getElementById('gradAngleLbl').textContent=this.value+'°'"/>
-          <span id="gradAngleLbl" style="font-size:14px;color:var(--gray)">135°</span>
+          <span id="gradAngleLbl" style="font-size:11px;color:var(--gray)">135°</span>
         </div>
       </div>
 
@@ -837,8 +836,8 @@ input,textarea,select{font-family:var(--app-font);outline:none}
         <div class="sec-title">Image de fond</div>
         <div id="bgImgPreview" style="display:none;background:var(--surface-1);border:1px solid var(--border);border-radius:7px;padding:8px 10px;margin-bottom:8px;align-items:center;gap:8px">
           <span style="font-size:18px">🖼</span>
-          <span id="bgImgName" style="font-size:14px;color:var(--text-1);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">image.jpg</span>
-          <button onclick="removeBgImage()" style="background:#EF4444;color:white;border:none;border-radius:4px;padding:3px 8px;font-size:14px;font-weight:700;cursor:pointer">✕ Supprimer</button>
+          <span id="bgImgName" style="font-size:11px;color:var(--text-1);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">image.jpg</span>
+          <button onclick="removeBgImage()" style="background:#EF4444;color:white;border:none;border-radius:4px;padding:3px 8px;font-size:10px;font-weight:700;cursor:pointer">✕ Supprimer</button>
         </div>
         <div class="upload-zone" onclick="document.getElementById('bgImgInput').click()">
           <div class="upload-zone-icon">🖼</div>
@@ -931,8 +930,8 @@ input,textarea,select{font-family:var(--app-font);outline:none}
       <div style="height:16px"></div>
       <div class="sec-title">Appliquer à</div>
       <div style="display:flex;gap:6px;flex-wrap:wrap">
-        <button class="tbtn tbtn-orange" style="font-size:14px;padding:5px 10px" onclick="applyBgToAll()">Toutes les slides</button>
-        <button class="tbtn tbtn-gray" style="font-size:14px;padding:5px 10px;background:#0D2B4E;color:white" onclick="applyBgToCurrent()">Slide actuelle</button>
+        <button class="tbtn tbtn-orange" style="font-size:10px;padding:5px 10px" onclick="applyBgToAll()">Toutes les slides</button>
+        <button class="tbtn tbtn-gray" style="font-size:10px;padding:5px 10px;background:#0D2B4E;color:white" onclick="applyBgToCurrent()">Slide actuelle</button>
       </div>
     </div>
 
@@ -940,7 +939,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
     <div class="panel-content" id="pc2" style="display:none">
       <div class="sec-title">Infos générales</div>
       <div style="display:flex;justify-content:flex-end;margin-bottom:10px">
-        <button class="tbtn tbtn-gray" style="font-size:14px;padding:5px 12px;background:#EF4444;color:white;border:none" onclick="resetCarDefaults()">↺ Réinitialiser les paramètres</button>
+        <button class="tbtn tbtn-gray" style="font-size:10px;padding:5px 12px;background:#EF4444;color:white;border:none" onclick="resetCarDefaults()">↺ Réinitialiser les paramètres</button>
       </div>
       <div class="field"><label>Emoji</label><input id="carEmoji" style="width:70px;background:var(--surface-1);border:1px solid var(--border);border-radius:6px;padding:6px 8px;font-size:14px;color:var(--text-1)" oninput="C[ac].emoji=this.value;renderTabs()"/></div>
       <div class="field"><label>Titre (onglet)</label><input class="einp2" id="carTitle" oninput="C[ac].title=this.value;renderTabs()"/></div>
@@ -954,15 +953,15 @@ input,textarea,select{font-family:var(--app-font);outline:none}
         <label>Logo / Photo de profil</label>
         <div id="logoUploadZone" class="logo-upload-zone" onclick="document.getElementById('logoFileIn').click()">
           <div style="font-size:20px;margin-bottom:4px">🖼</div>
-          <div style="font-size:14px;color:var(--gray)">Cliquez pour importer<br><span style="font-size:14px">PNG, JPG, WebP — recommandé 200×200px</span></div>
+          <div style="font-size:10px;color:var(--gray)">Cliquez pour importer<br><span style="font-size:9px">PNG, JPG, WebP — recommandé 200×200px</span></div>
         </div>
         <input type="file" id="logoFileIn" accept="image/*" style="display:none" onchange="loadLogoImage(event)"/>
         <div id="logoPreviewWrap" style="display:none">
           <div class="logo-preview-wrap">
             <img id="logoPreviewImg" class="logo-preview-img" src="" alt="Logo"/>
             <div style="flex:1">
-              <div style="font-size:14px;font-weight:600;color:var(--text-1);margin-bottom:4px">Logo chargé ✓</div>
-              <div style="font-size:14px;color:var(--gray)">Affiché dans le pied de page</div>
+              <div style="font-size:10px;font-weight:600;color:var(--text-1);margin-bottom:4px">Logo chargé ✓</div>
+              <div style="font-size:9px;color:var(--gray)">Affiché dans le pied de page</div>
             </div>
             <button class="logo-remove-btn" onclick="removeLogo()" title="Supprimer">✕</button>
           </div>
@@ -1155,7 +1154,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
     <input class="icon-search" id="iconSearch" placeholder="Rechercher une icône..." oninput="filterIcons(this.value)"/>
     <div class="icon-cats" id="iconCats"></div>
     <div class="icon-grid" id="iconGrid"></div>
-    <div style="margin-top:10px;font-size:14px;color:var(--gray);text-align:center">
+    <div style="margin-top:10px;font-size:10px;color:var(--gray);text-align:center">
       Cliquez une icône pour la copier dans le presse-papier, puis collez-la dans n'importe quel champ texte
     </div>
   </div>
@@ -1204,7 +1203,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
     <div id="pdfDone" style="display:none;text-align:center;padding:20px 0">
       <div style="font-size:40px;margin-bottom:12px">✅</div>
       <p style="font-size:14px;font-weight:700;color:var(--text-1);margin-bottom:6px">PDF généré avec succès !</p>
-      <p style="font-size:14px;color:var(--gray);margin-bottom:20px">Le téléchargement a démarré automatiquement.</p>
+      <p style="font-size:11px;color:var(--gray);margin-bottom:20px">Le téléchargement a démarré automatiquement.</p>
       <button class="tbtn tbtn-orange" style="width:100%" onclick="closeOverlay('ovPDF')">Fermer</button>
     </div>
   </div>
@@ -1220,12 +1219,12 @@ input,textarea,select{font-family:var(--app-font);outline:none}
     <div id="pptProgress" class="export-loading">
       <div class="spinner"></div>
       <p id="pptProgressTxt">Préparation…</p>
-      <p style="font-size:14px;color:var(--gray);margin-top:8px">Rendu de chaque slide en image PNG, puis assemblage du fichier .pptx</p>
+      <p style="font-size:10px;color:var(--gray);margin-top:8px">Rendu de chaque slide en image PNG, puis assemblage du fichier .pptx</p>
     </div>
     <div id="pptDone" style="display:none;text-align:center;padding:20px 0">
       <div style="font-size:40px;margin-bottom:12px">✅</div>
       <p style="font-size:14px;font-weight:700;color:var(--text-1);margin-bottom:6px">PowerPoint généré avec succès !</p>
-      <p style="font-size:14px;color:var(--gray);margin-bottom:20px">Le téléchargement a démarré automatiquement.</p>
+      <p style="font-size:11px;color:var(--gray);margin-bottom:20px">Le téléchargement a démarré automatiquement.</p>
       <button class="tbtn tbtn-orange" style="width:100%" onclick="closeOverlay('ovPPT')">Fermer</button>
     </div>
   </div>
@@ -1247,7 +1246,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
       </button>
       <button type="button" class="ui-theme-btn" data-theme="studioBlanc" onclick="applyUITheme('studioBlanc')" style="background:#F5F5F7;border-color:#E5E5EA">
         <span class="ui-theme-swatch" style="background:#1D1D1F"></span>
-        <span class="ui-theme-swatch" style="background:#0071E3"></span>
+        <span class="ui-theme-swatch" style="background:#48484A"></span>
         <span class="ui-theme-name" style="color:#1D1D1F">☀ Studio blanc</span>
       </button>
       <button type="button" class="ui-theme-btn" data-theme="anthracite" onclick="applyUITheme('anthracite')" style="background:#1C1C1E;border-color:#3A3A3C">
@@ -1294,13 +1293,13 @@ input,textarea,select{font-family:var(--app-font);outline:none}
       </div>
     </div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px">
-      <button class="tbtn tbtn-orange" style="font-size:14px;padding:5px 10px" onclick="resetUIColors()">↺ Réinitialiser</button>
+      <button class="tbtn tbtn-orange" style="font-size:10px;padding:5px 10px" onclick="resetUIColors()">↺ Réinitialiser</button>
     </div>
 
     <!-- Hashtags rapides -->
     <div class="sec-title" style="margin-bottom:10px">Hashtags rapides</div>
     <div class="field-hint" style="margin-bottom:8px">Un hashtag par ligne (avec le # devant)</div>
-    <textarea class="einp2" id="hashtagsEditor" rows="8" style="resize:vertical;font-size:14px;line-height:1.8" oninput="updateHashtags(this.value)">#MyTagline
+    <textarea class="einp2" id="hashtagsEditor" rows="8" style="resize:vertical;font-size:11px;line-height:1.8" oninput="updateHashtags(this.value)">#MyTagline
 #Entrepreneuriat
 #Stratégie
 #Leadership
@@ -1311,7 +1310,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 <div id="notif" class="notif"></div>
 
 <!-- INPUT CSS helper -->
-<style>.einp2{width:100%;background:var(--surface-1);border:1px solid var(--border);border-radius:6px;padding:6px 9px;font-family:var(--app-font);font-size:14px;color:var(--text-1)}.einp2:focus{border-color:var(--orange);background:var(--surface-2)}</style>
+<style>.einp2{width:100%;background:var(--surface-1);border:1px solid var(--border);border-radius:6px;padding:6px 9px;font-family:var(--app-font);font-size:12px;color:var(--text-1)}.einp2:focus{border-color:var(--orange);background:var(--surface-2)}</style>
 
 <script>
 /* ═══════════════════════════════════════
@@ -1340,43 +1339,25 @@ function applyFormatToElement(el){
 }
 
 var C = [
-  {id:1,emoji:"📋",pilier:"Pilier 3",title:"Business Plan",subtitle:"Construire son business plan",tag:"BUSINESS PLAN",brand:"YOUR NAME - YOUR BRAND",accent:"#F05A1A",
-  post:"📋 Un business plan, ce n'est pas un document administratif.\nC'est la carte routière de votre entreprise.\n\nDans ce carrousel : les 7 blocs que tout business plan doit contenir.\n\n👉 Sauvegardez ce post.\n\n— YOUR NAME - YOUR BRAND\n🎯 #Entrepreneuriat #BusinessPlan #Entreprendre #Industrie",
+  {id:1,emoji:"📑",pilier:"Démo",title:"Carrousel de démonstration",subtitle:"Un exemple pour chaque type de slide",tag:"DÉMO",brand:"YOUR NAME - YOUR BRAND",accent:"#F05A1A",
+  post:"📑 Un carrousel, tous les formats de slides possibles.\n\nCouverture, accroche, contenu, étapes, image, graphique, tableau comparatif, citation, export...\n\nDupliquez, remplacez le texte, exportez.\n\n— YOUR NAME - YOUR BRAND\n🎯 #Presentation #Carrousel #Outil",
   slides:[
-    {t:"cover",bg:{type:"solid",color:"#0D2B4E",textColor:"#FFFFFF"},tag:"BUSINESS PLAN",title:"VOTRE BUSINESS PLAN\nEN 7 BLOCS",sub:"Ce que votre banquier veut vraiment voir"},
-    {t:"hook",bg:{type:"solid",color:"#060E1A",textColor:"#FFFFFF"},pill:"LE CONSTAT",stmt:"La plupart rédigent\nleur BP pour la banque.\n<em>Jamais pour eux-mêmes.</em>",stxt:"C'est là que tout déraille — avant même la première ligne de chiffres.",sn:"02"},
-    {t:"whiteContent",bg:{type:"solid",color:"#F4F4F2",textColor:"#0D2B4E"},pill:"TITRE",content:["Le texte en forme de paragraphe","Et encore un paragraphe"],stmt:'Votre statement\nfort ici.\n<em>Mot en orange.</em>',tip:'Les bons conseils ici',sn:"03"},
-    {t:"step",bg:{type:"solid",color:"#0D2B4E",textColor:"#FFFFFF"},pill:"LA MÉTHODE",items:[{n:"04",title:"La stratégie commerciale",sub:"Qui sont vos clients ? Comment les trouver ?"},{n:"05",title:"Les projections financières",sub:"3 scénarios sur 24 mois. Votre banquier veut voir le pire cas."},{n:"06",title:"Le plan de financement",sub:"Combien, d'où vient l'argent, où il va."}],sn:"04"},
-    {t:"image",bg:{type:"solid",color:"#0D2B4E",textColor:"#FFFFFF"},pill:"EN VISUEL",imageData:null,imgSize:100,imgHPos:50,imgVPos:50,imgOpacity:100,sn:"05"},
-    {t:"quote",bg:{type:"solid",color:"#F4F4F2",textColor:"#0D2B4E"},pill:"LE PRINCIPE",quote:"Est-ce que moi,\navec ce que je sais,\nje mettrais <em>mon argent</em>\ndans cette entreprise ?",qsub:"Pas l'argent de la banque. Le vôtre.",sn:"06"},
-    {t:"hook",bg:{type:"solid",color:"#060E1A",textColor:"#FFFFFF"},pill:"LA VÉRITÉ",stmt:"Un business plan\nsans les questions\nqui font peur,\n<em>c'est du PowerPoint\navec des chiffres dedans.</em>",stxt:"",sn:"07"},
-    {t:"quote",bg:{type:"solid",color:"#F4F4F2",textColor:"#0D2B4E"},pill:"LA MÉTHODE",quote:"Rédigez-le seul,\nla nuit.\nHonnêtement.\n<em>Sans vous mentir.</em>",qsub:"C'est le seul business plan qui fonctionne vraiment.",sn:"08"},
-    {t:"hook",bg:{type:"solid",color:"#060E1A",textColor:"#FFFFFF"},pill:"LE BILAN",stmt:"Le banquier\nle sent.\n<em>Il le sent toujours.</em>",stxt:"Vous ne pouvez pas convaincre quelqu'un d'autre de ce dont vous n'êtes pas convaincu vous-même.",sn:"09"},
-    {t:"cta",bg:{type:"gradient",gradient:"135deg,#F05A1A,#FF7A3D",textColor:"#FFFFFF"},eyebrow:"YOUR NAME - YOUR BRAND",main:"Votre Tagline\nVotre accroche\nVotre slogan",ctxt:"Rejoignez la communauté des dirigeants et entrepreneurs qui construisent différemment.",pill:"REJOINGNEZ-MOI"},
-  ]},
-  {id:2,emoji:"📊",pilier:"Pilier 6",title:"Finances",subtitle:"Piloter ses finances au quotidien",tag:"FINANCES",brand:"YOUR NAME - YOUR BRAND",accent:"#F05A1A",
-  post:"📊 Votre comptable vous remet votre bilan une fois par an.\n\nC'est déjà trop tard.\n\nLes entreprises meurent d'une trésorerie qu'on n'a pas vue partir.\n\n— YOUR NAME | YOUR BRAND\n🎯 #Finances #Tresorerie #Entrepreneuriat",
-  slides:[
-    {t:"cover",bg:{type:"solid",color:"#0D2B4E",textColor:"#FFFFFF"},tag:"FINANCES",title:"6 CHIFFRES À\nREGARDER CHAQUE\nSEMAINE",sub:"Pilotez votre business comme un cockpit"},
-    {t:"hook",bg:{type:"solid",color:"#060E1A",textColor:"#FFFFFF"},pill:"LE PROBLÈME",stmt:"La plupart lisent\nleur bilan comme\n<em>un constat.</em>",stxt:"Les bons dirigeants le lisent comme un signal faible — une radiographie de ce qui vient.",sn:"02"},
-    {t:"step",bg:{type:"solid",color:"#0D2B4E",textColor:"#FFFFFF"},pill:"5 SIGNAUX",items:[{n:"🔴",title:"Résultat positif. Trésorerie s'effondre.",sub:"BFR qui s'emballe — vous financez vos clients avant qu'ils vous paient."},{n:"🔴",title:"Immobilisations ↑. EBE stagne.",sub:"Investissement déconnecté du modèle économique réel."},{n:"🟡",title:"Capitaux propres ↑. Moins vite que la dette.",sub:"Fragilité structurelle que votre banquier voit avant vous."}],sn:"03"},
-    {t:"step",bg:{type:"solid",color:"#0D2B4E",textColor:"#FFFFFF"},pill:"SUITE SIGNAUX",items:[{n:"🟡",title:"Délai client ↑. Délai fournisseur ↓.",sub:"Perte de pouvoir de négociation des deux côtés."},{n:"🟢",title:"Fonds de roulement > BFR.",sub:"Vous avez de l'oxygène. Liberté stratégique réelle."},{n:"1",title:"Lire en 10 minutes",sub:"Capitaux propres → Ratio dette/CP → BFR → Comparer N-1."}],sn:"04"},
-    {t:"quote",bg:{type:"solid",color:"#F4F4F2",textColor:"#0D2B4E"},pill:"LA DISTINCTION",quote:"Votre comptable\nlit pour <em>les impôts.</em>\nVous devez lire\npour <em>piloter.</em>",qsub:"Ce sont deux lectures différentes du même document.",sn:"05"},
-    {t:"hook",bg:{type:"solid",color:"#060E1A",textColor:"#FFFFFF"},pill:"L'ERREUR",stmt:"CA, marge, trésorerie :\n<em>80% des entrepreneurs</em>\nconfondent les trois.",stxt:"Ce ne sont pas des synonymes. Ce sont trois mesures de trois réalités radicalement différentes.",sn:"06"},
-    {t:"quote",bg:{type:"solid",color:"#F4F4F2",textColor:"#0D2B4E"},pill:"LE PRINCIPE",quote:"Un dirigeant qui lit\nson bilan une fois par an\n<em>subit</em> son entreprise.",qsub:"Celui qui le lit comme un tableau de bord la pilote.",sn:"07"},
-    {t:"cta",bg:{type:"gradient",gradient:"135deg,#F05A1A,#FF7A3D",textColor:"#FFFFFF"},eyebrow:"YOUR NAME - YOUR BRAND",main:"Votre Tagline\nVotre accroche\nVotre slogan",ctxt:"Rejoignez la communauté des dirigeants et entrepreneurs qui construisent différemment.",pill:"REJOINGNEZ-MOI"},
-  ]},
-  {id:3,emoji:"⚙️",pilier:"Pilier 7",title:"Organisation",subtitle:"Structurer son organisation",tag:"ORGANISATION",brand:"YOUR NAME - YOUR BRAND",accent:"#F05A1A",
-  post:"⚙️ L'entrepreneur débordé n'a pas un problème de temps.\n\nIl a un problème de structure.\n\nCeux qui scalent ont mis des systèmes en place dès le départ.\n\n— YOUR NAME | YOUR BRAND\n🎯 #Organisation #Entrepreneuriat #Systemes",
-  slides:[
-    {t:"cover",bg:{type:"solid",color:"#0D2B4E",textColor:"#FFFFFF"},tag:"ORGANISATION",title:"5 SYSTÈMES QUI FONT TOURNER VOTRE BUSINESS",sub:"Travaillez moins. Produisez plus."},
-    {t:"hook",bg:{type:"solid",color:"#060E1A",textColor:"#FFFFFF"},pill:"LE CONSTAT",stmt:"Occupé\nne veut pas dire\n<em>productif.</em>",stxt:"Les entrepreneurs les plus débordés confondent agitation et traction. Un business bien structuré tourne même quand vous n'êtes pas là.",sn:"02"},
-    {t:"step",bg:{type:"solid",color:"#0D2B4E",textColor:"#FFFFFF"},pill:"LES 5 SYSTÈMES",items:[{n:"01",title:"Capture",sub:"Toutes vos idées et tâches au même endroit. Un seul outil."},{n:"02",title:"Planification",sub:"Chaque dimanche : 3 priorités, temps bloqué dans l'agenda."},{n:"03",title:"Client",sub:"De la prospection à la facturation : un chemin documenté."}],sn:"03"},
-    {t:"step",bg:{type:"solid",color:"#0D2B4E",textColor:"#FFFFFF"},pill:"SUITE SYSTÈMES",items:[{n:"04",title:"Financier",sub:"Entrées. Sorties. Solde. Mis à jour chaque semaine."},{n:"05",title:"Revue mensuelle",sub:"1 heure avec vous-même. Ce qui a marché. Ce que vous changez."}],sn:"04"},
-    {t:"quote",bg:{type:"solid",color:"#F4F4F2",textColor:"#0D2B4E"},pill:"LE PRINCIPE",quote:"Un business\nsans système\nest <em>un emploi\ndéguisé.</em>",qsub:"La vraie liberté entrepreneuriale commence par des systèmes.",sn:"05"},
-    {t:"hook",bg:{type:"solid",color:"#060E1A",textColor:"#FFFFFF"},pill:"L'ANGLE MORT",stmt:"Votre organigramme\nvous ment.\n<em>La vraie structure\nn'est jamais celle\ndu document.</em>",stxt:"",sn:"06"},
-    {t:"quote",bg:{type:"solid",color:"#F4F4F2",textColor:"#0D2B4E"},pill:"LA VÉRITÉ",quote:"Vous êtes peut-être\nle principal obstacle\nà la croissance\nde <em>votre entreprise.</em>",qsub:"Ce n'est pas un jugement. C'est la réalité la plus fréquente après 15 ans de terrain.",sn:"07"},
-    {t:"cta",bg:{type:"gradient",gradient:"135deg,#F05A1A,#FF7A3D",textColor:"#FFFFFF"},eyebrow:"YOUR NAME - YOUR BRAND",main:"Votre Tagline\nVotre accroche\nVotre slogan",ctxt:"Rejoignez la communauté des dirigeants et entrepreneurs qui construisent différemment.",pill:"REJOINGNEZ-MOI"},
+    {t:"cover",bg:{type:"solid",color:"#0D2B4E",textColor:"#FFFFFF"},tag:"EXEMPLE",title:"CECI EST\nMON TITRE",sub:"Mon sous-titre pour donner le contexte"},
+    {t:"hook",bg:{type:"solid",color:"#060E1A",textColor:"#FFFFFF"},pill:"L'ACCROCHE",stmt:"Mon accroche\npour capter\n<em>le lecteur.</em>",stxt:"Un sous-texte qui développe l'idée en une phrase.",sn:"02"},
+    {t:"whiteContent",bg:{type:"solid",color:"#F4F4F2",textColor:"#0D2B4E"},pill:"MON CONTENU",content:["Ceci est mon premier paragraphe de contenu.","Et voici un second paragraphe qui développe l'idée."],stmt:"Une phrase clé\nqui marque les esprits.\n<em>Mot en accent.</em>",tip:"Un conseil pratique pour mon lecteur",sn:"03"},
+    {t:"step",bg:{type:"solid",color:"#0D2B4E",textColor:"#FFFFFF"},pill:"MA MÉTHODE",items:[{n:"01",title:"Ma première étape",sub:"La description de cette étape."},{n:"02",title:"Ma deuxième étape",sub:"La description de cette étape."},{n:"03",title:"Ma troisième étape",sub:"La description de cette étape."}],sn:"04"},
+    {t:"image",bg:{type:"solid",color:"#0D2B4E",textColor:"#FFFFFF"},pill:"MON IMAGE",imageData:null,imgSize:100,imgHPos:50,imgVPos:50,imgOpacity:100,sn:"05"},
+    {t:"chart",bg:{type:"solid",color:"#0D2B4E",textColor:"#FFFFFF"},pill:"MON GRAPHIQUE",chartKind:"bar",items:[{label:"Élément A",value:40,color:null},{label:"Élément B",value:75,color:null}],sn:"06"},
+    {t:"table",bg:{type:"solid",color:"#F4F4F2",textColor:"#0D2B4E"},pill:"COMPARATIF",columns:["Critère","Canva","My Prez"],rows:[
+      ["Charte graphique reproductible","❌","✔️"],
+      ["Rapidité de mise en œuvre","❌","✔️"],
+      ["Mise en page modifiable en 1 clic","❌","✔️"],
+      ["Adapté au format PDF et PPT","❌","✔️"],
+      ["Pas d'utilisation des données personnelles","❌","✔️"]
+    ],sn:"07"},
+    {t:"quote",bg:{type:"solid",color:"#F4F4F2",textColor:"#0D2B4E"},pill:"MA CITATION",quote:"Ceci est ma citation,\nl'idée forte\nque <em>je veux marquer.</em>",qsub:"Un sous-texte qui apporte du contexte à la citation.",sn:"08"},
+    {t:"hook",bg:{type:"solid",color:"#060E1A",textColor:"#FFFFFF"},pill:"EXPORT PDF",stmt:"⏳\nGénération\nen cours...",stxt:"Export au format PDF A4, prêt à télécharger en quelques secondes.",sn:"09"},
+    {t:"cta",bg:{type:"gradient",gradient:"135deg,#F05A1A,#FF7A3D",textColor:"#FFFFFF"},eyebrow:"YOUR NAME - YOUR BRAND",main:"Mon titre\nd'appel à l'action\nfinal",ctxt:"Un sous-texte qui invite le lecteur à passer à l'action.",pill:"REJOIGNEZ-MOI"},
   ]},
 ];
 
@@ -2064,7 +2045,7 @@ function renderEditor(){
     +'<button type="button" class="fmt-tb-btn" onclick="fmtInsert(\''+key+'\',\'em\')" title="Colorer en accent (orange)" style="color:var(--orange)">● Accent</button>'
     +'<button type="button" class="fmt-tb-btn" onclick="fmtInsert(\''+key+'\',\'nl\')" title="Saut de ligne">↵ Saut</button>'
     +'<div class="fmt-tb-sep"></div>'
-    +'<div style="width:100%;font-size:14px;color:var(--gray);margin-top:4px;">Sélectionne du texte puis clique</div>'
+    +'<div style="width:100%;font-size:9px;color:var(--gray);margin-top:4px;">Sélectionne du texte puis clique</div>'
     +'</div>';
 };
   var ea=function(key,label,val,rows,hint,hasFormat){
@@ -2082,10 +2063,10 @@ function renderEditor(){
   var eaFs=function(key,label,def,mn,mx){
     var v=fs[key]!=null?fs[key]:def;
     return '<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">'
-      +'<span style="font-size:14px;color:var(--gray);width:80px;flex-shrink:0">'+label+'</span>'
+      +'<span style="font-size:10px;color:var(--gray);width:80px;flex-shrink:0">'+label+'</span>'
       +'<input type="range" min="'+(mn||16)+'" max="'+(mx||160)+'" value="'+v+'" style="flex:1;accent-color:var(--orange)"'
       +' oninput="updateSlFs(\''+key+'\',+this.value);this.nextSibling.textContent=this.value+\'px\'"/>'
-      +'<span style="font-size:14px;font-weight:700;color:var(--text-1);width:34px;text-align:right;flex-shrink:0">'+v+'px</span>'
+      +'<span style="font-size:10px;font-weight:700;color:var(--text-1);width:34px;text-align:right;flex-shrink:0">'+v+'px</span>'
       +'</div>';
   };
   h+='<div class="field"><label>Type de slide</label><select class="einp2" onchange="changeSlidetype(this.value)">';
@@ -2184,30 +2165,30 @@ function renderEditor(){
     h+='</div>';
     h+='<div class="sec-title" style="margin-top:8px">Réglages de l\'image</div>';
     h+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">'
-      +'<span style="font-size:14px;color:var(--gray);width:80px;flex-shrink:0">Taille</span>'
+      +'<span style="font-size:10px;color:var(--gray);width:80px;flex-shrink:0">Taille</span>'
       +'<input type="range" min="10" max="100" value="'+imgSize+'" style="flex:1;accent-color:var(--orange)"'
       +' oninput="updateSlKey(\'imgSize\',+this.value);this.nextSibling.textContent=this.value+\'%\'"/>'
-      +'<span style="font-size:14px;font-weight:700;color:var(--text-1);width:34px;text-align:right;flex-shrink:0">'+imgSize+'%</span>'
+      +'<span style="font-size:10px;font-weight:700;color:var(--text-1);width:34px;text-align:right;flex-shrink:0">'+imgSize+'%</span>'
       +'</div>';
     h+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">'
-      +'<span style="font-size:14px;color:var(--gray);width:80px;flex-shrink:0">Horizontal</span>'
+      +'<span style="font-size:10px;color:var(--gray);width:80px;flex-shrink:0">Horizontal</span>'
       +'<input type="range" min="0" max="100" value="'+imgHPos+'" style="flex:1;accent-color:var(--orange)"'
       +' oninput="updateSlKey(\'imgHPos\',+this.value);this.nextSibling.textContent=this.value+\'%\'"/>'
-      +'<span style="font-size:14px;font-weight:700;color:var(--text-1);width:34px;text-align:right;flex-shrink:0">'+imgHPos+'%</span>'
+      +'<span style="font-size:10px;font-weight:700;color:var(--text-1);width:34px;text-align:right;flex-shrink:0">'+imgHPos+'%</span>'
       +'</div>';
-    h+='<div class="field-hint" style="font-size:14px;color:var(--gray);margin:0 0 8px 88px">← Gauche · Droite →</div>';
+    h+='<div class="field-hint" style="font-size:9px;color:var(--gray);margin:0 0 8px 88px">← Gauche · Droite →</div>';
     h+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">'
-      +'<span style="font-size:14px;color:var(--gray);width:80px;flex-shrink:0">Vertical</span>'
+      +'<span style="font-size:10px;color:var(--gray);width:80px;flex-shrink:0">Vertical</span>'
       +'<input type="range" min="0" max="100" value="'+imgVPos+'" style="flex:1;accent-color:var(--orange)"'
       +' oninput="updateSlKey(\'imgVPos\',+this.value);this.nextSibling.textContent=this.value+\'%\'"/>'
-      +'<span style="font-size:14px;font-weight:700;color:var(--text-1);width:34px;text-align:right;flex-shrink:0">'+imgVPos+'%</span>'
+      +'<span style="font-size:10px;font-weight:700;color:var(--text-1);width:34px;text-align:right;flex-shrink:0">'+imgVPos+'%</span>'
       +'</div>';
-    h+='<div class="field-hint" style="font-size:14px;color:var(--gray);margin:0 0 8px 88px">← Bas · Haut →</div>';
+    h+='<div class="field-hint" style="font-size:9px;color:var(--gray);margin:0 0 8px 88px">← Bas · Haut →</div>';
     h+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">'
-      +'<span style="font-size:14px;color:var(--gray);width:80px;flex-shrink:0">Opacité</span>'
+      +'<span style="font-size:10px;color:var(--gray);width:80px;flex-shrink:0">Opacité</span>'
       +'<input type="range" min="0" max="100" value="'+imgOpacity+'" style="flex:1;accent-color:var(--orange)"'
       +' oninput="updateSlKey(\'imgOpacity\',+this.value);this.nextSibling.textContent=this.value+\'%\'"/>'
-      +'<span style="font-size:14px;font-weight:700;color:var(--text-1);width:34px;text-align:right;flex-shrink:0">'+imgOpacity+'%</span>'
+      +'<span style="font-size:10px;font-weight:700;color:var(--text-1);width:34px;text-align:right;flex-shrink:0">'+imgOpacity+'%</span>'
       +'</div>';
     h+='<div class="sec-title" style="margin-top:8px">Tailles de police</div>';
     h+=eaFs('pill','Badge',50,12,80);
@@ -2284,7 +2265,7 @@ function renderEditor(){
         +'<span style="font-size:15px;width:18px;text-align:center;flex-shrink:0;font-weight:800" title="'+sd.label+'">'+sd.icon+'</span>'
         +'<input type="color" value="'+(sh.color||'#F05A1A')+'" title="Couleur" oninput="updateShapeKey(\''+sh.id+'\',\'color\',this.value)"/>';
       if(isText){
-        h+='<input class="einp2" style="flex:1;min-width:70px;padding:5px 7px;font-size:14px" value="'+esc(sh.text||'')+'" placeholder="Votre texte" oninput="updateShapeKey(\''+sh.id+'\',\'text\',this.value)"/>'
+        h+='<input class="einp2" style="flex:1;min-width:70px;padding:5px 7px;font-size:11px" value="'+esc(sh.text||'')+'" placeholder="Votre texte" oninput="updateShapeKey(\''+sh.id+'\',\'text\',this.value)"/>'
           +'<input type="range" min="12" max="160" value="'+(sh.fontSize!=null?sh.fontSize:42)+'" title="Taille du texte" oninput="updateShapeKey(\''+sh.id+'\',\'fontSize\',+this.value)"/>';
       } else {
         if(canFill) h+='<label class="shape-list-fill"><input type="checkbox" '+(sh.fill!==false?'checked':'')+' onchange="updateShapeKey(\''+sh.id+'\',\'fill\',this.checked)"/>Rempli</label>';
@@ -3359,9 +3340,9 @@ function exportAllPNG(){
   var idx=0;
   function next(){
     if(idx>=slides.length){
-      var h='<p style="font-size:14px;color:#64748b;margin-bottom:12px">'+slides.length+' slides générées — clic droit → Enregistrer l\'image sous</p>';
+      var h='<p style="font-size:11px;color:#64748b;margin-bottom:12px">'+slides.length+' slides générées — clic droit → Enregistrer l\'image sous</p>';
       results.forEach(function(dataURL,i){
-        h+='<div style="margin-bottom:8px"><p style="font-size:14px;color:#64748b;margin-bottom:4px">Slide '+(i+1)+' / '+slides.length+'</p><img src="'+dataURL+'" style="width:100%;border-radius:6px;border:1px solid #E2E8F0"/></div>';
+        h+='<div style="margin-bottom:8px"><p style="font-size:10px;color:#64748b;margin-bottom:4px">Slide '+(i+1)+' / '+slides.length+'</p><img src="'+dataURL+'" style="width:100%;border-radius:6px;border:1px solid #E2E8F0"/></div>';
       });
       document.getElementById('allPngContainer').innerHTML=h;
       return;
@@ -3590,7 +3571,7 @@ var UI_THEMES = {
   studioBlanc: {
     label: 'Studio blanc', icon: '☀',
     vars: {
-      '--navy':'#1D1D1F', '--navy2':'#3A3A3C', '--orange':'#0071E3', '--orange2':'#409CFF',
+      '--navy':'#1D1D1F', '--navy2':'#3A3A3C', '--orange':'#48484A', '--orange2':'#6E6E73',
       '--bg':'#F5F5F7', '--border':'#E5E5EA', '--surface-1':'#FFFFFF', '--surface-2':'#FFFFFF',
       '--text-1':'#1D1D1F', '--text-2':'#86868B', '--gray':'#86868B',
       '--app-font':"-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
@@ -3808,7 +3789,7 @@ function renderIconGrid(query){
       });
     }
   });
-  if(shown === 0) h = '<div style="grid-column:1/-1;text-align:center;color:var(--gray);font-size:14px;padding:20px">Aucune icône trouvée</div>';
+  if(shown === 0) h = '<div style="grid-column:1/-1;text-align:center;color:var(--gray);font-size:12px;padding:20px">Aucune icône trouvée</div>';
   document.getElementById('iconGrid').innerHTML = h;
 }
 
