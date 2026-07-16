@@ -155,7 +155,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 .tbl-wrap{--tblBorder:rgba(13,43,78,.12);--tblAlt:rgba(13,43,78,.035);display:flex;flex-direction:column;border:2px solid var(--tblBorder);border-radius:14px;overflow:hidden;margin-top:4px}
 .tbl-row{display:flex}
 .tbl-head{font-weight:800}
-.tbl-cell{padding:22px 26px;box-sizing:border-box;border-right:1px solid var(--tblBorder);line-height:1.35}
+.tbl-cell{padding:22px 26px;box-sizing:border-box;border-right:1px solid var(--tblBorder);line-height:1.35;flex-shrink:0}
 .tbl-cell:last-child{border-right:none}
 .tbl-row:not(.tbl-head){border-top:1px solid var(--tblBorder)}
 .tbl-alt{background:var(--tblAlt)}
@@ -1610,15 +1610,17 @@ function slHTML(s,idx,tot,forExport){
     var tableTC = (isDarkTb ? mainTC : secTC) || tc;
     var cols = (s.columns && s.columns.length) ? s.columns : ['Colonne 1','Colonne 2'];
     var rows = s.rows || [];
-    var colW = (100/cols.length).toFixed(3)+'%';
+    var colWidthsRaw = (s.colWidths && s.colWidths.length===cols.length) ? s.colWidths : cols.map(function(){return 100/cols.length;});
+    var colWSum = colWidthsRaw.reduce(function(a,b){return a+(+b||0);},0) || 100;
+    var colWPct = colWidthsRaw.map(function(w){return (100*(+w||0)/colWSum).toFixed(3)+'%';});
     var tblStyle = '--tblBorder:'+(isDarkTb?'rgba(255,255,255,.18)':'rgba(13,43,78,.12)')+';--tblAlt:'+(isDarkTb?'rgba(255,255,255,.045)':'rgba(13,43,78,.035)');
     var tableHtml = '<div class="tbl-wrap" style="'+tblStyle+';font-size:'+fsp('tbl',30)+'">'
       +'<div class="tbl-row tbl-head" style="background:'+acc+'">'
-        +cols.map(function(c){return '<div class="tbl-cell" style="width:'+colW+';color:#FFFFFF;font-family:'+fontTitle+'">'+esc(c)+'</div>';}).join('')
+        +cols.map(function(c,ci){return '<div class="tbl-cell" style="width:'+colWPct[ci]+';color:#FFFFFF;font-family:'+fontTitle+'">'+esc(c)+'</div>';}).join('')
       +'</div>'
       +rows.map(function(r,ri){
         return '<div class="tbl-row'+(ri%2?' tbl-alt':'')+'" style="color:'+tableTC+';font-family:'+fontBody+'">'
-          +cols.map(function(c,ci){return '<div class="tbl-cell" style="width:'+colW+'">'+esc((r&&r[ci])||'')+'</div>';}).join('')
+          +cols.map(function(c,ci){return '<div class="tbl-cell" style="width:'+colWPct[ci]+'">'+esc((r&&r[ci])||'')+'</div>';}).join('')
         +'</div>';
       }).join('')
     +'</div>';
@@ -2239,12 +2241,16 @@ function renderEditor(){
   if(s.t==='table'){
     var tCols = (s.columns && s.columns.length) ? s.columns : ['Colonne 1','Colonne 2'];
     var tRows = s.rows || [];
+    var tColW = (s.colWidths && s.colWidths.length===tCols.length) ? s.colWidths : tCols.map(function(){return +(100/tCols.length).toFixed(1);});
     h+=ea('pill','Étiquette (badge)',s.pill);
     h+=ea('sn','Numéro affiché',s.sn);
     h+='<div class="sec-title" style="margin-top:4px">Colonnes</div>';
+    h+='<div class="field-hint" style="margin-bottom:8px">Le curseur règle la largeur relative de chaque colonne (les proportions sont automatiquement rééquilibrées à 100%).</div>';
     tCols.forEach(function(c,ci){
       h+='<div style="display:flex;gap:6px;align-items:center;margin-bottom:6px">'
         +'<input class="einp2" style="flex:1" value="'+esc(c)+'" oninput="updateTableCol('+ci+',this.value)"/>'
+        +'<input type="range" min="8" max="60" value="'+tColW[ci]+'" style="width:70px;accent-color:var(--orange)" title="Largeur de la colonne" oninput="updateTableColWidth('+ci+',+this.value);this.nextElementSibling.textContent=this.value+\'%\'"/>'
+        +'<span style="font-size:9px;color:var(--gray);width:28px;flex-shrink:0">'+tColW[ci]+'%</span>'
         +(tCols.length>1?'<button class="item-del-btn" style="position:static;flex-shrink:0" onclick="delTableCol('+ci+')">✕</button>':'')
         +'</div>';
     });
@@ -2263,6 +2269,7 @@ function renderEditor(){
     h+='<button class="btn-add-item" onclick="addTableRow()">+ Ajouter une ligne</button>';
     h+='<div class="sec-title" style="margin-top:8px">Tailles de police</div>';
     h+=eaFs('pill','Badge',50,12,80);
+    h+=eaFs('tbl','Texte du tableau',30,10,70);
   }
   h+='<div class="sec-title" style="margin-top:16px">Bibliothèque de formes</div>';
   h+='<div class="shape-palette">';
@@ -2576,7 +2583,7 @@ function addSlide(){
   else if(t==='quote') ns={t:'quote',bg:bgWh,pill:'LE PRINCIPE',quote:'Votre citation\nforte ici.\n<em>Mot en orange.</em>',qsub:'Sous-texte de la citation.',sn:n};
   else if(t==='image') ns={t:'image',bg:bg0,pill:'IMAGE',imageData:null,imgSize:100,imgHPos:50,imgVPos:50,imgOpacity:100,sn:n};
   else if(t==='chart') ns={t:'chart',bg:bg0,pill:'GRAPHIQUE',chartKind:'bar',items:[{label:'Janvier',value:30,color:null},{label:'Février',value:55,color:null},{label:'Mars',value:40,color:null}],sn:n};
-  else if(t==='table') ns={t:'table',bg:bgWh,pill:'TABLEAU',columns:['Critère','Valeur'],rows:[['Ligne 1','—'],['Ligne 2','—']],sn:n};
+  else if(t==='table') ns={t:'table',bg:bgWh,pill:'TABLEAU',columns:['Critère','Valeur'],rows:[['Ligne 1','—'],['Ligne 2','—']],colWidths:[50,50],sn:n};
   else ns={t:'cta',bg:bgCt,eyebrow:'YOUR TAGLINE',main:'Votre Tagline\nVotre accroche\nVotre slogan',ctxt:'Rejoignez la communauté des dirigeants et entrepreneurs.',pill:'REJOINGNEZ-MOI'};
   c.slides.push(ns);as=c.slides.length-1;renderSlide();renderSlideList();renderEditor();
 }
@@ -2726,11 +2733,16 @@ function updateChartItem(i,key,val){
 function _ensureTable(){
   if(!sl().columns) sl().columns=['Colonne 1','Colonne 2'];
   if(!sl().rows) sl().rows=[];
+  if(!sl().colWidths || sl().colWidths.length!==sl().columns.length){
+    var n=sl().columns.length;
+    sl().colWidths = sl().columns.map(function(){return +(100/n).toFixed(1);});
+  }
 }
 function addTableCol(){
   _ensureTable();
   if(sl().columns.length>=5) return;
   sl().columns.push('Colonne '+(sl().columns.length+1));
+  sl().colWidths.push(+(100/sl().columns.length).toFixed(1));
   renderEditor(); renderSlide();
 }
 function delTableCol(ci){
@@ -2739,11 +2751,17 @@ function delTableCol(ci){
   histSave();
   sl().columns.splice(ci,1);
   sl().rows.forEach(function(r){ r.splice(ci,1); });
+  sl().colWidths.splice(ci,1);
   renderEditor(); renderSlide();
 }
 function updateTableCol(ci,val){
   _ensureTable();
   sl().columns[ci]=val;
+  renderSlide();
+}
+function updateTableColWidth(ci,val){
+  _ensureTable();
+  sl().colWidths[ci]=val;
   renderSlide();
 }
 function addTableRow(){
