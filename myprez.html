@@ -7,7 +7,7 @@
 <!-- Favicon -->
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 	
-<title>Générateur de présentation — Via Aucta</title>
+<title>Générateur de présentation - Via Aucta</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,700;0,900;1,700&family=Barlow:wght@400;500;700&family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700;900&family=Syne:wght@400;600;700;800&family=Fraunces:ital,wght@0,300;0,700;0,900;1,700&family=Raleway:wght@400;700;800;900&family=Outfit:wght@300;400;700;900&family=Plus+Jakarta+Sans:wght@300;400;600;700&family=Space+Grotesk:wght@300;400;500;700&family=Inter:wght@300;400;600;700&family=Nunito:wght@300;400;600;700&family=Libre+Baskerville:wght@400;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -704,7 +704,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 
 <!-- ═══ TOP BAR ═══ -->
 <div class="topbar">
-  <div class="topbar-logo">VIA AUCTA <span>·</span> GÉNÉRATEUR<small>Carrousels et présentations — Export PNG · PDF · PPT</small></div>
+  <div class="topbar-logo">VIA AUCTA <span>·</span> GÉNÉRATEUR<small>Carrousels et présentations - Export PNG · PDF · PPT</small></div>
   <div class="spacer"></div>
   <div class="fmt-group" id="fmtGroup">
     <button class="fmt-btn on" id="fmt-linkedin" onclick="setFormat('linkedin',this)"><span class="fmt-icon">💼</span>LinkedIn & IG</button>
@@ -859,7 +859,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
         </div>
         <div class="upload-zone" onclick="document.getElementById('bgImgInput').click()">
           <div class="upload-zone-icon">🖼</div>
-          <p><strong>Cliquez pour choisir une image</strong><br>JPG, PNG, WebP — transparence préservée</p>
+          <p><strong>Cliquez pour choisir une image</strong><br>JPG, PNG, WebP - transparence préservée</p>
         </div>
         <input type="file" id="bgImgInput" accept="image/*" style="display:none" onchange="loadBgImage(event)"/>
 
@@ -888,7 +888,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
           </select>
         </div>
         <div id="customSizeRow" style="display:none" class="field">
-          <label>Taille personnalisée — <span id="customSizeLbl">100%</span></label>
+          <label>Taille personnalisée - <span id="customSizeLbl">100%</span></label>
           <input type="range" id="customSizeSlider" min="5" max="920" value="100" style="width:100%"
             oninput="document.getElementById('customSizeLbl').textContent=this.value+'%';updateImgBg()"/>
         </div>
@@ -921,7 +921,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
         </div>
 
         <div id="bgOverlayField" class="field">
-          <label>Superposition sombre — <span id="bgOverlayLbl">40%</span></label>
+          <label>Superposition sombre - <span id="bgOverlayLbl">40%</span></label>
           <input type="range" id="bgOverlay" min="0" max="90" value="40" style="width:100%"
             oninput="updateImgBg();document.getElementById('bgOverlayLbl').textContent=this.value+'%'"/>
         </div>
@@ -971,7 +971,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
         <label>Logo / Photo de profil</label>
         <div id="logoUploadZone" class="logo-upload-zone" onclick="document.getElementById('logoFileIn').click()">
           <div style="font-size:20px;margin-bottom:4px">🖼</div>
-          <div style="font-size:10px;color:var(--gray)">Cliquez pour importer<br><span style="font-size:9px">PNG, JPG, WebP — recommandé 200×200px</span></div>
+          <div style="font-size:10px;color:var(--gray)">Cliquez pour importer<br><span style="font-size:9px">PNG, JPG, WebP - recommandé 200×200px</span></div>
         </div>
         <input type="file" id="logoFileIn" accept="image/*" style="display:none" onchange="loadLogoImage(event)"/>
         <div id="logoPreviewWrap" style="display:none">
@@ -988,7 +988,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
             <button class="logo-shape-btn" id="logoShapeSquare" onclick="setLogoShape('square')">■ Carré</button>
           </div>
           <div class="field" style="margin-top:8px">
-            <label>Taille logo — <span id="logoSizeLbl">40px</span></label>
+            <label>Taille logo - <span id="logoSizeLbl">40px</span></label>
             <input type="range" id="logoSize" min="24" max="80" value="40" style="width:100%;accent-color:var(--orange)"
               oninput="C[ac].logoSize=+this.value;document.getElementById('logoSizeLbl').textContent=this.value+'px';renderSlide()"/>
           </div>
@@ -1010,19 +1010,19 @@ input,textarea,select{font-family:var(--app-font);outline:none}
         </div>
       </div>
       <div class="field">
-        <label>Longueur barre — <span id="obarWLbl">52px</span></label>
+        <label>Longueur barre - <span id="obarWLbl">52px</span></label>
         <input type="range" id="obarW" min="10" max="920" value="52" style="width:100%;accent-color:var(--orange)" oninput="C[ac].obar=C[ac].obar||{};C[ac].obar.w=+this.value;document.getElementById('obarWLbl').textContent=this.value+'px';renderSlide()"/>
       </div>
       <div class="field">
-        <label>Épaisseur barre — <span id="obarHLbl">5px</span></label>
+        <label>Épaisseur barre - <span id="obarHLbl">5px</span></label>
         <input type="range" id="obarH" min="1" max="20" value="5" style="width:100%;accent-color:var(--orange)" oninput="C[ac].obar=C[ac].obar||{};C[ac].obar.h=+this.value;document.getElementById('obarHLbl').textContent=this.value+'px';renderSlide()"/>
       </div>
       <div class="field">
-        <label>Longueur point pied — <span id="dotWLbl">20px</span></label>
+        <label>Longueur point pied - <span id="dotWLbl">20px</span></label>
         <input type="range" id="dotW" min="4" max="80" value="20" style="width:100%;accent-color:var(--orange)" oninput="C[ac].obar=C[ac].obar||{};C[ac].obar.dotW=+this.value;document.getElementById('dotWLbl').textContent=this.value+'px';renderSlide()"/>
       </div>
       <div class="field">
-        <label>Épaisseur point pied — <span id="dotHLbl">5px</span></label>
+        <label>Épaisseur point pied - <span id="dotHLbl">5px</span></label>
         <input type="range" id="dotH" min="1" max="20" value="5" style="width:100%;accent-color:var(--orange)" oninput="C[ac].obar=C[ac].obar||{};C[ac].obar.dotH=+this.value;document.getElementById('dotHLbl').textContent=this.value+'px';renderSlide()"/>
       </div>
       <div class="field">
@@ -1085,28 +1085,28 @@ input,textarea,select{font-family:var(--app-font);outline:none}
         <div class="field-hint">Appliqué aux slides claires</div>
       </div>
       <div style="height:8px"></div>
-      <div class="sec-title">Pied de page — branding</div>
+      <div class="sec-title">Pied de page - branding</div>
       <div class="field">
-        <label>Taille police branding — <span id="brandFsLbl">32px</span></label>
+        <label>Taille police branding - <span id="brandFsLbl">32px</span></label>
         <input type="range" id="brandFs" min="12" max="60" value="32" style="width:100%;accent-color:var(--orange)" oninput="C[ac].brandFs=+this.value;document.getElementById('brandFsLbl').textContent=this.value+'px';renderSlide()"/>
       </div>
       <div class="field">
-        <label>Couleur branding — fond sombre</label>
+        <label>Couleur branding - fond sombre</label>
         <div class="color-picker-wrap">
           <input type="color" class="color-input" id="brandColorDark" value="#FFFFFF" oninput="updateBrandColor('Dark')"/>
           <input class="einp2" id="brandColorDarkHex" value="#FFFFFF" style="flex:1" oninput="document.getElementById('brandColorDark').value=this.value;updateBrandColor('Dark')"/>
         </div>
-        <label style="margin-top:8px">Opacité — <span id="brandOpacityDarkLbl">28%</span></label>
+        <label style="margin-top:8px">Opacité - <span id="brandOpacityDarkLbl">28%</span></label>
         <input type="range" id="brandOpacityDark" min="0" max="100" value="28" style="width:100%;accent-color:var(--orange)" oninput="document.getElementById('brandOpacityDarkLbl').textContent=this.value+'%';updateBrandColor('Dark')"/>
         <div class="field-hint">Utilisée quand le fond de la slide est sombre (cover, hook, step)</div>
       </div>
       <div class="field">
-        <label>Couleur branding — fond clair</label>
+        <label>Couleur branding - fond clair</label>
         <div class="color-picker-wrap">
           <input type="color" class="color-input" id="brandColorLight" value="#0D2B4E" oninput="updateBrandColor('Light')"/>
           <input class="einp2" id="brandColorLightHex" value="#0D2B4E" style="flex:1" oninput="document.getElementById('brandColorLight').value=this.value;updateBrandColor('Light')"/>
         </div>
-        <label style="margin-top:8px">Opacité — <span id="brandOpacityLightLbl">35%</span></label>
+        <label style="margin-top:8px">Opacité - <span id="brandOpacityLightLbl">35%</span></label>
         <input type="range" id="brandOpacityLight" min="0" max="100" value="35" style="width:100%;accent-color:var(--orange)" oninput="document.getElementById('brandOpacityLightLbl').textContent=this.value+'%';updateBrandColor('Light')"/>
         <div class="field-hint">Utilisée quand le fond de la slide est clair (quote, white)</div>
       </div>
@@ -1283,7 +1283,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
         <span class="ui-theme-name" style="color:#E7F5F0;font-family:'JetBrains Mono',monospace">▸ Studio dev</span>
       </button>
     </div>
-    <div class="field-hint" style="margin-bottom:14px">Un thème règle la palette et la police d'un coup. Affine ensuite manuellement ci-dessous si besoin — les slides exportées ne sont jamais affectées, seule l'interface change.</div>
+    <div class="field-hint" style="margin-bottom:14px">Un thème règle la palette et la police d'un coup. Affine ensuite manuellement ci-dessous si besoin - les slides exportées ne sont jamais affectées, seule l'interface change.</div>
     <div class="field-row" style="margin-bottom:14px">
       <div class="field">
         <label>Couleur principale (navy)</label>
@@ -1581,7 +1581,7 @@ function slHTML(s,idx,tot,forExport){
     var cssTop = 100 - imgVPos;
     var imgLayer = s.imageData
       ? '<img class="img-layer" src="'+s.imageData+'" style="width:'+imgSize+'%;height:'+imgSize+'%;left:'+imgHPos+'%;top:'+cssTop+'%;transform:translate(-'+imgHPos+'%,-'+cssTop+'%);opacity:'+(imgOpacity/100)+'"/>'
-      : '<div class="img-empty">Aucune image — Ajoutez-en une dans l\'éditeur</div>';
+      : '<div class="img-empty">Aucune image - Ajoutez-en une dans l\'éditeur</div>';
     var pillHtml = (s.pill||'').trim()
       ? '<div class="img-pill" style="background:'+acc+';color:white;font-family:'+fontTitle+';font-size:'+fsp('pill',50)+'">'+esc(s.pill)+'</div>'
       : '';
@@ -1668,7 +1668,7 @@ function buildChartSVG(items, kind, accent, isDark, fontBody){
   var subColor  = isDark ? 'rgba(255,255,255,.55)' : 'rgba(13,43,78,.55)';
   var gridColor = isDark ? 'rgba(255,255,255,.14)' : 'rgba(13,43,78,.14)';
   if(!items.length){
-    return '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:'+subColor+';font-size:22px;font-family:'+fontBody+';text-align:center;padding:0 60px">Aucune donnée — ajoutez des points dans l\'éditeur</div>';
+    return '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:'+subColor+';font-size:22px;font-family:'+fontBody+';text-align:center;padding:0 60px">Aucune donnée - ajoutez des points dans l\'éditeur</div>';
   }
   var colors=_chartColors(items,accent);
   var n=items.length;
@@ -1725,7 +1725,7 @@ function buildChartSVG(items, kind, accent, isDark, fontBody){
       var col=i%cols, row=Math.floor(i/cols);
       var lx=col*(W/cols), ly=legY+row*rowH;
       svg+='<rect x="'+lx+'" y="'+ly+'" width="26" height="26" rx="5" fill="'+colors[i]+'"/>';
-      svg+='<text x="'+(lx+36)+'" y="'+(ly+21)+'" font-size="23" fill="'+textColor+'">'+esc(it.label||'')+' — '+Math.round((+it.value||0)/sum*100)+'%</text>';
+      svg+='<text x="'+(lx+36)+'" y="'+(ly+21)+'" font-size="23" fill="'+textColor+'">'+esc(it.label||'')+' - '+Math.round((+it.value||0)/sum*100)+'%</text>';
     });
     return '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:100%;font-family:'+fontBody+'">'+svg+'</svg>';
   }
@@ -3789,7 +3789,14 @@ function showTutorialStep(i){
   if(!step) return;
   if(typeof step.before === 'function') step.before();
   // Petit délai pour laisser le DOM se mettre à jour (changement d'onglet, etc.)
-  setTimeout(function(){ positionTutorialStep(step, i); }, 60);
+  setTimeout(function(){
+    var el = step.target ? document.querySelector(step.target) : null;
+    if(el && typeof el.scrollIntoView === 'function'){
+      el.scrollIntoView({behavior:'auto', block:'center', inline:'nearest'});
+    }
+    // Nouveau délai pour laisser le scroll s'appliquer avant de mesurer la position
+    setTimeout(function(){ positionTutorialStep(step, i); }, 90);
+  }, 60);
 }
 
 function positionTutorialStep(step, i){
@@ -3812,10 +3819,21 @@ function positionTutorialStep(step, i){
     highlight.style.width  = (r.width + pad * 2) + 'px';
     highlight.style.height = (r.height + pad * 2) + 'px';
     tooltip.classList.remove('tut-intro');
-    var ttW = 320;
-    var top = r.bottom + 16;
+    var ttW = 320, ttHEst = 210;
     var left = Math.min(Math.max(r.left, 12), window.innerWidth - ttW - 12);
-    if(top + 200 > window.innerHeight) top = Math.max(r.top - 210, 12);
+    var top;
+    var spaceBelow = window.innerHeight - r.bottom;
+    var spaceAbove = r.top;
+    if(spaceBelow >= ttHEst + 16){
+      top = r.bottom + 16;                       // assez de place en dessous
+    } else if(spaceAbove >= ttHEst + 16){
+      top = r.top - ttHEst - 16;                  // sinon au-dessus
+    } else {
+      // Ni assez dessus ni dessous (élément très grand ou viewport très petit) :
+      // on colle la bulle au bord visible le plus proche, jamais hors écran.
+      top = spaceBelow > spaceAbove ? (window.innerHeight - ttHEst - 12) : 12;
+    }
+    top = Math.max(12, Math.min(top, window.innerHeight - ttHEst - 12));
     tooltip.style.top  = top + 'px';
     tooltip.style.left = left + 'px';
   } else {
