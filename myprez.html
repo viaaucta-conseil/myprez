@@ -723,7 +723,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 
 <!-- ═══ TOP BAR ═══ -->
 <div class="topbar">
-  <div class="topbar-logo">VIA AUCTA <span>·</span> GÉNÉRATEUR<small>Carrousels et présentations - Export PNG · PDF · PPT</small></div>
+  <div class="topbar-logo">VIA AUCTA <span>·</span> GÉNÉRATEUR<small>Carrousels et présentations</small></div>
   <div class="spacer"></div>
   <div class="fmt-group" id="fmtGroup">
     <button class="fmt-btn on" id="fmt-linkedin" onclick="setFormat('linkedin',this)"><span class="fmt-icon">💼</span>LinkedIn & IG</button>
@@ -1144,7 +1144,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
   
   
 <div class="panel-center" id="centerPanel">
-	<div id="hiddenSlideBanner" style="display:none;background:rgba(239,68,68,.12);color:#EF4444;border:1px solid rgba(239,68,68,.35);border-radius:6px;padding:6px 14px;font-size:11px;font-weight:700;margin-bottom:8px">🙈 Cette slide est masquée — elle n'apparaîtra pas dans les exports</div>
+	<div id="hiddenSlideBanner" style="display:none;background:rgba(239,68,68,.12);color:#EF4444;border:1px solid rgba(239,68,68,.35);border-radius:6px;padding:6px 14px;font-size:11px;font-weight:700;margin-bottom:8px">🙈 Cette slide est masquée - elle n'apparaîtra pas dans les exports</div>
 	<div class="preview-wrap" id="previewWrap">
       <div class="preview-frame" id="previewFrame"></div>
     </div>
@@ -1292,7 +1292,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
       <span class="modal-title">🕒 HISTORIQUE DES VERSIONS</span>
       <button class="modal-close" onclick="closeOverlay('ovVersionHistory')">✕ Fermer</button>
     </div>
-    <div class="notice">Une version est enregistrée automatiquement toutes les quelques minutes pendant que vous travaillez, et juste avant la fermeture de l'onglet. Restaurer une version remplace l'état actuel de tous vos carrousels — sauvegardez en JSON avant si vous voulez garder une trace du travail en cours.</div>
+    <div class="notice">Une version est enregistrée automatiquement toutes les quelques minutes pendant que vous travaillez, et juste avant la fermeture de l'onglet. Restaurer une version remplace l'état actuel de tous vos carrousels - sauvegardez en JSON avant si vous voulez garder une trace du travail en cours.</div>
     <div style="display:flex;justify-content:flex-end;margin-bottom:10px">
       <button class="tbtn tbtn-orange" style="font-size:10px;padding:5px 12px" onclick="maybeSnapshotVersion(true);renderVersionHistoryList()">📌 Enregistrer une version maintenant</button>
     </div>
@@ -1485,14 +1485,14 @@ var TEMPLATES = [
   },
   {
     id:'negociation-methode', pilier:'Négociation', name:'La méthode de négociation', icon:'🎯',
-    desc:'Enjeux, étapes et styles de négociation — un cadre théorique prêt à partager.',
+    desc:'Enjeux, étapes et styles de négociation - un cadre théorique prêt à partager.',
     headColor:'#0D2B4E',
     carousel:{emoji:'🎯',pilier:'Négociation',title:'La méthode de négociation',subtitle:'Template',tag:'MÉTHODE',brand:'YOUR NAME - YOUR BRAND',accent:'#F05A1A',
       post:"Négocier ne s'improvise pas. Voici un cadre en trois temps : enjeux, étapes, styles.\n\n🎯 #Négociation #Leadership #Management",
       slides:[
         {t:'cover',bg:{type:'solid',color:'#0D2B4E',textColor:'#FFFFFF'},tag:'MÉTHODE',title:"NÉGOCIER,\nCE N'EST PAS\nGAGNER UN DÉBAT.",sub:'3 enjeux, 5 étapes, 5 styles à connaître.'},
-        {t:'step',bg:{type:'solid',color:'#0D2B4E',textColor:'#FFFFFF'},pill:'AVANT TOUTE CHOSE : LES ENJEUX',items:[{n:'01',title:'Satisfaire les intérêts en présence',sub:'Pas les positions affichées — les intérêts réels de chaque partie.'},{n:'02',title:'Maintenir la relation dans le temps',sub:'Vous retravaillerez avec cette personne après l\'accord.'},{n:'03',title:'Construire une solution légitime',sub:'Acceptable pour les deux parties, pas seulement gagnante pour l\'une.'}],sn:'02'},
-        {t:'step',bg:{type:'solid',color:'#0D2B4E',textColor:'#FFFFFF'},pill:"LES 5 ÉTAPES D'UNE NÉGOCIATION",items:[{n:'01',title:'Préparation',sub:'Enjeux, acteurs, rapports de force.'},{n:'02',title:'Échange des positions',sub:'Chacun expose sa version, sans encore chercher l\'accord.'},{n:'03',title:'Identification des intérêts communs',sub:'Le socle sur lequel construire.'},{n:'04',title:'Recherche de solutions alternatives',sub:'Sortir du cadre binaire gagnant/perdant.'},{n:'05',title:'Accord — ou désaccord formalisé',sub:'Les deux sont des issues valables à une négociation.'}],sn:'03'},
+        {t:'step',bg:{type:'solid',color:'#0D2B4E',textColor:'#FFFFFF'},pill:'AVANT TOUTE CHOSE : LES ENJEUX',items:[{n:'01',title:'Satisfaire les intérêts en présence',sub:'Pas les positions affichées - les intérêts réels de chaque partie.'},{n:'02',title:'Maintenir la relation dans le temps',sub:'Vous retravaillerez avec cette personne après l\'accord.'},{n:'03',title:'Construire une solution légitime',sub:'Acceptable pour les deux parties, pas seulement gagnante pour l\'une.'}],sn:'02'},
+        {t:'step',bg:{type:'solid',color:'#0D2B4E',textColor:'#FFFFFF'},pill:"LES 5 ÉTAPES D'UNE NÉGOCIATION",items:[{n:'01',title:'Préparation',sub:'Enjeux, acteurs, rapports de force.'},{n:'02',title:'Échange des positions',sub:'Chacun expose sa version, sans encore chercher l\'accord.'},{n:'03',title:'Identification des intérêts communs',sub:'Le socle sur lequel construire.'},{n:'04',title:'Recherche de solutions alternatives',sub:'Sortir du cadre binaire gagnant/perdant.'},{n:'05',title:'Accord ou désaccord formalisé',sub:'Les deux sont des issues valables à une négociation.'}],sn:'03'},
         {t:'table',bg:{type:'solid',color:'#F4F4F2',textColor:'#0D2B4E'},pill:'LES 5 STYLES THOMAS-KILMANN',columns:['Style','Profil','Quand l\'utiliser'],rows:[['Compétition','Assertif, peu coopératif','Urgence, décision vitale, conviction forte'],['Collaboration','Assertif et coopératif','Enjeu majeur des deux côtés, temps disponible'],['Compromis','Modéré sur les deux axes','Enjeux équivalents, besoin d\'avancer vite'],['Évitement','Peu assertif, peu coopératif','Enjeu mineur, tension trop vive pour trancher'],['Accommodation','Peu assertif, très coopératif','La relation compte plus que l\'enjeu du moment']],sn:'04'},
         {t:'quote',bg:{type:'solid',color:'#F4F4F2',textColor:'#0D2B4E'},pill:'LA VRAIE COMPÉTENCE',quote:"Personne n'a un seul style.\nLa compétence, c'est de savoir\n<em>lequel choisir,</em>\nselon la situation.",qsub:"Un compétiteur permanent épuise ses équipes. Un accommodant permanent s'épuise lui-même.",sn:'05'},
         {t:'cta',bg:{type:'gradient',gradient:'135deg,#F05A1A,#FF7A3D',textColor:'#FFFFFF'},eyebrow:'YOUR NAME - YOUR BRAND',main:'Quel est votre style\ndominant en négociation ?',ctxt:'Invitez votre audience à réagir en commentaire ou à échanger avec vous.',pill:'ÉCHANGEONS'}
@@ -2611,7 +2611,7 @@ function loadLogoImage(e){
   var file = e.target.files[0];
   if(!file) return;
   if(file.size > 2 * 1024 * 1024){
-    notif('Image trop lourde — max 2 Mo'); return;
+    notif('Image trop lourde - max 2 Mo'); return;
   }
   var reader = new FileReader();
   reader.onload = function(ev){
@@ -2735,8 +2735,8 @@ function histRedo(){
 function histUpdateUI(){
   var btnU = document.getElementById('btnUndo');
   var btnR = document.getElementById('btnRedo');
-  if(btnU){ btnU.classList.toggle('on', _hist.length > 0); btnU.title = 'Annuler (Ctrl+Z) — '+_hist.length+' étape'+ (_hist.length!==1?'s':''); }
-  if(btnR){ btnR.classList.toggle('on', _histFwd.length > 0); btnR.title = 'Refaire (Ctrl+Y) — '+_histFwd.length+' étape'+(_histFwd.length!==1?'s':''); }
+  if(btnU){ btnU.classList.toggle('on', _hist.length > 0); btnU.title = 'Annuler (Ctrl+Z) - '+_hist.length+' étape'+ (_hist.length!==1?'s':''); }
+  if(btnR){ btnR.classList.toggle('on', _histFwd.length > 0); btnR.title = 'Refaire (Ctrl+Y) - '+_histFwd.length+' étape'+(_histFwd.length!==1?'s':''); }
 }
 
 
@@ -2810,10 +2810,10 @@ function copySlideStyle(){
     fs: s.fs ? JSON.parse(JSON.stringify(s.fs)) : null
   };
   updateStyleClipboardUI();
-  notif('Style copié ✓ — sélectionnez une autre slide puis "Coller le style"');
+  notif('Style copié ✓ - sélectionnez une autre slide puis "Coller le style"');
 }
 function pasteSlideStyle(){
-  if(!_styleClipboard){ notif('Aucun style copié — copiez-en un d\'abord.'); return; }
+  if(!_styleClipboard){ notif('Aucun style copié - copiez-en un d\'abord.'); return; }
   histSave();
   if(_styleClipboard.bg) sl().bg = JSON.parse(JSON.stringify(_styleClipboard.bg));
   if(_styleClipboard.fs && Object.keys(_styleClipboard.fs).length){
@@ -2850,7 +2850,7 @@ function toggleSlideHidden(i){
   var s=car().slides[i];
   s.hidden = !s.hidden;
   render();
-  notif(s.hidden ? 'Slide masquée — exclue des prochains exports' : 'Slide réincluse dans les exports');
+  notif(s.hidden ? 'Slide masquée - exclue des prochains exports' : 'Slide réincluse dans les exports');
 }
 
 /* ── Dupliquer une slide ── */
@@ -3057,7 +3057,7 @@ function addShape(type){
   if(type==='text'){ ns.text='Texte libre'; ns.fontSize=42; }
   sl().shapes.push(ns);
   renderEditor(); renderSlide();
-  notif('Forme ajoutée — glissez-la sur l\'aperçu pour la positionner');
+  notif('Forme ajoutée - glissez-la sur l\'aperçu pour la positionner');
 }
 function delShape(id){
   histSave();
@@ -3201,7 +3201,7 @@ function _shapeEnd(){
 function loadImgSlide(e){
   var file = e.target.files[0];
   if(!file) return;
-  if(file.size > 5 * 1024 * 1024){ notif('Image trop lourde — max 5 Mo'); return; }
+  if(file.size > 5 * 1024 * 1024){ notif('Image trop lourde - max 5 Mo'); return; }
   histSave();
   var reader = new FileReader();
   reader.onload = function(ev){
@@ -3398,7 +3398,7 @@ function loadBgImage(e){
       document.getElementById('bgOverlayLbl').textContent='0%';
       document.getElementById('bgOverlayField').style.display='none';
       document.getElementById('bgColorField').style.display='block';
-      notif('PNG/WebP détecté — transparence activée automatiquement');
+      notif('PNG/WebP détecté - transparence activée automatiquement');
     } else {
       document.getElementById('bgTransparent').checked=false;
       document.getElementById('bgOverlayField').style.display='block';
@@ -3622,7 +3622,7 @@ function exportCurrentPNG(){
 function exportAllPNG(){
   var f = FORMATS[currentFormat];
   var slides=car().slides.filter(function(s){return !s.hidden;});
-  if(!slides.length){ notif('Toutes les slides sont masquées — réincluez-en au moins une.'); return; }
+  if(!slides.length){ notif('Toutes les slides sont masquées - réincluez-en au moins une.'); return; }
   document.getElementById('allPngContainer').innerHTML='<div class="export-loading"><div class="spinner"></div>Génération de '+slides.length+' slides...</div>';
   document.getElementById('ovAllPNG').classList.add('open');
   var rz=document.getElementById('rz');
@@ -3630,7 +3630,7 @@ function exportAllPNG(){
   var idx=0;
   function next(){
     if(idx>=slides.length){
-      var h='<p style="font-size:11px;color:#64748b;margin-bottom:12px">'+slides.length+' slides générées — clic droit → Enregistrer l\'image sous</p>';
+      var h='<p style="font-size:11px;color:#64748b;margin-bottom:12px">'+slides.length+' slides générées - clic droit → Enregistrer l\'image sous</p>';
       results.forEach(function(dataURL,i){
         h+='<div style="margin-bottom:8px"><p style="font-size:10px;color:#64748b;margin-bottom:4px">Slide '+(i+1)+' / '+slides.length+'</p><img src="'+dataURL+'" style="width:100%;border-radius:6px;border:1px solid #E2E8F0"/></div>';
       });
@@ -3655,7 +3655,7 @@ function exportPDF(){
   var f = FORMATS[currentFormat];
   var slides = car().slides.filter(function(s){return !s.hidden;});
   var title = car().title || 'carrousel';
-  if(!slides.length){ notif('Toutes les slides sont masquées — réincluez-en au moins une.'); return; }
+  if(!slides.length){ notif('Toutes les slides sont masquées - réincluez-en au moins une.'); return; }
 
   // Reset modal state
   document.getElementById('pdfProgress').style.display='block';
@@ -3721,7 +3721,7 @@ function exportPPT(){
   var f = FORMATS[currentFormat];
   var slides = car().slides.filter(function(s){return !s.hidden;});
   var title = car().title || 'carrousel';
-  if(!slides.length){ notif('Toutes les slides sont masquées — réincluez-en au moins une.'); return; }
+  if(!slides.length){ notif('Toutes les slides sont masquées - réincluez-en au moins une.'); return; }
 
   // Show modal
   document.getElementById('pptProgress').style.display = 'block';
@@ -4243,7 +4243,7 @@ function copyIcon(emoji){
     notif(emoji + ' copié ! Collez-le dans un champ texte (Ctrl+V)');
   }).catch(function(){
     // Fallback si clipboard non disponible
-    notif(emoji + ' — copiez manuellement : ' + emoji);
+    notif(emoji + ' - copiez manuellement : ' + emoji);
   });
 }
 </script>
@@ -4344,7 +4344,7 @@ function renderVersionHistoryList(){
     h += '<div style="background:var(--surface-1);border:1px solid var(--border);border-radius:8px;padding:10px 12px;display:flex;align-items:center;gap:10px">'
       + '<div style="flex:1;min-width:0">'
       + '<div style="font-size:12px;font-weight:700;color:var(--text-1)">' + _fmtVersionDate(v.ts) + '</div>'
-      + '<div style="font-size:10px;color:var(--gray);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + nCar + ' carrousel' + (nCar>1?'s':'') + ' — ex. "' + esc(firstTitle) + '"</div>'
+      + '<div style="font-size:10px;color:var(--gray);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + nCar + ' carrousel' + (nCar>1?'s':'') + ' - ex. "' + esc(firstTitle) + '"</div>'
       + '</div>'
       + '<button class="tbtn tbtn-orange" style="font-size:10px;padding:5px 10px;flex-shrink:0" onclick="restoreVersion(\'' + v.id + '\')">Restaurer</button>'
       + '<button class="tbtn tbtn-gray" style="font-size:10px;padding:5px 8px;background:#EF4444;color:white;flex-shrink:0" onclick="deleteVersion(\'' + v.id + '\')" title="Supprimer cette version">✕</button>'
@@ -4468,11 +4468,11 @@ window.addEventListener('load', function(){
     if (licBtn && licLabel) {
       licBtn.style.display = '';
       if (data.isShort) {
-        licLabel.textContent = 'TEST — ' + data.minutesLeft + ' min restante' + (data.minutesLeft > 1 ? 's' : '');
+        licLabel.textContent = 'TEST - ' + data.minutesLeft + ' min restante' + (data.minutesLeft > 1 ? 's' : '');
       } else if (data.daysLeft <= 30) {
-        licLabel.textContent = '⚠️ Licence — ' + data.daysLeft + ' jr';
+        licLabel.textContent = '⚠️ Licence - ' + data.daysLeft + ' jr';
       } else {
-        licLabel.textContent = 'Licence — ' + data.daysLeft + ' jr';
+        licLabel.textContent = 'Licence - ' + data.daysLeft + ' jr';
       }
     }
     var logoutBtn = document.getElementById('licLogoutMenuBtn');
@@ -4557,7 +4557,7 @@ function licShowInfo(){
 
 <p>
 Via Aucta Conseil<br>
-© 2026 — Tous droits réservés
+© 2026 - Tous droits réservés
 </p>
 
 <div class="license-separator"></div>
@@ -4628,7 +4628,7 @@ viaauctaconseil@gmail.com
     showLicMsg('', '🔄 Vérification de la licence sauvegardée…');
     var result = await verifyLicense(saved);
     if (result.valid) {
-      showLicMsg('ok', '✓ Licence reconnue — ' + result.client);
+      showLicMsg('ok', '✓ Licence reconnue - ' + result.client);
       setTimeout(function() { unlockApp(result); }, 800);
     } else {
       localStorage.removeItem(STORAGE_KEY);
@@ -4660,7 +4660,7 @@ viaauctaconseil@gmail.com
       var client  = payload.split('|')[0];
       var wm = document.getElementById('app-watermark');
       if (wm && client) {
-        wm.textContent = '© 2026 Via Aucta Conseil — Licence : ' + client;
+        wm.textContent = '© 2026 Via Aucta Conseil - Licence : ' + client;
       }
     } catch(e) {}
   }
