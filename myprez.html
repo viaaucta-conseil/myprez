@@ -729,7 +729,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 
 <!-- ═══ TOP BAR ═══ -->
 <div class="topbar">
-  <div class="topbar-logo">VIA AUCTA <span>·</span> GÉNÉRATEUR<small>Carrousels et présentations - Export PNG · PDF · PPT</small></div>
+  <div class="topbar-logo">VIA AUCTA <span>·</span> GÉNÉRATEUR<small>Carrousels et présentations</small></div>
   <div class="spacer"></div>
   <div class="fmt-group" id="fmtGroup">
     <button class="fmt-btn on" id="fmt-linkedin" onclick="setFormat('linkedin',this)"><span class="fmt-icon">💼</span>LinkedIn & IG</button>
@@ -4120,7 +4120,10 @@ var TUTORIAL_STEPS = [
     text:"Visualisez votre slide en temps réel. Naviguez avec les flèches ← → ou les points sous l'aperçu." },
   { target:'#tabsCarousels',
     title:"Vos carrousels",
-    text:"Chaque onglet est un carrousel indépendant. Créez-en un nouveau avec + Nouveau carrousel, juste à côté." },
+    text:"Chaque onglet est un carrousel indépendant. Créez-en un nouveau avec + Nouveau carrousel, juste à côté. Si vous en avez beaucoup, des flèches ‹ › apparaissent pour naviguer." },
+  { target:'#templatesTabBtn',
+    title:"Bibliothèque de templates",
+    text:"Des trames prêtes à l'emploi classées par pilier (Business, RH, Négociation, Communication...). Un clic sur un template crée un nouveau carrousel pré-rempli, entièrement modifiable." },
   { target:'#iconsTabBtn',
     title:"Bibliothèque d'icônes",
     text:"Copiez des icônes et émojis à coller directement dans vos textes." },
@@ -4129,7 +4132,7 @@ var TUTORIAL_STEPS = [
     text:"Changez le thème visuel de l'outil (5 thèmes au choix) sans jamais affecter le style de vos slides exportées." },
   { target:'#moreMenuDropdown',
     title:"Menu ☰",
-    text:"Chargez ou sauvegardez votre travail en JSON, et consultez les informations de votre licence." },
+    text:"Chargez ou sauvegardez votre travail en JSON, consultez l'historique des versions horodatées, et vos informations de licence." },
   { target:'#exportDropdown',
     title:"Exportez votre travail",
     text:"PNG, PDF ou PowerPoint : votre carrousel prêt à partager en un clic." },
@@ -4854,7 +4857,7 @@ function openLegalModal(title, html){
 <div id="tutorialOverlay">
   <div class="tut-highlight" id="tutHighlight"></div>
   <div class="tut-tooltip" id="tutTooltip">
-    <div class="tut-progress" id="tutProgress">ÉTAPE 1 / 16</div>
+    <div class="tut-progress" id="tutProgress">ÉTAPE 1 / 17</div>
     <h4 id="tutTitle"></h4>
     <p id="tutText"></p>
     <div class="tut-actions">
