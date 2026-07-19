@@ -62,10 +62,10 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 .export-menu button:hover{background:var(--surface-1);color:var(--orange)}
 
 /* Format selector dans la topbar */
-.fmt-group{display:flex;gap:2px;background:rgba(255,255,255,.08);border-radius:6px;padding:3px}
-.fmt-btn{padding:4px 10px;border-radius:4px;font-size:10px;font-weight:700;color:rgba(255,255,255,.5);background:none;border:none;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:4px;white-space:nowrap}
-.fmt-btn:hover{color:rgba(255,255,255,.85);background:rgba(255,255,255,.1)}
-.fmt-btn.on{background:var(--orange);color:white}
+.fmt-menu-btn{background:rgba(255,255,255,.08);color:rgba(255,255,255,.9);border:1px solid rgba(255,255,255,.15)}
+.fmt-menu-btn:hover{background:rgba(255,255,255,.16)}
+.export-menu button.fmt-menu-active{background:rgba(240,90,26,.12);color:var(--orange)}
+.export-menu .fmt-dim{opacity:.55;font-weight:400;margin-left:auto;padding-left:10px;font-size:10px}
 .fmt-icon{font-size:12px}
 
 .tabs-row{background:var(--navy);padding:0 20px;display:flex;gap:4px;align-items:flex-end;flex-shrink:0;border-bottom:1px solid rgba(255,255,255,.07)}
@@ -230,7 +230,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 .sl-cov .gbar{position:absolute;top:0;left:0;right:0;height:6px;background:linear-gradient(90deg,#F05A1A,#FF7A3D)}
 .sl-cov .bgrid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:54px 54px}
 .sl-cov .ptag{position:absolute;top:52px;left:80px;background:#F05A1A;color:white;font-family:'Playfair Display',sans-serif;padding:7px 20px;font-weight:900;letter-spacing:4px;border-radius:4px;text-transform:uppercase}
-.sl-cov .sn{position:absolute;top:995px;left:80px;font-family:'Playfair Display',sans-serif;font-size:30px;font-weight:700;color:rgba(255,255,255,0.28);letter-spacing:2px}
+.sl-cov .sn{position:absolute;bottom:85px;left:80px;font-family:'Playfair Display',sans-serif;font-size:30px;font-weight:700;color:rgba(255,255,255,0.28);letter-spacing:2px}
 /* ── UNIFIED BOT (footer) for all slides ── */
 .sl .bot{display:flex;align-items:center;justify-content:space-between;padding-top:28px;border-top-width:1px;border-top-style:solid;position:relative;z-index:2}
 .sl .bot-dark{border-top-color:rgba(255,255,255,0.12)}
@@ -373,12 +373,12 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 
 /* CTA ORANGE */
 .sl-ct{padding:80px;justify-content:center;align-items:center;text-align:center;position:relative}
-.sl-ct .c1{position:absolute;top:960px;right:-60px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,0.08)}
+.sl-ct .c1{position:absolute;bottom:120px;right:-60px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,0.08)}
 .sl-ct .eyebrow{font-family:'Playfair Display',sans-serif;font-weight:400;letter-spacing:6px;color:rgba(255,255,255,0.55);text-transform:uppercase;margin-bottom:30px;position:relative;z-index:2}
 .sl-ct .main-t{font-family:'Playfair Display',sans-serif;font-weight:900;line-height:1.0;color:white;letter-spacing:-1px;margin-bottom:42px;white-space:pre-line;position:relative;z-index:2}
 .sl-ct .ctxt{color:rgba(255,255,255,0.78);line-height:1.6;margin-bottom:50px;max-width:800px;position:relative;z-index:2}
 .sl-ct .cpill{background:#0D2B4E;color:white;font-family:'Playfair Display',sans-serif;font-weight:900;letter-spacing:3px;padding:20px 50px;border-radius:6px;display:inline-block;position:relative;z-index:2}
-.sl-ct .clogo{position:absolute;top:962px;left:50%;transform:translateX(-50%);font-family:'Playfair Display',sans-serif;font-size:17px;font-weight:900;letter-spacing:3px;color:rgba(255,255,255,0.28);white-space:nowrap;z-index:2}
+.sl-ct .clogo{position:absolute;bottom:118px;left:50%;transform:translateX(-50%);font-family:'Playfair Display',sans-serif;font-size:17px;font-weight:900;letter-spacing:3px;color:rgba(255,255,255,0.28);white-space:nowrap;z-index:2}
 
 /* ═══════════════════════════════════════════
    RIGHT PANEL — POST LINKEDIN
@@ -729,14 +729,19 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 
 <!-- ═══ TOP BAR ═══ -->
 <div class="topbar">
-  <div class="topbar-logo">VIA AUCTA <span>·</span> GÉNÉRATEUR<small>Carrousels et présentations</small></div>
+  <div class="topbar-logo">VIA AUCTA <span>·</span> GÉNÉRATEUR<small>Carrousels et présentations - Export PNG · PDF · PPT</small></div>
   <div class="spacer"></div>
-  <div class="fmt-group" id="fmtGroup">
-    <button class="fmt-btn on" id="fmt-linkedin" onclick="setFormat('linkedin',this)"><span class="fmt-icon">💼</span>LinkedIn & IG</button>
-    <button class="fmt-btn" id="fmt-facebook" onclick="setFormat('facebook',this)"><span class="fmt-icon">📷</span>facebook</button>
-    <button class="fmt-btn" id="fmt-instagramPortrait" onclick="setFormat('instagramPortrait',this)"><span class="fmt-icon">📱</span>Portrait</button>
-    <button class="fmt-btn" id="fmt-tiktok" onclick="setFormat('tiktok',this)"><span class="fmt-icon">🎵</span>TikTok</button>
-	<button class="fmt-btn" id="fmt-PDF_A4" onclick="setFormat('PDF_A4',this)"><span class="fmt-icon">📄</span>PDF A4</button>
+  <div class="export-dropdown" id="fmtDropdown">
+    <button class="tbtn fmt-menu-btn" onclick="toggleFmtMenu(event)" id="fmtMenuBtn">💼 LinkedIn Carré ▾</button>
+    <div class="export-menu" id="fmtMenu" style="min-width:220px">
+      <button data-fmt="linkedin" onclick="closeFmtMenu();setFormat('linkedin')">💼 LinkedIn Carré<span class="fmt-dim">1080×1080</span></button>
+      <button data-fmt="linkedinVertical" onclick="closeFmtMenu();setFormat('linkedinVertical')">📱 LinkedIn Vertical<span class="fmt-dim">1080×1350</span></button>
+      <button data-fmt="linkedinHorizontal" onclick="closeFmtMenu();setFormat('linkedinHorizontal')">🖥 LinkedIn Horizontal<span class="fmt-dim">1920×1080</span></button>
+      <button data-fmt="facebook" onclick="closeFmtMenu();setFormat('facebook')">📷 Facebook<span class="fmt-dim">1080×1350</span></button>
+      <button data-fmt="instagramPortrait" onclick="closeFmtMenu();setFormat('instagramPortrait')">📱 Instagram Portrait<span class="fmt-dim">1080×1350</span></button>
+      <button data-fmt="tiktok" onclick="closeFmtMenu();setFormat('tiktok')">🎵 TikTok<span class="fmt-dim">1080×1920</span></button>
+      <button data-fmt="PDF_A4" onclick="closeFmtMenu();setFormat('PDF_A4')">📄 PDF A4<span class="fmt-dim">2480×3508</span></button>
+    </div>
   </div>
   <div class="spacer"></div>
   <div class="topbar-actions">
@@ -811,7 +816,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
       <div style="height:16px"></div>
       <div class="sec-title">Éditer la slide</div>
       <div style="display:flex;gap:6px;margin-bottom:4px">
-        <button class="tbtn tbtn-orange" style="flex:1;font-size:10px;padding:6px" onclick="copySlideStyle()" title="Copie le fond et les tailles de police de cette slide">📋 Copier le style</button>
+        <button class="tbtn tbtn-gray" style="flex:1;font-size:10px;padding:6px" onclick="copySlideStyle()" title="Copie le fond et les tailles de police de cette slide">📋 Copier le style</button>
         <button class="tbtn tbtn-orange" style="flex:1;font-size:10px;padding:6px" id="btnPasteStyle" onclick="pasteSlideStyle()" title="Applique le style copié à cette slide, sans toucher au texte">🎨 Coller le style</button>
       </div>
       <div id="styleClipboardHint" style="font-size:9px;color:var(--gray);margin-bottom:10px">Aucun style copié pour l'instant</div>
@@ -1404,11 +1409,13 @@ var rz = document.getElementById('rz');
 /* init géré par le window.addEventListener('load') en bas de fichier */
 
 var FORMATS = {
-  linkedin: { w: 1080, h: 1080 },
-  facebook: { w: 1080, h: 1350 },
-  instagramPortrait: { w: 1080, h: 1350 },
-  tiktok: { w: 1080, h: 1920 },
-  PDF_A4: { w: 2480, h: 3508 }
+  linkedin: { w: 1080, h: 1080, icon: '💼', label: 'LinkedIn Carré' },
+  linkedinVertical: { w: 1080, h: 1350, icon: '📱', label: 'LinkedIn Vertical' },
+  linkedinHorizontal: { w: 1920, h: 1080, icon: '🖥', label: 'LinkedIn Horizontal' },
+  facebook: { w: 1080, h: 1350, icon: '📷', label: 'Facebook' },
+  instagramPortrait: { w: 1080, h: 1350, icon: '📱', label: 'Instagram Portrait' },
+  tiktok: { w: 1080, h: 1920, icon: '🎵', label: 'TikTok' },
+  PDF_A4: { w: 2480, h: 3508, icon: '📄', label: 'PDF A4' }
 };
 
 var currentFormat = "linkedin";
@@ -1591,14 +1598,31 @@ function sl(){return car().slides[as];}
 
 /* changeFormat et applyFormat unifiés dans scalePreview() ci-dessous */
 
-function setFormat(fmt, btn){
+function setFormat(fmt){
   currentFormat = fmt;
-  // Met à jour les boutons actifs
-  document.querySelectorAll('.fmt-btn').forEach(function(b){ b.classList.remove('on'); });
-  if(btn) btn.classList.add('on');
+  updateFmtMenuButton();
   scalePreview();
   render();
 }
+function updateFmtMenuButton(){
+  var btn = document.getElementById('fmtMenuBtn');
+  var f = FORMATS[currentFormat];
+  if(btn && f) btn.innerHTML = (f.icon||'') + ' ' + esc(f.label||currentFormat) + ' ▾';
+  document.querySelectorAll('#fmtMenu button').forEach(function(b){
+    b.classList.toggle('fmt-menu-active', b.getAttribute('data-fmt')===currentFormat);
+  });
+}
+function toggleFmtMenu(e){
+  if(e) e.stopPropagation();
+  document.getElementById('fmtMenu').classList.toggle('open');
+}
+function closeFmtMenu(){
+  document.getElementById('fmtMenu').classList.remove('open');
+}
+document.addEventListener('click', function(e){
+  var dd = document.getElementById('fmtDropdown');
+  if(dd && !dd.contains(e.target)) closeFmtMenu();
+});
 
 window.addEventListener('resize', scalePreview);
 
@@ -4077,6 +4101,7 @@ window.addEventListener('load',function(){
   loadSavedUITheme();
   render();
   scalePreview();
+  updateFmtMenuButton();
   updateHashtags(document.getElementById('hashtagsEditor').value);
   var tabsWrap = document.getElementById('tabsScrollWrap');
   if(tabsWrap) tabsWrap.addEventListener('scroll', updateTabsScrollButtons);
@@ -4091,9 +4116,9 @@ var TUTORIAL_STEPS = [
   { target:null,
     title:"Bienvenue dans My Prez 👋",
     text:"Cet outil permet de créer des carrousels et présentations professionnels en quelques clics. Ce petit tour vous présente les sections principales. Vous pourrez le revoir à tout moment via le bouton ❓ Tutoriel." },
-  { target:'#fmtGroup',
+  { target:'#fmtDropdown',
     title:"Choisissez votre format",
-    text:"LinkedIn/Instagram carré, Facebook, Story portrait, TikTok, ou PDF A4. Le format s'applique à l'aperçu et à l'export final." },
+    text:"LinkedIn Carré, Vertical ou Horizontal, Facebook, Instagram Portrait, TikTok, ou PDF A4 — tous regroupés dans ce menu déroulant. Le format s'applique à l'aperçu et à l'export final." },
   { target:'.panel-tabs', before:function(){ setPTab(0); },
     title:"Les 3 onglets de l'éditeur",
     text:"Contenu (le texte de vos slides), Fond (couleurs, dégradés, images, motifs) et Carrousel (branding global : logo, polices, couleurs)." },
