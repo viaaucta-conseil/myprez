@@ -710,8 +710,61 @@ input,textarea,select{font-family:var(--app-font);outline:none}
     transform:translateY(-50%);
 }
 
+/* ═══════════════════════════════════════════
+   MODE MOBILE LÉGER — écrans ≤ 860px
+   Navigation par onglets empilés, cibles tactiles agrandies,
+   glisser-déposer remplacé par les boutons ↑↓, bibliothèque de
+   formes désactivée (précision insuffisante au doigt).
+═══════════════════════════════════════════ */
+.mobile-tabbar{display:none}
+.shape-mobile-note{display:none}
 
+@media (max-width:860px){
+  html,body{font-size:14px}
 
+  /* Navigation par onglets empilés : un seul panneau visible à la fois */
+  .body{padding-bottom:70px;overflow-y:auto}
+  .panel-left,.panel-center,.panel-right{display:none;width:100%!important;max-width:100%!important;border:none!important}
+  .panel-left.mobile-active,.panel-center.mobile-active,.panel-right.mobile-active{display:flex}
+  .panel-center.mobile-active{padding:12px}
+  .panel-right{border-left:none!important;border-top:1px solid var(--border)}
+
+  .mobile-tabbar{
+    display:flex;position:fixed;bottom:0;left:0;right:0;z-index:500;
+    background:var(--navy);border-top:1px solid rgba(255,255,255,.12);
+    padding:6px 8px calc(6px + env(safe-area-inset-bottom));gap:6px;
+  }
+  .mobile-tab-btn{
+    flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
+    color:rgba(255,255,255,.6);border-radius:9px;padding:9px 4px;font-size:10px;font-weight:700;
+    display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;transition:all .15s;
+  }
+  .mobile-tab-btn span:first-child{font-size:17px}
+  .mobile-tab-btn.on{background:var(--orange);color:white;border-color:var(--orange)}
+
+  /* Cibles tactiles agrandies */
+  .tbtn{padding:11px 15px;font-size:13px}
+  .ctab{padding:11px 16px;font-size:12px}
+  .ptab{padding:13px 6px;font-size:12px}
+  .slide-act{width:32px;height:32px;font-size:13px}
+  .slide-item{padding:11px 10px}
+  .field input,.field textarea,.field select,.einp2{padding:11px 12px;font-size:14px}
+  .color-swatch{width:34px;height:34px}
+  .btn-add-slide,.btn-add-item{padding:11px}
+  .fmt-menu-btn,.export-menu button{padding:13px 15px;font-size:13px}
+  .sc-btn{width:42px;height:42px;font-size:18px}
+
+  /* Le glisser-déposer (souris) n'est pas fiable au doigt : les boutons ↑↓ suffisent */
+  .slide-handle{display:none}
+
+  /* Bibliothèque de formes : désactivée en mode léger mobile, précision insuffisante au doigt */
+  .shape-mobile-hide{display:none!important}
+  .shape-mobile-note{display:block;font-size:11px;color:var(--gray);text-align:center;line-height:1.6;padding:14px;background:var(--surface-1);border:1px dashed var(--border);border-radius:8px;margin-top:8px}
+
+  /* Modales plein écran pour rester lisibles */
+  .modal{max-width:calc(100vw - 24px)!important;width:100%}
+  .icon-modal{width:calc(100vw - 24px)}
+}
 
 
 </style>
@@ -804,7 +857,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 <div class="body">
 
   <!-- LEFT PANEL -->
-  <div class="panel-left">
+  <div class="panel-left mobile-active">
     <div class="panel-tabs">
       <div class="ptab on" id="pt0" onclick="setPTab(0)">🎨 Contenu</div>
       <div class="ptab" id="pt1" onclick="setPTab(1)">🖼 Fond</div>
@@ -1785,6 +1838,23 @@ document.addEventListener('click', function(e){
   if(dd && !dd.contains(e.target)) closeFmtMenu();
 });
 
+/* ═══ NAVIGATION MOBILE (Mode léger) ═══
+   Un seul panneau visible à la fois sur petit écran, piloté par la
+   barre d'onglets fixe en bas d'écran (Éditer / Aperçu / Post). */
+function setMobilePanel(name){
+  var map = {edit:'.panel-left', preview:'.panel-center', post:'.panel-right'};
+  Object.keys(map).forEach(function(k){
+    var el = document.querySelector(map[k]);
+    if(el) el.classList.toggle('mobile-active', k===name);
+  });
+  document.querySelectorAll('.mobile-tab-btn').forEach(function(b){
+    b.classList.toggle('on', b.getAttribute('data-panel')===name);
+  });
+  // Le panneau aperçu était masqué (display:none) : ses dimensions étaient nulles,
+  // il faut donc recalculer l'échelle une fois qu'il redevient visible.
+  if(name==='preview') setTimeout(scalePreview, 30);
+}
+
 window.addEventListener('resize', scalePreview);
 
 function scalePreview() {
@@ -2745,6 +2815,7 @@ function renderEditor(){
     h+=eaFs('pill','Badge',50,12,80);
     h+=eaFs('tbl','Texte du tableau',30,10,70);
   }
+  h+='<div class="shape-mobile-hide">';
   h+='<div class="sec-title" style="margin-top:16px">Bibliothèque de formes</div>';
   h+='<div class="shape-palette">';
   SHAPE_DEFS.forEach(function(sd){
@@ -2778,6 +2849,8 @@ function renderEditor(){
         +'</div>';
     });
   }
+  h+='</div>';
+  h+='<div class="shape-mobile-note">✋ La bibliothèque de formes est réservée à l\'ordinateur — la précision du glisser-déposer n\'est pas fiable au doigt. Les formes déjà ajoutées restent visibles et exportées normalement.</div>';
   document.getElementById('slideEditor').innerHTML=h;
 }
 
@@ -5173,6 +5246,19 @@ function openLegalModal(title, html){
       </div>
     </div>
   </div>
+</div>
+
+<!-- ═══ NAVIGATION MOBILE (Mode léger) ═══ -->
+<div class="mobile-tabbar" id="mobileTabbar">
+  <button type="button" class="mobile-tab-btn on" data-panel="edit" onclick="setMobilePanel('edit')">
+    <span>✏️</span><span>Éditer</span>
+  </button>
+  <button type="button" class="mobile-tab-btn" data-panel="preview" onclick="setMobilePanel('preview')">
+    <span>👁</span><span>Aperçu</span>
+  </button>
+  <button type="button" class="mobile-tab-btn" data-panel="post" onclick="setMobilePanel('post')">
+    <span>📝</span><span>Post</span>
+  </button>
 </div>
 
 </body>
