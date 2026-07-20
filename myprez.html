@@ -2038,7 +2038,7 @@ function slHTML(s,idx,tot,forExport){
 
 /* ═══ CHART BUILDER (slide type "chart") ═══ */
 function _chartPalette(accent){
-  return [accent,'#0D2B4E','#4C8BF5','#22B573','#B78103','#9B59B6','#16A5A5','#E74C3C'];
+  return [accent,'#4C8BF5','#22B573','#F2B705','#9B59B6','#16A5A5','#E74C3C','#FF8FAB'];
 }
 function _chartColors(items,accent){
   var pal=_chartPalette(accent);
@@ -2674,13 +2674,15 @@ function renderEditor(){
     h+='<button type="button" class="btn-add-item" style="margin-top:6px" onclick="importChartCSV()">📋 Importer ces données (remplace les points actuels)</button>';
     h+='<div class="sec-title" style="margin-top:14px">Données</div>';
     h+='<div class="items-editor">';
+    var _chartPal = _chartPalette(car().accent||'#F05A1A');
     (s.items||[]).forEach(function(it,ix){
+      var effColor = it.color || _chartPal[ix % _chartPal.length];
       h+='<div class="item-card">'
         +'<button class="item-del-btn" onclick="delChartItem('+ix+')">✕</button>'
         +'<div style="display:flex;gap:8px;align-items:flex-end">'
         +'<div class="field" style="flex:2;margin-bottom:0"><label>Libellé</label><input class="einp2" value="'+esc(it.label||'')+'" oninput="updateChartItem('+ix+',\'label\',this.value)"/></div>'
         +'<div class="field" style="flex:1;margin-bottom:0"><label>Valeur</label><input class="einp2" type="number" value="'+(it.value!=null?it.value:0)+'" oninput="updateChartItem('+ix+',\'value\',+this.value)"/></div>'
-        +'<div class="field" style="flex:0 0 40px;margin-bottom:0"><label>Coul.</label><input type="color" value="'+(it.color||'#F05A1A')+'" style="width:36px;height:34px;border:none;padding:0;border-radius:5px;cursor:pointer" oninput="updateChartItem('+ix+',\'color\',this.value)"/></div>'
+        +'<div class="field" style="flex:0 0 40px;margin-bottom:0"><label>Coul.</label><input type="color" value="'+effColor+'" style="width:36px;height:34px;border:none;padding:0;border-radius:5px;cursor:pointer" oninput="updateChartItem('+ix+',\'color\',this.value)"/></div>'
         +'</div></div>';
     });
     h+='</div>';
