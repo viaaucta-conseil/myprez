@@ -711,16 +711,48 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 }
 
 /* ═══════════════════════════════════════════
-   MODE MOBILE LÉGER — écrans ≤ 860px
+   MODE MOBILE LÉGER — écrans ≤ 960px
    Navigation par onglets empilés, cibles tactiles agrandies,
    glisser-déposer remplacé par les boutons ↑↓, bibliothèque de
-   formes désactivée (précision insuffisante au doigt).
+   formes désactivée (précision insuffisante au doigt), mode
+   paysage forcé (portrait inutilisable sur un écran aussi étroit).
 ═══════════════════════════════════════════ */
 .mobile-tabbar{display:none}
 .shape-mobile-note{display:none}
+.rotate-overlay{display:none}
 
-@media (max-width:860px){
+/* Portrait sur petit écran : on bloque tant que l'appareil n'est pas tourné */
+@media (max-width:960px) and (orientation:portrait){
+  .rotate-overlay{
+    display:flex;position:fixed;inset:0;z-index:999999;background:#060E1A;color:white;
+    align-items:center;justify-content:center;text-align:center;padding:30px;
+  }
+}
+
+@media (max-width:960px){
   html,body{font-size:14px}
+
+  /* ── Barre supérieure tenue sur une seule ligne ── */
+  .topbar-logo{display:none} /* libère la place qui faisait passer la barre sur 2 lignes */
+  .topbar{height:50px;padding:0 8px;gap:6px}
+  .topbar-actions{gap:4px}
+  .btn-label{display:none} /* icône seule sur mobile, sauf le sélecteur de format (non concerné) */
+  .tbtn{padding:9px 10px;font-size:13px;white-space:nowrap}
+  .fmt-menu-btn{padding:9px 10px;font-size:11px;white-space:nowrap;max-width:150px;overflow:hidden;text-overflow:ellipsis}
+  .topbar .spacer{flex:0 0 6px}
+  .topbar .spacer:last-of-type{flex:1}
+
+  /* ── Barre d'onglets carrousels : icône seule pour Templates/Icônes/Customisation/Tutoriel ── */
+  .tabs-row{padding:0 8px;height:auto;min-height:40px}
+  .ctab-custom{padding:9px 10px;font-size:14px}
+
+  /* ── Menus déroulants (Format, Menu ☰, Export) : position fixe garantissant qu'ils restent
+     entièrement visibles, quelle que soit la position du bouton qui les ouvre ── */
+  .export-menu{
+    position:fixed!important;top:52px!important;left:10px!important;right:10px!important;
+    width:auto!important;min-width:0!important;max-width:none!important;
+    max-height:calc(100vh - 64px);overflow-y:auto;
+  }
 
   /* Navigation par onglets empilés : un seul panneau visible à la fois */
   .body{padding-bottom:70px;overflow-y:auto}
@@ -743,7 +775,6 @@ input,textarea,select{font-family:var(--app-font);outline:none}
   .mobile-tab-btn.on{background:var(--orange);color:white;border-color:var(--orange)}
 
   /* Cibles tactiles agrandies */
-  .tbtn{padding:11px 15px;font-size:13px}
   .ctab{padding:11px 16px;font-size:12px}
   .ptab{padding:13px 6px;font-size:12px}
   .slide-act{width:32px;height:32px;font-size:13px}
@@ -751,7 +782,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
   .field input,.field textarea,.field select,.einp2{padding:11px 12px;font-size:14px}
   .color-swatch{width:34px;height:34px}
   .btn-add-slide,.btn-add-item{padding:11px}
-  .fmt-menu-btn,.export-menu button{padding:13px 15px;font-size:13px}
+  .export-menu button{padding:13px 15px;font-size:13px}
   .sc-btn{width:42px;height:42px;font-size:18px}
 
   /* Le glisser-déposer (souris) n'est pas fiable au doigt : les boutons ↑↓ suffisent */
@@ -762,7 +793,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
   .shape-mobile-note{display:block;font-size:11px;color:var(--gray);text-align:center;line-height:1.6;padding:14px;background:var(--surface-1);border:1px dashed var(--border);border-radius:8px;margin-top:8px}
 
   /* Modales plein écran pour rester lisibles */
-  .modal{max-width:calc(100vw - 24px)!important;width:100%}
+  .modal{max-width:calc(100vw - 24px)!important;width:100%;max-height:calc(100vh - 40px);overflow-y:auto}
   .icon-modal{width:calc(100vw - 24px)}
 }
 
@@ -770,6 +801,19 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 </style>
 </head>
 <body>
+
+<!-- ═══════════════════════════════════════════
+     MODE PAYSAGE FORCÉ SUR MOBILE — l'app n'est pas
+     utilisable en portrait sur petit écran, on bloque tant
+     que l'appareil n'est pas tourné.
+═══════════════════════════════════════════ -->
+<div id="rotateOverlay" class="rotate-overlay">
+  <div class="rotate-overlay-inner">
+    <div style="font-size:42px;margin-bottom:14px">📱↻</div>
+    <div style="font-size:15px;font-weight:700;margin-bottom:8px">Tournez votre appareil</div>
+    <div style="font-size:12px;opacity:.65;line-height:1.6;max-width:280px">My Prez nécessite le mode paysage sur mobile pour rester confortable à utiliser.</div>
+  </div>
+</div>
 
 <!-- ═══════════════════════════════════════════
      ÉCRAN DE LICENCE — affiché jusqu'à validation
@@ -814,10 +858,10 @@ input,textarea,select{font-family:var(--app-font);outline:none}
   <div class="spacer"></div>
   <div class="topbar-actions">
     <input type="file" id="fileIn" accept=".json" style="display:none" onchange="loadFile(event)"/>
-    <button class="tbtn tbtn-gray tbtn-hist" id="btnUndo" onclick="histUndo()" title="Annuler (Ctrl+Z)">↩ Annuler</button>
-    <button class="tbtn tbtn-gray tbtn-hist" id="btnRedo" onclick="histRedo()" title="Refaire (Ctrl+Y)">↪ Refaire</button>
+    <button class="tbtn tbtn-gray tbtn-hist" id="btnUndo" onclick="histUndo()" title="Annuler (Ctrl+Z)">↩ <span class="btn-label">Annuler</span></button>
+    <button class="tbtn tbtn-gray tbtn-hist" id="btnRedo" onclick="histRedo()" title="Refaire (Ctrl+Y)">↪ <span class="btn-label">Refaire</span></button>
     <div class="export-dropdown" id="moreMenuDropdown">
-      <button class="tbtn tbtn-gray" onclick="toggleMoreMenu(event)">☰ Menu ▾</button>
+      <button class="tbtn tbtn-gray" onclick="toggleMoreMenu(event)" title="Menu">☰ <span class="btn-label">Menu ▾</span></button>
       <div class="export-menu" id="moreMenu">
         <button onclick="closeMoreMenu();document.getElementById('fileIn').click()">📥 Charger</button>
         <button onclick="closeMoreMenu();saveJSON()">💾 Sauvegarder</button>
@@ -828,7 +872,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
       </div>
     </div>
     <div class="export-dropdown" id="exportDropdown">
-      <button class="tbtn tbtn-orange" onclick="toggleExportMenu(event)">⬇ Export ▾</button>
+      <button class="tbtn tbtn-orange" onclick="toggleExportMenu(event)" title="Export">⬇ <span class="btn-label">Export ▾</span></button>
       <div class="export-menu" id="exportMenu">
         <button onclick="closeExportMenu();exportCurrentPNG()">⬇ PNG actuelle</button>
         <button onclick="closeExportMenu();exportAllPNG()">⬇ Export slides PNG</button>
@@ -847,10 +891,10 @@ input,textarea,select{font-family:var(--app-font);outline:none}
   </div>
   <button class="tabs-scroll-btn" id="tabsScrollRight" onclick="scrollCarouselTabs(1)" title="Onglets suivants">›</button>
   <div class="spacer"></div>
-  <div class="ctab ctab-custom" id="templatesTabBtn" onclick="openTemplatesModal()" title="Trames prêtes à l'emploi par pilier">📐 Templates</div>
-  <div class="ctab ctab-custom" id="iconsTabBtn" onclick="openIconModal()" title="Bibliothèque d'icônes">🎨 Icônes</div>
-  <div class="ctab ctab-custom" id="customTabBtn" onclick="openCustomModal()" title="Personnaliser l'interface">⚙ Customisation</div>
-  <div class="ctab ctab-custom" id="tutorialTabBtn" onclick="startTutorial()" title="Revoir le tutoriel de prise en main">❓ Tutoriel</div>
+  <div class="ctab ctab-custom" id="templatesTabBtn" onclick="openTemplatesModal()" title="Trames prêtes à l'emploi par pilier">📐 <span class="btn-label">Templates</span></div>
+  <div class="ctab ctab-custom" id="iconsTabBtn" onclick="openIconModal()" title="Bibliothèque d'icônes">🎨 <span class="btn-label">Icônes</span></div>
+  <div class="ctab ctab-custom" id="customTabBtn" onclick="openCustomModal()" title="Personnaliser l'interface">⚙ <span class="btn-label">Customisation</span></div>
+  <div class="ctab ctab-custom" id="tutorialTabBtn" onclick="startTutorial()" title="Revoir le tutoriel de prise en main">❓ <span class="btn-label">Tutoriel</span></div>
 </div>
 
 <!-- ═══ BODY ═══ -->
