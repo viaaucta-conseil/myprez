@@ -748,31 +748,36 @@ input,textarea,select{font-family:var(--app-font);outline:none}
   .ctab-custom{padding:9px 9px;font-size:14px}
   #iconsTabBtn{display:none} /* bouton Icônes retiré sur mobile pour gagner de la place */
 
-  /* ── Menus déroulants (Format, Menu ☰, Export) : position fixe, bornée en haut ET en bas
-     (jamais sous la barre d'onglets mobile fixe), avec défilement tactile garanti ── */
+  /* ── Menus déroulants (Format, Menu ☰, Export) : position fixe, bornée à gauche par la
+     colonne Éditer/Aperçu/Post et en haut/bas par la barre d'onglets, avec défilement
+     tactile garanti. ── */
   .export-menu{
-    position:fixed!important;top:50px!important;left:8px!important;right:8px!important;
-    bottom:64px!important;width:auto!important;height:auto!important;
+    position:fixed!important;top:50px!important;left:64px!important;right:8px!important;
+    bottom:8px!important;width:auto!important;height:auto!important;
     min-width:0!important;max-width:none!important;max-height:none!important;
     overflow-y:auto!important;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
   }
 
-  /* Navigation par onglets empilés : un seul panneau visible à la fois */
-  .body{padding-bottom:70px;overflow-y:auto}
+  /* Navigation par onglets empilés : un seul panneau visible à la fois.
+     Le sélecteur Éditer/Aperçu/Post est une colonne fixe à gauche (et non une barre
+     du bas) : en paysage mobile, la hauteur est la ressource rare, pas la largeur —
+     ça libère un maximum de hauteur pour l'aperçu de la slide. */
+  .body{padding-left:58px;padding-bottom:0;overflow-y:auto}
   .panel-left,.panel-center,.panel-right{display:none;width:100%!important;max-width:100%!important;border:none!important}
   .panel-left.mobile-active,.panel-center.mobile-active,.panel-right.mobile-active{display:flex}
   .panel-center.mobile-active{padding:12px}
   .panel-right{border-left:none!important;border-top:1px solid var(--border)}
 
   .mobile-tabbar{
-    display:flex;position:fixed;bottom:0;left:0;right:0;z-index:500;
-    background:var(--navy);border-top:1px solid rgba(255,255,255,.12);
-    padding:6px 8px calc(6px + env(safe-area-inset-bottom));gap:6px;
+    display:flex;flex-direction:column;position:fixed;top:44px;bottom:0;left:0;z-index:500;
+    width:58px;background:var(--navy);border-right:1px solid rgba(255,255,255,.12);
+    padding:8px 6px calc(8px + env(safe-area-inset-bottom));gap:6px;
   }
   .mobile-tab-btn{
-    flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
-    color:rgba(255,255,255,.6);border-radius:9px;padding:10px 4px;font-size:11px;font-weight:700;
+    flex:none;width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
+    color:rgba(255,255,255,.6);border-radius:9px;padding:12px 2px;font-size:10px;font-weight:700;
     display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;
+    text-align:center;line-height:1.2;
   }
   .mobile-tab-btn span:first-child{display:none} /* icône retirée : texte seul sur mobile */
   .mobile-tab-btn.on{background:var(--orange);color:white;border-color:var(--orange)}
