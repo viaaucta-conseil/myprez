@@ -734,45 +734,54 @@ input,textarea,select{font-family:var(--app-font);outline:none}
   .app{width:100%;max-width:100vw;overflow-x:hidden}
   .body{width:100%;max-width:100vw}
 
-  /* ── Barre supérieure fusionnée dans la barre d'onglets via JS (applyMobileTopbarMerge) :
-     le topbar d'origine n'a donc plus de raison d'être visible sur mobile. ── */
+  /* ── Sur mobile, tout bascule dans la colonne latérale gauche (#mobileTabbar) :
+     le topbar d'origine et la barre d'onglets carrousels/Templates/Customisation/
+     Tutoriel n'ont donc plus de raison d'être visibles. ── */
   .topbar{display:none}
-  .btn-label{display:none} /* icône seule sur mobile, sauf le sélecteur de format (non concerné) */
-  .tbtn{padding:8px 9px;font-size:13px;white-space:nowrap}
-  .fmt-menu-btn{padding:8px 9px;font-size:11px;white-space:nowrap;max-width:130px;overflow:hidden;text-overflow:ellipsis}
-  .topbar-actions{gap:3px}
-  .tabs-row .spacer{flex:0 0 4px}
+  .tabs-row{display:none}
 
-  /* ── Barre d'onglets carrousels : icône seule, bouton Icônes retiré ── */
-  .tabs-row{padding:0 6px;height:auto;min-height:44px;flex-wrap:nowrap}
-  .ctab-custom{padding:9px 9px;font-size:14px}
-  #iconsTabBtn{display:none} /* bouton Icônes retiré sur mobile pour gagner de la place */
-
-  /* ── Menus déroulants (Format, Menu ☰, Export) : position fixe, bornée à gauche par la
-     colonne Éditer/Aperçu/Post et en haut/bas par la barre d'onglets, avec défilement
-     tactile garanti. ── */
+  /* ── Menus déroulants (Carrousels, Format, Menu ☰, Export) : position fixe, bornée à
+     gauche par la colonne latérale, avec défilement tactile garanti. ── */
   .export-menu{
-    position:fixed!important;top:50px!important;left:64px!important;right:8px!important;
+    position:fixed!important;top:8px!important;left:64px!important;right:8px!important;
     bottom:8px!important;width:auto!important;height:auto!important;
     min-width:0!important;max-width:none!important;max-height:none!important;
     overflow-y:auto!important;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
   }
+  .export-menu button{padding:13px 15px;font-size:13px}
 
-  /* Navigation par onglets empilés : un seul panneau visible à la fois.
-     Le sélecteur Éditer/Aperçu/Post est une colonne fixe à gauche (et non une barre
-     du bas) : en paysage mobile, la hauteur est la ressource rare, pas la largeur —
-     ça libère un maximum de hauteur pour l'aperçu de la slide. */
+  /* Navigation empilée : un seul panneau visible à la fois, poussé par la colonne latérale */
   .body{padding-left:58px;padding-bottom:0;overflow-y:auto}
   .panel-left,.panel-center,.panel-right{display:none;width:100%!important;max-width:100%!important;border:none!important}
   .panel-left.mobile-active,.panel-center.mobile-active,.panel-right.mobile-active{display:flex}
   .panel-center.mobile-active{padding:12px}
   .panel-right{border-left:none!important;border-top:1px solid var(--border)}
 
+  /* ── Colonne latérale gauche : de haut en bas — Carrousels ▾, +, Annuler, Refaire,
+     Format, Menu, Exporter, puis Éditer / Aperçu / Post. Défile verticalement si le
+     contenu dépasse la hauteur de l'écran. ── */
   .mobile-tabbar{
-    display:flex;flex-direction:column;position:fixed;top:44px;bottom:0;left:0;z-index:500;
+    display:flex;flex-direction:column;position:fixed;top:0;bottom:0;left:0;z-index:500;
     width:58px;background:var(--navy);border-right:1px solid rgba(255,255,255,.12);
     padding:8px 6px calc(8px + env(safe-area-inset-bottom));gap:6px;
+    overflow-y:auto;-webkit-overflow-scrolling:touch;
   }
+  .mobile-tabbar::-webkit-scrollbar{width:4px}
+  .mobile-tabbar::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:2px}
+
+  .mobile-side-btn,
+  .mobile-tabbar .tbtn,
+  .mobile-tabbar .fmt-menu-btn{
+    flex:none;width:100%;box-sizing:border-box;
+    background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.85);
+    border-radius:9px;padding:11px 2px;font-size:16px;font-weight:700;white-space:nowrap;
+    overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;justify-content:center;
+    cursor:pointer;transition:all .15s;
+  }
+  .mobile-tabbar .fmt-menu-btn{font-size:10px}
+  .mobile-tabbar .export-dropdown{width:100%}
+  .mobile-tabbar .topbar-actions{flex-direction:column;width:100%;gap:6px}
+
   .mobile-tab-btn{
     flex:none;width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
     color:rgba(255,255,255,.6);border-radius:9px;padding:12px 2px;font-size:10px;font-weight:700;
@@ -783,14 +792,11 @@ input,textarea,select{font-family:var(--app-font);outline:none}
   .mobile-tab-btn.on{background:var(--orange);color:white;border-color:var(--orange)}
 
   /* Cibles tactiles agrandies */
-  .ctab{padding:11px 16px;font-size:12px}
-  .ptab{padding:13px 6px;font-size:12px}
   .slide-act{width:32px;height:32px;font-size:13px}
   .slide-item{padding:11px 10px}
   .field input,.field textarea,.field select,.einp2{padding:11px 12px;font-size:14px}
   .color-swatch{width:34px;height:34px}
   .btn-add-slide,.btn-add-item{padding:11px}
-  .export-menu button{padding:13px 15px;font-size:13px}
   .sc-btn{width:42px;height:42px;font-size:18px}
 
   /* Le glisser-déposer (souris) n'est pas fiable au doigt : les boutons ↑↓ suffisent */
@@ -849,7 +855,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 
 <!-- ═══ TOP BAR ═══ -->
 <div class="topbar">
-  <div class="topbar-logo">VIA AUCTA <span>·</span> GÉNÉRATEUR<small>Carrousels et présentations - Export PNG · PDF · PPT</small></div>
+  <div class="topbar-logo">VIA AUCTA <span>·</span> GÉNÉRATEUR<small>Carrousels et présentations</small></div>
   <div class="spacer"></div>
   <div class="export-dropdown" id="fmtDropdown">
     <button class="tbtn fmt-menu-btn" onclick="toggleFmtMenu(event)" id="fmtMenuBtn">💼 LinkedIn Carré ▾</button>
@@ -1907,12 +1913,12 @@ function setMobilePanel(name){
   if(name==='preview') setTimeout(scalePreview, 30);
 }
 
-/* ── Fusion de la topbar dans la barre d'onglets sur mobile ──
+/* ── Fusion des contrôles dans la colonne latérale mobile ──
    Sur petit écran, le sélecteur de Format et le groupe Annuler/Refaire/Menu/Export
-   sont physiquement déplacés dans #tabsRow pour tenir sur la même ligne que les
-   onglets carrousels et les boutons Templates/Customisation/Tutoriel — sans dupliquer
-   leur logique (label dynamique du format, dropdowns, historique...). Réversible :
-   si l'écran repasse en largeur desktop, tout revient à sa place d'origine. */
+   sont physiquement déplacés dans #mobileTabbar (juste après le bouton "+") pour
+   apparaître dans la colonne latérale — sans dupliquer leur logique (label dynamique
+   du format, dropdowns, historique...). Réversible : si l'écran repasse en largeur
+   desktop, tout revient à sa place d'origine dans la barre du haut. */
 var MOBILE_LAYOUT_MQ = window.matchMedia('(max-width:960px)');
 var _mobileTopbarMerged = false;
 var _fmtDropdownHome = null, _fmtDropdownAnchor = null;
@@ -1921,15 +1927,15 @@ var _topbarActionsHome = null, _topbarActionsAnchor = null;
 function applyMobileTopbarMerge(isMobile){
   var fmtDropdown = document.getElementById('fmtDropdown');
   var topbarActions = document.querySelector('.topbar-actions');
-  var tabsRow = document.getElementById('tabsRow');
-  if(!fmtDropdown || !topbarActions || !tabsRow) return;
-  var tabsRowSpacer = tabsRow.querySelector(':scope > .spacer');
+  var sidebarAnchor = document.getElementById('mobileSidebarAnchor');
+  if(!fmtDropdown || !topbarActions || !sidebarAnchor) return;
+  var sidebar = sidebarAnchor.parentNode;
 
   if(isMobile && !_mobileTopbarMerged){
     _fmtDropdownHome = fmtDropdown.parentNode; _fmtDropdownAnchor = fmtDropdown.nextSibling;
     _topbarActionsHome = topbarActions.parentNode; _topbarActionsAnchor = topbarActions.nextSibling;
-    tabsRow.insertBefore(fmtDropdown, tabsRowSpacer);
-    tabsRow.insertBefore(topbarActions, tabsRowSpacer);
+    sidebar.insertBefore(fmtDropdown, sidebarAnchor);
+    sidebar.insertBefore(topbarActions, sidebarAnchor);
     _mobileTopbarMerged = true;
   } else if(!isMobile && _mobileTopbarMerged){
     _fmtDropdownHome.insertBefore(fmtDropdown, _fmtDropdownAnchor);
@@ -1938,6 +1944,32 @@ function applyMobileTopbarMerge(isMobile){
   }
 }
 MOBILE_LAYOUT_MQ.addEventListener('change', function(e){ applyMobileTopbarMerge(e.matches); });
+
+/* ── Menu déroulant des carrousels ouverts (équivalent mobile des onglets desktop) ── */
+function renderMobileCarMenu(){
+  var wrap = document.getElementById('mobileCarMenu');
+  if(!wrap) return;
+  var h = '';
+  for(var i=0;i<C.length;i++){
+    h += '<button class="'+(i===ac?'fmt-menu-active':'')+'" onclick="closeMobileCarMenu();pickCar('+i+')">'
+       + esc(C[i].emoji||'📑') + ' ' + esc(C[i].title||'Sans titre')
+       + '</button>';
+  }
+  wrap.innerHTML = h;
+}
+function toggleMobileCarMenu(e){
+  if(e) e.stopPropagation();
+  renderMobileCarMenu();
+  document.getElementById('mobileCarMenu').classList.toggle('open');
+}
+function closeMobileCarMenu(){
+  var m = document.getElementById('mobileCarMenu');
+  if(m) m.classList.remove('open');
+}
+document.addEventListener('click', function(e){
+  var dd = document.getElementById('mobileCarDropdown');
+  if(dd && !dd.contains(e.target)) closeMobileCarMenu();
+});
 
 window.addEventListener('resize', scalePreview);
 
@@ -5333,8 +5365,14 @@ function openLegalModal(title, html){
   </div>
 </div>
 
-<!-- ═══ NAVIGATION MOBILE (Mode léger) ═══ -->
+<!-- ═══ NAVIGATION MOBILE (Mode léger) — colonne latérale gauche complète ═══ -->
 <div class="mobile-tabbar" id="mobileTabbar">
+  <div class="export-dropdown" id="mobileCarDropdown">
+    <button type="button" class="mobile-side-btn" onclick="toggleMobileCarMenu(event)" title="Carrousels ouverts">📚</button>
+    <div class="export-menu" id="mobileCarMenu"></div>
+  </div>
+  <button type="button" class="mobile-side-btn" onclick="addCar()" title="Nouveau carrousel">➕</button>
+  <div id="mobileSidebarAnchor"></div>
   <button type="button" class="mobile-tab-btn on" data-panel="edit" onclick="setMobilePanel('edit')">
     <span>✏️</span><span>Éditer</span>
   </button>
