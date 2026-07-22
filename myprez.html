@@ -740,6 +740,11 @@ input,textarea,select{font-family:var(--app-font);outline:none}
   .topbar{display:none}
   .tabs-row{display:none}
 
+  /* Icône seule pour tous les boutons de la colonne latérale (Format, Annuler, Refaire,
+     Menu, Exporter, Carrousels...) — sauf Éditer/Aperçu/Post qui gardent leur texte
+     (voir .mobile-tab-btn span:first-child plus bas, qui masque leur icône à la place). */
+  .btn-label{display:none}
+
   /* ── Menus déroulants (Carrousels, Format, Menu ☰, Export) : position fixe, bornée à
      gauche par la colonne latérale, avec défilement tactile garanti. ── */
   .export-menu{
@@ -1879,7 +1884,7 @@ function setFormat(fmt){
 function updateFmtMenuButton(){
   var btn = document.getElementById('fmtMenuBtn');
   var f = FORMATS[currentFormat];
-  if(btn && f) btn.innerHTML = (f.icon||'') + ' ' + esc(f.label||currentFormat) + ' ▾';
+  if(btn && f) btn.innerHTML = (f.icon||'') + ' <span class="btn-label">' + esc(f.label||currentFormat) + ' ▾</span>';
   document.querySelectorAll('#fmtMenu button').forEach(function(b){
     b.classList.toggle('fmt-menu-active', b.getAttribute('data-fmt')===currentFormat);
   });
@@ -1924,6 +1929,29 @@ var _mobileTopbarMerged = false;
 var _fmtDropdownHome = null, _fmtDropdownAnchor = null;
 var _topbarActionsHome = null, _topbarActionsAnchor = null;
 
+/* ── Détache les panneaux de menus déroulants de tout ancêtre à défilement ──
+   #mobileTabbar utilise overflow-y:auto pour son propre ascenseur ; or un ancêtre en
+   overflow:auto/hidden/scroll rogne visuellement TOUT son contenu descendant, y compris
+   les éléments position:fixed. Résultat : les menus (Format/Menu/Export/Carrousels),
+   bien que position:fixed, étaient rognés à la largeur de la colonne (58px) et donc
+   invisibles. On les déplace directement dans <body> sur mobile, hors de cet ancêtre. */
+var _menuPanelIds = ['fmtMenu','moreMenu','exportMenu','mobileCarMenu'];
+var _menuPanelHomes = {};
+function detachMenuPanelsFromClipping(isMobile){
+  _menuPanelIds.forEach(function(id){
+    var el = document.getElementById(id);
+    if(!el) return;
+    if(isMobile && !_menuPanelHomes[id]){
+      _menuPanelHomes[id] = { parent: el.parentNode, next: el.nextSibling };
+      document.body.appendChild(el);
+    } else if(!isMobile && _menuPanelHomes[id]){
+      var home = _menuPanelHomes[id];
+      home.parent.insertBefore(el, home.next);
+      _menuPanelHomes[id] = null;
+    }
+  });
+}
+
 function applyMobileTopbarMerge(isMobile){
   var fmtDropdown = document.getElementById('fmtDropdown');
   var topbarActions = document.querySelector('.topbar-actions');
@@ -1942,6 +1970,7 @@ function applyMobileTopbarMerge(isMobile){
     _topbarActionsHome.insertBefore(topbarActions, _topbarActionsAnchor);
     _mobileTopbarMerged = false;
   }
+  detachMenuPanelsFromClipping(isMobile);
 }
 MOBILE_LAYOUT_MQ.addEventListener('change', function(e){ applyMobileTopbarMerge(e.matches); });
 
@@ -1968,7 +1997,10 @@ function closeMobileCarMenu(){
 }
 document.addEventListener('click', function(e){
   var dd = document.getElementById('mobileCarDropdown');
-  if(dd && !dd.contains(e.target)) closeMobileCarMenu();
+  // #mobileCarMenu peut être détaché dans <body> sur mobile (voir detachMenuPanelsFromClipping) :
+  // on ignore alors les clics à l'intérieur du menu lui-même, même hors de #mobileCarDropdown.
+  var menu = document.getElementById('mobileCarMenu');
+  if(dd && !dd.contains(e.target) && !(menu && menu.contains(e.target))) closeMobileCarMenu();
 });
 
 window.addEventListener('resize', scalePreview);
