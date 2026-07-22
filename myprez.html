@@ -206,6 +206,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
    CENTER — PREVIEW
 ═══════════════════════════════════════════ */
 .panel-center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;overflow:hidden;background:var(--bg);gap:10px;min-height:0}
+.center-preview-stack{display:flex;flex-direction:column;align-items:center;gap:10px;min-height:0}
 .preview-wrap{position:relative;border-radius:10px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.2);flex-shrink:0}
 .preview-frame{transform-origin:top left;position:absolute;top:0;left:0;overflow:hidden;font-family:'DM Sans',sans-serif}
 .slide-controls{display:flex;align-items:center;gap:8px}
@@ -759,7 +760,14 @@ input,textarea,select{font-family:var(--app-font);outline:none}
   .body{padding-left:58px;padding-bottom:0;overflow-y:auto}
   .panel-left,.panel-center,.panel-right{display:none;width:100%!important;max-width:100%!important;border:none!important}
   .panel-left.mobile-active,.panel-center.mobile-active,.panel-right.mobile-active{display:flex}
-  .panel-center.mobile-active{padding:12px}
+  .panel-center.mobile-active{
+    padding:12px;flex-direction:row;align-items:stretch;justify-content:center;gap:14px;
+  }
+  .panel-center.mobile-active .center-preview-stack{flex:1;min-width:0;justify-content:center}
+  .panel-center.mobile-active .prod-notes-wrap{
+    flex:0 0 190px;max-width:190px;width:auto;display:flex;flex-direction:column;align-self:center;
+  }
+  .panel-center.mobile-active .prod-notes-area{flex:1;min-height:100px}
   .panel-right{border-left:none!important;border-top:1px solid var(--border)}
 
   /* ── Colonne latérale gauche : de haut en bas — Carrousels ▾, +, Annuler, Refaire,
@@ -1297,6 +1305,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
   
   
 <div class="panel-center" id="centerPanel">
+  <div class="center-preview-stack" id="centerPreviewStack">
 	<div id="hiddenSlideBanner" style="display:none;background:rgba(239,68,68,.12);color:#EF4444;border:1px solid rgba(239,68,68,.35);border-radius:6px;padding:6px 14px;font-size:11px;font-weight:700;margin-bottom:8px">🙈 Cette slide est masquée — elle n'apparaîtra pas dans les exports</div>
 	<div id="lockedSlideBanner" style="display:none;background:rgba(240,90,26,.12);color:var(--orange);border:1px solid rgba(240,90,26,.35);border-radius:6px;padding:6px 14px;font-size:11px;font-weight:700;margin-bottom:8px">🔒 Cette slide est verrouillée — déverrouillez-la pour la modifier</div>
 	<div class="preview-wrap" id="previewWrap">
@@ -1310,6 +1319,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
       <!-- <button class="sc-exp" onclick="exportCurrentPNG()">⬇ PNG 1080×1080</button>
       <button class="sc-exp" style="background:var(--navy2)" onclick="render()">MàJ</button> -->
     </div>
+  </div>
     <div class="prod-notes-wrap">
       <label class="prod-notes-label">📝 Notes de production <span style="font-weight:400;color:var(--gray);text-transform:none">— usage interne, jamais exportées</span></label>
       <textarea id="slideNotesArea" class="prod-notes-area" rows="2" placeholder="Ex. : à valider avec le client, remplacer le chiffre XX avant publication..."
@@ -2009,11 +2019,21 @@ function scalePreview() {
   var frame = document.getElementById('previewFrame');
   var wrap = document.getElementById('previewWrap');
   var center = document.getElementById('centerPanel');
-
   var f = FORMATS[currentFormat];
-  // Reserve space for format selector (~34px), dots (~20px), controls (~44px), notes field (~75px), gaps (~40px)
-  var reservedH = 230;
-  var availW = center.clientWidth - 32;
+
+  // En mobile, les notes de production sont à droite de l'aperçu (pas empilées dessous) :
+  // on réserve donc de la largeur pour elles plutôt que de la hauteur.
+  var isMobileLayout = window.matchMedia('(max-width:960px)').matches;
+  var reservedW = 32;
+  var reservedH;
+  if(isMobileLayout){
+    var notesWrap = document.querySelector('.prod-notes-wrap');
+    reservedW += (notesWrap ? notesWrap.getBoundingClientRect().width : 190) + 14;
+    reservedH = 90; // flèches + compteur uniquement, plus de champ notes sous l'aperçu
+  } else {
+    reservedH = 230; // format desktop : dots + contrôles + champ notes empilé dessous
+  }
+  var availW = center.clientWidth - reservedW;
   var availH = center.clientHeight - reservedH;
 
   var s = Math.min(availW / f.w, availH / f.h);
