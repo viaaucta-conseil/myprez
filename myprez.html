@@ -542,6 +542,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
   background:#060E1A;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   padding:20px;
+  overflow-y:auto;
   font-family:'DM Sans',sans-serif;
 }
 #lic-overlay .lic-logo{
@@ -822,6 +823,19 @@ input,textarea,select{font-family:var(--app-font);outline:none}
   /* Modales plein écran pour rester lisibles, et scrollables jusqu'au bout */
   .modal{max-width:calc(100vw - 24px)!important;width:100%;max-height:calc(100vh - 40px);overflow-y:auto;-webkit-overflow-scrolling:touch}
   .icon-modal{width:calc(100vw - 24px)}
+
+  /* Écran de licence : compact, aligné en haut, et toujours défilable —
+     sur un petit écran (notamment en paysage forcé), le contenu peut
+     dépasser la hauteur visible ; centrer verticalement couperait alors
+     le haut ET le bas (dont le lien d'achat). L'alignement en haut avec
+     overflow-y:auto garantit qu'on peut toujours tout faire défiler. */
+  #lic-overlay{align-items:flex-start;padding:16px 16px 24px}
+  #lic-overlay .lic-card{padding:22px 18px;max-width:100%}
+  #lic-overlay .lic-logo{font-size:16px;margin-bottom:16px;letter-spacing:2px}
+  #lic-overlay .lic-lock{font-size:34px;margin-bottom:10px}
+  #lic-overlay h2{font-size:19px;margin-bottom:6px}
+  #lic-overlay p{font-size:12px;margin-bottom:14px}
+  #lic-overlay .lic-divider{margin:14px 0}
 }
 
 
