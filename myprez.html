@@ -2400,6 +2400,27 @@ var SHAPE_DEFS=[
   {type:'cross',icon:'✚',label:'Croix'},
   {type:'text',icon:'T',label:'Texte libre'}
 ];
+// Polices disponibles pour les formes de type "texte libre" — même éventail que
+// les sélecteurs de police du carrousel (onglet Carrousel), pour rester cohérent.
+var SHAPE_TEXT_FONTS=[
+  ["'DM Sans',sans-serif","DM Sans"],
+  ["'Playfair Display',sans-serif","Playfair Display"],
+  ["Georgia,serif","Georgia"],
+  ["'Courier New',monospace","Courier New"],
+  ["Arial,sans-serif","Arial"],
+  ["Impact,sans-serif","Impact"],
+  ["'Syne',sans-serif","Syne"],
+  ["'Fraunces',serif","Fraunces"],
+  ["'Raleway',sans-serif","Raleway"],
+  ["'Outfit',sans-serif","Outfit"],
+  ["'Barlow Condensed',sans-serif","Barlow Condensed"],
+  ["'Plus Jakarta Sans',sans-serif","Plus Jakarta Sans"],
+  ["'Space Grotesk',sans-serif","Space Grotesk"],
+  ["'Inter',sans-serif","Inter"],
+  ["'Nunito',sans-serif","Nunito"],
+  ["'Libre Baskerville',serif","Libre Baskerville"],
+  ["'JetBrains Mono',monospace","JetBrains Mono"]
+];
 function _starPoints(cx,cy,rOuter,rInner,points){
   var pts=[];
   for(var i=0;i<points*2;i++){
@@ -2453,7 +2474,8 @@ function shapesLayerHTML(s, forExport){
     var innerHtml;
     if(isText){
       var fsz = sh.fontSize!=null?sh.fontSize:42;
-      innerHtml = '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;text-align:center;color:'+color+';font-size:'+fsz+'px;font-weight:700;font-family:'+fontBody+';line-height:1.25;word-break:break-word;white-space:pre-wrap;padding:2px;box-sizing:border-box'+(interactive?'':';pointer-events:none')+'">'+esc(sh.text||'Texte libre').replace(/\n/g,'<br>')+'</div>';
+      var shFontFamily = sh.fontFamily || fontBody;
+      innerHtml = '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;text-align:center;color:'+color+';font-size:'+fsz+'px;font-weight:700;font-family:'+shFontFamily+';line-height:1.25;word-break:break-word;white-space:pre-wrap;padding:2px;box-sizing:border-box'+(interactive?'':';pointer-events:none')+'">'+esc(sh.text||'Texte libre').replace(/\n/g,'<br>')+'</div>';
     } else {
       var svgInner=shapeSVGInner(sh.type,color,fillOn,strokeW,sh.rx);
       innerHtml = '<svg viewBox="0 0 100 100" preserveAspectRatio="none" style="width:100%;height:100%;overflow:visible'+(interactive?'':';pointer-events:none')+'">'+svgInner+'</svg>';
@@ -3003,8 +3025,12 @@ function renderEditor(){
         +'<span style="font-size:15px;width:18px;text-align:center;flex-shrink:0;font-weight:800" title="'+sd.label+'">'+sd.icon+'</span>'
         +'<input type="color" value="'+(sh.color||'#F05A1A')+'" title="Couleur" oninput="updateShapeKey(\''+sh.id+'\',\'color\',this.value)"/>';
       if(isText){
+        var shFont = sh.fontFamily || car().fontBody || "'DM Sans',sans-serif";
         h+='<input class="einp2" style="flex:1;min-width:70px;padding:5px 7px;font-size:11px" value="'+esc(sh.text||'')+'" placeholder="Votre texte" oninput="updateShapeKey(\''+sh.id+'\',\'text\',this.value)"/>'
-          +'<input type="range" min="12" max="160" value="'+(sh.fontSize!=null?sh.fontSize:42)+'" title="Taille du texte" oninput="updateShapeKey(\''+sh.id+'\',\'fontSize\',+this.value)"/>';
+          +'<input type="range" min="12" max="160" value="'+(sh.fontSize!=null?sh.fontSize:42)+'" title="Taille du texte" oninput="updateShapeKey(\''+sh.id+'\',\'fontSize\',+this.value)"/>'
+          +'<select class="einp2" style="flex:1;min-width:110px;padding:5px 7px;font-size:11px" title="Police du texte" onchange="updateShapeKey(\''+sh.id+'\',\'fontFamily\',this.value)">'
+            +SHAPE_TEXT_FONTS.map(function(f){return '<option value="'+f[0].replace(/"/g,'&quot;')+'"'+(shFont===f[0]?' selected':'')+'>'+f[1]+'</option>';}).join('')
+          +'</select>';
       } else {
         if(canFill) h+='<label class="shape-list-fill"><input type="checkbox" '+(sh.fill!==false?'checked':'')+' onchange="updateShapeKey(\''+sh.id+'\',\'fill\',this.checked)"/>Rempli</label>';
         h+='<input type="range" min="1" max="24" value="'+(sh.strokeWidth!=null?sh.strokeWidth:5)+'" title="Épaisseur du trait" oninput="updateShapeKey(\''+sh.id+'\',\'strokeWidth\',+this.value)"/>';
