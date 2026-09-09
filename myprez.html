@@ -968,7 +968,6 @@ input,textarea,select{font-family:var(--app-font);outline:none}
   <button class="tabs-scroll-btn" id="tabsScrollRight" onclick="scrollCarouselTabs(1)" title="Onglets suivants">›</button>
   <div class="spacer"></div>
   <div class="ctab ctab-custom" id="templatesTabBtn" onclick="openTemplatesModal()" title="Trames prêtes à l'emploi par pilier">📐 <span class="btn-label">Templates</span></div>
-  <div class="ctab ctab-custom" id="brandKitTabBtn" onclick="openBrandKit()" title="Configurer votre identité de marque">◈ <span class="btn-label">Brand Kit</span></div>
   <div class="ctab ctab-custom" id="iconsTabBtn" onclick="openIconModal()" title="Bibliothèque d'icônes">🎨 <span class="btn-label">Icônes</span></div>
   <div class="ctab ctab-custom" id="customTabBtn" onclick="openCustomModal()" title="Personnaliser l'interface">⚙ <span class="btn-label">Customisation</span></div>
   <div class="ctab ctab-custom" id="tutorialTabBtn" onclick="startTutorial()" title="Revoir le tutoriel de prise en main">❓ <span class="btn-label">Tutoriel</span></div>
@@ -1198,45 +1197,13 @@ input,textarea,select{font-family:var(--app-font);outline:none}
       <div class="field"><label>Tag / Pilier</label><input class="einp2" id="carTag" oninput="C[ac].tag=this.value"/></div>
       <div class="field"><label>Pilier</label><input class="einp2" id="carPilier" oninput="C[ac].pilier=this.value"/></div>
       <div style="height:16px"></div>
-      <div class="sec-title">Branding</div>
-      <div class="field"><label>Nom affiché sur les slides</label><input class="einp2" id="carBrand" oninput="C[ac].brand=this.value;renderSlide()"/></div>
-	  <div class="field">
-        <label>Logo / Photo de profil</label>
-        <div style="display:flex;gap:6px;margin-bottom:6px">
-          <div id="logoUploadZone" class="logo-upload-zone" style="flex:1" onclick="document.getElementById('logoFileIn').click()">
-            <div style="font-size:20px;margin-bottom:4px">🖼</div>
-            <div style="font-size:10px;color:var(--gray)">Cliquez pour importer<br><span style="font-size:9px">PNG, JPG, WebP - recommandé 200×200px</span></div>
-          </div>
-        </div>
-        <button type="button" class="img-lib-pick-btn" style="width:100%;margin-bottom:8px" onclick="openImageLibrary('logo')">📚 Choisir depuis ma bibliothèque</button>
-        <input type="file" id="logoFileIn" accept="image/*" style="display:none" onchange="loadLogoImage(event)"/>
-        <div id="logoPreviewWrap" style="display:none">
-          <div class="logo-preview-wrap">
-            <img id="logoPreviewImg" class="logo-preview-img" src="" alt="Logo"/>
-            <div style="flex:1">
-              <div style="font-size:10px;font-weight:600;color:var(--text-1);margin-bottom:4px">Logo chargé ✓</div>
-              <div style="font-size:9px;color:var(--gray)">Affiché dans le pied de page</div>
-            </div>
-            <button class="logo-remove-btn" onclick="removeLogo()" title="Supprimer">✕</button>
-          </div>
-          <button type="button" class="img-lib-save-btn" style="width:100%;margin-top:6px" onclick="saveCurrentToLibrary('logo')">💾 Enregistrer dans ma bibliothèque</button>
-          <div class="logo-shape-row">
-            <button class="logo-shape-btn on" id="logoShapeCircle" onclick="setLogoShape('circle')">⬤ Rond</button>
-            <button class="logo-shape-btn" id="logoShapeSquare" onclick="setLogoShape('square')">■ Carré</button>
-          </div>
-          <div class="field" style="margin-top:8px">
-            <label>Taille logo - <span id="logoSizeLbl">40px</span></label>
-            <input type="range" id="logoSize" min="24" max="80" value="40" style="width:100%;accent-color:var(--orange)"
-              oninput="C[ac].logoSize=+this.value;document.getElementById('logoSizeLbl').textContent=this.value+'px';renderSlide()"/>
-          </div>
-        </div>
+      <div class="sec-title">Identité visuelle</div>
+      <div style="padding:12px;background:var(--surface-1);border:1px solid var(--border);border-radius:8px;margin-bottom:10px">
+        <div style="font-size:11px;font-weight:700;color:var(--text-1);margin-bottom:4px">Brand Kit global</div>
+        <div style="font-size:10px;color:var(--gray);line-height:1.5;margin-bottom:9px">Le Brand Kit définit votre identité pour vos nouveaux carrousels. Ici, vous gérez uniquement les réglages propres à ce carrousel.</div>
+        <button class="tbtn tbtn-blue" style="width:100%;font-size:10px;padding:7px" onclick="openBrandKit()">◈ Ouvrir le Brand Kit</button>
       </div>
-      <div class="field"><label>Couleur accent (orange par défaut)</label>
-        <div class="color-picker-wrap">
-          <input type="color" class="color-input" id="accentColor" value="#F05A1A" oninput="C[ac].accent=this.value;document.getElementById('accentHex').value=this.value;renderSlide()"/>
-          <input class="einp2" id="accentHex" value="#F05A1A" style="flex:1" oninput="document.getElementById('accentColor').value=this.value;C[ac].accent=this.value;renderSlide()"/>
-        </div>
-      </div>
+      <div class="field"><label>Nom affiché sur ce carrousel</label><input class="einp2" id="carBrand" oninput="C[ac].brand=this.value;renderSlide()"/></div>
       <div style="height:16px"></div>
       <div class="sec-title">Barre accent (obar) &amp; point pied de page</div>
       <div class="field">
@@ -4719,7 +4686,7 @@ var TUTORIAL_STEPS = [
     text:"LinkedIn Carré, Vertical ou Horizontal, Facebook, Instagram Portrait, TikTok, ou PDF A4 — tous regroupés dans ce menu déroulant. Le format s'applique à l'aperçu et à l'export final." },
   { target:'.panel-tabs', before:function(){ setPTab(0); },
     title:"Les 3 onglets de l'éditeur",
-    text:"Contenu (le texte de vos slides), Fond (couleurs, dégradés, images, motifs) et Carrousel (branding global : logo, polices, couleurs)." },
+    text:"Contenu pour construire vos slides, Fond pour leur apparence, et Carrousel pour les informations et réglages propres à ce carrousel." },
   { target:'#slideList', before:function(){ setPTab(0); },
     title:"La liste de vos slides",
     text:"Cliquez une slide pour la sélectionner, glissez-déposez ⠿ pour réordonner, dupliquez ⧉ ou supprimez ✕. 🔓 verrouille une slide contre l'édition, 👁 la masque à l'export sans la supprimer." },
@@ -4737,7 +4704,10 @@ var TUTORIAL_STEPS = [
     text:"Changez la couleur, le dégradé, l'image ou le motif de fond, pour la slide actuelle ou tout le carrousel d'un coup." },
   { target:'#pt2', before:function(){ setPTab(2); },
     title:"L'onglet Carrousel",
-    text:"Réglages globaux : logo, polices, couleurs de marque, taille du pied de page, appliqués à toutes les slides du carrousel." },
+    text:"Les informations de ce carrousel sont regroupées ici. Votre identité visuelle globale se règle dans le Brand Kit, séparément." },
+  { target:'#pc2 button[onclick="openBrandKit()"]', before:function(){},
+    title:"Le Brand Kit",
+    text:"Définissez une seule fois votre nom de marque, votre logo, vos couleurs et vos polices. Le Brand Kit est global et s'applique aux nouveaux carrousels ou à la présentation actuelle sur demande." },
   { target:'#previewWrap', before:function(){ setPTab(0); },
     title:"L'aperçu central",
     text:"Visualisez votre slide en temps réel. Naviguez avec les flèches ← → ou les points sous l'aperçu." },
@@ -5480,7 +5450,7 @@ function openLegalModal(title, html){
 <div id="tutorialOverlay">
   <div class="tut-highlight" id="tutHighlight"></div>
   <div class="tut-tooltip" id="tutTooltip">
-    <div class="tut-progress" id="tutProgress">ÉTAPE 1 / 17</div>
+    <div class="tut-progress" id="tutProgress">ÉTAPE 1 / 18</div>
     <h4 id="tutTitle"></h4>
     <p id="tutText"></p>
     <div class="tut-actions">
@@ -5533,7 +5503,7 @@ function openLegalModal(title, html){
         <button class="welcome-choice" onclick="welcomeChoose('ai')">
           <div class="welcome-choice-icon">✦</div>
           <div class="welcome-choice-title">Créer avec l'IA</div>
-          <div class="welcome-choice-desc">Donnez une idée. My Prez construit une structure, puis génère les slides à partir de cette trame.</div>
+          <div class="welcome-choice-desc">Décrivez votre sujet. L'IA rédige le message, construit la structure et remplit les slides avec un contenu adapté à votre sujet.</div>
           <div class="welcome-choice-cta">Partir d'une idée →</div>
         </button>
         <button class="welcome-choice" onclick="welcomeChoose('blank')">
@@ -5607,7 +5577,7 @@ function openLegalModal(title, html){
       <span class="modal-title">✦ CRÉER AVEC L'IA</span>
       <button class="modal-close" onclick="closeOverlay('ovAIGenerator')">✕ Fermer</button>
     </div>
-    <div class="notice">Idée → structure → slides. La génération actuelle fonctionne en mode assisté localement : aucun texte n'est envoyé à un service externe. Un endpoint IA pourra être branché plus tard sans modifier le parcours.</div>
+    <div class="notice"><strong>Idée → structure → slides.</strong> My Prez peut utiliser un endpoint IA compatible pour rédiger réellement le contenu de chaque slide. Sans endpoint configuré, le mode de secours produit uniquement une structure éditoriale et l'indique clairement.</div>
     <div class="field"><label>Votre idée</label><textarea id="aiIdea" rows="4" placeholder="Ex. Je veux expliquer aux dirigeants pourquoi leurs réunions sont trop longues et leur donner une méthode simple pour les réduire."></textarea></div>
     <div class="field-row">
       <div class="field"><label>Objectif</label><select id="aiGoal"><option value="expertise">Partager une expertise</option><option value="sell">Présenter une offre</option><option value="educate">Expliquer une méthode</option><option value="opinion">Défendre une opinion</option><option value="case">Présenter un cas client</option></select></div>
@@ -5616,6 +5586,11 @@ function openLegalModal(title, html){
     <div class="field-row">
       <div class="field"><label>Ton</label><select id="aiTone"><option value="direct">Direct et professionnel</option><option value="pedagogical">Pédagogique</option><option value="persuasive">Convaincant</option><option value="editorial">Éditorial</option></select></div>
       <div class="field"><label>Nombre de slides</label><select id="aiSlides"><option value="5">5 slides</option><option value="6" selected>6 slides</option><option value="7">7 slides</option><option value="8">8 slides</option></select></div>
+    </div>
+    <div class="field" style="margin-top:6px">
+      <label>Connexion IA</label>
+      <input class="einp2" id="aiEndpoint" placeholder="https://votre-domaine/api/myprez-ai"/>
+      <div class="field-hint">Le serveur doit accepter POST JSON et renvoyer un objet <code>{structure, slides, post}</code>. La clé API ne doit jamais être placée dans ce fichier HTML.</div>
     </div>
     <div id="aiStructureWrap" style="display:none">
       <div class="sec-title" style="margin-top:14px">Structure proposée</div>
@@ -5707,44 +5682,107 @@ function welcomeChoose(mode){closeWelcome();if(mode==='template'){openTemplatesM
 function mpMaybeShowWelcome(){try{if(localStorage.getItem(MP_WELCOME_KEY))return;}catch(e){}var lic=document.getElementById('lic-overlay');if(!lic||lic.style.display==='none'){try{localStorage.setItem(TUTORIAL_KEY,'1');}catch(e){}setTimeout(openWelcome,250);}}
 window.addEventListener('load',function(){setTimeout(mpMaybeShowWelcome,1200);var lic=document.getElementById('lic-overlay');if(lic){new MutationObserver(function(){mpMaybeShowWelcome();}).observe(lic,{attributes:true,attributeFilter:['style','class']});}});
 
-/* Génération : idée → structure → slides. Mode local déterministe, sans API externe. */
+/* Génération : idée → structure → slides. */
 function openAIGenerator(){
-  _aiDraft=null;document.getElementById('aiIdea').value='';document.getElementById('aiStructureWrap').style.display='none';document.getElementById('aiCreateBtn').style.display='none';document.getElementById('aiStatus').textContent='';document.getElementById('ovAIGenerator').classList.add('open');setTimeout(function(){document.getElementById('aiIdea').focus();},100);
+  _aiDraft=null;
+  document.getElementById('aiIdea').value='';
+  document.getElementById('aiStructureWrap').style.display='none';
+  document.getElementById('aiCreateBtn').style.display='none';
+  document.getElementById('aiStatus').textContent='';
+  try{document.getElementById('aiEndpoint').value=localStorage.getItem('myprez_ai_endpoint')||'';}catch(e){}
+  document.getElementById('ovAIGenerator').classList.add('open');
+  setTimeout(function(){document.getElementById('aiIdea').focus();},100);
 }
 function mpCleanIdea(v){return (v||'').trim().replace(/\s+/g,' ');}
-function mpTitleFromIdea(idea){var x=idea.replace(/^je (veux|voudrais|souhaite)\s+/i,'').replace(/^il faut\s+/i,'').trim();if(x.length>62)x=x.slice(0,59)+'…';return x.charAt(0).toUpperCase()+x.slice(1);}
+function mpTitleFromIdea(idea){var x=idea.replace(/^je (veux|voudrais|souhaite)\s+/i,'').replace(/^il faut\s+/i,'').trim();if(x.length>70)x=x.slice(0,67)+'…';return x.charAt(0).toUpperCase()+x.slice(1);}
+function mpExtractTopic(idea){
+  var stop=('je veux voudrais souhaite expliquer pourquoi comment donner une méthode simple pour les des du une un et ou avec dans aux aux cette ce ces sur aux afin que qui sont est').split(/\s+/);
+  var words=idea.toLowerCase().replace(/[^a-zà-ÿ0-9' -]/gi,' ').split(/\s+/).filter(Boolean);
+  var freq={}; words.forEach(function(w){if(w.length>3 && stop.indexOf(w)<0)freq[w]=(freq[w]||0)+1;});
+  return Object.keys(freq).sort(function(a,b){return freq[b]-freq[a];}).slice(0,6);
+}
+function mpTopicLabel(idea){var t=mpExtractTopic(idea);return t.length?t.slice(0,3).join(' · '):mpTitleFromIdea(idea);}
 function mpStructure(idea,goal,n){
-  var base=mpTitleFromIdea(idea)||'Votre sujet';
+  var title=mpTitleFromIdea(idea)||'Votre sujet', topic=mpTopicLabel(idea);
   var structures={
-    expertise:[['cover','Le sujet en une phrase','Poser immédiatement le thème et la promesse.'],['hook','Le problème','Montrer pourquoi le sujet mérite l’attention.'],['whiteContent','Ce que l’on constate','Apporter 2 à 3 éléments concrets ou faits.'],['step','La méthode','Donner une méthode simple en 3 étapes.'],['quote','L’idée à retenir','Formuler la conviction principale.'],['cta','Passez à l’action','Terminer par une action ou une question.']],
-    sell:[['cover','Votre offre','Présenter clairement la promesse.'],['hook','Le problème client','Nommer la situation qui coûte du temps, de l’argent ou de l’énergie.'],['whiteContent','La réponse','Expliquer ce que l’offre change concrètement.'],['step','Les 3 bénéfices','Structurer les bénéfices en trois points.'],['quote','La preuve','Ajouter un résultat, un témoignage ou un élément de crédibilité.'],['cta','L’étape suivante','Proposer un contact, une démo ou un rendez-vous.']],
-    educate:[['cover','La promesse pédagogique','Dire ce que le lecteur saura faire ou comprendre.'],['hook','L’erreur fréquente','Montrer le piège à éviter.'],['step','La méthode en 3 étapes','Donner un chemin simple et mémorisable.'],['whiteContent','Un exemple','Illustrer la méthode sur un cas concret.'],['quote','Le principe clé','Résumer l’enseignement principal.'],['cta','À vous de jouer','Inviter le lecteur à tester la méthode.']],
-    opinion:[['cover','Votre point de vue','Énoncer une position claire.'],['hook','Pourquoi le sujet dérange','Créer la tension avec une idée reçue.'],['whiteContent','Les faits','Présenter les éléments qui soutiennent la position.'],['step','Votre raisonnement','Dérouler 3 arguments.'],['quote','La phrase à retenir','Formuler la thèse en une phrase.'],['cta','Ouvrir la discussion','Poser une question ou inviter à réagir.']],
-    case:[['cover','Le cas client','Présenter le contexte et le résultat recherché.'],['hook','Le point de départ','Décrire le problème initial.'],['step','Ce qui a été fait','Présenter 3 actions concrètes.'],['chart','Le résultat','Mettre en avant 2 à 4 indicateurs.'],['quote','Le retour','Ajouter une phrase du client ou un enseignement.'],['cta','Votre situation','Inviter à prendre contact.']]
+    expertise:[['cover','Le sujet','Installer le sujet et la promesse.'],['hook','Le problème concret','Nommer ce qui bloque réellement votre audience.'],['whiteContent','Ce qu’il faut comprendre','Apporter les mécanismes, faits ou observations utiles.'],['step','La méthode','Transformer l’analyse en étapes applicables.'],['quote','L’idée forte','Formuler la conclusion que le lecteur doit retenir.'],['cta','La suite','Proposer une action cohérente avec le sujet.']],
+    sell:[['cover','La promesse','Dire précisément ce que votre offre permet d’obtenir.'],['hook','Le problème coûteux','Montrer le coût ou la conséquence du problème.'],['whiteContent','Votre réponse','Expliquer comment votre offre répond à ce problème.'],['step','Les bénéfices','Montrer trois bénéfices concrets et distincts.'],['quote','La preuve','Ajouter un résultat, une preuve ou un témoignage.'],['cta','L’étape suivante','Inviter à prendre contact, demander une démo ou essayer.']],
+    educate:[['cover','Ce que vous allez apprendre','Promesse pédagogique précise.'],['hook','L’erreur fréquente','Montrer la confusion ou le mauvais réflexe courant.'],['step','La méthode','Donner un processus mémorisable.'],['whiteContent','Un exemple','Appliquer le principe au sujet donné.'],['quote','Le principe clé','Résumer l’enseignement.'],['cta','À vous de jouer','Donner une première action simple.']],
+    opinion:[['cover','Votre position','Énoncer clairement la thèse.'],['hook','L’idée reçue','Créer une tension avec ce que l’audience pense déjà.'],['whiteContent','Vos arguments','Présenter les faits et raisonnements qui soutiennent la position.'],['step','Votre raisonnement','Dérouler trois arguments.'],['quote','La phrase à retenir','Condensez la thèse en une phrase.'],['cta','Ouvrir le débat','Inviter à réagir ou à confronter les points de vue.']],
+    case:[['cover','Le cas client','Présenter le contexte et l’objectif.'],['hook','Le point de départ','Décrire le problème initial.'],['step','Ce qui a été fait','Présenter les actions réellement menées.'],['chart','Le résultat','Mettre en avant les indicateurs disponibles.'],['quote','Le retour','Faire ressortir un enseignement ou une parole client.'],['cta','Et maintenant ?','Montrer comment passer à une situation similaire.']]
   };
-  var a=structures[goal]||structures.expertise;return a.slice(0,Math.max(5,Math.min(8,n))).map(function(x,i){return {t:x[0],title:x[1],desc:x[2],n:i+1};});
+  var a=structures[goal]||structures.expertise;
+  return a.slice(0,Math.max(5,Math.min(8,n))).map(function(x,i){return {t:x[0],title:x[1],desc:x[2],n:i+1,topic:topic};});
 }
-function generateAIStructure(){
-  var idea=mpCleanIdea(document.getElementById('aiIdea').value);if(!idea){notif('Décrivez d’abord votre idée.');return;}
-  var n=parseInt(document.getElementById('aiSlides').value,10);_aiDraft={idea:idea,goal:document.getElementById('aiGoal').value,audience:document.getElementById('aiAudience').value,tone:document.getElementById('aiTone').value,structure:mpStructure(idea,document.getElementById('aiGoal').value,n)};
-  var wrap=document.getElementById('aiStructure');wrap.innerHTML=_aiDraft.structure.map(function(x){return '<div class="ai-step"><div class="ai-step-num">'+x.n+'</div><div><div class="ai-step-title">'+mpEsc(x.title)+'</div><div class="ai-step-desc">'+mpEsc(x.desc)+'</div></div></div>';}).join('');
-  document.getElementById('aiStructureWrap').style.display='block';document.getElementById('aiCreateBtn').style.display='inline-block';document.getElementById('aiStatus').textContent='Structure prête. Vous pourrez modifier chaque slide après création.';
-}
-function mpGeneratedCarousel(d){
-  var bk=mpGetBrandKit(), primary=bk.primary||'#0D2B4E', secondary=bk.secondary||'#1B3F6E', accent=bk.accent||'#F05A1A', idea=d.idea, title=mpTitleFromIdea(idea), slides=[];
-  d.structure.forEach(function(x,i){
-    var sn=String(i+1).padStart(2,'0');
-    if(x.t==='cover')slides.push({t:'cover',bg:{type:'solid',color:primary,textColor:'#FFFFFF'},tag:'NOUVEAU',title:title.toUpperCase(),sub:'Une présentation structurée à partir de votre idée'});
-    else if(x.t==='hook')slides.push({t:'hook',bg:{type:'solid',color:'#060E1A',textColor:'#FFFFFF'},pill:'LE CONSTAT',stmt:'Pourquoi ce sujet mérite\nnotre attention\n<em>maintenant.</em>',stxt:'Votre idée sera transformée ici en accroche claire pour votre audience.',sn:sn});
-    else if(x.t==='whiteContent')slides.push({t:'whiteContent',bg:{type:'solid',color:'#F4F4F2',textColor:primary},pill:x.title.toUpperCase(),content:['Premier point à développer à partir de votre idée.','Deuxième point avec un exemple, une preuve ou un contexte concret.'],stmt:'L’idée clé à\nretenir ici.\n<em>Votre message.</em>',tip:'Ajoutez une donnée ou un exemple.',sn:sn});
-    else if(x.t==='step')slides.push({t:'step',bg:{type:'solid',color:primary,textColor:'#FFFFFF'},pill:x.title.toUpperCase(),items:[{n:'01',title:'Clarifier',sub:'Définir le problème et le résultat recherché.'},{n:'02',title:'Structurer',sub:'Organiser les idées dans un ordre logique.'},{n:'03',title:'Agir',sub:'Donner une prochaine étape simple au lecteur.'}],sn:sn});
-    else if(x.t==='chart')slides.push({t:'chart',bg:{type:'solid',color:primary,textColor:'#FFFFFF'},pill:'RÉSULTAT',chartKind:'bar',items:[{label:'Avant',value:35,color:accent},{label:'Après',value:72,color:accent},{label:'Objectif',value:90,color:secondary}],sn:sn});
-    else if(x.t==='quote')slides.push({t:'quote',bg:{type:'solid',color:'#F4F4F2',textColor:primary},pill:'L’IDÉE À RETENIR',quote:'Votre message principal\nmérite une phrase\n<em>simple et forte.</em>',qsub:'Remplacez ce texte par votre conviction, une citation ou un retour terrain.',sn:sn});
-    else slides.push({t:'cta',bg:{type:'gradient',gradient:'135deg,'+accent+','+secondary,textColor:'#FFFFFF'},eyebrow:bk.name||'VOTRE MARQUE',main:'Prêt à passer\nà l’étape suivante ?',ctxt:'Ajoutez ici votre appel à l’action : commentaire, contact, démo ou rendez-vous.',pill:'PASSER À L’ACTION'});
+function mpBuildFallbackSlides(d){
+  var bk=mpGetBrandKit(), primary=bk.primary||'#0D2B4E', secondary=bk.secondary||'#1B3F6E', accent=bk.accent||'#F05A1A';
+  var title=mpTitleFromIdea(d.idea), topic=mpTopicLabel(d.idea), audience=d.audience==='dirigeants'?'les dirigeants':d.audience==='consultants'?'les consultants':d.audience==='managers'?'les managers':d.audience==='clients'?'vos clients':'votre audience';
+  return d.structure.map(function(x,i){var sn=String(i+1).padStart(2,'0'), h=title, lower=d.idea.toLowerCase();
+    if(x.t==='cover')return {t:'cover',bg:{type:'solid',color:primary,textColor:'#FFFFFF'},tag:'IA',title:h.toUpperCase(),sub:'Une présentation consacrée à '+topic};
+    if(x.t==='hook')return {t:'hook',bg:{type:'solid',color:'#060E1A',textColor:'#FFFFFF'},pill:'LE PROBLÈME',stmt:'Sur '+topic+',\nle vrai sujet n’est pas\n<em>celui qu’on croit.</em>',stxt:'Cette slide introduit le problème à partir de votre idée : '+d.idea,sn:sn};
+    if(x.t==='whiteContent')return {t:'whiteContent',bg:{type:'solid',color:'#F4F4F2',textColor:primary},pill:'À COMPRENDRE',content:['Votre idée porte sur '+topic+' et s’adresse à '+audience+'.','Développez ici le mécanisme, le fait ou l’exemple qui permet de comprendre le sujet : '+d.idea+'.'],stmt:'Le point clé\nsur '+topic+'\nest <em>le mécanisme.</em>',tip:'Ajoutez une donnée, une source ou un exemple précis.',sn:sn};
+    if(x.t==='step')return {t:'step',bg:{type:'solid',color:primary,textColor:'#FFFFFF'},pill:'LA MÉTHODE',items:[{n:'01',title:'Diagnostiquer',sub:'Identifier le problème précis lié à '+topic+'.'},{n:'02',title:'Choisir le levier',sub:'Se concentrer sur ce qui peut réellement être modifié.'},{n:'03',title:'Passer à l’action',sub:'Tester une action mesurable et observer le résultat.'}],sn:sn};
+    if(x.t==='chart')return {t:'chart',bg:{type:'solid',color:primary,textColor:'#FFFFFF'},pill:'À MESURER',chartKind:'bar',items:[{label:'Situation actuelle',value:35,color:accent},{label:'Cible',value:70,color:accent},{label:'Objectif',value:90,color:secondary}],sn:sn};
+    if(x.t==='quote')return {t:'quote',bg:{type:'solid',color:'#F4F4F2',textColor:primary},pill:'À RETENIR',quote:'Sur '+topic+',\ncommencez par traiter\n<em>le vrai problème.</em>',qsub:'Remplacez cette formulation par la conclusion issue de votre expertise.',sn:sn};
+    return {t:'cta',bg:{type:'gradient',gradient:'135deg,'+accent+','+secondary,textColor:'#FFFFFF'},eyebrow:bk.name||'VOTRE MARQUE',main:'Que pouvez-vous\nfaire maintenant\nsur '+topic+' ?',ctxt:'Proposez une action concrète en lien avec votre sujet.',pill:'PASSER À L’ACTION'};
   });
-  return {id:Date.now(),emoji:'✦',pilier:'IA',title:title,subtitle:'Généré à partir d’une idée',tag:'IA',brand:bk.name||'YOUR NAME - YOUR BRAND',accent:accent,post:'Une idée transformée en structure puis en slides.\n\n'+idea+'\n\n#Communication #Presentation #MyPrez',fontTitle:bk.titleFont,fontBody:bk.bodyFont,slides:slides};
 }
-function createAICarousel(){if(!_aiDraft){generateAIStructure();if(!_aiDraft)return;}histSave();var nc=mpGeneratedCarousel(_aiDraft);mpApplyBrandKit(nc,mpGetBrandKit());C.push(nc);ac=C.length-1;as=0;render();closeOverlay('ovAIGenerator');notif('Présentation générée à partir de votre idée ✓');}
+function mpNormalizeAIResponse(raw,d){
+  if(!raw)return null;
+  var data=raw;
+  if(typeof raw==='string'){try{data=JSON.parse(raw);}catch(e){return null;}}
+  if(data.data)data=data.data;
+  if(data.result)data=data.result;
+  if(!Array.isArray(data.slides))return null;
+  var bk=mpGetBrandKit(), primary=bk.primary||'#0D2B4E', secondary=bk.secondary||'#1B3F6E', accent=bk.accent||'#F05A1A';
+  var slides=data.slides.map(function(x,i){var t=x.t||x.type||'whiteContent',sn=String(i+1).padStart(2,'0');
+    if(t==='cover')return {t:'cover',bg:{type:'solid',color:primary,textColor:'#FFFFFF'},tag:x.tag||'IA',title:String(x.title||d.idea).toUpperCase(),sub:x.sub||x.subtitle||''};
+    if(t==='hook')return {t:'hook',bg:{type:'solid',color:'#060E1A',textColor:'#FFFFFF'},pill:x.pill||'LE CONSTAT',stmt:x.stmt||x.statement||'',stxt:x.stxt||x.text||'',sn:sn};
+    if(t==='step')return {t:'step',bg:{type:'solid',color:primary,textColor:'#FFFFFF'},pill:x.pill||x.title||'LA MÉTHODE',items:Array.isArray(x.items)?x.items.slice(0,5):[],sn:sn};
+    if(t==='chart')return {t:'chart',bg:{type:'solid',color:primary,textColor:'#FFFFFF'},pill:x.pill||'RÉSULTATS',chartKind:x.chartKind||'bar',items:Array.isArray(x.items)?x.items:[],sn:sn};
+    if(t==='quote')return {t:'quote',bg:{type:'solid',color:'#F4F4F2',textColor:primary},pill:x.pill||'À RETENIR',quote:x.quote||'',qsub:x.qsub||'',sn:sn};
+    if(t==='cta')return {t:'cta',bg:{type:'gradient',gradient:'135deg,'+accent+','+secondary,textColor:'#FFFFFF'},eyebrow:x.eyebrow||bk.name||'VOTRE MARQUE',main:x.main||x.title||'',ctxt:x.ctxt||x.text||'',pill:x.pill||'PASSER À L’ACTION'};
+    return {t:'whiteContent',bg:{type:'solid',color:'#F4F4F2',textColor:primary},pill:x.pill||x.title||'CONTENU',content:Array.isArray(x.content)?x.content.slice(0,4):[x.text||''],stmt:x.stmt||'',tip:x.tip||'',sn:sn};
+  });
+  return {id:Date.now(),emoji:'✦',pilier:'IA',title:data.title||mpTitleFromIdea(d.idea),subtitle:'Généré par IA à partir de votre idée',tag:'IA',brand:bk.name||'YOUR NAME - YOUR BRAND',accent:accent,post:data.post||('Présentation créée à partir de : '+d.idea),fontTitle:bk.titleFont,fontBody:bk.bodyFont,slides:slides};
+}
+async function mpCallAI(d,endpoint){
+  if(!endpoint)return null;
+  try{
+    localStorage.setItem('myprez_ai_endpoint',endpoint);
+    var prompt={task:'Créer un carrousel professionnel en français. Ne renvoie aucun placeholder générique. Rédige le texte réel de chaque slide en fonction du sujet fourni.',idea:d.idea,goal:d.goal,audience:d.audience,tone:d.tone,slides:d.structure.length,structure:d.structure,format:'My Prez',output:'JSON avec title, post et slides. Types autorisés: cover, hook, whiteContent, step, chart, quote, cta. Chaque slide doit contenir un texte réellement spécifique au sujet.'};
+    var resp=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(prompt)});
+    if(!resp.ok)throw new Error('HTTP '+resp.status);
+    return await resp.json();
+  }catch(e){console.warn('[My Prez IA]',e);return null;}
+}
+function renderAIStructure(d){
+  var wrap=document.getElementById('aiStructure');wrap.innerHTML=d.structure.map(function(x){return '<div class="ai-step"><div class="ai-step-num">'+x.n+'</div><div><div class="ai-step-title">'+mpEsc(x.title)+'</div><div class="ai-step-desc">'+mpEsc(x.desc)+'</div></div></div>';}).join('');
+  document.getElementById('aiStructureWrap').style.display='block';
+}
+async function generateAIStructure(){
+  var idea=mpCleanIdea(document.getElementById('aiIdea').value);if(!idea){notif('Décrivez d’abord votre idée.');return;}
+  var n=parseInt(document.getElementById('aiSlides').value,10), endpoint=(document.getElementById('aiEndpoint').value||'').trim();
+  _aiDraft={idea:idea,goal:document.getElementById('aiGoal').value,audience:document.getElementById('aiAudience').value,tone:document.getElementById('aiTone').value,structure:mpStructure(idea,document.getElementById('aiGoal').value,n)};
+  renderAIStructure(_aiDraft);
+  document.getElementById('aiCreateBtn').style.display='inline-block';
+  document.getElementById('aiStatus').textContent=endpoint?'Génération IA en cours…':'Structure éditoriale prête. Pour obtenir le texte réellement rédigé par une IA, configurez un endpoint IA compatible.';
+  if(endpoint){
+    var ai=await mpCallAI(_aiDraft,endpoint);
+    var normalized=mpNormalizeAIResponse(ai,_aiDraft);
+    if(normalized){_aiDraft.aiCarousel=normalized;document.getElementById('aiStatus').textContent='Contenu IA généré. Vous pourrez modifier chaque slide après création.';}
+    else document.getElementById('aiStatus').textContent='Le serveur IA n’a pas renvoyé le format attendu. La structure reste disponible.';
+  }
+}
+function createAICarousel(){
+  if(!_aiDraft){generateAIStructure();return;}
+  histSave();
+  var nc=_aiDraft.aiCarousel||mpNormalizeAIResponse(null,_aiDraft);
+  if(!nc){nc={id:Date.now(),emoji:'✦',pilier:'IA',title:mpTitleFromIdea(_aiDraft.idea),subtitle:'Structure éditoriale',tag:'IA',brand:mpGetBrandKit().name||'YOUR NAME - YOUR BRAND',slides:mpBuildFallbackSlides(_aiDraft),post:'Brouillon généré à partir de votre idée : '+_aiDraft.idea};}
+  mpApplyBrandKit(nc,mpGetBrandKit());
+  C.push(nc);ac=C.length-1;as=0;render();closeOverlay('ovAIGenerator');
+  notif(nc===_aiDraft.aiCarousel?'Présentation rédigée par IA ✓':'Présentation créée avec la structure éditoriale.');
+}
 
 /* Nouveaux carrousels : Brand Kit appliqué automatiquement. */
 (function(){
