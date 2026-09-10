@@ -5748,13 +5748,68 @@ function mpNormalizeAIResponse(raw,d){
 }
 async function mpCallAI(d,endpoint){
   if(!endpoint)return null;
+
   try{
     localStorage.setItem('myprez_ai_endpoint',endpoint);
-    var prompt={task:'Créer un carrousel professionnel en français. Ne renvoie aucun placeholder générique. Rédige le texte réel de chaque slide en fonction du sujet fourni.',idea:d.idea,goal:d.goal,audience:d.audience,tone:d.tone,slides:d.structure.length,structure:d.structure,format:'My Prez',output:'JSON avec title, post et slides. Types autorisés: cover, hook, whiteContent, step, chart, quote, cta. Chaque slide doit contenir un texte réellement spécifique au sujet.'};
-    var resp=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(prompt)});
-    if(!resp.ok)throw new Error('HTTP '+resp.status);
-    return await resp.json();
-  }catch(e){console.warn('[My Prez IA]',e);return null;}
+
+    var licenseKey =
+      (typeof window.myprezGetLicenseKey==='function')
+        ? window.myprezGetLicenseKey()
+        : '';
+
+    var prompt = {
+      key: licenseKey,
+      task: 'Créer un carrousel professionnel en français. Ne renvoie aucun placeholder générique. Rédige le texte réel de chaque slide en fonction du sujet fourni.',
+      idea: d.idea,
+      goal: d.goal,
+      audience: d.audience,
+      tone: d.tone,
+      slides: d.structure.length,
+      structure: d.structure,
+      format: 'My Prez',
+      output: 'JSON avec title, post et slides. Types autorisés: cover, hook, whiteContent, step, chart, quote, cta. Chaque slide doit contenir un texte réellement spécifique au sujet.'
+    };
+
+    var resp = await fetch(endpoint,{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json'
+      },
+      body:JSON.stringify(prompt)
+    });
+    var rawText = await resp.text();
+    console.log('[My Prez IA] HTTP',resp.status);
+    console.log('[My Prez IA] Réponse brute',rawText);
+    var data = null;
+    try{
+      data = rawText ? JSON.parse(rawText) : null;
+    }catch(parseErr){
+      throw new Error(
+        'Le serveur a renvoyé une réponse qui n’est pas du JSON : ' +
+        rawText.slice(0,300)
+      );
+    }
+    if(!resp.ok){
+      throw new Error(
+        (data && data.error)
+          ? data.error
+          : 'Erreur serveur HTTP '+resp.status
+      );
+    }
+    if(!data){
+      throw new Error('Le serveur a renvoyé une réponse vide.');
+    }
+    return data;
+  }catch(e){
+    console.error('[My Prez IA] ERREUR',e);
+    var status =
+      document.getElementById('aiStatus');
+    if(status){
+      status.textContent =
+        'Erreur IA : ' + e.message;
+    }
+    return null;
+  }
 }
 function renderAIStructure(d){
   var wrap=document.getElementById('aiStructure');wrap.innerHTML=d.structure.map(function(x){return '<div class="ai-step"><div class="ai-step-num">'+x.n+'</div><div><div class="ai-step-title">'+mpEsc(x.title)+'</div><div class="ai-step-desc">'+mpEsc(x.desc)+'</div></div></div>';}).join('');
