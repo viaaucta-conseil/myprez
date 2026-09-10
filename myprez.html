@@ -3079,8 +3079,6 @@ function renderCarTab2(){
   document.getElementById('carTag').value=c.tag||'';
   document.getElementById('carPilier').value=c.pilier||'';
   var acc=c.accent||'#F05A1A';
-  document.getElementById('accentColor').value=acc;
-  document.getElementById('accentHex').value=acc;
   // Obar + dot
   var ob=c.obar||{};
   var obarColor=ob.color||acc;
@@ -5608,7 +5606,23 @@ function openLegalModal(title, html){
     </div>
   </div>
 </div>
-
+<!-- ═══ POPUP DE PROGRESSION — GÉNÉRATION IA ═══ -->
+<div class="overlay" id="ovAIProgress">
+  <div class="modal" style="max-width:440px">
+    <div class="modal-hdr">
+      <span class="modal-title">✦ GÉNÉRATION IA</span>
+    </div>
+    <div id="aiProgressWorking" class="export-loading">
+      <div class="spinner"></div>
+      <p id="aiProgressTxt">L'IA rédige votre contenu, merci de patienter…</p>
+    </div>
+    <div id="aiProgressDone" style="display:none;text-align:center;padding:20px 0">
+      <div style="font-size:40px;margin-bottom:12px" id="aiProgressIcon">✅</div>
+      <p id="aiProgressDoneTxt" style="font-size:13px;color:var(--text-1);line-height:1.6;margin-bottom:20px">Le post et les slides ont été générés avec succès !</p>
+      <button class="tbtn tbtn-orange" style="width:100%" onclick="closeOverlay('ovAIProgress')">OK</button>
+    </div>
+  </div>
+</div>
 
 <script>
 /* ═══════════════════════════════════════════
@@ -5686,8 +5700,14 @@ function mpApplyBrandKit(c,d){
 function saveBrandKit(apply){
   var d={name:document.getElementById('bkName').value.trim(),logo:_bkLogo,primary:document.getElementById('bkPrimary').value,secondary:document.getElementById('bkSecondary').value,accent:document.getElementById('bkAccent').value,titleFont:document.getElementById('bkTitleFont').value,bodyFont:document.getElementById('bkBodyFont').value};
   if(!mpSaveBrandKit(d)){notif('Impossible d’enregistrer le Brand Kit (stockage local plein).');return;}
-  if(apply){histSave();mpApplyBrandKit(car(),d);render();notif('Brand Kit appliqué au carrousel actuel ✓');}
-  else notif('Brand Kit enregistré ✓');
+  if(apply){
+    histSave();
+    mpApplyBrandKit(car(),d);
+    render();
+    notif('Brand Kit appliqué au carrousel actuel ✓');
+  } else {
+    notif('Brand Kit enregistré ✓');
+  }
   closeOverlay('ovBrandKit');
 }
 function mpApplySavedBrandToCurrent(){var d=mpGetBrandKit();if(d.name||d.logo||d.primary||d.accent)mpApplyBrandKit(car(),d);}
@@ -5706,6 +5726,7 @@ function openAIGenerator(){
   document.getElementById('aiStructureWrap').style.display='none';
   document.getElementById('aiCreateBtn').style.display='none';
   document.getElementById('aiStatus').textContent='';
+  document.getElementById('ovAIProgress').classList.remove('open'); // ← ajout
   try{document.getElementById('aiEndpoint').value=localStorage.getItem('myprez_ai_endpoint')||'';}catch(e){}
   document.getElementById('ovAIGenerator').classList.add('open');
   setTimeout(function(){document.getElementById('aiIdea').focus();},100);
@@ -5862,14 +5883,39 @@ async function generateAIStructure(){
   _aiDraft={idea:idea,goal:document.getElementById('aiGoal').value,audience:document.getElementById('aiAudience').value,tone:document.getElementById('aiTone').value,structure:mpStructure(idea,document.getElementById('aiGoal').value,n)};
   renderAIStructure(_aiDraft);
   document.getElementById('aiCreateBtn').style.display='inline-block';
-  document.getElementById('aiStatus').textContent=endpoint?'Génération IA en cours…':'Structure éditoriale prête. Pour obtenir le texte réellement rédigé par une IA, configurez un endpoint IA compatible.';
-  if(endpoint){
-    var ai=await mpCallAI(_aiDraft,endpoint);
-    var normalized=mpNormalizeAIResponse(ai,_aiDraft);
-    if(normalized){_aiDraft.aiCarousel=normalized;document.getElementById('aiStatus').textContent='Contenu IA généré. Vous pourrez modifier chaque slide après création.';}
-    else document.getElementById('aiStatus').textContent='Le serveur IA n’a pas renvoyé le format attendu. La structure reste disponible.';
+  document.getElementById('aiStatus').textContent='';
+
+  if(!endpoint){
+    document.getElementById('aiStatus').textContent='Structure éditoriale prête. Pour obtenir le texte réellement rédigé par une IA, configurez un endpoint IA compatible.';
+    return;
+  }
+
+  openAIProgress();
+  var ai=await mpCallAI(_aiDraft,endpoint);
+  var normalized=mpNormalizeAIResponse(ai,_aiDraft);
+  if(normalized){
+    _aiDraft.aiCarousel=normalized;
+    document.getElementById('aiStatus').textContent='Contenu IA généré. Vous pourrez modifier chaque slide après création.';
+    finishAIProgress(true,'Le post et les slides ont été générés avec succès !');
+  } else {
+    document.getElementById('aiStatus').textContent='Le serveur IA n’a pas renvoyé le format attendu. La structure reste disponible.';
+    finishAIProgress(false,'La génération IA a échoué — la structure éditoriale reste disponible, vous pouvez tout de même créer les slides.');
   }
 }
+	
+function openAIProgress(){
+  document.getElementById('aiProgressWorking').style.display='block';
+  document.getElementById('aiProgressDone').style.display='none';
+  document.getElementById('aiProgressTxt').textContent='L\'IA rédige votre contenu, merci de patienter…';
+  document.getElementById('ovAIProgress').classList.add('open');
+}
+function finishAIProgress(success,msg){
+  document.getElementById('aiProgressWorking').style.display='none';
+  document.getElementById('aiProgressIcon').textContent = success ? '✅' : '⚠️';
+  document.getElementById('aiProgressDoneTxt').textContent = msg;
+  document.getElementById('aiProgressDone').style.display='block';
+}
+	
 function createAICarousel(){
   if(!_aiDraft){generateAIStructure();return;}
   histSave();
