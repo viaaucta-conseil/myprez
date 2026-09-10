@@ -5348,7 +5348,10 @@ viaauctaconseil@gmail.com
   window.licActivate = licActivate;
   window.licShowInfo = licShowInfo;
   window.licLogout   = licLogout;
-})();
+window.myprezGetLicenseKey = function(){
+  try { return localStorage.getItem(STORAGE_KEY) || ''; }
+  catch(e){ return ''; }
+};
 
 
 // ═══ MENTIONS LÉGALES + WATERMARK ═══
