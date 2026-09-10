@@ -5738,14 +5738,15 @@ function mpNormalizeAIResponse(raw,d){
   if(data.result)data=data.result;
   if(!Array.isArray(data.slides))return null;
   var bk=mpGetBrandKit(), primary=bk.primary||'#0D2B4E', secondary=bk.secondary||'#1B3F6E', accent=bk.accent||'#F05A1A';
-  var slides=data.slides.map(function(x,i){var t=x.t||x.type||'whiteContent',sn=String(i+1).padStart(2,'0');
-    if(t==='cover')return {t:'cover',bg:{type:'solid',color:primary,textColor:'#FFFFFF'},tag:x.tag||'IA',title:String(x.title||d.idea).toUpperCase(),sub:x.sub||x.subtitle||''};
-    if(t==='hook')return {t:'hook',bg:{type:'solid',color:'#060E1A',textColor:'#FFFFFF'},pill:x.pill||'LE CONSTAT',stmt:x.stmt||x.statement||'',stxt:x.stxt||x.text||'',sn:sn};
-    if(t==='step')return {t:'step',bg:{type:'solid',color:primary,textColor:'#FFFFFF'},pill:x.pill||x.title||'LA MÉTHODE',items:Array.isArray(x.items)?x.items.slice(0,5):[],sn:sn};
-    if(t==='chart')return {t:'chart',bg:{type:'solid',color:primary,textColor:'#FFFFFF'},pill:x.pill||'RÉSULTATS',chartKind:x.chartKind||'bar',items:Array.isArray(x.items)?x.items:[],sn:sn};
-    if(t==='quote')return {t:'quote',bg:{type:'solid',color:'#F4F4F2',textColor:primary},pill:x.pill||'À RETENIR',quote:x.quote||'',qsub:x.qsub||'',sn:sn};
-    if(t==='cta')return {t:'cta',bg:{type:'gradient',gradient:'135deg,'+accent+','+secondary,textColor:'#FFFFFF'},eyebrow:x.eyebrow||bk.name||'VOTRE MARQUE',main:x.main||x.title||'',ctxt:x.ctxt||x.text||'',pill:x.pill||'PASSER À L’ACTION'};
-    return {t:'whiteContent',bg:{type:'solid',color:'#F4F4F2',textColor:primary},pill:x.pill||x.title||'CONTENU',content:Array.isArray(x.content)?x.content.slice(0,4):[x.text||''],stmt:x.stmt||'',tip:x.tip||'',sn:sn};
+  var slides=data.slides.map(function(x,i){
+    var t=x.t||x.type||'whiteContent', sn=String(i+1).padStart(2,'0');
+    var title=x.title||'', body=x.body||'', label=x.label||'';
+    if(t==='cover')return {t:'cover',bg:{type:'solid',color:primary,textColor:'#FFFFFF'},tag:label||'IA',title:title.toUpperCase(),sub:body};
+    if(t==='hook')return {t:'hook',bg:{type:'solid',color:'#060E1A',textColor:'#FFFFFF'},pill:label||'LE CONSTAT',stmt:title,stxt:body,sn:sn};
+    if(t==='step')return {t:'step',bg:{type:'solid',color:primary,textColor:'#FFFFFF'},pill:label||'LA MÉTHODE',items:[{n:'01',title:title,sub:body}],sn:sn};
+    if(t==='quote')return {t:'quote',bg:{type:'solid',color:'#F4F4F2',textColor:primary},pill:label||'À RETENIR',quote:body,qsub:title,sn:sn};
+    if(t==='cta')return {t:'cta',bg:{type:'gradient',gradient:'135deg,'+accent+','+secondary,textColor:'#FFFFFF'},eyebrow:label||bk.name||'VOTRE MARQUE',main:title,ctxt:body,pill:label||'PASSER À L’ACTION'};
+    return {t:'whiteContent',bg:{type:'solid',color:'#F4F4F2',textColor:primary},pill:label||title,content:[body],stmt:'',tip:'',sn:sn};
   });
   return {id:Date.now(),emoji:'✦',pilier:'IA',title:data.title||mpTitleFromIdea(d.idea),subtitle:'Généré par IA à partir de votre idée',tag:'IA',brand:bk.name||'YOUR NAME - YOUR BRAND',accent:accent,post:data.post||('Présentation créée à partir de : '+d.idea),fontTitle:bk.titleFont,fontBody:bk.bodyFont,slides:slides};
 }
