@@ -5766,7 +5766,7 @@ function mpNormalizeAIResponse(raw,d){
     if(t==='step')return {t:'step',bg:{type:'solid',color:primary,textColor:'#FFFFFF'},pill:label||'LA MÉTHODE',items:[{n:'01',title:mpClamp(title,60),sub:mpClamp(body,140)}],sn:sn};
     if(t==='quote')return {t:'quote',bg:{type:'solid',color:'#F4F4F2',textColor:primary},pill:label||'À RETENIR',quote:mpClamp(body,110),qsub:mpClamp(title,90),sn:sn};
     if(t==='cta')return {t:'cta',bg:{type:'gradient',gradient:'135deg,'+accent+','+secondary,textColor:'#FFFFFF'},eyebrow:label||bk.name||'VOTRE MARQUE',main:mpClamp(title,60),ctxt:mpClamp(body,120),pill:label||'PASSER À L’ACTION'};
-    return {t:'whiteContent',bg:{type:'solid',color:'#F4F4F2',textColor:primary},pill:label||title,content:[mpClamp(body,220)],stmt:'',tip:'',sn:sn};
+    return {t:'whiteContent',bg:{type:'solid',color:'#F4F4F2',textColor:primary},pill:label||title,content:[mpClamp(body,300)],stmt:'',tip:'',sn:sn};
   });
   var post = mpPickPost(data.post, data.title, coverTitleRaw, d.idea);
   return {id:Date.now(),emoji:'✦',pilier:'IA',title:data.title||mpTitleFromIdea(d.idea),subtitle:'Généré par IA à partir de votre idée',tag:'IA',brand:bk.name||'YOUR NAME - YOUR BRAND',accent:accent,post:post,fontTitle:bk.titleFont,fontBody:bk.bodyFont,slides:slides};
