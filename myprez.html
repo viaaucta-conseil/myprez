@@ -864,7 +864,9 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 .brandkit-color input[type=color]{width:30px;height:30px;border:0;padding:0;background:none;cursor:pointer}
 .brandkit-logo{display:flex;align-items:center;gap:10px;padding:10px;border:1px dashed var(--border);border-radius:8px;background:var(--surface-1)}
 .brandkit-logo img{width:48px;height:48px;object-fit:cover;border-radius:8px;border:1px solid var(--border)}
-.brandkit-logo-placeholder{width:48px;height:48px;border-radius:8px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px}
+.brandkit-logo-placeholder{width:64px;height:64px;border-radius:8px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;flex-shrink:0;overflow:hidden;transition:opacity .15s,transform .15s}
+.brandkit-logo-placeholder:hover{opacity:.85;transform:scale(1.03)}
+.brandkit-logo-placeholder img{width:100%;height:100%;object-fit:cover;border-radius:8px}
 .ai-structure{display:flex;flex-direction:column;gap:8px;margin-top:12px;max-height:330px;overflow:auto}
 .ai-step{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border:1px solid var(--border);border-radius:8px;background:var(--surface-1)}
 .ai-step-num{width:26px;height:26px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0}
@@ -942,7 +944,6 @@ input,textarea,select{font-family:var(--app-font);outline:none}
         <button onclick="closeMoreMenu();saveJSON()">💾 Sauvegarder</button>
         <button onclick="closeMoreMenu();openVersionHistoryModal()">🕒 Historique des versions</button>
         <button onclick="closeMoreMenu();openImageLibrary(null)">🖼 Bibliothèque d'images</button>
-        <button onclick="closeMoreMenu();openWelcome()">⌂ Nouvel accueil</button>
         <button id="licMenuBtn" style="display:none" onclick="closeMoreMenu();licShowInfo()">🔑 <span id="licMenuLabel">Licence</span></button>
         <button id="licLogoutMenuBtn" style="display:none;color:#EF4444" onclick="closeMoreMenu();licLogout()">🔓 Déconnexion</button>
       </div>
@@ -2683,7 +2684,7 @@ function renderTabs(){
       +'<span class="ctab-del" onclick="event.stopPropagation();delCar('+i+')">✕</span>'
       +'</div>';
   }
-  h+='<div class="ctab ctab-new" onclick="addCar()">+ Nouveau carrousel</div>';
+  h+='<div class="ctab ctab-new" onclick="openWelcome()">+ Nouveau carrousel</div>';
   document.getElementById('tabsCarousels').innerHTML=h;
   setTimeout(function(){
     updateTabsScrollButtons();
@@ -5468,7 +5469,7 @@ function openLegalModal(title, html){
     <button type="button" class="mobile-side-btn" onclick="toggleMobileCarMenu(event)" title="Carrousels ouverts">📚</button>
     <div class="export-menu" id="mobileCarMenu"></div>
   </div>
-  <button type="button" class="mobile-side-btn" onclick="addCar()" title="Nouveau carrousel">➕</button>
+  <button type="button" class="mobile-side-btn" onclick="openWelcome()" title="Nouveau carrousel">➕</button>
   <div id="mobileSidebarAnchor"></div>
   <button type="button" class="mobile-tab-btn on" data-panel="edit" onclick="setMobilePanel('edit')">
     <span>✏️</span><span>Éditer</span>
@@ -5534,7 +5535,7 @@ function openLegalModal(title, html){
         <div class="field"><label>Nom de marque</label><input class="einp2" id="bkName" placeholder="Votre nom ou entreprise"/></div>
         <div class="field"><label>Logo</label>
           <div class="brandkit-logo">
-            <div id="bkLogoPreview" class="brandkit-logo-placeholder">◈</div>
+            <div id="bkLogoPreview" class="brandkit-logo-placeholder" onclick="document.getElementById('bkLogoInput').click()" title="Cliquez pour choisir un logo">◈</div>
             <div style="flex:1"><input type="file" id="bkLogoInput" accept="image/*" style="display:none" onchange="loadBrandKitLogo(event)"/><button class="tbtn tbtn-gray" onclick="document.getElementById('bkLogoInput').click()">Choisir un logo</button><div class="field-hint">PNG, JPG ou WebP · 2 Mo max</div></div>
             <button class="logo-remove-btn" onclick="removeBrandKitLogo()">✕</button>
           </div>
@@ -5629,7 +5630,6 @@ function openLegalModal(title, html){
    V2 — ACCUEIL / BRAND KIT / GÉNÉRATION DE CONTENU
 ═══════════════════════════════════════════ */
 var MP_BRAND_KEY = 'myprez_brand_kit_v1';
-var MP_WELCOME_KEY = 'myprez_welcome_v2_done';
 var _aiDraft = null;
 var _bkLogo = null;
 
@@ -5660,7 +5660,7 @@ function mpRenderBrandKit(){
   var a=document.getElementById('bkPreviewAccent');if(a){a.textContent=(d.name||'VOTRE MARQUE').toUpperCase();a.style.color=d.accent;}
   var t=document.getElementById('bkPreviewTitle');if(t)t.style.fontFamily=d.titleFont;
   var l=document.getElementById('bkPreviewLine');if(l)l.style.background=d.accent;
-  var lp=document.getElementById('bkLogoPreview');if(lp){lp.innerHTML=_bkLogo?'<img src="'+_bkLogo+'" style="width:48px;height:48px;object-fit:cover;border-radius:8px">':'◈';}
+  var lp=document.getElementById('bkLogoPreview');if(lp){lp.innerHTML=_bkLogo?'<img src="'+_bkLogo+'">':'◈';}
 }
 ['bkName','bkPrimary','bkSecondary','bkAccent','bkTitleFont'].forEach(function(id){document.addEventListener('input',function(e){if(e.target&&e.target.id===id)mpRenderBrandKit();});});
 function loadBrandKitLogo(e){var f=e.target.files[0];if(!f)return;if(f.size>2*1024*1024){notif('Logo trop lourd — max 2 Mo');return;}var r=new FileReader();r.onload=function(ev){_bkLogo=ev.target.result;mpRenderBrandKit();};r.readAsDataURL(f);e.target.value='';}
@@ -5713,10 +5713,20 @@ function saveBrandKit(apply){
 function mpApplySavedBrandToCurrent(){var d=mpGetBrandKit();if(d.name||d.logo||d.primary||d.accent)mpApplyBrandKit(car(),d);}
 
 /* Accueil */
-function closeWelcome(){var o=document.getElementById('welcomeOverlay');if(o)o.classList.remove('open');try{localStorage.setItem(MP_WELCOME_KEY,'1');}catch(e){}}
+var _welcomeShownThisLoad = false;
+
+function closeWelcome(){var o=document.getElementById('welcomeOverlay');if(o)o.classList.remove('open');}
 function openWelcome(){var o=document.getElementById('welcomeOverlay');if(o)o.classList.add('open');}
 function welcomeChoose(mode){closeWelcome();if(mode==='template'){openTemplatesModal();return;}if(mode==='ai'){openAIGenerator();return;}if(mode==='blank'){if(typeof addCar==='function')addCar();}}
-function mpMaybeShowWelcome(){try{if(localStorage.getItem(MP_WELCOME_KEY))return;}catch(e){}var lic=document.getElementById('lic-overlay');if(!lic||lic.style.display==='none'){try{localStorage.setItem(TUTORIAL_KEY,'1');}catch(e){}setTimeout(openWelcome,250);}}
+function mpMaybeShowWelcome(){
+  if(_welcomeShownThisLoad) return;
+  var lic=document.getElementById('lic-overlay');
+  if(!lic||lic.style.display==='none'){
+    _welcomeShownThisLoad=true;
+    try{localStorage.setItem(TUTORIAL_KEY,'1');}catch(e){}
+    setTimeout(openWelcome,250);
+  }
+}
 window.addEventListener('load',function(){setTimeout(mpMaybeShowWelcome,1200);var lic=document.getElementById('lic-overlay');if(lic){new MutationObserver(function(){mpMaybeShowWelcome();}).observe(lic,{attributes:true,attributeFilter:['style','class']});}});
 
 /* Génération : idée → structure → slides. */
