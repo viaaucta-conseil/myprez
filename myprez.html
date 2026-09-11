@@ -970,7 +970,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
   <div class="spacer"></div>
   <div class="ctab ctab-custom" id="templatesTabBtn" onclick="openTemplatesModal()" title="Trames prêtes à l'emploi par pilier">📐 <span class="btn-label">Templates</span></div>
   <div class="ctab ctab-custom" id="iconsTabBtn" onclick="openIconModal()" title="Bibliothèque d'icônes">🎨 <span class="btn-label">Icônes</span></div>
-  <div class="ctab ctab-custom" id="customTabBtn" onclick="openCustomModal()" title="Personnaliser l'interface">⚙ <span class="btn-label">Customisation</span></div>
+  <div class="ctab ctab-custom" id="customTabBtn" onclick="openCustomModal()" title="Personnaliser l'interface">⚙ <span class="btn-label">Personnaliser</span></div>
   <div class="ctab ctab-custom" id="tutorialTabBtn" onclick="startTutorial()" title="Revoir le tutoriel de prise en main">❓ <span class="btn-label">Tutoriel</span></div>
 </div>
 
@@ -1490,7 +1490,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
       <span class="modal-title">🕒 HISTORIQUE DES VERSIONS</span>
       <button class="modal-close" onclick="closeOverlay('ovVersionHistory')">✕ Fermer</button>
     </div>
-    <div class="notice">Une version est enregistrée automatiquement toutes les quelques minutes pendant que vous travaillez, et juste avant la fermeture de l'onglet. Restaurer une version remplace l'état actuel de tous vos carrousels — sauvegardez en JSON avant si vous voulez garder une trace du travail en cours.</div>
+    <div class="notice">Une version est enregistrée automatiquement toutes les quelques minutes pendant que vous travaillez, et juste avant la fermeture de l'onglet. Restaurer une version remplace l'état actuel de tous vos carrousels — sauvegardez au format JSON avant si vous voulez garder une trace du travail en cours.</div>
     <div style="display:flex;justify-content:flex-end;margin-bottom:10px">
       <button class="tbtn tbtn-orange" style="font-size:10px;padding:5px 12px" onclick="maybeSnapshotVersion(true);renderVersionHistoryList()">📌 Enregistrer une version maintenant</button>
     </div>
@@ -1501,7 +1501,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 <div class="overlay" id="ovCustom">
   <div class="modal" style="max-width:520px">
     <div class="modal-hdr">
-      <span class="modal-title">⚙ CUSTOMISATION DE L'INTERFACE</span>
+      <span class="modal-title">⚙ PERSONNALISATION DE L'INTERFACE</span>
       <button class="modal-close" onclick="closeOverlay('ovCustom')">✕ Fermer</button>
     </div>
 
@@ -1645,7 +1645,7 @@ var TEMPLATES = [
       slides:[
         {t:'cover',bg:{type:'solid',color:'#0D2B4E',textColor:'#FFFFFF'},tag:'BUSINESS',title:'LANCEZ VOTRE\nOFFRE AVEC IMPACT',sub:'Un carrousel type pour présenter un nouveau produit ou service'},
         {t:'hook',bg:{type:'solid',color:'#060E1A',textColor:'#FFFFFF'},pill:'LE CONSTAT',stmt:'La plupart des lancements\npassent inaperçus\nfaute de <em>narration claire.</em>',stxt:'Ce template structure votre annonce en six temps pour capter, convaincre, convertir.',sn:'02'},
-        {t:'whiteContent',bg:{type:'solid',color:'#F4F4F2',textColor:'#0D2B4E'},pill:'LE PROBLÈME',content:['Décrivez ici le problème concret que rencontre votre cible avant votre solution.','Un second paragraphe pour approfondir le contexte et créer de la tension.'],stmt:'Ce problème mérite\nune vraie solution.\n<em>La voici.</em>',tip:'',sn:'03'},
+        {t:'whiteContent',bg:{type:'solid',color:'#F4F4F2',textColor:'#0D2B4E'},pill:'LE PROBLÈME',content:['Décrivez ici le problème concret que rencontre votre cible avant votre solution.','Un second paragraphe pour approfondir le contexte et générer de la tension.'],stmt:'Ce problème mérite\nune vraie solution.\n<em>La voici.</em>',tip:'',sn:'03'},
         {t:'step',bg:{type:'solid',color:'#0D2B4E',textColor:'#FFFFFF'},pill:'VOTRE OFFRE EN 3 POINTS',items:[{n:'01',title:'Bénéfice clé n°1',sub:'Décrivez le premier avantage concret.'},{n:'02',title:'Bénéfice clé n°2',sub:'Décrivez le second avantage.'},{n:'03',title:'Bénéfice clé n°3',sub:'Décrivez le troisième avantage.'}],sn:'04'},
         {t:'table',bg:{type:'solid',color:'#F4F4F2',textColor:'#0D2B4E'},pill:'COMPARATIF',columns:['Critère','Avant','Avec notre offre'],rows:[['Critère 1','—','✔️'],['Critère 2','—','✔️'],['Critère 3','—','✔️']],sn:'05'},
         {t:'quote',bg:{type:'solid',color:'#F4F4F2',textColor:'#0D2B4E'},pill:'TÉMOIGNAGE',quote:'« Un retour client\nfort et concis\nà placer <em>ici. »</em>',qsub:'Nom, fonction, entreprise du client',sn:'06'},
@@ -4252,7 +4252,7 @@ function loadFile(e){
     try{
       var d=JSON.parse(ev.target.result);
       if(Array.isArray(d)&&d.length){C=d;ac=0;as=0;render();notif(d.length+' carrousel(s) chargé(s) !');}
-      else alert('Format JSON non reconnu.');
+      else alert('Format non reconnu.');
     }catch(err){alert('Fichier JSON invalide : '+err.message);}
   };
   r.readAsText(f);e.target.value='';
@@ -4677,7 +4677,7 @@ var TUTORIAL_KEY = 'myprez_tutorial_done';
 var TUTORIAL_STEPS = [
   { target:null,
     title:"Bienvenue dans My Prez 👋",
-    text:"Cet outil permet de créer des carrousels et présentations professionnels en quelques clics. Ce petit tour vous présente les sections principales. Vous pourrez le revoir à tout moment via le bouton ❓ Tutoriel." },
+    text:"Cet outil permet de générer des carrousels et présentations professionnels en quelques clics. Ce tutoriel vous présente les sections principales. Vous pourrez le revoir à tout moment via le bouton ❓ Tutoriel." },
   { target:'#fmtDropdown',
     title:"Choisissez votre format",
     text:"LinkedIn Carré, Vertical ou Horizontal, Facebook, Instagram Portrait, TikTok, ou PDF A4 — tous regroupés dans ce menu déroulant. Le format s'applique à l'aperçu et à l'export final." },
@@ -5489,28 +5489,28 @@ function openLegalModal(title, html){
   <div class="welcome-card">
     <div class="welcome-head">
       <div class="welcome-kicker">MY PREZ</div>
-      <div class="welcome-title">Que voulez-vous créer ?</div>
+      <div class="welcome-title">Que voulez-vous concevoir aujourd'hui ?</div>
       <div class="welcome-sub">Choisissez votre point de départ. Vous pourrez ensuite personnaliser votre contenu, votre identité visuelle et vos slides.</div>
     </div>
     <div class="welcome-body">
       <div class="welcome-choices">
         <button class="welcome-choice" onclick="welcomeChoose('template')">
           <div class="welcome-choice-icon">📐</div>
-          <div class="welcome-choice-title">Créer avec un modèle</div>
+          <div class="welcome-choice-title">Construire avec un modèle</div>
           <div class="welcome-choice-desc">Partez d'une structure métier déjà pensée : offre, pitch, onboarding, méthode, communication...</div>
-          <div class="welcome-choice-cta">Voir les modèles →</div>
+          <div class="welcome-choice-cta">Voir les modèles</div>
         </button>
         <button class="welcome-choice" onclick="welcomeChoose('ai')">
           <div class="welcome-choice-icon">✦</div>
-          <div class="welcome-choice-title">Créer avec l'IA</div>
+          <div class="welcome-choice-title">Elaborer avec l'IA</div>
           <div class="welcome-choice-desc">Décrivez votre sujet. L'IA rédige le message, construit la structure et remplit les slides avec un contenu adapté à votre sujet.</div>
-          <div class="welcome-choice-cta">Partir d'une idée →</div>
+          <div class="welcome-choice-cta">Partir d'une idée</div>
         </button>
         <button class="welcome-choice" onclick="welcomeChoose('blank')">
           <div class="welcome-choice-icon">＋</div>
-          <div class="welcome-choice-title">Créer à partir de zéro</div>
+          <div class="welcome-choice-title">Imaginer à partir de zéro</div>
           <div class="welcome-choice-desc">Commencez avec une présentation vierge et composez vos slides comme vous le souhaitez.</div>
-          <div class="welcome-choice-cta">Créer une présentation →</div>
+          <div class="welcome-choice-cta">Je me lance !</div>
         </button>
       </div>
       <div class="welcome-foot">
@@ -5577,7 +5577,7 @@ function openLegalModal(title, html){
 <div class="overlay" id="ovAIGenerator">
   <div class="modal" style="max-width:760px">
     <div class="modal-hdr">
-      <span class="modal-title">✦ CRÉER AVEC L'IA</span>
+      <span class="modal-title">ÉLABORER AVEC L'IA</span>
       <button class="modal-close" onclick="closeOverlay('ovAIGenerator')">✕ Fermer</button>
     </div>
     <div class="notice"><strong>Idée → structure → slides.</strong> My Prez peut utiliser un endpoint IA compatible pour rédiger réellement le contenu de chaque slide. Sans endpoint configuré, le mode de secours produit uniquement une structure éditoriale et l'indique clairement.</div>
@@ -5593,7 +5593,7 @@ function openLegalModal(title, html){
     <div class="field" style="margin-top:6px">
       <label>Connexion IA</label>
       <input class="einp2" id="aiEndpoint" placeholder="https://votre-domaine/api/myprez-ai"/>
-      <div class="field-hint">Le serveur doit accepter POST JSON et renvoyer un objet <code>{structure, slides, post}</code>. La clé API ne doit jamais être placée dans ce fichier HTML.</div>
+      <div class="field-hint">Le serveur doit accepter un POST au format JSON et renvoyer un objet <code>{structure, slides, post}</code>. La clé API ne doit jamais être placée dans ce fichier HTML.</div>
     </div>
     <div id="aiStructureWrap" style="display:none">
       <div class="sec-title" style="margin-top:14px">Structure proposée</div>
@@ -5603,7 +5603,7 @@ function openLegalModal(title, html){
     <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:18px;padding-top:14px;border-top:1px solid var(--border)">
       <button class="tbtn tbtn-gray" onclick="closeOverlay('ovAIGenerator')">Annuler</button>
       <button class="tbtn tbtn-blue" onclick="generateAIStructure()">1. Générer la structure</button>
-      <button class="tbtn tbtn-orange" id="aiCreateBtn" style="display:none" onclick="createAICarousel()">2. Créer les slides</button>
+      <button class="tbtn tbtn-orange" id="aiCreateBtn" style="display:none" onclick="createAICarousel()">2. Réaliser les slides</button>
     </div>
   </div>
 </div>
@@ -5756,7 +5756,7 @@ function mpStructure(idea,goal,n){
     expertise:[['cover','Le sujet','Installer le sujet et la promesse.'],['hook','Le problème concret','Nommer ce qui bloque réellement votre audience.'],['whiteContent','Ce qu’il faut comprendre','Apporter les mécanismes, faits ou observations utiles.'],['step','La méthode','Transformer l’analyse en étapes applicables.'],['quote','L’idée forte','Formuler la conclusion que le lecteur doit retenir.'],['cta','La suite','Proposer une action cohérente avec le sujet.']],
     sell:[['cover','La promesse','Dire précisément ce que votre offre permet d’obtenir.'],['hook','Le problème coûteux','Montrer le coût ou la conséquence du problème.'],['whiteContent','Votre réponse','Expliquer comment votre offre répond à ce problème.'],['step','Les bénéfices','Montrer trois bénéfices concrets et distincts.'],['quote','La preuve','Ajouter un résultat, une preuve ou un témoignage.'],['cta','L’étape suivante','Inviter à prendre contact, demander une démo ou essayer.']],
     educate:[['cover','Ce que vous allez apprendre','Promesse pédagogique précise.'],['hook','L’erreur fréquente','Montrer la confusion ou le mauvais réflexe courant.'],['step','La méthode','Donner un processus mémorisable.'],['whiteContent','Un exemple','Appliquer le principe au sujet donné.'],['quote','Le principe clé','Résumer l’enseignement.'],['cta','À vous de jouer','Donner une première action simple.']],
-    opinion:[['cover','Votre position','Énoncer clairement la thèse.'],['hook','L’idée reçue','Créer une tension avec ce que l’audience pense déjà.'],['whiteContent','Vos arguments','Présenter les faits et raisonnements qui soutiennent la position.'],['step','Votre raisonnement','Dérouler trois arguments.'],['quote','La phrase à retenir','Condensez la thèse en une phrase.'],['cta','Ouvrir le débat','Inviter à réagir ou à confronter les points de vue.']],
+    opinion:[['cover','Votre position','Énoncer clairement la thèse.'],['hook','L’idée reçue','Générer une tension avec ce que l’audience pense déjà.'],['whiteContent','Vos arguments','Présenter les faits et raisonnements qui soutiennent la position.'],['step','Votre raisonnement','Dérouler trois arguments.'],['quote','La phrase à retenir','Condensez la thèse en une phrase.'],['cta','Ouvrir le débat','Inviter à réagir ou à confronter les points de vue.']],
     case:[['cover','Le cas client','Présenter le contexte et l’objectif.'],['hook','Le point de départ','Décrire le problème initial.'],['step','Ce qui a été fait','Présenter les actions réellement menées.'],['chart','Le résultat','Mettre en avant les indicateurs disponibles.'],['quote','Le retour','Faire ressortir un enseignement ou une parole client.'],['cta','Et maintenant ?','Montrer comment passer à une situation similaire.']]
   };
   var a=structures[goal]||structures.expertise;
@@ -5839,7 +5839,7 @@ async function mpCallAI(d,endpoint){
       slides: d.structure.length,
       structure: d.structure,
       format: 'My Prez',
-      output: 'JSON avec title, post et slides. Types autorisés: cover, hook, whiteContent, step, chart, quote, cta. Chaque slide doit contenir un texte réellement spécifique au sujet.'
+      output: 'Format JSON avec title, post et slides. Types autorisés: cover, hook, whiteContent, step, chart, quote, cta. Chaque slide doit contenir un texte réellement spécifique au sujet.'
     };
 
     var resp = await fetch(endpoint,{
@@ -5857,7 +5857,7 @@ async function mpCallAI(d,endpoint){
       data = rawText ? JSON.parse(rawText) : null;
     }catch(parseErr){
       throw new Error(
-        'Le serveur a renvoyé une réponse qui n’est pas du JSON : ' +
+        'Le serveur a renvoyé une réponse qui n’est pas au format JSON : ' +
         rawText.slice(0,300)
       );
     }
@@ -5909,7 +5909,7 @@ async function generateAIStructure(){
     finishAIProgress(true,'Le post et les slides ont été générés avec succès !');
   } else {
     document.getElementById('aiStatus').textContent='Le serveur IA n’a pas renvoyé le format attendu. La structure reste disponible.';
-    finishAIProgress(false,'La génération IA a échoué — la structure éditoriale reste disponible, vous pouvez tout de même créer les slides.');
+    finishAIProgress(false,'La génération IA a échoué — la structure éditoriale reste disponible, vous pouvez tout de même modéliser les slides.');
   }
 }
 	
