@@ -967,6 +967,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
   </div>
   <button class="tabs-scroll-btn" id="tabsScrollRight" onclick="scrollCarouselTabs(1)" title="Onglets suivants">›</button>
   <div class="spacer"></div>
+    <div class="ctab ctab-custom" id="postTabBtn" onclick="openPostPanel()" title="Post, notes et commentaires">📝 <span class="btn-label">Post</span></div>
   <div class="ctab ctab-custom" id="templatesTabBtn" onclick="openTemplatesModal()" title="Trames prêtes à l'emploi par pilier">📐 <span class="btn-label">Templates</span></div>
   <div class="ctab ctab-custom" id="iconsTabBtn" onclick="openIconModal()" title="Bibliothèque d'icônes">🎨 <span class="btn-label">Icônes</span></div>
   <div class="ctab ctab-custom" id="customTabBtn" onclick="openCustomModal()" title="Personnaliser l'interface">⚙ <span class="btn-label">Personnaliser</span></div>
@@ -984,7 +985,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
       <div class="ptab" id="pt2" onclick="setPTab(2)">🔧 Carrousel</div>
     </div>
 
-        <!-- TAB 0 — CONTENU -->
+           <!-- TAB 0 — CONTENU -->
     <div class="panel-content" id="pc0">
       <div class="sec-title">Slides</div>
       <div class="slide-list" id="slideList"></div>
@@ -1001,28 +1002,6 @@ input,textarea,select{font-family:var(--app-font);outline:none}
           <option value="cta">CTA (Fond orange)</option>
         </select>
         <button class="btn-add-slide" onclick="addSlide()">+ Ajouter</button>
-      </div>
-      <div style="height:16px"></div>
-      <div class="sec-title" style="display:flex;align-items:center;justify-content:space-between;gap:8px">
-        <span>📝 Post, notes &amp; commentaires</span>
-        <button class="copy-post-btn" id="copyPostBtn" style="width:auto;padding:4px 10px;font-size:10px" onclick="copyPost()">📋 Copier</button>
-      </div>
-      <div class="field">
-        <label>Texte du post</label>
-        <textarea class="post-textarea" id="postArea" style="min-height:180px;flex:none" oninput="C[ac].post=this.value"></textarea>
-      </div>
-      <div>
-        <div class="hashtag-section-label">
-          Hashtags rapides
-          <button class="hashtag-reset" onclick="resetHashtags()">Réinitialiser</button>
-        </div>
-        <div class="hashtag-row" id="hashtagsRow"></div>
-        <div class="hashtag-add-row">
-          <input class="hashtag-add-input" id="hashtagInput" placeholder="#MonHashtag" maxlength="40"
-            onkeydown="if(event.key==='Enter')addCustomHashtag()"
-            oninput="this.value=this.value.replace(/\s/g,'')"/>
-          <button class="hashtag-add-btn" onclick="addCustomHashtag()">+ Ajouter</button>
-        </div>
       </div>
     </div>
 
@@ -1485,6 +1464,35 @@ input,textarea,select{font-family:var(--app-font);outline:none}
   </div>
 </div>
 
+	<div class="overlay" id="ovPostPanel">
+  <div class="modal" style="max-width:520px">
+    <div class="modal-hdr">
+      <span class="modal-title">📝 POST, NOTES & COMMENTAIRES</span>
+      <button class="modal-close" onclick="closeOverlay('ovPostPanel')">✕ Fermer</button>
+    </div>
+    <div class="field">
+      <label>Texte du post</label>
+      <textarea class="post-textarea" id="postArea" style="min-height:220px" oninput="C[ac].post=this.value"></textarea>
+    </div>
+    <div>
+      <div class="hashtag-section-label">
+        Hashtags rapides
+        <button class="hashtag-reset" onclick="resetHashtags()">Réinitialiser</button>
+      </div>
+      <div class="hashtag-row" id="hashtagsRow"></div>
+      <div class="hashtag-add-row">
+        <input class="hashtag-add-input" id="hashtagInput" placeholder="#MonHashtag" maxlength="40"
+          onkeydown="if(event.key==='Enter')addCustomHashtag()"
+          oninput="this.value=this.value.replace(/\s/g,'')"/>
+        <button class="hashtag-add-btn" onclick="addCustomHashtag()">+ Ajouter</button>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:flex-end;margin-top:14px">
+      <button class="copy-post-btn" id="copyPostBtn" style="width:auto;padding:8px 16px" onclick="copyPost()">📋 Copier le post</button>
+    </div>
+  </div>
+</div>
+
 <div class="overlay" id="ovVersionHistory">
   <div class="modal" style="max-width:560px">
     <div class="modal-hdr">
@@ -1721,6 +1729,9 @@ function openTemplatesModal(){
   document.getElementById('ovTemplates').classList.add('open');
   renderTemplateCats();
   renderTemplatesGrid();
+}
+function openPostPanel(){
+  document.getElementById('ovPostPanel').classList.add('open');
 }
 function renderTemplateCats(){
   var piliers = ['Tous'];
@@ -4677,25 +4688,25 @@ var TUTORIAL_KEY = 'myprez_tutorial_done';
 var TUTORIAL_STEPS = [
   { target:null,
     title:"Bienvenue dans My Prez 👋",
-    text:"Cet outil permet de générer des carrousels et présentations professionnels en quelques clics. Ce tutoriel vous présente les sections principales. Vous pourrez le revoir à tout moment via le bouton ❓ Tutoriel." },
+    text:"Cet outil permet de créer des carrousels et présentations professionnels en quelques clics. Ce petit tour vous présente les sections principales. Vous pourrez le revoir à tout moment via le bouton ❓ Tutoriel." },
   { target:'#fmtDropdown',
     title:"Choisissez votre format",
     text:"LinkedIn Carré, Vertical ou Horizontal, Facebook, Instagram Portrait, TikTok, ou PDF A4 — tous regroupés dans ce menu déroulant. Le format s'applique à l'aperçu et à l'export final." },
   { target:'.panel-tabs', before:function(){ setPTab(0); },
     title:"Les 3 onglets de l'éditeur",
-    text:"Contenu pour construire vos slides, Fond pour leur apparence, et Carrousel pour les informations et réglages propres à ce carrousel." },
+    text:"Contenu pour gérer la liste de vos slides, Fond pour leur apparence, et Carrousel pour les informations et réglages propres à ce carrousel." },
   { target:'#slideList', before:function(){ setPTab(0); },
     title:"La liste de vos slides",
     text:"Cliquez une slide pour la sélectionner, glissez-déposez ⠿ pour réordonner, dupliquez ⧉ ou supprimez ✕. 🔓 verrouille une slide contre l'édition, 👁 la masque à l'export sans la supprimer." },
   { target:'#addSlideRow', before:function(){ setPTab(0); },
     title:"Ajouter une slide",
     text:"Choisissez un type - couverture, accroche, étapes, image, graphique, tableau, citation, CTA ; puis cliquez + Ajouter." },
-  { target:'#slideEditor', before:function(){ setPTab(0); },
-    title:"Éditez le contenu",
-    text:"Modifiez le texte de la slide sélectionnée ici. Les champs s'adaptent automatiquement selon le type de slide choisi." },
-  { target:'.shape-palette', before:function(){ setPTab(0); },
+  { target:'#slideEditor',
+    title:"Éditez le contenu, à droite",
+    text:"Le panneau de droite affiche l'édition de la slide sélectionnée. Les champs s'adaptent automatiquement selon le type de slide choisi." },
+  { target:'.shape-palette',
     title:"Bibliothèque de formes",
-    text:"Ajoutez des formes (flèches, rectangles, étoiles, texte libre...) sur n'importe quelle slide, puis glissez-les sur l'aperçu pour les positionner." },
+    text:"Toujours dans le panneau de droite : ajoutez des formes (flèches, rectangles, étoiles, texte libre...) sur n'importe quelle slide, puis glissez-les sur l'aperçu pour les positionner." },
   { target:'#pt1', before:function(){ setPTab(1); },
     title:"L'onglet Fond",
     text:"Changez la couleur, le dégradé, l'image ou le motif de fond, pour la slide actuelle ou tout le carrousel d'un coup." },
@@ -4710,7 +4721,10 @@ var TUTORIAL_STEPS = [
     text:"Visualisez votre slide en temps réel. Naviguez avec les flèches ← → ou les points sous l'aperçu." },
   { target:'#tabsCarousels',
     title:"Vos carrousels",
-    text:"Chaque onglet est un carrousel indépendant. Créez-en un nouveau avec + Nouveau carrousel, juste à côté. Si vous en avez beaucoup, des flèches ‹ › apparaissent pour naviguer." },
+    text:"Chaque onglet est un carrousel indépendant. Le bouton + Nouveau carrousel, juste à côté, rouvre l'écran d'accueil pour choisir un modèle, une génération IA ou une présentation vierge. Si vous en avez beaucoup, des flèches ‹ › apparaissent pour naviguer." },
+  { target:'#postTabBtn',
+    title:"Post, notes & commentaires",
+    text:"Accédez à tout moment à votre texte de post LinkedIn et à vos hashtags favoris via ce bouton, sans occuper en permanence une colonne de l'écran." },
   { target:'#templatesTabBtn',
     title:"Bibliothèque de templates",
     text:"Des trames prêtes à l'emploi classées par pilier (Business, RH, Négociation, Communication...). Un clic sur un template crée un nouveau carrousel pré-rempli, entièrement modifiable." },
@@ -4725,10 +4739,7 @@ var TUTORIAL_STEPS = [
     text:"Chargez ou sauvegardez votre travail en JSON, consultez l'historique des versions horodatées, et vos informations de licence." },
   { target:'#exportDropdown',
     title:"Exportez votre travail",
-    text:"PNG, PDF ou PowerPoint : votre carrousel prêt à partager en un clic." },
-  { target:'.panel-right',
-    title:"Post & hashtags",
-    text:"Rédigez votre texte d'accompagnement et gérez vos hashtags favoris, prêts à copier pour LinkedIn." }
+    text:"PNG, PDF ou PowerPoint : votre carrousel prêt à partager en un clic." }
 ];
 
 var _tutStep = 0;
@@ -5083,7 +5094,6 @@ window.addEventListener('load', function(){
   var WORKER_URL  = 'https://myprez-licence.viaauctaconseil.workers.dev/';
   var STORAGE_KEY = 'viaaucta_lic_v1';
   var _licData    = null;
-  var _tutorialAutoChecked = false;
 
   async function verifyLicense(key) {
     try {
@@ -5179,14 +5189,6 @@ window.addEventListener('load', function(){
     if (_licRecheckTimer) clearInterval(_licRecheckTimer);
     _licRecheckTimer = setInterval(_doLicenseRecheck, LIC_RECHECK_INTERVAL);
 
-    if (!_tutorialAutoChecked) {
-      _tutorialAutoChecked = true;
-      try {
-        if (!localStorage.getItem(TUTORIAL_KEY) && typeof startTutorial === 'function') {
-          setTimeout(startTutorial, 600);
-        }
-      } catch(e){}
-    }
   }
 
   function licLogout() {
@@ -5515,7 +5517,7 @@ function openLegalModal(title, html){
       </div>
       <div class="welcome-foot">
         <span>Vous pourrez rouvrir ce choix en créant un nouveau carrousel.</span>
-        <button class="tbtn tbtn-gray" onclick="closeWelcome()">Fermer</button>
+        <button class="tbtn tbtn-gray" onclick="closeWelcomeAndMaybeTutorial()">Fermer</button>
       </div>
     </div>
   </div>
@@ -5716,6 +5718,12 @@ function mpApplySavedBrandToCurrent(){var d=mpGetBrandKit();if(d.name||d.logo||d
 var _welcomeShownThisLoad = false;
 
 function closeWelcome(){var o=document.getElementById('welcomeOverlay');if(o)o.classList.remove('open');}
+function closeWelcomeAndMaybeTutorial(){
+  closeWelcome();
+  var already=false;
+  try{ already = !!localStorage.getItem(TUTORIAL_KEY); }catch(e){}
+  if(!already && typeof startTutorial==='function') setTimeout(startTutorial, 350);
+}
 function openWelcome(){var o=document.getElementById('welcomeOverlay');if(o)o.classList.add('open');}
 function welcomeChoose(mode){closeWelcome();if(mode==='template'){openTemplatesModal();return;}if(mode==='ai'){openAIGenerator();return;}if(mode==='blank'){if(typeof addCar==='function')addCar();}}
 function mpMaybeShowWelcome(){
@@ -5723,7 +5731,6 @@ function mpMaybeShowWelcome(){
   var lic=document.getElementById('lic-overlay');
   if(!lic||lic.style.display==='none'){
     _welcomeShownThisLoad=true;
-    try{localStorage.setItem(TUTORIAL_KEY,'1');}catch(e){}
     setTimeout(openWelcome,250);
   }
 }
