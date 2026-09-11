@@ -377,7 +377,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 
 
 
-/* CTA ORANGE */
+/* CTA */
 .sl-ct{padding:80px;justify-content:center;align-items:center;text-align:center;position:relative}
 .sl-ct .c1{position:absolute;bottom:120px;right:-60px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,0.08)}
 .sl-ct .eyebrow{font-family:'Playfair Display',sans-serif;font-weight:400;letter-spacing:6px;color:rgba(255,255,255,0.55);text-transform:uppercase;margin-bottom:30px;position:relative;z-index:2}
@@ -2810,7 +2810,7 @@ function renderEditor(){
   };
   h+='<div class="field"><label>Type de slide</label><select class="einp2" onchange="changeSlidetype(this.value)">';
   ['cover','hook','step','quote','cta','whiteContent','image','chart','table'].forEach(function(t){
-    h+='<option value="'+t+'"'+(s.t===t?' selected':'')+'>'+({cover:'Cover Navy',hook:'Statement Sombre',step:'Étapes Navy',quote:'Citation Blanc',cta:'CTA Orange',whiteContent:'Contenu Blanc',image:'Image Plein Écran',chart:'Graphique',table:'Tableau'}[t]||t)+'</option>';
+    h+='<option value="'+t+'"'+(s.t===t?' selected':'')+'>'+({cover:'Cover Navy',hook:'Statement Sombre',step:'Étapes Navy',quote:'Citation Blanc',cta:'CTA',whiteContent:'Contenu Blanc',image:'Image Plein Écran',chart:'Graphique',table:'Tableau'}[t]||t)+'</option>';
   });
   h+='</select></div>';
   if(s.t==='cover'){
