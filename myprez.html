@@ -379,7 +379,6 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 
 /* CTA */
 .sl-ct{padding:80px;justify-content:center;align-items:center;text-align:center;position:relative}
-.sl-ct .c1{position:absolute;bottom:120px;right:-60px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,0.08)}
 .sl-ct .eyebrow{font-family:'Playfair Display',sans-serif;font-weight:400;letter-spacing:6px;color:rgba(255,255,255,0.55);text-transform:uppercase;margin-bottom:30px;position:relative;z-index:2}
 .sl-ct .main-t{font-family:'Playfair Display',sans-serif;font-weight:900;line-height:1.0;color:white;letter-spacing:-1px;margin-bottom:42px;white-space:pre-line;position:relative;z-index:2}
 .sl-ct .ctxt{color:rgba(255,255,255,0.78);line-height:1.6;margin-bottom:50px;max-width:800px;position:relative;z-index:2}
@@ -2207,7 +2206,6 @@ function slHTML(s,idx,tot,forExport){
     var brandFs = car().brandFs != null ? car().brandFs : 32;
     return '<div class="sl sl-ct" style="'+bgStyle+';font-family:'+fontBody+'">'
       +imgTag
-      +'<div class="c1"></div>'
       +'<div class="eyebrow" style="font-family:'+fontBody+';font-size:'+fsp('eyebrow',40)+'">'+esc(s.eyebrow||'YOUR TAGLINE')+'</div>'
       +'<div class="main-t" style="color:'+ctaTC+';font-family:'+fontTitle+';font-size:'+fsp('main',100)+'">'+esc(s.main||'').replace(/\n/g,'<br>')+'</div>'
       +'<div class="ctxt" style="font-family:'+fontBody+';font-size:'+fsp('ctxt',40)+'">'+esc(s.ctxt||'')+'</div>'
