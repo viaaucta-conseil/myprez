@@ -977,7 +977,6 @@ input,textarea,select{font-family:var(--app-font);outline:none}
   <div class="spacer"></div>
     <div class="ctab ctab-custom" id="postTabBtn" onclick="openPostPanel()" title="Post, notes et commentaires">📝 <span class="btn-label">Post</span></div>
   <div class="ctab ctab-custom" id="templatesTabBtn" onclick="openTemplatesModal()" title="Trames prêtes à l'emploi par pilier">📐 <span class="btn-label">Templates</span></div>
-  <div class="ctab ctab-custom" id="iconsTabBtn" onclick="openIconModal()" title="Bibliothèque d'icônes">🎨 <span class="btn-label">Icônes</span></div>
   <div class="ctab ctab-custom" id="customTabBtn" onclick="openCustomModal()" title="Personnaliser l'interface">⚙ <span class="btn-label">Personnaliser</span></div>
   <div class="ctab ctab-custom" id="tutorialTabBtn" onclick="startTutorial()" title="Revoir le tutoriel de prise en main">❓ <span class="btn-label">Tutoriel</span></div>
 </div>
@@ -1362,22 +1361,6 @@ input,textarea,select{font-family:var(--app-font);outline:none}
   </div>
 
 </div>
-</div>
-
-<!-- ═══ MODAL ICÔNES ═══ -->
-<div class="icon-modal-overlay" id="iconModal">
-  <div class="icon-modal">
-    <div class="icon-modal-hdr">
-      <span class="icon-modal-title">🎨 Bibliothèque d'icônes</span>
-      <button class="icon-modal-close" onclick="closeIconModal()">✕ Fermer</button>
-    </div>
-    <input class="icon-search" id="iconSearch" placeholder="Rechercher une icône..." oninput="filterIcons(this.value)"/>
-    <div class="icon-cats" id="iconCats"></div>
-    <div class="icon-grid" id="iconGrid"></div>
-    <div style="margin-top:10px;font-size:10px;color:var(--gray);text-align:center">
-      Cliquez dans un champ texte, puis cliquez une icône pour l'insérer directement à l'endroit du curseur
-    </div>
-  </div>
 </div>
 
 <!-- HIDDEN RENDER ZONE -->
@@ -2810,7 +2793,7 @@ function renderEditor(){
     return;
   }
   var fs=s.fs||{};
-  var hType='', hContent='', hFs='', hShapes='';
+    var hContent='', hFs='', hIcons='', hShapes='';
   var fmtBar=function(key){
   return '<div class="fmt-toolbar" style="flex-wrap:wrap;">'
     +'<div class="fmt-tb-sep"></div>'
@@ -2841,11 +2824,7 @@ function renderEditor(){
       +'<span style="font-size:10px;font-weight:700;color:var(--text-1);width:34px;text-align:right;flex-shrink:0">'+v+'px</span>'
       +'</div>';
   };
-  hType+='<div class="field"><label>Type de slide</label><select class="einp2" onchange="changeSlidetype(this.value)">';
-  ['cover','hook','step','quote','cta','whiteContent','image','chart','table'].forEach(function(t){
-    hType+='<option value="'+t+'"'+(s.t===t?' selected':'')+'>'+({cover:'Cover Navy',hook:'Statement Sombre',step:'Étapes Navy',quote:'Citation Blanc',cta:'CTA Orange',whiteContent:'Contenu Blanc',image:'Image Plein Écran',chart:'Graphique',table:'Tableau'}[t]||t)+'</option>';
-  });
-  hType+='</select></div>';
+  
 
   if(s.t==='cover'){
     hContent+=ea('tag','Tag (badge)',s.tag);
@@ -3048,6 +3027,22 @@ function renderEditor(){
     hFs+=eaFs('tbl','Texte du tableau',30,10,70);
   }
 
+    hFs+=eaFs('pill','Badge',50,12,80);
+    hFs+=eaFs('tbl','Texte du tableau',30,10,70);
+  }
+
+  hIcons += '<input class="icon-search" id="iconSearchInline" placeholder="Rechercher une icône..." style="margin-bottom:10px" oninput="filterIconsInline(this.value)" value="'+esc(_iconSearchInline||'')+'"/>';
+  hIcons += '<div class="icon-cats" id="iconCatsInline">';
+  ICONS.forEach(function(cat){
+    hIcons += '<button type="button" class="icon-cat-btn'+(_iconCat===cat.cat?' on':'')+'" onclick="selectIconCatInline(\''+cat.cat+'\')">'+cat.cat+'</button>';
+  });
+  hIcons += '</div>';
+  hIcons += '<div class="icon-grid" id="iconGridInline" style="grid-template-columns:repeat(6,1fr);max-height:220px">'+_iconButtonsHTML(_iconSearchInline||'')+'</div>';
+  hIcons += '<div style="margin-top:8px;font-size:10px;color:var(--gray);text-align:center">Cliquez dans un champ texte, puis cliquez une icône pour l\'insérer directement à l\'endroit du curseur</div>';
+
+  hShapes+='<div class="shape-mobile-hide">';
+  hShapes+='<div class="shape-palette">';
+	
   hShapes+='<div class="shape-mobile-hide">';
   hShapes+='<div class="shape-palette">';
   SHAPE_DEFS.forEach(function(sd){
@@ -3088,9 +3083,9 @@ function renderEditor(){
   hShapes+='</div>';
   hShapes+='<div class="shape-mobile-note">✋ La bibliothèque de formes est réservée à l\'ordinateur — la précision du glisser-déposer n\'est pas fiable au doigt. Les formes déjà ajoutées restent visibles et exportées normalement.</div>';
 
-  var h = hType
-    + accHTML('content','📝 Contenu', hContent)
+  var h = accHTML('content','📝 Contenu', hContent)
     + accHTML('fs','🔠 Tailles de police', hFs)
+    + accHTML('icons','🎨 Icônes', hIcons)
     + accHTML('shapes','🔺 Bibliothèque de formes', hShapes);
 
   document.getElementById('slideEditor').innerHTML=h;
@@ -4756,9 +4751,9 @@ var TUTORIAL_STEPS = [
   { target:'#templatesTabBtn',
     title:"Bibliothèque de templates",
     text:"Des trames prêtes à l'emploi classées par pilier (Business, RH, Négociation, Communication...). Un clic sur un template crée un nouveau carrousel pré-rempli, entièrement modifiable." },
-  { target:'#iconsTabBtn',
+  { target:'#acc_icons',
     title:"Bibliothèque d'icônes",
-    text:"Copiez des icônes et émojis à coller directement dans vos textes." },
+    text:"Toujours dans le panneau de droite : dépliez cette section pour insérer une icône ou un émoji directement à l'endroit du curseur dans un champ texte." },
   { target:'#customTabBtn',
     title:"Personnalisez l'interface",
     text:"Changez le thème visuel de l'outil (5 thèmes au choix) sans jamais affecter le style de vos slides exportées." }
@@ -4917,56 +4912,46 @@ var ICONS = [
 ];
 
 var _iconCat = 'Flèches';
+var _iconSearchInline = '';
 
-function openIconModal(){
-  renderIconCats();
-  renderIconGrid('');
-  document.getElementById('iconModal').classList.add('open');
-  document.getElementById('iconSearch').focus();
-}
-function closeIconModal(){
-  document.getElementById('iconModal').classList.remove('open');
-}
-
-function renderIconCats(){
-  var h = '';
-  ICONS.forEach(function(cat){
-    h += '<button class="icon-cat-btn'+(_iconCat===cat.cat?' on':'')+'" onclick="selectIconCat(\''+cat.cat+'\')">'+cat.cat+'</button>';
-  });
-  document.getElementById('iconCats').innerHTML = h;
-}
-
-function selectIconCat(cat){
-  _iconCat = cat;
-  document.getElementById('iconSearch').value = '';
-  renderIconCats();
-  renderIconGrid('');
-}
-
-function filterIcons(q){
-  renderIconGrid(q.toLowerCase());
-}
-
-function renderIconGrid(query){
-  var h = '';
-  var shown = 0;
+function _iconButtonsHTML(query){
+  var h = '', shown = 0;
+  query = (query||'').toLowerCase();
   ICONS.forEach(function(cat){
     if(query){
       cat.icons.forEach(function(ic){
         if(ic.l.toLowerCase().indexOf(query) !== -1 || ic.e === query){
-          h += '<button class="icon-btn" title="'+ic.l+'" onclick="copyIcon(\''+ic.e+'\')">'+ic.e+'</button>';
+          h += '<button type="button" class="icon-btn" title="'+ic.l+'" onclick="copyIcon(\''+ic.e+'\')">'+ic.e+'</button>';
           shown++;
         }
       });
     } else if(cat.cat === _iconCat){
       cat.icons.forEach(function(ic){
-        h += '<button class="icon-btn" title="'+ic.l+'" onclick="copyIcon(\''+ic.e+'\')">'+ic.e+'</button>';
+        h += '<button type="button" class="icon-btn" title="'+ic.l+'" onclick="copyIcon(\''+ic.e+'\')">'+ic.e+'</button>';
         shown++;
       });
     }
   });
   if(shown === 0) h = '<div style="grid-column:1/-1;text-align:center;color:var(--gray);font-size:12px;padding:20px">Aucune icône trouvée</div>';
-  document.getElementById('iconGrid').innerHTML = h;
+  return h;
+}
+
+function filterIconsInline(q){
+  _iconSearchInline = q;
+  var grid = document.getElementById('iconGridInline');
+  if(grid) grid.innerHTML = _iconButtonsHTML(q);
+}
+
+function selectIconCatInline(cat){
+  _iconCat = cat;
+  _iconSearchInline = '';
+  var search = document.getElementById('iconSearchInline');
+  if(search) search.value = '';
+  document.querySelectorAll('#iconCatsInline .icon-cat-btn').forEach(function(b){
+    b.classList.toggle('on', b.textContent===cat);
+  });
+  var grid = document.getElementById('iconGridInline');
+  if(grid) grid.innerHTML = _iconButtonsHTML('');
 }
 
 function copyIcon(emoji){
