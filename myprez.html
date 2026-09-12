@@ -882,6 +882,50 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 .ai-status{font-size:10px;color:var(--gray);margin-top:8px;min-height:15px}
 @media(max-width:760px){.welcome-choices{grid-template-columns:1fr}.welcome-card{max-height:92vh;overflow:auto}.welcome-head{padding:26px}.welcome-title{font-size:28px}.brandkit-grid{grid-template-columns:1fr}}
 
+
+/* ═══ AGRANDISSEMENT GLOBAL DE L'INTERFACE (+2px) ═══ */
+html,body{font-size:15px}
+
+.topbar-logo small,.ctab-del,.sec-title,.field label,.slide-badge,.shape-list-fill,
+.pattern-btn,.prod-notes-label,.hashtag-del,.hashtag-section-label,.hashtag-reset,
+.tpl-card-pilier,.tpl-card-meta,.tut-progress,.icon-btn[title]:hover::after{font-size:11px}
+
+.fmt-dim,.acc-header,.field-hint,.slide-act,.bg-type-btn,.hashtag,.logo-shape-btn,
+.icon-cat-btn,.icon-insert-btn,.img-lib-save-btn,.img-lib-pick-btn,.tut-skip,.json-area,
+.welcome-kicker,.ai-status,.ai-step-desc{font-size:12px}
+
+.tpl-card-desc{font-size:12.5px}
+
+.tbtn,.ctab,.ptab,.acc-chevron,.slide-lbl,.add-slide-row select,.btn-add-slide,
+.btn-add-item,.prod-notes-area,.sc-exp,.panel-right-title,.post-preview,.post-textarea,
+.copy-post-btn,.hashtag-add-input,.hashtag-add-btn,.fmt-tb-btn,.icon-modal-close,
+.notice,.ui-theme-name,.tpl-cat-btn,.tpl-card-btn,#lic-overlay .lic-input,
+.welcome-sub,.welcome-choice-desc{font-size:13px}
+
+.icon-search,.sc-cnt,.field input,.field textarea,.field select,.einp2,
+.modal-close,.notif,#legal-modal,#legal-modal strong,.tut-tooltip p,.ai-step-title,
+.mobile-tabbar .fmt-menu-btn,.mobile-tab-btn,.export-menu button{font-size:14px}
+
+.icon-modal-title,.tpl-card-title,#lic-overlay p,.license-content{font-size:15px}
+
+.tut-tooltip h4,.welcome-choice-title{font-size:17px}
+
+.shape-pal-btn{font-size:19px}
+
+.item-num-badge,.item-del-btn,.icon-btn,.modal-title,.license-content h2{font-size:20px}
+
+.shape-del-btn{font-size:22px}
+
+#lic-overlay .lic-logo,.modal-header{font-size:24px}
+
+#legal-modal h3{font-size:25px}
+
+.shape-rotate-handle{font-size:26px}
+
+#lic-overlay h2{font-size:30px}
+
+.welcome-title,.tpl-card-head{font-size:36px}
+	
 </style>
 </head>
 <body>
@@ -987,9 +1031,9 @@ input,textarea,select{font-family:var(--app-font);outline:none}
   <!-- LEFT PANEL -->
   <div class="panel-left mobile-active">
     <div class="panel-tabs">
-      <div class="ptab on" id="pt0" onclick="setPTab(0)">🎨 Contenu</div>
-      <div class="ptab" id="pt1" onclick="setPTab(1)">🖼 Fond</div>
-      <div class="ptab" id="pt2" onclick="setPTab(2)">🔧 Carrousel</div>
+      <div class="ptab on" id="pt0" onclick="setPTab(0)">Contenu</div>
+      <div class="ptab" id="pt1" onclick="setPTab(1)">Fond</div>
+      <div class="ptab" id="pt2" onclick="setPTab(2)">Carrousel</div>
     </div>
 
            <!-- TAB 0 - CONTENU -->
@@ -1435,7 +1479,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 <div class="overlay" id="ovImageLibrary">
   <div class="modal" style="max-width:640px">
     <div class="modal-hdr">
-      <span class="modal-title">🖼 BIBLIOTHÈQUE D'IMAGES</span>
+      <span class="modal-title">BIBLIOTHÈQUE D'IMAGES</span>
       <button class="modal-close" onclick="closeOverlay('ovImageLibrary')">✕ Fermer</button>
     </div>
     <div class="notice" id="imgLibraryNotice">Vos logos et photos enregistrés, réutilisables d'un carrousel à l'autre sans réimporter le fichier.</div>
@@ -1446,7 +1490,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 <div class="overlay" id="ovTemplates">
   <div class="modal" style="max-width:920px">
     <div class="modal-hdr">
-      <span class="modal-title">📐 BIBLIOTHÈQUE DE TEMPLATES</span>
+      <span class="modal-title">BIBLIOTHÈQUE DE TEMPLATES</span>
       <button class="modal-close" onclick="closeOverlay('ovTemplates')">✕ Fermer</button>
     </div>
     <div class="notice">Chaque template charge un carrousel complet et pré-rempli dans un nouvel onglet, prêt à être adapté. Le contenu original n'est jamais écrasé.</div>
@@ -3074,10 +3118,10 @@ function renderEditor(){
   hShapes+='</div>';
   hShapes+='<div class="shape-mobile-note">✋ La bibliothèque de formes est réservée à l\'ordinateur : la précision du glisser-déposer n\'est pas fiable au doigt. Les formes déjà ajoutées restent visibles et exportées normalement.</div>';
 
-  var h = accHTML('content','📝 Contenu', hContent)
-    + accHTML('fs','🔠 Tailles de police', hFs)
-    + accHTML('icons','🎨 Icônes', hIcons)
-    + accHTML('shapes','🔺 Bibliothèque de formes', hShapes);
+  var h = accHTML('content','Contenu', hContent)
+    + accHTML('fs','Tailles de police', hFs)
+    + accHTML('icons','Icônes', hIcons)
+    + accHTML('shapes','Bibliothèque de formes', hShapes);
 
   document.getElementById('slideEditor').innerHTML=h;
 }
