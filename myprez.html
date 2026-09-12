@@ -104,6 +104,14 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 .sec-title{font-size:9px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:var(--orange);margin-bottom:10px;display:flex;align-items:center;gap:8px}
 .sec-title::after{content:'';flex:1;height:1px;background:var(--border)}
 
+.acc-section{border:1px solid var(--border);border-radius:8px;margin-bottom:10px;overflow:hidden}
+.acc-header{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;cursor:pointer;background:var(--surface-1);font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-1);user-select:none;transition:background .15s}
+.acc-header:hover{background:rgba(240,90,26,.08);color:var(--orange)}
+.acc-chevron{font-size:11px;color:var(--gray);transition:transform .15s;flex-shrink:0}
+.acc-section.open .acc-chevron{transform:rotate(180deg)}
+.acc-body{padding:12px;display:none;border-top:1px solid var(--border)}
+.acc-section.open .acc-body{display:block}
+
 /* Form fields */
 .field{margin-bottom:12px}
 .field label{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);display:block;margin-bottom:4px}
@@ -1367,7 +1375,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
     <div class="icon-cats" id="iconCats"></div>
     <div class="icon-grid" id="iconGrid"></div>
     <div style="margin-top:10px;font-size:10px;color:var(--gray);text-align:center">
-      Cliquez une icône pour la copier dans le presse-papier, puis collez-la dans n'importe quel champ texte
+      Cliquez dans un champ texte, puis cliquez une icône pour l'insérer directement à l'endroit du curseur
     </div>
   </div>
 </div>
@@ -1908,6 +1916,7 @@ function useLibraryImage(id){
 }
 
 var ac=0, as=0, ptab=0;
+var _lastFocusedTextFieldEl = null;
 var _styleClipboard=null; // { bg, fs } — copié depuis une slide, indépendant du contenu texte
 function car(){return C[ac];}
 function sl(){return car().slides[as];}
@@ -2774,6 +2783,20 @@ function renderSlideList(){
   document.getElementById('slideList').innerHTML=h;
 }
 
+var _accState = {}; // toutes les sections démarrent repliées (undefined = false)
+function toggleAcc(id){
+  _accState[id] = !_accState[id];
+  var el = document.getElementById('acc_'+id);
+  if(el) el.classList.toggle('open', _accState[id]);
+}
+function accHTML(id, title, innerHtml){
+  var isOpen = !!_accState[id];
+  return '<div class="acc-section'+(isOpen?' open':'')+'" id="acc_'+id+'">'
+    +'<div class="acc-header" onclick="toggleAcc(\''+id+'\')"><span>'+title+'</span><span class="acc-chevron">▾</span></div>'
+    +'<div class="acc-body">'+innerHtml+'</div>'
+    +'</div>';
+}
+	
 function renderEditor(){
   var s=sl();
   if(s.locked){
@@ -2787,8 +2810,7 @@ function renderEditor(){
     return;
   }
   var fs=s.fs||{};
-  var h='';
-  // Génère une barre de mise en forme pour les champs textarea supportant <em>
+  var hType='', hContent='', hFs='', hShapes='';
   var fmtBar=function(key){
   return '<div class="fmt-toolbar" style="flex-wrap:wrap;">'
     +'<div class="fmt-tb-sep"></div>'
@@ -2819,48 +2841,46 @@ function renderEditor(){
       +'<span style="font-size:10px;font-weight:700;color:var(--text-1);width:34px;text-align:right;flex-shrink:0">'+v+'px</span>'
       +'</div>';
   };
-  h+='<div class="field"><label>Type de slide</label><select class="einp2" onchange="changeSlidetype(this.value)">';
+  hType+='<div class="field"><label>Type de slide</label><select class="einp2" onchange="changeSlidetype(this.value)">';
   ['cover','hook','step','quote','cta','whiteContent','image','chart','table'].forEach(function(t){
-    h+='<option value="'+t+'"'+(s.t===t?' selected':'')+'>'+({cover:'Cover Navy',hook:'Statement Sombre',step:'Étapes Navy',quote:'Citation Blanc',cta:'CTA',whiteContent:'Contenu Blanc',image:'Image Plein Écran',chart:'Graphique',table:'Tableau'}[t]||t)+'</option>';
+    hType+='<option value="'+t+'"'+(s.t===t?' selected':'')+'>'+({cover:'Cover Navy',hook:'Statement Sombre',step:'Étapes Navy',quote:'Citation Blanc',cta:'CTA Orange',whiteContent:'Contenu Blanc',image:'Image Plein Écran',chart:'Graphique',table:'Tableau'}[t]||t)+'</option>';
   });
-  h+='</select></div>';
+  hType+='</select></div>';
+
   if(s.t==='cover'){
-    h+=ea('tag','Étiquette',s.tag);
-    h+=ea('title','Titre (↵ saut de ligne)',s.title,3,'Utilisez &lt;em&gt;mot&lt;/em&gt; pour la couleur accent',true);
-    h+=ea('sub','Sous-titre',s.sub);
-    h+='<div class="sec-title" style="margin-top:8px">Tailles de police</div>';
-    h+=eaFs('ttl','Titre',120,30,200);
-    h+=eaFs('sub','Sous-titre',60,14,80);
-    h+=eaFs('ptag','Badge/Tag',50,12,80);
+    hContent+=ea('tag','Tag (badge)',s.tag);
+    hContent+=ea('title','Titre (↵ saut de ligne)',s.title,3,'Utilisez &lt;em&gt;mot&lt;/em&gt; pour la couleur accent',true);
+    hContent+=ea('sub','Sous-titre',s.sub);
+    hFs+=eaFs('ttl','Titre',120,30,200);
+    hFs+=eaFs('sub','Sous-titre',60,14,80);
+    hFs+=eaFs('ptag','Badge/Tag',50,12,80);
   }
   if(s.t==='whiteContent'){
-    h+=ea('pill','Étiquette',s.pill);
-    h+=ea('content','Paragraphes',(s.content||[]).join('\n'),4,'1 ligne = 1 paragraphe');
-    h+=ea('stmt','Statement fort',s.stmt,4,'Utilisez &lt;em&gt;mot&lt;/em&gt; pour la couleur accent',true);
-    h+=ea('tip','Conseil (optionnel)',s.tip,2);
-    h+='<div class="sec-title" style="margin-top:8px">Tailles de police</div>';
-    h+=eaFs('wh_title','Titre / N°',70,14,120);
-    h+=eaFs('wh_body','Corps texte',40,12,80);
-    h+=eaFs('wh_stmt','Statement',50,14,120);
-    h+=eaFs('wh_tip','Tip',45,12,80);
+    hContent+=ea('pill','Étiquette (badge)',s.pill);
+    hContent+=ea('content','Paragraphes',(s.content||[]).join('\n'),4,'1 ligne = 1 paragraphe');
+    hContent+=ea('stmt','Statement fort',s.stmt,4,'Utilisez &lt;em&gt;mot&lt;/em&gt; pour la couleur accent',true);
+    hContent+=ea('tip','Conseil (optionnel)',s.tip,2);
+    hFs+=eaFs('wh_title','Titre / N°',70,14,120);
+    hFs+=eaFs('wh_body','Corps texte',40,12,80);
+    hFs+=eaFs('wh_stmt','Statement',50,14,120);
+    hFs+=eaFs('wh_tip','Tip',45,12,80);
   }
   if(s.t==='hook'){
-    h+=ea('pill','Étiquette',s.pill);
-    h+=ea('stmt','Statement fort',s.stmt,4,'Utilisez &lt;em&gt;mot&lt;/em&gt; pour la couleur accent',true);
-    h+=ea('stxt','Sous-texte (optionnel)',s.stxt,2);
-    h+=ea('sn','Numéro affiché',s.sn);
-    h+='<div class="sec-title" style="margin-top:8px">Tailles de police</div>';
-    h+=eaFs('pill','Badge',50,12,80);
-    h+=eaFs('stmt','Statement',80,24,200);
-    h+=eaFs('stxt','Sous-texte',40,12,80);
+    hContent+=ea('pill','Étiquette (badge)',s.pill);
+    hContent+=ea('stmt','Statement fort',s.stmt,4,'Utilisez &lt;em&gt;mot&lt;/em&gt; pour la couleur accent',true);
+    hContent+=ea('stxt','Sous-texte (optionnel)',s.stxt,2);
+    hContent+=ea('sn','Numéro affiché',s.sn);
+    hFs+=eaFs('pill','Badge',50,12,80);
+    hFs+=eaFs('stmt','Statement',80,24,200);
+    hFs+=eaFs('stxt','Sous-texte',40,12,80);
   }
   if(s.t==='step'){
-    h+=ea('pill','Étiquette',s.pill);
-    h+=ea('sn','Numéro affiché',s.sn);
-    h+='<div class="sec-title" style="margin-top:4px">Points de la slide</div>';
-    h+='<div class="items-editor" id="itemsEd">';
+    hContent+=ea('pill','Étiquette (badge)',s.pill);
+    hContent+=ea('sn','Numéro affiché',s.sn);
+    hContent+='<div class="sec-title" style="margin-top:4px">Points de la slide</div>';
+    hContent+='<div class="items-editor" id="itemsEd">';
     (s.items||[]).forEach(function(it,ix){
-      h+='<div class="item-card">'
+      hContent+='<div class="item-card">'
         +'<div class="item-num-badge">'+esc(it.n||String(ix+1).padStart(2,'0'))+'</div>'
         +'<button class="item-del-btn" onclick="delItem('+ix+')">✕</button>'
         +'<div class="field"><label>Numéro / Icône</label><input class="einp2" style="width:80px" value="'+esc(it.n||'')+'" oninput="updateItem('+ix+',\'n\',this.value)"/></div>'
@@ -2868,34 +2888,31 @@ function renderEditor(){
         +'<div class="field"><label>Sous-texte (↵ = saut de ligne)</label><textarea class="einp2" rows="3" style="resize:vertical" oninput="updateItem('+ix+',\'sub\',this.value)">'+esc(it.sub||'')+'</textarea></div>'
         +'</div>';
     });
-    h+='</div>';
-    h+='<button class="btn-add-item" onclick="addItem()">+ Ajouter un point</button>';
-    h+='<div class="sec-title" style="margin-top:8px">Tailles de police</div>';
-    h+=eaFs('pill','Badge',50,12,80);
-    h+=eaFs('inum','N° item',70,16,120);
-    h+=eaFs('ititle','Titre item',45,14,80);
-    h+=eaFs('isub','Sous-texte item',35,10,70);
+    hContent+='</div>';
+    hContent+='<button class="btn-add-item" onclick="addItem()">+ Ajouter un point</button>';
+    hFs+=eaFs('pill','Badge',50,12,80);
+    hFs+=eaFs('inum','N° item',70,16,120);
+    hFs+=eaFs('ititle','Titre item',45,14,80);
+    hFs+=eaFs('isub','Sous-texte item',35,10,70);
   }
   if(s.t==='quote'){
-    h+=ea('pill','Étiquette',s.pill);
-    h+=ea('quote','Citation',s.quote,4,'Utilisez &lt;em&gt;mot&lt;/em&gt; pour la couleur accent',true);
-    h+=ea('qsub','Sous-texte',s.qsub,2);
-    h+=ea('sn','Numéro affiché',s.sn);
-    h+='<div class="sec-title" style="margin-top:8px">Tailles de police</div>';
-    h+=eaFs('pill','Badge',50,12,80);
-    h+=eaFs('quote','Citation',85,24,200);
-    h+=eaFs('qsub','Sous-texte',40,12,80);
+    hContent+=ea('pill','Étiquette (badge)',s.pill);
+    hContent+=ea('quote','Citation',s.quote,4,'Utilisez &lt;em&gt;mot&lt;/em&gt; pour la couleur accent',true);
+    hContent+=ea('qsub','Sous-texte',s.qsub,2);
+    hContent+=ea('sn','Numéro affiché',s.sn);
+    hFs+=eaFs('pill','Badge',50,12,80);
+    hFs+=eaFs('quote','Citation',85,24,200);
+    hFs+=eaFs('qsub','Sous-texte',40,12,80);
   }
   if(s.t==='cta'){
-    h+=ea('eyebrow','Eyebrow (petit texte haut)',s.eyebrow);
-    h+=ea('main','Titre principal',s.main,3);
-    h+=ea('ctxt','Sous-texte',s.ctxt,2);
-    h+=ea('pill','Texte du bouton',s.pill);
-    h+='<div class="sec-title" style="margin-top:8px">Tailles de police</div>';
-    h+=eaFs('eyebrow','Eyebrow',40,10,80);
-    h+=eaFs('main','Titre',80,30,200);
-    h+=eaFs('ctxt','Sous-texte',40,12,80);
-    h+=eaFs('cpill','Bouton',40,12,80);
+    hContent+=ea('eyebrow','Eyebrow (petit texte haut)',s.eyebrow);
+    hContent+=ea('main','Titre principal',s.main,3);
+    hContent+=ea('ctxt','Sous-texte',s.ctxt,2);
+    hContent+=ea('pill','Texte du bouton',s.pill);
+    hFs+=eaFs('eyebrow','Eyebrow',40,10,80);
+    hFs+=eaFs('main','Titre',80,30,200);
+    hFs+=eaFs('ctxt','Sous-texte',40,12,80);
+    hFs+=eaFs('cpill','Bouton',40,12,80);
   }
   if(s.t==='image'){
     var imgSize = s.imgSize != null ? s.imgSize : 100;
@@ -2903,69 +2920,68 @@ function renderEditor(){
     var imgVPos = s.imgVPos != null ? s.imgVPos : 50;
     var imgOpacity = s.imgOpacity != null ? s.imgOpacity : 100;
     var hasImg  = !!s.imageData;
-    h+=ea('pill','Badge',s.pill);
-    h+=ea('sn','Numéro affiché',s.sn);
-    h+='<div class="field"><label>Image de la slide</label>';
-    h+='<input type="file" id="imgSlideInput" accept="image/*" style="display:none" onchange="loadImgSlide(event)"/>';
-    h+='<div style="display:flex;gap:6px;flex-wrap:wrap">';
-    h+='<button class="btn-add-slide" style="background:var(--navy)" onclick="document.getElementById(\'imgSlideInput\').click()">'+(hasImg?'🔄 Changer l\'image':'📁 Charger une image')+'</button>';
-    h+='<button type="button" class="img-lib-pick-btn" onclick="openImageLibrary(\'slideImage\')">📚 Depuis ma bibliothèque</button>';
-    if(hasImg) h+='<button class="btn-add-slide" style="background:#EF4444" onclick="removeImgSlide()">✕ Retirer</button>';
-    h+='</div>';
+    hContent+=ea('pill','Badge',s.pill);
+    hContent+=ea('sn','Numéro affiché',s.sn);
+    hContent+='<div class="field"><label>Image de la slide</label>';
+    hContent+='<input type="file" id="imgSlideInput" accept="image/*" style="display:none" onchange="loadImgSlide(event)"/>';
+    hContent+='<div style="display:flex;gap:6px;flex-wrap:wrap">';
+    hContent+='<button class="btn-add-slide" style="background:var(--navy)" onclick="document.getElementById(\'imgSlideInput\').click()">'+(hasImg?'🔄 Changer l\'image':'📁 Charger une image')+'</button>';
+    hContent+='<button type="button" class="img-lib-pick-btn" onclick="openImageLibrary(\'slideImage\')">📚 Depuis ma bibliothèque</button>';
+    if(hasImg) hContent+='<button class="btn-add-slide" style="background:#EF4444" onclick="removeImgSlide()">✕ Retirer</button>';
+    hContent+='</div>';
     if(hasImg){
-      h+='<div style="margin-top:6px;padding:4px;border:1px solid var(--border);border-radius:6px;background:#F8FAFC"><img src="'+s.imageData+'" style="max-width:100%;max-height:90px;display:block;margin:auto;object-fit:contain"/></div>';
-      h+='<button type="button" class="img-lib-save-btn" style="width:100%;margin-top:6px" onclick="saveCurrentToLibrary(\'slideImage\')">💾 Enregistrer dans ma bibliothèque</button>';
+      hContent+='<div style="margin-top:6px;padding:4px;border:1px solid var(--border);border-radius:6px;background:#F8FAFC"><img src="'+s.imageData+'" style="max-width:100%;max-height:90px;display:block;margin:auto;object-fit:contain"/></div>';
+      hContent+='<button type="button" class="img-lib-save-btn" style="width:100%;margin-top:6px" onclick="saveCurrentToLibrary(\'slideImage\')">💾 Enregistrer dans ma bibliothèque</button>';
     }
-    h+='</div>';
-    h+='<div class="sec-title" style="margin-top:8px">Réglages de l\'image</div>';
-    h+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">'
+    hContent+='</div>';
+    hContent+='<div class="sec-title" style="margin-top:8px">Réglages de l\'image</div>';
+    hContent+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">'
       +'<span style="font-size:10px;color:var(--gray);width:80px;flex-shrink:0">Taille</span>'
       +'<input type="range" min="10" max="100" value="'+imgSize+'" style="flex:1;accent-color:var(--orange)"'
       +' oninput="updateSlKey(\'imgSize\',+this.value);this.nextSibling.textContent=this.value+\'%\'"/>'
       +'<span style="font-size:10px;font-weight:700;color:var(--text-1);width:34px;text-align:right;flex-shrink:0">'+imgSize+'%</span>'
       +'</div>';
-    h+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">'
+    hContent+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">'
       +'<span style="font-size:10px;color:var(--gray);width:80px;flex-shrink:0">Horizontal</span>'
       +'<input type="range" min="0" max="100" value="'+imgHPos+'" style="flex:1;accent-color:var(--orange)"'
       +' oninput="updateSlKey(\'imgHPos\',+this.value);this.nextSibling.textContent=this.value+\'%\'"/>'
       +'<span style="font-size:10px;font-weight:700;color:var(--text-1);width:34px;text-align:right;flex-shrink:0">'+imgHPos+'%</span>'
       +'</div>';
-    h+='<div class="field-hint" style="font-size:9px;color:var(--gray);margin:0 0 8px 88px">← Gauche · Droite →</div>';
-    h+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">'
+    hContent+='<div class="field-hint" style="font-size:9px;color:var(--gray);margin:0 0 8px 88px">← Gauche · Droite →</div>';
+    hContent+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">'
       +'<span style="font-size:10px;color:var(--gray);width:80px;flex-shrink:0">Vertical</span>'
       +'<input type="range" min="0" max="100" value="'+imgVPos+'" style="flex:1;accent-color:var(--orange)"'
       +' oninput="updateSlKey(\'imgVPos\',+this.value);this.nextSibling.textContent=this.value+\'%\'"/>'
       +'<span style="font-size:10px;font-weight:700;color:var(--text-1);width:34px;text-align:right;flex-shrink:0">'+imgVPos+'%</span>'
       +'</div>';
-    h+='<div class="field-hint" style="font-size:9px;color:var(--gray);margin:0 0 8px 88px">← Bas · Haut →</div>';
-    h+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">'
+    hContent+='<div class="field-hint" style="font-size:9px;color:var(--gray);margin:0 0 8px 88px">← Bas · Haut →</div>';
+    hContent+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">'
       +'<span style="font-size:10px;color:var(--gray);width:80px;flex-shrink:0">Opacité</span>'
       +'<input type="range" min="0" max="100" value="'+imgOpacity+'" style="flex:1;accent-color:var(--orange)"'
       +' oninput="updateSlKey(\'imgOpacity\',+this.value);this.nextSibling.textContent=this.value+\'%\'"/>'
       +'<span style="font-size:10px;font-weight:700;color:var(--text-1);width:34px;text-align:right;flex-shrink:0">'+imgOpacity+'%</span>'
       +'</div>';
-    h+='<div class="sec-title" style="margin-top:8px">Tailles de police</div>';
-    h+=eaFs('pill','Badge',50,12,80);
+    hFs+=eaFs('pill','Badge',50,12,80);
   }
   if(s.t==='chart'){
     var chartKind = s.chartKind || 'bar';
-    h+=ea('pill','Étiquette',s.pill);
-    h+=ea('sn','Numéro affiché',s.sn);
-    h+='<div class="field"><label>Type de graphique</label><select class="einp2" onchange="updateSlKey(\'chartKind\',this.value)">';
+    hContent+=ea('pill','Étiquette (badge)',s.pill);
+    hContent+=ea('sn','Numéro affiché',s.sn);
+    hContent+='<div class="field"><label>Type de graphique</label><select class="einp2" onchange="updateSlKey(\'chartKind\',this.value)">';
     [['bar','Histogramme'],['line','Courbe'],['bar100','Histogramme 100%'],['donut','Donut']].forEach(function(o){
-      h+='<option value="'+o[0]+'"'+(chartKind===o[0]?' selected':'')+'>'+o[1]+'</option>';
+      hContent+='<option value="'+o[0]+'"'+(chartKind===o[0]?' selected':'')+'>'+o[1]+'</option>';
     });
-    h+='</select></div>';
-    h+='<div class="sec-title" style="margin-top:4px">Import CSV / Excel</div>';
-    h+='<div class="field-hint" style="margin-bottom:6px">Collez vos données ici — un point par ligne, sous la forme <strong>Libellé;Valeur</strong>. Un copier-coller direct de deux colonnes Excel fonctionne aussi (une ligne d\'en-tête est détectée et ignorée automatiquement).</div>';
-    h+='<textarea class="einp2" id="chartCsvPaste" rows="4" style="resize:vertical;font-family:\'JetBrains Mono\',monospace;font-size:10.5px" placeholder="Janvier;30\nFévrier;55\nMars;40"></textarea>';
-    h+='<button type="button" class="btn-add-item" style="margin-top:6px" onclick="importChartCSV()">📋 Importer ces données (remplace les points actuels)</button>';
-    h+='<div class="sec-title" style="margin-top:14px">Données</div>';
-    h+='<div class="items-editor">';
+    hContent+='</select></div>';
+    hContent+='<div class="sec-title" style="margin-top:4px">Import CSV / Excel</div>';
+    hContent+='<div class="field-hint" style="margin-bottom:6px">Collez vos données ici — un point par ligne, sous la forme <strong>Libellé;Valeur</strong>. Un copier-coller direct de deux colonnes Excel fonctionne aussi (une ligne d\'en-tête est détectée et ignorée automatiquement).</div>';
+    hContent+='<textarea class="einp2" id="chartCsvPaste" rows="4" style="resize:vertical;font-family:\'JetBrains Mono\',monospace;font-size:10.5px" placeholder="Janvier;30\nFévrier;55\nMars;40"></textarea>';
+    hContent+='<button type="button" class="btn-add-item" style="margin-top:6px" onclick="importChartCSV()">📋 Importer ces données (remplace les points actuels)</button>';
+    hContent+='<div class="sec-title" style="margin-top:14px">Données</div>';
+    hContent+='<div class="items-editor">';
     var _chartPal = _chartPalette(car().accent||'#F05A1A');
     (s.items||[]).forEach(function(it,ix){
       var effColor = it.color || _chartPal[ix % _chartPal.length];
-      h+='<div class="item-card">'
+      hContent+='<div class="item-card">'
         +'<button class="item-del-btn" onclick="delChartItem('+ix+')">✕</button>'
         +'<div style="display:flex;gap:8px;align-items:flex-end">'
         +'<div class="field" style="flex:2;margin-bottom:0"><label>Libellé</label><input class="einp2" value="'+esc(it.label||'')+'" oninput="updateChartItem('+ix+',\'label\',this.value)"/></div>'
@@ -2973,10 +2989,9 @@ function renderEditor(){
         +'<div class="field" style="flex:0 0 40px;margin-bottom:0"><label>Coul.</label><input type="color" value="'+effColor+'" style="width:36px;height:34px;border:none;padding:0;border-radius:5px;cursor:pointer" oninput="updateChartItem('+ix+',\'color\',this.value)"/></div>'
         +'</div></div>';
     });
-    h+='</div>';
-    h+='<button class="btn-add-item" onclick="addChartItem()">+ Ajouter une donnée</button>';
-    h+='<div class="sec-title" style="margin-top:8px">Tailles de police</div>';
-    h+=eaFs('pill','Badge',50,12,80);
+    hContent+='</div>';
+    hContent+='<button class="btn-add-item" onclick="addChartItem()">+ Ajouter une donnée</button>';
+    hFs+=eaFs('pill','Badge',50,12,80);
   }
   if(s.t==='table'){
     var tCols = (s.columns && s.columns.length) ? s.columns : ['Colonne 1','Colonne 2'];
@@ -2988,12 +3003,12 @@ function renderEditor(){
       var on = tColAlign[ci]===val;
       return '<button type="button" style="width:22px;height:22px;border-radius:4px;border:1px solid var(--border);background:'+(on?'var(--orange)':'var(--surface-2)')+';color:'+(on?'white':'var(--text-1)')+';font-size:10px;cursor:pointer;flex-shrink:0" onclick="updateTableColAlign('+ci+',\''+val+'\')" title="'+title+'">'+icon+'</button>';
     };
-    h+=ea('pill','Étiquette',s.pill);
-    h+=ea('sn','Numéro affiché',s.sn);
-    h+='<div class="sec-title" style="margin-top:4px">Colonnes</div>';
-    h+='<div class="field-hint" style="margin-bottom:8px">Largeur relative, et alignement du texte (gauche / centre / droite) — pratique pour aligner des chiffres à droite.</div>';
+    hContent+=ea('pill','Étiquette (badge)',s.pill);
+    hContent+=ea('sn','Numéro affiché',s.sn);
+    hContent+='<div class="sec-title" style="margin-top:4px">Colonnes</div>';
+    hContent+='<div class="field-hint" style="margin-bottom:8px">Largeur relative, et alignement du texte (gauche / centre / droite) — pratique pour aligner des chiffres à droite.</div>';
     tCols.forEach(function(c,ci){
-      h+='<div style="background:var(--surface-1);border:1px solid var(--border);border-radius:7px;padding:8px;margin-bottom:8px">'
+      hContent+='<div style="background:var(--surface-1);border:1px solid var(--border);border-radius:7px;padding:8px;margin-bottom:8px">'
         +'<div style="display:flex;gap:6px;align-items:center;margin-bottom:6px">'
           +'<input class="einp2" style="flex:1" value="'+esc(c)+'" oninput="updateTableCol('+ci+',this.value)"/>'
           +(tCols.length>1?'<button class="item-del-btn" style="position:static;flex-shrink:0" onclick="delTableCol('+ci+')">✕</button>':'')
@@ -3007,13 +3022,13 @@ function renderEditor(){
         +'</div>'
       +'</div>';
     });
-    if(tCols.length<5) h+='<button class="btn-add-item" onclick="addTableCol()">+ Ajouter une colonne</button>';
-    h+='<div class="sec-title" style="margin-top:12px">Lignes</div>';
-    h+='<div class="field-hint" style="margin-bottom:8px">Donnez à une ligne (ex. "Total") une couleur de fond fixe, qui prend le pas sur l\'alternance automatique.</div>';
-    h+='<div class="items-editor">';
+    if(tCols.length<5) hContent+='<button class="btn-add-item" onclick="addTableCol()">+ Ajouter une colonne</button>';
+    hContent+='<div class="sec-title" style="margin-top:12px">Lignes</div>';
+    hContent+='<div class="field-hint" style="margin-bottom:8px">Donnez à une ligne (ex. "Total") une couleur de fond fixe, qui prend le pas sur l\'alternance automatique.</div>';
+    hContent+='<div class="items-editor">';
     tRows.forEach(function(r,ri){
       var rowColor = tRowColors[ri] || '';
-      h+='<div class="item-card">'
+      hContent+='<div class="item-card">'
         +'<button class="item-del-btn" onclick="delTableRow('+ri+')">✕</button>'
         +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap">'
           +'<label style="font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray)">Fond de ligne</label>'
@@ -3023,25 +3038,24 @@ function renderEditor(){
             : '<span style="font-size:9px;color:var(--gray)">Auto (alternance)</span>')
         +'</div>';
       tCols.forEach(function(c,ci){
-        h+='<div class="field" style="margin-bottom:6px"><label>'+esc(c||('Col '+(ci+1)))+'</label><input class="einp2" value="'+esc((r&&r[ci])||'')+'" oninput="updateTableCell('+ri+','+ci+',this.value)"/></div>';
+        hContent+='<div class="field" style="margin-bottom:6px"><label>'+esc(c||('Col '+(ci+1)))+'</label><input class="einp2" value="'+esc((r&&r[ci])||'')+'" oninput="updateTableCell('+ri+','+ci+',this.value)"/></div>';
       });
-      h+='</div>';
+      hContent+='</div>';
     });
-    h+='</div>';
-    h+='<button class="btn-add-item" onclick="addTableRow()">+ Ajouter une ligne</button>';
-    h+='<div class="sec-title" style="margin-top:8px">Tailles de police</div>';
-    h+=eaFs('pill','Badge',50,12,80);
-    h+=eaFs('tbl','Texte du tableau',30,10,70);
+    hContent+='</div>';
+    hContent+='<button class="btn-add-item" onclick="addTableRow()">+ Ajouter une ligne</button>';
+    hFs+=eaFs('pill','Badge',50,12,80);
+    hFs+=eaFs('tbl','Texte du tableau',30,10,70);
   }
-  h+='<div class="shape-mobile-hide">';
-  h+='<div class="sec-title" style="margin-top:16px">Bibliothèque de formes</div>';
-  h+='<div class="shape-palette">';
+
+  hShapes+='<div class="shape-mobile-hide">';
+  hShapes+='<div class="shape-palette">';
   SHAPE_DEFS.forEach(function(sd){
-    h+='<button type="button" class="shape-pal-btn" title="'+sd.label+'" onclick="addShape(\''+sd.type+'\')">'+sd.icon+'</button>';
+    hShapes+='<button type="button" class="shape-pal-btn" title="'+sd.label+'" onclick="addShape(\''+sd.type+'\')">'+sd.icon+'</button>';
   });
-  h+='</div>';
+  hShapes+='</div>';
   if((s.shapes||[]).length){
-    h+='<div class="field-hint" style="margin-bottom:8px">Glissez une forme sur l\'aperçu pour la déplacer, tirez son coin ▪ pour la redimensionner, utilisez ↻ pour la faire pivoter. Elle s\'aimante légèrement au centre de la slide et aux autres formes. Le calque du haut de cette liste est celui affiché au premier plan.</div>';
+    hShapes+='<div class="field-hint" style="margin-bottom:8px">Glissez une forme sur l\'aperçu pour la déplacer, tirez son coin ▪ pour la redimensionner, utilisez ↻ pour la faire pivoter. Elle s\'aimante légèrement au centre de la slide et aux autres formes. Le calque du haut de cette liste est celui affiché au premier plan.</div>';
     var shapesForList = s.shapes.slice().reverse();
     shapesForList.forEach(function(sh){
       var shIx = s.shapes.indexOf(sh);
@@ -3049,30 +3063,36 @@ function renderEditor(){
       var isText = sh.type==='text';
       var isRound = sh.type==='roundrect';
       var canFill = !isText && sh.type!=='line' && sh.type!=='arrow';
-      h+='<div class="shape-list-item">'
+      hShapes+='<div class="shape-list-item">'
         +'<span style="font-size:15px;width:18px;text-align:center;flex-shrink:0;font-weight:800" title="'+sd.label+'">'+sd.icon+'</span>'
         +'<input type="color" value="'+(sh.color||'#F05A1A')+'" title="Couleur" oninput="updateShapeKey(\''+sh.id+'\',\'color\',this.value)"/>';
       if(isText){
         var shFont = sh.fontFamily || car().fontBody || "'DM Sans',sans-serif";
-        h+='<input class="einp2" style="flex:1;min-width:70px;padding:5px 7px;font-size:11px" value="'+esc(sh.text||'')+'" placeholder="Votre texte" oninput="updateShapeKey(\''+sh.id+'\',\'text\',this.value)"/>'
+        hShapes+='<input class="einp2" style="flex:1;min-width:70px;padding:5px 7px;font-size:11px" value="'+esc(sh.text||'')+'" placeholder="Votre texte" oninput="updateShapeKey(\''+sh.id+'\',\'text\',this.value)"/>'
           +'<input type="range" min="12" max="160" value="'+(sh.fontSize!=null?sh.fontSize:42)+'" title="Taille du texte" oninput="updateShapeKey(\''+sh.id+'\',\'fontSize\',+this.value)"/>'
           +'<select class="einp2" style="flex:1;min-width:110px;padding:5px 7px;font-size:11px" title="Police du texte" onchange="updateShapeKey(\''+sh.id+'\',\'fontFamily\',this.value)">'
             +SHAPE_TEXT_FONTS.map(function(f){return '<option value="'+f[0].replace(/"/g,'&quot;')+'"'+(shFont===f[0]?' selected':'')+'>'+f[1]+'</option>';}).join('')
           +'</select>';
       } else {
-        if(canFill) h+='<label class="shape-list-fill"><input type="checkbox" '+(sh.fill!==false?'checked':'')+' onchange="updateShapeKey(\''+sh.id+'\',\'fill\',this.checked)"/>Rempli</label>';
-        h+='<input type="range" min="1" max="24" value="'+(sh.strokeWidth!=null?sh.strokeWidth:5)+'" title="Épaisseur du trait" oninput="updateShapeKey(\''+sh.id+'\',\'strokeWidth\',+this.value)"/>';
-        if(isRound) h+='<input type="range" min="0" max="50" value="'+(sh.rx!=null?sh.rx:14)+'" title="Rayon des coins" oninput="updateShapeKey(\''+sh.id+'\',\'rx\',+this.value)"/>';
+        if(canFill) hShapes+='<label class="shape-list-fill"><input type="checkbox" '+(sh.fill!==false?'checked':'')+' onchange="updateShapeKey(\''+sh.id+'\',\'fill\',this.checked)"/>Rempli</label>';
+        hShapes+='<input type="range" min="1" max="24" value="'+(sh.strokeWidth!=null?sh.strokeWidth:5)+'" title="Épaisseur du trait" oninput="updateShapeKey(\''+sh.id+'\',\'strokeWidth\',+this.value)"/>';
+        if(isRound) hShapes+='<input type="range" min="0" max="50" value="'+(sh.rx!=null?sh.rx:14)+'" title="Rayon des coins" oninput="updateShapeKey(\''+sh.id+'\',\'rx\',+this.value)"/>';
       }
-      h+='<input type="range" min="10" max="100" value="'+(sh.opacity!=null?sh.opacity:100)+'" title="Opacité" oninput="updateShapeKey(\''+sh.id+'\',\'opacity\',+this.value)"/>'
+      hShapes+='<input type="range" min="10" max="100" value="'+(sh.opacity!=null?sh.opacity:100)+'" title="Opacité" oninput="updateShapeKey(\''+sh.id+'\',\'opacity\',+this.value)"/>'
         +'<button class="item-del-btn" style="position:static" title="Monter d\'un cran (vers l\'avant)" '+(shIx===s.shapes.length-1?'disabled':'')+' onclick="moveShapeZ(\''+sh.id+'\',1)">▲</button>'
         +'<button class="item-del-btn" style="position:static" title="Descendre d\'un cran (vers l\'arrière)" '+(shIx===0?'disabled':'')+' onclick="moveShapeZ(\''+sh.id+'\',-1)">▼</button>'
         +'<button class="item-del-btn" style="position:static;margin-left:auto" title="Supprimer" onclick="delShape(\''+sh.id+'\')">✕</button>'
         +'</div>';
     });
   }
-  h+='</div>';
-  h+='<div class="shape-mobile-note">✋ La bibliothèque de formes est réservée à l\'ordinateur — la précision du glisser-déposer n\'est pas fiable au doigt. Les formes déjà ajoutées restent visibles et exportées normalement.</div>';
+  hShapes+='</div>';
+  hShapes+='<div class="shape-mobile-note">✋ La bibliothèque de formes est réservée à l\'ordinateur — la précision du glisser-déposer n\'est pas fiable au doigt. Les formes déjà ajoutées restent visibles et exportées normalement.</div>';
+
+  var h = hType
+    + accHTML('content','📝 Contenu', hContent)
+    + accHTML('fs','🔠 Tailles de police', hFs)
+    + accHTML('shapes','🔺 Bibliothèque de formes', hShapes);
+
   document.getElementById('slideEditor').innerHTML=h;
 }
 
@@ -4669,6 +4689,14 @@ window.addEventListener('resize', function(){
   scalePreview();
   updateTabsScrollButtons();
 });
+
+document.addEventListener('focusin', function(e){
+  var t = e.target;
+  if(!t || (t.tagName!=='INPUT' && t.tagName!=='TEXTAREA')) return;
+  if(t.closest && t.closest('#iconModal')) return; // ignore la barre de recherche du modal d'icônes
+  if(t.type==='color' || t.type==='range' || t.type==='file' || t.type==='checkbox') return;
+  _lastFocusedTextFieldEl = t;
+});
 window.addEventListener('load',function(){
   loadSavedUITheme();
   render();
@@ -4704,9 +4732,9 @@ var TUTORIAL_STEPS = [
   { target:'#slideEditor',
     title:"Éditez le contenu, à droite",
     text:"Le panneau de droite affiche l'édition de la slide sélectionnée. Les champs s'adaptent automatiquement selon le type de slide choisi." },
-  { target:'.shape-palette',
+    { target:'#acc_shapes',
     title:"Bibliothèque de formes",
-    text:"Toujours dans le panneau de droite : ajoutez des formes (flèches, rectangles, étoiles, texte libre...) sur n'importe quelle slide, puis glissez-les sur l'aperçu pour les positionner." },
+    text:"Toujours dans le panneau de droite : dépliez cette section pour ajouter des formes (flèches, rectangles, étoiles, texte libre...) sur n'importe quelle slide, puis glissez-les sur l'aperçu pour les positionner." },
   { target:'#pt1', before:function(){ setPTab(1); },
     title:"L'onglet Fond",
     text:"Changez la couleur, le dégradé, l'image ou le motif de fond, pour la slide actuelle ou tout le carrousel d'un coup." },
@@ -4942,10 +4970,23 @@ function renderIconGrid(query){
 }
 
 function copyIcon(emoji){
+  var el = _lastFocusedTextFieldEl;
+  if(el && document.body.contains(el) && (el.tagName==='INPUT' || el.tagName==='TEXTAREA')){
+    var start = el.selectionStart != null ? el.selectionStart : el.value.length;
+    var end   = el.selectionEnd   != null ? el.selectionEnd   : el.value.length;
+    var val   = el.value;
+    el.value  = val.slice(0,start) + emoji + val.slice(end);
+    var pos   = start + emoji.length;
+    try{ el.setSelectionRange(pos,pos); }catch(e){}
+    el.focus();
+    el.dispatchEvent(new Event('input', {bubbles:true})); // déclenche les oninput existants (updateSl, C[ac].post=...)
+    notif(emoji + ' inséré ✓');
+    return;
+  }
+  // Aucun champ actif détecté (ex. modal ouvert sans avoir cliqué dans un champ avant) → repli sur le presse-papier
   navigator.clipboard.writeText(emoji).then(function(){
-    notif(emoji + ' copié ! Collez-le dans un champ texte (Ctrl+V)');
+    notif(emoji + ' copié ! Cliquez d\'abord dans un champ texte, puis réessayez.');
   }).catch(function(){
-    // Fallback si clipboard non disponible
     notif(emoji + ' — copiez manuellement : ' + emoji);
   });
 }
