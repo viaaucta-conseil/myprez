@@ -882,49 +882,6 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 .ai-status{font-size:10px;color:var(--gray);margin-top:8px;min-height:15px}
 @media(max-width:760px){.welcome-choices{grid-template-columns:1fr}.welcome-card{max-height:92vh;overflow:auto}.welcome-head{padding:26px}.welcome-title{font-size:28px}.brandkit-grid{grid-template-columns:1fr}}
 
-
-/* ═══ AGRANDISSEMENT GLOBAL DE L'INTERFACE (+2px) ═══ */
-html,body{font-size:15px}
-
-.topbar-logo small,.ctab-del,.sec-title,.field label,.slide-badge,.shape-list-fill,
-.pattern-btn,.prod-notes-label,.hashtag-del,.hashtag-section-label,.hashtag-reset,
-.tpl-card-pilier,.tpl-card-meta,.tut-progress,.icon-btn[title]:hover::after{font-size:11px}
-
-.fmt-dim,.acc-header,.field-hint,.slide-act,.bg-type-btn,.hashtag,.logo-shape-btn,
-.icon-cat-btn,.icon-insert-btn,.img-lib-save-btn,.img-lib-pick-btn,.tut-skip,.json-area,
-.welcome-kicker,.ai-status,.ai-step-desc{font-size:12px}
-
-.tpl-card-desc{font-size:12.5px}
-
-.tbtn,.ctab,.ptab,.acc-chevron,.slide-lbl,.add-slide-row select,.btn-add-slide,
-.btn-add-item,.prod-notes-area,.sc-exp,.panel-right-title,.post-preview,.post-textarea,
-.copy-post-btn,.hashtag-add-input,.hashtag-add-btn,.fmt-tb-btn,.icon-modal-close,
-.notice,.ui-theme-name,.tpl-cat-btn,.tpl-card-btn,#lic-overlay .lic-input,
-.welcome-sub,.welcome-choice-desc{font-size:13px}
-
-.icon-search,.sc-cnt,.field input,.field textarea,.field select,.einp2,
-.modal-close,.notif,#legal-modal,#legal-modal strong,.tut-tooltip p,.ai-step-title,
-.mobile-tabbar .fmt-menu-btn,.mobile-tab-btn,.export-menu button{font-size:14px}
-
-.icon-modal-title,.tpl-card-title,#lic-overlay p,.license-content{font-size:15px}
-
-.tut-tooltip h4,.welcome-choice-title{font-size:17px}
-
-.shape-pal-btn{font-size:19px}
-
-.item-num-badge,.item-del-btn,.icon-btn,.modal-title,.license-content h2{font-size:20px}
-
-.shape-del-btn{font-size:22px}
-
-#lic-overlay .lic-logo,.modal-header{font-size:24px}
-
-#legal-modal h3{font-size:25px}
-
-.shape-rotate-handle{font-size:26px}
-
-#lic-overlay h2{font-size:30px}
-
-.welcome-title,.tpl-card-head{font-size:36px}
 	
 </style>
 </head>
@@ -939,7 +896,7 @@ html,body{font-size:15px}
   <div class="rotate-overlay-inner">
     <div style="font-size:42px;margin-bottom:14px">📱↻</div>
     <div style="font-size:15px;font-weight:700;margin-bottom:8px">Tournez votre appareil</div>
-    <div style="font-size:12px;opacity:.65;line-height:1.6;max-width:280px">My Prez nécessite le mode paysage sur mobile pour rester confortable à utiliser.</div>
+    <div style="font-size:14px;opacity:.65;line-height:1.6;max-width:280px">My Prez nécessite le mode paysage sur mobile pour rester confortable à utiliser.</div>
   </div>
 </div>
 
@@ -959,7 +916,7 @@ html,body{font-size:15px}
     <button class="lic-btn" id="licBtn">⚡ ACTIVER</button>
     <div class="lic-msg" id="licMsg"></div>
     <hr class="lic-divider"/>
-    <p style="font-size:11px;color:#6b6b8a">Pas encore de licence ?<br>
+    <p style="font-size:14px;color:#6b6b8a">Pas encore de licence ?<br>
       <a href="https://viaaucta-conseil.github.io/myprez/" class="lic-buy" target="_blank">Acheter une licence</a>
     </p>
   </div>
@@ -1082,7 +1039,7 @@ html,body{font-size:15px}
           <label>Couleur personnalisée</label>
           <div class="color-picker-wrap">
             <input type="color" class="color-input" id="bgColorPicker" value="#0D2B4E" oninput="setBgColor(this.value,null)"/>
-            <input class="einp" id="bgColorHex" value="#0D2B4E" style="flex:1;background:var(--surface-1);border:1px solid var(--border);border-radius:6px;padding:5px 8px;font-size:12px;color:var(--text-1)" oninput="setBgColor(this.value,null)"/>
+            <input class="einp" id="bgColorHex" value="#0D2B4E" style="flex:1;background:var(--surface-1);border:1px solid var(--border);border-radius:6px;padding:5px 8px;font-size:14px;color:var(--text-1)" oninput="setBgColor(this.value,null)"/>
           </div>
         </div>
         <div class="sec-title" style="margin-top:14px">Couleur du texte</div>
@@ -1120,7 +1077,7 @@ html,body{font-size:15px}
         <div class="field">
           <label>Angle</label>
           <input type="range" id="gradAngle" min="0" max="360" value="135" style="width:100%" oninput="updateGradient();document.getElementById('gradAngleLbl').textContent=this.value+'°'"/>
-          <span id="gradAngleLbl" style="font-size:11px;color:var(--gray)">135°</span>
+          <span id="gradAngleLbl" style="font-size:14px;color:var(--gray)">135°</span>
         </div>
       </div>
 
@@ -1128,8 +1085,8 @@ html,body{font-size:15px}
         <div class="sec-title">Image de fond</div>
         <div id="bgImgPreview" style="display:none;background:var(--surface-1);border:1px solid var(--border);border-radius:7px;padding:8px 10px;margin-bottom:8px;align-items:center;gap:8px">
           <span style="font-size:18px">🖼</span>
-          <span id="bgImgName" style="font-size:11px;color:var(--text-1);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">image.jpg</span>
-          <button onclick="removeBgImage()" style="background:#EF4444;color:white;border:none;border-radius:4px;padding:3px 8px;font-size:10px;font-weight:700;cursor:pointer">✕ Supprimer</button>
+          <span id="bgImgName" style="font-size:14px;color:var(--text-1);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">image.jpg</span>
+          <button onclick="removeBgImage()" style="background:#EF4444;color:white;border:none;border-radius:4px;padding:3px 8px;font-size:14px;font-weight:700;cursor:pointer">✕ Supprimer</button>
         </div>
         <button type="button" class="img-lib-save-btn" style="width:100%;margin-bottom:8px;display:none" id="bgImgLibSaveBtn" onclick="saveCurrentToLibrary('bgImage')">💾 Enregistrer dans ma bibliothèque</button>
         <div class="upload-zone" onclick="document.getElementById('bgImgInput').click()">
@@ -1224,8 +1181,8 @@ html,body{font-size:15px}
       <div style="height:16px"></div>
       <div class="sec-title">Appliquer à</div>
       <div style="display:flex;gap:6px;flex-wrap:wrap">
-        <button class="tbtn tbtn-orange" style="font-size:10px;padding:5px 10px" onclick="applyBgToAll()">Toutes les slides</button>
-        <button class="tbtn tbtn-gray" style="font-size:10px;padding:5px 10px;background:#0D2B4E;color:white" onclick="applyBgToCurrent()">Slide actuelle</button>
+        <button class="tbtn tbtn-orange" style="font-size:14px;padding:5px 10px" onclick="applyBgToAll()">Toutes les slides</button>
+        <button class="tbtn tbtn-gray" style="font-size:14px;padding:5px 10px;background:#0D2B4E;color:white" onclick="applyBgToCurrent()">Slide actuelle</button>
       </div>
     </div>
 
@@ -1243,9 +1200,9 @@ html,body{font-size:15px}
       <div style="height:16px"></div>
       <div class="sec-title">Identité visuelle</div>
       <div style="padding:12px;background:var(--surface-1);border:1px solid var(--border);border-radius:8px;margin-bottom:10px">
-        <div style="font-size:11px;font-weight:700;color:var(--text-1);margin-bottom:4px">Brand Kit global</div>
-        <div style="font-size:10px;color:var(--gray);line-height:1.5;margin-bottom:9px">Le Brand Kit définit votre identité pour vos nouveaux carrousels. Ici, vous gérez uniquement les réglages propres à ce carrousel.</div>
-        <button class="tbtn tbtn-blue" style="width:100%;font-size:10px;padding:7px" onclick="openBrandKit()">◈ Ouvrir le Brand Kit</button>
+        <div style="font-size:14px;font-weight:700;color:var(--text-1);margin-bottom:4px">Brand Kit global</div>
+        <div style="font-size:14px;color:var(--gray);line-height:1.5;margin-bottom:9px">Le Brand Kit définit votre identité pour vos nouveaux carrousels. Ici, vous gérez uniquement les réglages propres à ce carrousel.</div>
+        <button class="tbtn tbtn-blue" style="width:100%;font-size:14px;padding:7px" onclick="openBrandKit()">Ouvrir le Brand Kit</button>
       </div>
       <div style="height:16px"></div>
       <div class="sec-title">Barre accent (obar) &amp; point pied de page</div>
@@ -1366,8 +1323,8 @@ html,body{font-size:15px}
   
 <div class="panel-center" id="centerPanel">
   <div class="center-preview-stack" id="centerPreviewStack">
-	<div id="hiddenSlideBanner" style="display:none;background:rgba(239,68,68,.12);color:#EF4444;border:1px solid rgba(239,68,68,.35);border-radius:6px;padding:6px 14px;font-size:11px;font-weight:700;margin-bottom:8px">🙈 Cette slide est masquée - elle n'apparaîtra pas dans les exports</div>
-	<div id="lockedSlideBanner" style="display:none;background:rgba(240,90,26,.12);color:var(--orange);border:1px solid rgba(240,90,26,.35);border-radius:6px;padding:6px 14px;font-size:11px;font-weight:700;margin-bottom:8px">🔒 Cette slide est verrouillée - déverrouillez-la pour la modifier</div>
+	<div id="hiddenSlideBanner" style="display:none;background:rgba(239,68,68,.12);color:#EF4444;border:1px solid rgba(239,68,68,.35);border-radius:6px;padding:6px 14px;font-size:14px;font-weight:700;margin-bottom:8px">🙈 Cette slide est masquée - elle n'apparaîtra pas dans les exports</div>
+	<div id="lockedSlideBanner" style="display:none;background:rgba(240,90,26,.12);color:var(--orange);border:1px solid rgba(240,90,26,.35);border-radius:6px;padding:6px 14px;font-size:14px;font-weight:700;margin-bottom:8px">🔒 Cette slide est verrouillée - déverrouillez-la pour la modifier</div>
 	<div class="preview-wrap" id="previewWrap">
       <div class="preview-frame" id="previewFrame"></div>
     </div>
@@ -1396,10 +1353,10 @@ html,body{font-size:15px}
     </div>
     <div class="panel-right-body">
       <div style="display:flex;gap:6px;margin-bottom:4px">
-        <button class="tbtn tbtn-orange" style="flex:1;font-size:10px;padding:6px" onclick="copySlideStyle()" title="Copie le fond et les tailles de police de cette slide">📋 Copier le style</button>
-        <button class="tbtn tbtn-orange" style="flex:1;font-size:10px;padding:6px" id="btnPasteStyle" onclick="pasteSlideStyle()" title="Applique le style copié à cette slide, sans toucher au texte">🎨 Coller le style</button>
+        <button class="tbtn tbtn-orange" style="flex:1;font-size:14px;padding:6px" onclick="copySlideStyle()" title="Copie le fond et les tailles de police de cette slide">📋 Copier le style</button>
+        <button class="tbtn tbtn-orange" style="flex:1;font-size:14px;padding:6px" id="btnPasteStyle" onclick="pasteSlideStyle()" title="Applique le style copié à cette slide, sans toucher au texte">🎨 Coller le style</button>
       </div>
-      <div id="styleClipboardHint" style="font-size:9px;color:var(--gray);margin-bottom:10px">Aucun style copié pour l'instant</div>
+      <div id="styleClipboardHint" style="font-size:14px;color:var(--gray);margin-bottom:10px">Aucun style copié pour l'instant</div>
       <div id="slideEditor"></div>
     </div>
   </div>
@@ -1449,8 +1406,8 @@ html,body{font-size:15px}
     </div>
     <div id="pdfDone" style="display:none;text-align:center;padding:20px 0">
       <div style="font-size:40px;margin-bottom:12px">✅</div>
-      <p style="font-size:14px;font-weight:700;color:var(--text-1);margin-bottom:6px">PDF généré avec succès !</p>
-      <p style="font-size:11px;color:var(--gray);margin-bottom:20px">Le téléchargement a démarré automatiquement.</p>
+      <p style="font-size:16px;font-weight:700;color:var(--text-1);margin-bottom:6px">PDF généré avec succès !</p>
+      <p style="font-size:14px;color:var(--gray);margin-bottom:20px">Le téléchargement a démarré automatiquement.</p>
       <button class="tbtn tbtn-orange" style="width:100%" onclick="closeOverlay('ovPDF')">Fermer</button>
     </div>
   </div>
@@ -1466,12 +1423,12 @@ html,body{font-size:15px}
     <div id="pptProgress" class="export-loading">
       <div class="spinner"></div>
       <p id="pptProgressTxt">Préparation…</p>
-      <p style="font-size:10px;color:var(--gray);margin-top:8px">Rendu de chaque slide en image PNG, puis assemblage du fichier .pptx</p>
+      <p style="font-size:14px;color:var(--gray);margin-top:8px">Rendu de chaque slide en image PNG, puis assemblage du fichier .pptx</p>
     </div>
     <div id="pptDone" style="display:none;text-align:center;padding:20px 0">
       <div style="font-size:40px;margin-bottom:12px">✅</div>
       <p style="font-size:14px;font-weight:700;color:var(--text-1);margin-bottom:6px">PowerPoint généré avec succès !</p>
-      <p style="font-size:11px;color:var(--gray);margin-bottom:20px">Le téléchargement a démarré automatiquement.</p>
+      <p style="font-size:14px;color:var(--gray);margin-bottom:20px">Le téléchargement a démarré automatiquement.</p>
       <button class="tbtn tbtn-orange" style="width:100%" onclick="closeOverlay('ovPPT')">Fermer</button>
     </div>
   </div>
@@ -1536,7 +1493,7 @@ html,body{font-size:15px}
     </div>
     <div class="notice">Une version est enregistrée automatiquement toutes les quelques minutes pendant que vous travaillez, et juste avant la fermeture de l'onglet. Restaurer une version remplace l'état actuel de tous vos carrousels - sauvegardez au format JSON avant si vous voulez garder une trace du travail en cours.</div>
     <div style="display:flex;justify-content:flex-end;margin-bottom:10px">
-      <button class="tbtn tbtn-orange" style="font-size:10px;padding:5px 12px" onclick="maybeSnapshotVersion(true);renderVersionHistoryList()">📌 Enregistrer une version maintenant</button>
+      <button class="tbtn tbtn-orange" style="font-size:14px;padding:5px 12px" onclick="maybeSnapshotVersion(true);renderVersionHistoryList()">📌 Enregistrer une version maintenant</button>
     </div>
     <div id="versionHistoryList" style="display:flex;flex-direction:column;gap:8px;max-height:420px;overflow-y:auto"></div>
   </div>
@@ -1606,13 +1563,13 @@ html,body{font-size:15px}
       </div>
     </div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px">
-      <button class="tbtn tbtn-orange" style="font-size:10px;padding:5px 10px" onclick="resetUIColors()">↺ Réinitialiser</button>
+      <button class="tbtn tbtn-orange" style="font-size:14px;padding:5px 10px" onclick="resetUIColors()">↺ Réinitialiser</button>
     </div>
 
     <!-- Hashtags rapides -->
     <div class="sec-title" style="margin-bottom:10px">Hashtags rapides</div>
     <div class="field-hint" style="margin-bottom:8px">Un hashtag par ligne (avec le # devant)</div>
-    <textarea class="einp2" id="hashtagsEditor" rows="8" style="resize:vertical;font-size:11px;line-height:1.8" oninput="updateHashtags(this.value)">#MyTagline
+    <textarea class="einp2" id="hashtagsEditor" rows="8" style="resize:vertical;font-size:14px;line-height:1.8" oninput="updateHashtags(this.value)">#MyTagline
 #Entrepreneuriat
 #Stratégie
 #Leadership
@@ -1623,7 +1580,7 @@ html,body{font-size:15px}
 <div id="notif" class="notif"></div>
 
 <!-- INPUT CSS helper -->
-<style>.einp2{width:100%;background:var(--surface-1);border:1px solid var(--border);border-radius:6px;padding:6px 9px;font-family:var(--app-font);font-size:12px;color:var(--text-1)}.einp2:focus{border-color:var(--orange);background:var(--surface-2)}</style>
+<style>.einp2{width:100%;background:var(--surface-1);border:1px solid var(--border);border-radius:6px;padding:6px 9px;font-family:var(--app-font);font-size:14px;color:var(--text-1)}.einp2:focus{border-color:var(--orange);background:var(--surface-2)}</style>
 
 <script>
 /* ═══════════════════════════════════════
@@ -1787,7 +1744,7 @@ function renderTemplatesGrid(){
   if(!wrap) return;
   var list = _tplCurrentFilter==='Tous' ? TEMPLATES : TEMPLATES.filter(function(t){ return t.pilier===_tplCurrentFilter; });
   if(!list.length){
-    wrap.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--gray);font-size:12px;padding:30px">Aucun template dans ce pilier pour l\'instant.</div>';
+    wrap.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--gray);font-size:14px;padding:30px">Aucun template dans ce pilier pour l\'instant.</div>';
     return;
   }
   var h = '';
@@ -1883,7 +1840,7 @@ function renderImageLibraryGrid(){
   if(!wrap) return;
   var list = _loadImageLibrary().slice().reverse();
   if(!list.length){
-    wrap.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--gray);font-size:12px;padding:30px">Aucune image enregistrée pour l\'instant.<br>Chargez une image puis cliquez "💾 Enregistrer dans ma bibliothèque".</div>';
+    wrap.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--gray);font-size:14px;padding:30px">Aucune image enregistrée pour l\'instant.<br>Chargez une image puis cliquez "💾 Enregistrer dans ma bibliothèque".</div>';
     return;
   }
   var h = '';
@@ -1892,7 +1849,7 @@ function renderImageLibraryGrid(){
       + '<div class="img-lib-thumb-wrap"><img src="'+it.data+'" class="img-lib-thumb"/></div>'
       + '<input class="einp2 img-lib-name" value="'+esc(it.name||'')+'" oninput="renameLibraryImage(\''+it.id+'\',this.value)"/>'
       + '<div style="display:flex;gap:5px;margin-top:6px">'
-      + (_imgLibraryTarget ? '<button class="tpl-card-btn" style="flex:1;margin-top:0;padding:6px;font-size:10px" onclick="useLibraryImage(\''+it.id+'\')">Utiliser</button>' : '')
+      + (_imgLibraryTarget ? '<button class="tpl-card-btn" style="flex:1;margin-top:0;padding:6px;font-size:14px" onclick="useLibraryImage(\''+it.id+'\')">Utiliser</button>' : '')
       + '<button class="item-del-btn" style="position:static;flex-shrink:0" onclick="deleteLibraryImage(\''+it.id+'\')" title="Supprimer">✕</button>'
       + '</div>'
       + '</div>';
@@ -2827,8 +2784,8 @@ function renderEditor(){
     document.getElementById('slideEditor').innerHTML =
       '<div style="text-align:center;padding:24px 14px;background:var(--surface-1);border:1px dashed var(--border);border-radius:10px">'
       +'<div style="font-size:28px;margin-bottom:8px">🔒</div>'
-      +'<div style="font-size:12px;font-weight:700;color:var(--text-1);margin-bottom:6px">Cette slide est verrouillée</div>'
-      +'<div style="font-size:11px;color:var(--gray);line-height:1.6;margin-bottom:14px">Son contenu, son fond et ses formes sont protégés contre toute modification tant qu\'elle reste verrouillée. Pratique pour figer une slide finalisée pendant que vous travaillez sur les autres.</div>'
+      +'<div style="font-size:14px;font-weight:700;color:var(--text-1);margin-bottom:6px">Cette slide est verrouillée</div>'
+      +'<div style="font-size:14px;color:var(--gray);line-height:1.6;margin-bottom:14px">Son contenu, son fond et ses formes sont protégés contre toute modification tant qu\'elle reste verrouillée. Pratique pour figer une slide finalisée pendant que vous travaillez sur les autres.</div>'
       +'<button class="tbtn tbtn-orange" onclick="toggleSlideLock('+as+')">🔓 Déverrouiller cette slide</button>'
       +'</div>';
     return;
@@ -2840,7 +2797,7 @@ function renderEditor(){
     +'<div class="fmt-tb-sep"></div>'
     +'<button type="button" class="fmt-tb-btn" onclick="fmtInsert(\''+key+'\',\'em\')" title="Colorer en accent (orange)" style="color:var(--orange)">● Accent</button>'
     +'<div class="fmt-tb-sep"></div>'
-    +'<div style="width:100%;font-size:9px;color:var(--gray);margin-top:4px;">Sélectionne du texte puis clique</div>'
+    +'<div style="width:100%;font-size:14px;color:var(--gray);margin-top:4px;">Sélectionne du texte puis clique</div>'
     +'</div>';
 };
   var ea=function(key,label,val,rows,hint,hasFormat){
@@ -2858,10 +2815,10 @@ function renderEditor(){
   var eaFs=function(key,label,def,mn,mx){
     var v=fs[key]!=null?fs[key]:def;
     return '<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">'
-      +'<span style="font-size:10px;color:var(--gray);width:80px;flex-shrink:0">'+label+'</span>'
+      +'<span style="font-size:14px;color:var(--gray);width:80px;flex-shrink:0">'+label+'</span>'
       +'<input type="range" min="'+(mn||16)+'" max="'+(mx||160)+'" value="'+v+'" style="flex:1;accent-color:var(--orange)"'
       +' oninput="updateSlFs(\''+key+'\',+this.value);this.nextSibling.textContent=this.value+\'px\'"/>'
-      +'<span style="font-size:10px;font-weight:700;color:var(--text-1);width:34px;text-align:right;flex-shrink:0">'+v+'px</span>'
+      +'<span style="font-size:14px;font-weight:700;color:var(--text-1);width:34px;text-align:right;flex-shrink:0">'+v+'px</span>'
       +'</div>';
   };
   
@@ -2955,30 +2912,30 @@ function renderEditor(){
     hContent+='</div>';
     hContent+='<div class="sec-title" style="margin-top:8px">Réglages de l\'image</div>';
     hContent+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">'
-      +'<span style="font-size:10px;color:var(--gray);width:80px;flex-shrink:0">Taille</span>'
+      +'<span style="font-size:14px;color:var(--gray);width:80px;flex-shrink:0">Taille</span>'
       +'<input type="range" min="10" max="100" value="'+imgSize+'" style="flex:1;accent-color:var(--orange)"'
       +' oninput="updateSlKey(\'imgSize\',+this.value);this.nextSibling.textContent=this.value+\'%\'"/>'
-      +'<span style="font-size:10px;font-weight:700;color:var(--text-1);width:34px;text-align:right;flex-shrink:0">'+imgSize+'%</span>'
+      +'<span style="font-size:14px;font-weight:700;color:var(--text-1);width:34px;text-align:right;flex-shrink:0">'+imgSize+'%</span>'
       +'</div>';
     hContent+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">'
-      +'<span style="font-size:10px;color:var(--gray);width:80px;flex-shrink:0">Horizontal</span>'
+      +'<span style="font-size:14px;color:var(--gray);width:80px;flex-shrink:0">Horizontal</span>'
       +'<input type="range" min="0" max="100" value="'+imgHPos+'" style="flex:1;accent-color:var(--orange)"'
       +' oninput="updateSlKey(\'imgHPos\',+this.value);this.nextSibling.textContent=this.value+\'%\'"/>'
-      +'<span style="font-size:10px;font-weight:700;color:var(--text-1);width:34px;text-align:right;flex-shrink:0">'+imgHPos+'%</span>'
+      +'<span style="font-size:14px;font-weight:700;color:var(--text-1);width:34px;text-align:right;flex-shrink:0">'+imgHPos+'%</span>'
       +'</div>';
-    hContent+='<div class="field-hint" style="font-size:9px;color:var(--gray);margin:0 0 8px 88px">← Gauche · Droite →</div>';
+    hContent+='<div class="field-hint" style="font-size:14px;color:var(--gray);margin:0 0 8px 88px">← Gauche · Droite →</div>';
     hContent+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">'
-      +'<span style="font-size:10px;color:var(--gray);width:80px;flex-shrink:0">Vertical</span>'
+      +'<span style="font-size:14px;color:var(--gray);width:80px;flex-shrink:0">Vertical</span>'
       +'<input type="range" min="0" max="100" value="'+imgVPos+'" style="flex:1;accent-color:var(--orange)"'
       +' oninput="updateSlKey(\'imgVPos\',+this.value);this.nextSibling.textContent=this.value+\'%\'"/>'
-      +'<span style="font-size:10px;font-weight:700;color:var(--text-1);width:34px;text-align:right;flex-shrink:0">'+imgVPos+'%</span>'
+      +'<span style="font-size:14px;font-weight:700;color:var(--text-1);width:34px;text-align:right;flex-shrink:0">'+imgVPos+'%</span>'
       +'</div>';
-    hContent+='<div class="field-hint" style="font-size:9px;color:var(--gray);margin:0 0 8px 88px">← Bas · Haut →</div>';
+    hContent+='<div class="field-hint" style="font-size:14px;color:var(--gray);margin:0 0 8px 88px">← Bas · Haut →</div>';
     hContent+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">'
-      +'<span style="font-size:10px;color:var(--gray);width:80px;flex-shrink:0">Opacité</span>'
+      +'<span style="font-size:14px;color:var(--gray);width:80px;flex-shrink:0">Opacité</span>'
       +'<input type="range" min="0" max="100" value="'+imgOpacity+'" style="flex:1;accent-color:var(--orange)"'
       +' oninput="updateSlKey(\'imgOpacity\',+this.value);this.nextSibling.textContent=this.value+\'%\'"/>'
-      +'<span style="font-size:10px;font-weight:700;color:var(--text-1);width:34px;text-align:right;flex-shrink:0">'+imgOpacity+'%</span>'
+      +'<span style="font-size:14px;font-weight:700;color:var(--text-1);width:34px;text-align:right;flex-shrink:0">'+imgOpacity+'%</span>'
       +'</div>';
     hFs+=eaFs('pill','Badge',50,12,80);
   }
@@ -2993,7 +2950,7 @@ function renderEditor(){
     hContent+='</select></div>';
     hContent+='<div class="sec-title" style="margin-top:4px">Import CSV / Excel</div>';
     hContent+='<div class="field-hint" style="margin-bottom:6px">Collez vos données ici, un point par ligne, sous la forme <strong>Libellé;Valeur</strong>. Un copier-coller direct de deux colonnes Excel fonctionne aussi (une ligne d\'en-tête est détectée et ignorée automatiquement).</div>';
-    hContent+='<textarea class="einp2" id="chartCsvPaste" rows="4" style="resize:vertical;font-family:\'JetBrains Mono\',monospace;font-size:10.5px" placeholder="Janvier;30\nFévrier;55\nMars;40"></textarea>';
+    hContent+='<textarea class="einp2" id="chartCsvPaste" rows="4" style="resize:vertical;font-family:\'JetBrains Mono\',monospace;font-size:14px" placeholder="Janvier;30\nFévrier;55\nMars;40"></textarea>';
     hContent+='<button type="button" class="btn-add-item" style="margin-top:6px" onclick="importChartCSV()">📋 Importer ces données (remplace les points actuels)</button>';
     hContent+='<div class="sec-title" style="margin-top:14px">Données</div>';
     hContent+='<div class="items-editor">';
@@ -3020,7 +2977,7 @@ function renderEditor(){
     var tRowColors = s.rowColors || [];
     var alignBtn = function(ci,val,icon,title){
       var on = tColAlign[ci]===val;
-      return '<button type="button" style="width:22px;height:22px;border-radius:4px;border:1px solid var(--border);background:'+(on?'var(--orange)':'var(--surface-2)')+';color:'+(on?'white':'var(--text-1)')+';font-size:10px;cursor:pointer;flex-shrink:0" onclick="updateTableColAlign('+ci+',\''+val+'\')" title="'+title+'">'+icon+'</button>';
+      return '<button type="button" style="width:22px;height:22px;border-radius:4px;border:1px solid var(--border);background:'+(on?'var(--orange)':'var(--surface-2)')+';color:'+(on?'white':'var(--text-1)')+';font-size:14px;cursor:pointer;flex-shrink:0" onclick="updateTableColAlign('+ci+',\''+val+'\')" title="'+title+'">'+icon+'</button>';
     };
     hContent+=ea('pill','Étiquette (badge)',s.pill);
     hContent+=ea('sn','Numéro affiché',s.sn);
@@ -3034,7 +2991,7 @@ function renderEditor(){
         +'</div>'
         +'<div style="display:flex;align-items:center;gap:6px">'
           +'<input type="range" min="8" max="60" value="'+tColW[ci]+'" style="flex:1;accent-color:var(--orange)" title="Largeur de la colonne" oninput="updateTableColWidth('+ci+',+this.value);this.nextElementSibling.textContent=this.value+\'%\'"/>'
-          +'<span style="font-size:9px;color:var(--gray);width:26px;flex-shrink:0">'+tColW[ci]+'%</span>'
+          +'<span style="font-size:14px;color:var(--gray);width:26px;flex-shrink:0">'+tColW[ci]+'%</span>'
           +'<div style="display:flex;gap:2px;margin-left:4px">'
             +alignBtn(ci,'left','⯇','Aligner à gauche')+alignBtn(ci,'center','◆','Centrer')+alignBtn(ci,'right','⯈','Aligner à droite')
           +'</div>'
@@ -3050,11 +3007,11 @@ function renderEditor(){
       hContent+='<div class="item-card">'
         +'<button class="item-del-btn" onclick="delTableRow('+ri+')">✕</button>'
         +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap">'
-          +'<label style="font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray)">Fond de ligne</label>'
+          +'<label style="font-size:14px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray)">Fond de ligne</label>'
           +'<input type="color" value="'+(rowColor||'#FFFFFF')+'" style="width:28px;height:24px;border:1px solid var(--border);border-radius:4px;cursor:pointer;padding:0" oninput="updateTableRowColor('+ri+',this.value)"/>'
           +(rowColor
-            ? '<button type="button" class="fmt-tb-btn" style="font-size:9px;padding:2px 8px" onclick="updateTableRowColor('+ri+',null)">↺ Auto</button>'
-            : '<span style="font-size:9px;color:var(--gray)">Auto (alternance)</span>')
+            ? '<button type="button" class="fmt-tb-btn" style="font-size:14px;padding:2px 8px" onclick="updateTableRowColor('+ri+',null)">↺ Auto</button>'
+            : '<span style="font-size:14px;color:var(--gray)">Auto (alternance)</span>')
         +'</div>';
       tCols.forEach(function(c,ci){
         hContent+='<div class="field" style="margin-bottom:6px"><label>'+esc(c||('Col '+(ci+1)))+'</label><input class="einp2" value="'+esc((r&&r[ci])||'')+'" oninput="updateTableCell('+ri+','+ci+',this.value)"/></div>';
@@ -3076,7 +3033,7 @@ function renderEditor(){
   });
   hIcons += '</div>';
   hIcons += '<div class="icon-grid" id="iconGridInline" style="grid-template-columns:repeat(6,1fr);max-height:220px">'+_iconButtonsHTML(_iconSearchInline||'')+'</div>';
-  hIcons += '<div style="margin-top:8px;font-size:10px;color:var(--gray);text-align:center">Cliquez dans un champ texte, puis cliquez une icône pour l\'insérer directement à l\'endroit du curseur</div>';
+  hIcons += '<div style="margin-top:8px;font-size:14px;color:var(--gray);text-align:center">Cliquez dans un champ texte, puis cliquez une icône pour l\'insérer directement à l\'endroit du curseur</div>';
 	
   hShapes+='<div class="shape-mobile-hide">';
   hShapes+='<div class="shape-palette">';
@@ -3098,9 +3055,9 @@ function renderEditor(){
         +'<input type="color" value="'+(sh.color||'#F05A1A')+'" title="Couleur" oninput="updateShapeKey(\''+sh.id+'\',\'color\',this.value)"/>';
       if(isText){
         var shFont = sh.fontFamily || car().fontBody || "'DM Sans',sans-serif";
-        hShapes+='<input class="einp2" style="flex:1;min-width:70px;padding:5px 7px;font-size:11px" value="'+esc(sh.text||'')+'" placeholder="Votre texte" oninput="updateShapeKey(\''+sh.id+'\',\'text\',this.value)"/>'
+        hShapes+='<input class="einp2" style="flex:1;min-width:70px;padding:5px 7px;font-size:14px" value="'+esc(sh.text||'')+'" placeholder="Votre texte" oninput="updateShapeKey(\''+sh.id+'\',\'text\',this.value)"/>'
           +'<input type="range" min="12" max="160" value="'+(sh.fontSize!=null?sh.fontSize:42)+'" title="Taille du texte" oninput="updateShapeKey(\''+sh.id+'\',\'fontSize\',+this.value)"/>'
-          +'<select class="einp2" style="flex:1;min-width:110px;padding:5px 7px;font-size:11px" title="Police du texte" onchange="updateShapeKey(\''+sh.id+'\',\'fontFamily\',this.value)">'
+          +'<select class="einp2" style="flex:1;min-width:110px;padding:5px 7px;font-size:14px" title="Police du texte" onchange="updateShapeKey(\''+sh.id+'\',\'fontFamily\',this.value)">'
             +SHAPE_TEXT_FONTS.map(function(f){return '<option value="'+f[0].replace(/"/g,'&quot;')+'"'+(shFont===f[0]?' selected':'')+'>'+f[1]+'</option>';}).join('')
           +'</select>';
       } else {
@@ -4378,9 +4335,9 @@ function exportAllPNG(){
   var idx=0;
   function next(){
     if(idx>=slides.length){
-      var h='<p style="font-size:11px;color:#64748b;margin-bottom:12px">'+slides.length+' slides générées : clic droit → Enregistrer l\'image sous</p>';
+      var h='<p style="font-size:14px;color:#64748b;margin-bottom:12px">'+slides.length+' slides générées : clic droit → Enregistrer l\'image sous</p>';
       results.forEach(function(dataURL,i){
-        h+='<div style="margin-bottom:8px"><p style="font-size:10px;color:#64748b;margin-bottom:4px">Slide '+(i+1)+' / '+slides.length+'</p><img src="'+dataURL+'" style="width:100%;border-radius:6px;border:1px solid #E2E8F0"/></div>';
+        h+='<div style="margin-bottom:8px"><p style="font-size:14px;color:#64748b;margin-bottom:4px">Slide '+(i+1)+' / '+slides.length+'</p><img src="'+dataURL+'" style="width:100%;border-radius:6px;border:1px solid #E2E8F0"/></div>';
       });
       document.getElementById('allPngContainer').innerHTML=h;
       return;
@@ -4967,7 +4924,7 @@ function _iconButtonsHTML(query){
       });
     }
   });
-  if(shown === 0) h = '<div style="grid-column:1/-1;text-align:center;color:var(--gray);font-size:12px;padding:20px">Aucune icône trouvée</div>';
+  if(shown === 0) h = '<div style="grid-column:1/-1;text-align:center;color:var(--gray);font-size:14px;padding:20px">Aucune icône trouvée</div>';
   return h;
 }
 
@@ -5098,7 +5055,7 @@ function renderVersionHistoryList(){
   if(!wrap) return;
   var list = _loadVersionHistory().slice().reverse(); // plus récent en premier
   if(!list.length){
-    wrap.innerHTML = '<div style="text-align:center;color:var(--gray);font-size:12px;padding:20px">Aucune version enregistrée pour l\'instant. Continuez à travailler, ou cliquez sur "Enregistrer une version maintenant".</div>';
+    wrap.innerHTML = '<div style="text-align:center;color:var(--gray);font-size:14px;padding:20px">Aucune version enregistrée pour l\'instant. Continuez à travailler, ou cliquez sur "Enregistrer une version maintenant".</div>';
     return;
   }
   var h = '';
@@ -5107,11 +5064,11 @@ function renderVersionHistoryList(){
     var firstTitle = (v.C && v.C[0] && v.C[0].title) || '—';
     h += '<div style="background:var(--surface-1);border:1px solid var(--border);border-radius:8px;padding:10px 12px;display:flex;align-items:center;gap:10px">'
       + '<div style="flex:1;min-width:0">'
-      + '<div style="font-size:12px;font-weight:700;color:var(--text-1)">' + _fmtVersionDate(v.ts) + '</div>'
-      + '<div style="font-size:10px;color:var(--gray);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + nCar + ' carrousel' + (nCar>1?'s':'') + ' — ex. "' + esc(firstTitle) + '"</div>'
+      + '<div style="font-size:14px;font-weight:700;color:var(--text-1)">' + _fmtVersionDate(v.ts) + '</div>'
+      + '<div style="font-size:14px;color:var(--gray);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + nCar + ' carrousel' + (nCar>1?'s':'') + ' — ex. "' + esc(firstTitle) + '"</div>'
       + '</div>'
-      + '<button class="tbtn tbtn-orange" style="font-size:10px;padding:5px 10px;flex-shrink:0" onclick="restoreVersion(\'' + v.id + '\')">Restaurer</button>'
-      + '<button class="tbtn tbtn-gray" style="font-size:10px;padding:5px 8px;background:#EF4444;color:white;flex-shrink:0" onclick="deleteVersion(\'' + v.id + '\')" title="Supprimer cette version">✕</button>'
+      + '<button class="tbtn tbtn-orange" style="font-size:14px;padding:5px 10px;flex-shrink:0" onclick="restoreVersion(\'' + v.id + '\')">Restaurer</button>'
+      + '<button class="tbtn tbtn-gray" style="font-size:14px;padding:5px 8px;background:#EF4444;color:white;flex-shrink:0" onclick="deleteVersion(\'' + v.id + '\')" title="Supprimer cette version">✕</button>'
       + '</div>';
   });
   wrap.innerHTML = h;
@@ -5609,9 +5566,9 @@ function openLegalModal(title, html){
           <div class="brandkit-color"><input type="color" id="bkAccent" value="#F05A1A"><span>Accent</span></div>
         </div>
         <div style="margin-top:18px;padding:16px;border:1px solid var(--border);border-radius:10px;background:var(--surface-1)">
-          <div style="font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);margin-bottom:10px">Aperçu</div>
+          <div style="font-size:14px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);margin-bottom:10px">Aperçu</div>
           <div id="bkPreview" style="border-radius:8px;min-height:150px;padding:18px;background:#0D2B4E;color:#fff;position:relative;overflow:hidden">
-            <div id="bkPreviewAccent" style="font-size:9px;font-weight:800;letter-spacing:2px;color:#F05A1A;margin-bottom:18px">VOTRE MARQUE</div>
+            <div id="bkPreviewAccent" style="font-size:14px;font-weight:800;letter-spacing:2px;color:#F05A1A;margin-bottom:18px">VOTRE MARQUE</div>
             <div id="bkPreviewTitle" style="font-family:'Playfair Display',serif;font-size:24px;font-weight:700;line-height:1.1">Une identité cohérente<br>sur toutes vos slides.</div>
             <div id="bkPreviewLine" style="height:4px;width:54px;background:#F05A1A;margin-top:18px;border-radius:3px"></div>
           </div>
@@ -5676,7 +5633,7 @@ function openLegalModal(title, html){
     </div>
     <div id="aiProgressDone" style="display:none;text-align:center;padding:20px 0">
       <div style="font-size:40px;margin-bottom:12px" id="aiProgressIcon">✅</div>
-      <p id="aiProgressDoneTxt" style="font-size:13px;color:var(--text-1);line-height:1.6;margin-bottom:20px">Le post et les slides ont été générés avec succès !</p>
+      <p id="aiProgressDoneTxt" style="font-size:14px;color:var(--text-1);line-height:1.6;margin-bottom:20px">Le post et les slides ont été générés avec succès !</p>
       <button class="tbtn tbtn-orange" style="width:100%" onclick="closeOverlay('ovAIProgress')">OK</button>
     </div>
   </div>
