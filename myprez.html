@@ -3027,9 +3027,7 @@ function renderEditor(){
     hFs+=eaFs('tbl','Texte du tableau',30,10,70);
   }
 
-    hFs+=eaFs('pill','Badge',50,12,80);
-    hFs+=eaFs('tbl','Texte du tableau',30,10,70);
-  }
+    
 
   hIcons += '<input class="icon-search" id="iconSearchInline" placeholder="Rechercher une icône..." style="margin-bottom:10px" oninput="filterIconsInline(this.value)" value="'+esc(_iconSearchInline||'')+'"/>';
   hIcons += '<div class="icon-cats" id="iconCatsInline">';
@@ -3039,9 +3037,6 @@ function renderEditor(){
   hIcons += '</div>';
   hIcons += '<div class="icon-grid" id="iconGridInline" style="grid-template-columns:repeat(6,1fr);max-height:220px">'+_iconButtonsHTML(_iconSearchInline||'')+'</div>';
   hIcons += '<div style="margin-top:8px;font-size:10px;color:var(--gray);text-align:center">Cliquez dans un champ texte, puis cliquez une icône pour l\'insérer directement à l\'endroit du curseur</div>';
-
-  hShapes+='<div class="shape-mobile-hide">';
-  hShapes+='<div class="shape-palette">';
 	
   hShapes+='<div class="shape-mobile-hide">';
   hShapes+='<div class="shape-palette">';
