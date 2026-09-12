@@ -2824,7 +2824,7 @@ function renderEditor(){
   
 
   if(s.t==='cover'){
-    hContent+=ea('tag','Tag (badge)',s.tag);
+    hContent+=ea('tag','Étiquette',s.tag);
     hContent+=ea('title','Titre',s.title,3,'Utilisez &lt;em&gt;mot&lt;/em&gt; pour la couleur accent',true);
     hContent+=ea('sub','Sous-titre',s.sub);
     hFs+=eaFs('ttl','Titre',120,30,200);
@@ -2832,7 +2832,7 @@ function renderEditor(){
     hFs+=eaFs('ptag','Badge/Tag',50,12,80);
   }
   if(s.t==='whiteContent'){
-    hContent+=ea('pill','Étiquette (badge)',s.pill);
+    hContent+=ea('pill','Étiquette',s.pill);
     hContent+=ea('content','Paragraphes',(s.content||[]).join('\n'),4,'1 ligne = 1 paragraphe');
     hContent+=ea('stmt','Statement fort',s.stmt,4,'Utilisez &lt;em&gt;mot&lt;/em&gt; pour la couleur accent',true);
     hContent+=ea('tip','Conseil (optionnel)',s.tip,2);
@@ -2842,7 +2842,7 @@ function renderEditor(){
     hFs+=eaFs('wh_tip','Tip',45,12,80);
   }
   if(s.t==='hook'){
-    hContent+=ea('pill','Étiquette (badge)',s.pill);
+    hContent+=ea('pill','Étiquette',s.pill);
     hContent+=ea('stmt','Statement fort',s.stmt,4,'Utilisez &lt;em&gt;mot&lt;/em&gt; pour la couleur accent',true);
     hContent+=ea('stxt','Sous-texte (optionnel)',s.stxt,2);
     hContent+=ea('sn','Numéro affiché',s.sn);
@@ -2851,7 +2851,7 @@ function renderEditor(){
     hFs+=eaFs('stxt','Sous-texte',40,12,80);
   }
   if(s.t==='step'){
-    hContent+=ea('pill','Étiquette (badge)',s.pill);
+    hContent+=ea('pill','Étiquette',s.pill);
     hContent+=ea('sn','Numéro affiché',s.sn);
     hContent+='<div class="sec-title" style="margin-top:4px">Points de la slide</div>';
     hContent+='<div class="items-editor" id="itemsEd">';
@@ -2872,7 +2872,7 @@ function renderEditor(){
     hFs+=eaFs('isub','Sous-texte item',35,10,70);
   }
   if(s.t==='quote'){
-    hContent+=ea('pill','Étiquette (badge)',s.pill);
+    hContent+=ea('pill','Étiquette',s.pill);
     hContent+=ea('quote','Citation',s.quote,4,'Utilisez &lt;em&gt;mot&lt;/em&gt; pour la couleur accent',true);
     hContent+=ea('qsub','Sous-texte',s.qsub,2);
     hContent+=ea('sn','Numéro affiché',s.sn);
@@ -2941,7 +2941,7 @@ function renderEditor(){
   }
   if(s.t==='chart'){
     var chartKind = s.chartKind || 'bar';
-    hContent+=ea('pill','Étiquette (badge)',s.pill);
+    hContent+=ea('pill','Étiquette',s.pill);
     hContent+=ea('sn','Numéro affiché',s.sn);
     hContent+='<div class="field"><label>Type de graphique</label><select class="einp2" onchange="updateSlKey(\'chartKind\',this.value)">';
     [['bar','Histogramme'],['line','Courbe'],['bar100','Histogramme 100%'],['donut','Donut']].forEach(function(o){
@@ -2979,7 +2979,7 @@ function renderEditor(){
       var on = tColAlign[ci]===val;
       return '<button type="button" style="width:22px;height:22px;border-radius:4px;border:1px solid var(--border);background:'+(on?'var(--orange)':'var(--surface-2)')+';color:'+(on?'white':'var(--text-1)')+';font-size:14px;cursor:pointer;flex-shrink:0" onclick="updateTableColAlign('+ci+',\''+val+'\')" title="'+title+'">'+icon+'</button>';
     };
-    hContent+=ea('pill','Étiquette (badge)',s.pill);
+    hContent+=ea('pill','Étiquette',s.pill);
     hContent+=ea('sn','Numéro affiché',s.sn);
     hContent+='<div class="sec-title" style="margin-top:4px">Colonnes</div>';
     hContent+='<div class="field-hint" style="margin-bottom:8px">Largeur relative, et alignement du texte (gauche / centre / droite), pratique pour aligner des chiffres à droite.</div>';
