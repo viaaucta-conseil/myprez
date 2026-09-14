@@ -857,12 +857,12 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 .welcome-sub{font-size:16px;line-height:1.6;color:rgba(255,255,255,.72);max-width:650px}
 .welcome-body{padding:26px 30px 30px}
 .welcome-choices{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.welcome-choice{padding:22px 18px;text-align:left;border:1px solid var(--border);border-radius:12px;background:var(--surface-1);transition:all .16s;min-height:190px}
+.welcome-choice{display:flex;flex-direction:column;align-items:center;padding:22px 18px;text-align:center;border:1px solid var(--border);border-radius:12px;background:var(--surface-1);transition:all .16s;min-height:190px}
 .welcome-choice:hover{transform:translateY(-2px);border-color:var(--orange);box-shadow:0 10px 26px rgba(13,43,78,.09)}
 .welcome-choice-icon{font-size:28px;margin-bottom:14px}
-.welcome-choice-title{font-size:16px;font-weight:800;color:var(--text-1);margin-bottom:7px}
-.welcome-choice-desc{font-size:14px;color:var(--gray);line-height:1.55;margin-bottom:14px}
-.welcome-choice-cta{font-size:16px;font-weight:800;color:var(--orange);letter-spacing:.7px;text-transform:uppercase}
+.welcome-choice-title{font-size:15px;font-weight:800;color:var(--text-1);margin-bottom:7px;min-height:38px;display:flex;align-items:center;justify-content:center;text-align:center}
+.welcome-choice-desc{font-size:11px;color:var(--gray);line-height:1.55;margin-bottom:14px;flex:1}
+.welcome-choice-cta{font-size:10px;font-weight:800;color:var(--orange);letter-spacing:.7px;text-transform:uppercase;margin-top:auto}
 .welcome-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:20px;padding-top:15px;border-top:1px solid var(--border)}
 .welcome-foot span{font-size:14px;color:var(--gray)}
 .brandkit-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
