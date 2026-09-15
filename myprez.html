@@ -5105,19 +5105,24 @@ window.addEventListener('load', function(){
 (function(){
   var WORKER_URL  = 'https://myprez-licence.viaauctaconseil.workers.dev/';
   var STORAGE_KEY = 'viaaucta_lic_v1';
+  var LAST_OK_KEY = 'viaaucta_lic_last_ok';
+  var OFFLINE_GRACE_MS = 7 * 24 * 60 * 60 * 1000; // 7 jours de tolérance en cas de panne réseau
+  var _retryTimer = null;
   var _licData    = null;
 
-  async function verifyLicense(key) {
+    async function verifyLicense(key) {
     try {
       var resp = await fetch(WORKER_URL, {
         method:  'POST',
         headers: {'Content-Type': 'application/json'},
         body:    JSON.stringify({ key: key.trim() })
       });
-      if (!resp.ok) return { valid: false, reason: 'Serveur inaccessible (HTTP ' + resp.status + ').' };
-      return await resp.json();
+      if (!resp.ok) return { valid: false, networkError: true, reason: 'Serveur inaccessible (HTTP ' + resp.status + ').' };
+      var data = await resp.json();
+      data.networkError = false; // le serveur a répondu : ceci est un vrai résultat, pas une panne
+      return data;
     } catch(e) {
-      return { valid: false, reason: 'Impossible de joindre le serveur de licence. Vérifiez votre connexion.' };
+      return { valid: false, networkError: true, reason: 'Impossible de joindre le serveur de licence. Vérifiez votre connexion.' };
     }
   }
 
@@ -5149,15 +5154,27 @@ window.addEventListener('load', function(){
     }
   }
 
-  async function _doLicenseRecheck() {
+  function scheduleRetry(delayMs){
+    if (_retryTimer) clearTimeout(_retryTimer);
+    _retryTimer = setTimeout(_doLicenseRecheck, delayMs || 60 * 1000); // réessaie 1 min plus tard
+  }
+
+    async function _doLicenseRecheck() {
     var saved = localStorage.getItem(STORAGE_KEY);
     if (!saved) return;
     _lastLicCheck = Date.now();
     var result = await verifyLicense(saved);
-    if (!result.valid) {
-      forceLockApp(result.reason);
-    } else {
+    if (result.valid) {
+      try{ localStorage.setItem(LAST_OK_KEY, String(Date.now())); }catch(e){}
       unlockApp(result); // rafraîchit aussi l'affichage des jours restants
+    } else if (result.networkError) {
+      // Panne réseau ou serveur temporairement inaccessible : on ne touche pas à la clé,
+      // on retente plus tard au lieu d'attendre la prochaine vérification programmée.
+      console.warn('[Licence] Vérification impossible (réseau) — nouvel essai dans 1 min.');
+      scheduleRetry();
+    } else {
+      // Le serveur a explicitement répondu que la clé est invalide/expirée.
+      forceLockApp(result.reason);
     }
   }
 
@@ -5187,12 +5204,14 @@ window.addEventListener('load', function(){
     var licLabel = document.getElementById('licMenuLabel');
     if (licBtn && licLabel) {
       licBtn.style.display = '';
-      if (data.isShort) {
-        licLabel.textContent = 'TEST - ' + data.minutesLeft + ' min restante' + (data.minutesLeft > 1 ? 's' : '');
+      if (data.offline) {
+        licLabel.textContent = '📡 Licence — vérification différée';
+      } else if (data.isShort) {
+        licLabel.textContent = 'TEST — ' + data.minutesLeft + ' min restante' + (data.minutesLeft > 1 ? 's' : '');
       } else if (data.daysLeft <= 30) {
-        licLabel.textContent = '⚠️ Licence - ' + data.daysLeft + ' jr';
+        licLabel.textContent = '⚠️ Licence — ' + data.daysLeft + ' jr';
       } else {
-        licLabel.textContent = 'Licence - ' + data.daysLeft + ' jr';
+        licLabel.textContent = 'Licence — ' + data.daysLeft + ' jr';
       }
     }
     var logoutBtn = document.getElementById('licLogoutMenuBtn');
@@ -5335,15 +5354,31 @@ viaauctaconseil@gmail.com
     if (btn)   btn.addEventListener('click',   licActivate);
     if (input) input.addEventListener('keydown', function(e) { if (e.key === 'Enter') licActivate(); });
 
-    var saved = localStorage.getItem(STORAGE_KEY);
+        var saved = localStorage.getItem(STORAGE_KEY);
     if (!saved) return;
     showLicMsg('', '🔄 Vérification de la licence sauvegardée…');
     var result = await verifyLicense(saved);
     if (result.valid) {
-      showLicMsg('ok', '✓ Licence reconnue - ' + result.client);
+      try{ localStorage.setItem(LAST_OK_KEY, String(Date.now())); }catch(e){}
+      showLicMsg('ok', '✓ Licence reconnue — ' + result.client);
       setTimeout(function() { unlockApp(result); }, 800);
+    } else if (result.networkError) {
+      // Panne réseau/serveur : la clé reste enregistrée, on ne force jamais une nouvelle saisie pour ça.
+      var lastOk = parseInt(localStorage.getItem(LAST_OK_KEY) || '0', 10);
+      var withinGrace = lastOk && (Date.now() - lastOk) < OFFLINE_GRACE_MS;
+      if (withinGrace) {
+        // Une vérification a réussi récemment : on laisse l'utilisateur travailler
+        // et on retentera silencieusement en arrière-plan.
+        unlockApp({ client: '', daysLeft: 0, type: 'offline', offline: true });
+        scheduleRetry();
+      } else {
+        showLicMsg('warn', '⚠️ ' + result.reason + ' Votre clé reste enregistrée — réessayez dans un instant.');
+        scheduleRetry();
+      }
     } else {
+      // Le serveur a répondu explicitement : la clé est invalide ou expirée.
       localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(LAST_OK_KEY);
       if (result.expired) {
         var expMsg = result.expiryMs
           ? 'Licence expirée le ' + formatExpiry(result)
