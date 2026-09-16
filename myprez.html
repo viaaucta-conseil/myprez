@@ -2107,7 +2107,7 @@ function slHTML(s,idx,tot,forExport){
   var coreHtml = (function(){
   if(s.t==='cover'){
     var isDarkCov = isDarkColor(bg.color||'#0D2B4E');
-    var coverTC = mainTC || tc;
+    var coverTC = tc;
     return '<div class="sl sl-cov" style="'+bgStyle+';color:'+coverTC+';font-family:'+fontBody+'">'
       +imgTag
       +'<div class="ptag" style="background:'+acc+';color:white;font-family:'+fontTitle+';font-size:'+fsp('ptag',50)+'">'+esc(s.tag||'')+'</div>'
@@ -2121,7 +2121,7 @@ function slHTML(s,idx,tot,forExport){
   
   if(s.t === 'whiteContent'){
     var num = String(n).padStart(2,'0');
-    var wcTC = secTC || s.bg?.textColor || '#0D2B4E';
+    var wcTC = s.bg?.textColor || '#0D2B4E';
     var wcBg = s.bg?.type === 'solid' ? 'background:'+s.bg.color+';color:'+wcTC : '';
     return '<div class="sl sl-wh" style="'+wcBg+';font-family:'+fontBody+'">'
       +imgTag
@@ -2141,7 +2141,7 @@ function slHTML(s,idx,tot,forExport){
   
   if(s.t==='hook'){
     var isDark=isDarkColor(bg.color||'#060E1A');
-    var hookTC = mainTC || tc;
+    var hookTC = tc;
     return '<div class="sl sl-dk" style="'+bgStyle+';font-family:'+fontBody+'">'
       +imgTag
       +'<div class="top"><div class="pill" style="background:'+acc+';color:white;font-family:'+fontTitle+';font-size:'+fsp('pill',50)+'">'+esc(s.pill||'')+'</div></div>'
@@ -2154,7 +2154,7 @@ function slHTML(s,idx,tot,forExport){
   }
   if(s.t==='step'){
     var isDark2=isDarkColor(bg.color||'#0D2B4E');
-    var stepTC = mainTC || tc;
+    var stepTC = tc;
     var items=(s.items||[]).map(function(it){
       return '<div class="item"><div class="inum" style="color:'+acc+';font-family:'+fontTitle+';font-size:'+fsp('inum',50)+'">'+esc(it.n||'')+'</div>'
         +'<div><div class="ititle" style="color:'+stepTC+';font-family:'+fontTitle+';font-size:'+fsp('ititle',45)+'">'+esc(it.title||'').replace(/\n/g,'<br>')+'</div>'
@@ -2171,7 +2171,7 @@ function slHTML(s,idx,tot,forExport){
   }
   if(s.t==='quote'){
     var isD=isDarkColor(bg.color||'#F4F4F2');
-    var quoteTC = (isD ? mainTC : secTC) || tc;
+    var quoteTC = tc;
     var pillStyle='background:'+(isD?'rgba(240,90,26,0.15)':'#0D2B4E')+';color:'+(isD?acc:'white');
     return '<div class="sl sl-wh" style="'+bgStyle+';font-family:'+fontBody+'">'
       +imgTag
@@ -2184,7 +2184,7 @@ function slHTML(s,idx,tot,forExport){
       +'</div>';
   }
   if(s.t==='cta'){
-    var ctaTC = mainTC || '#FFFFFF';
+    var ctaTC = tc;
     var brandFs = car().brandFs != null ? car().brandFs : 32;
     return '<div class="sl sl-ct" style="'+bgStyle+';font-family:'+fontBody+'">'
       +imgTag
@@ -2233,7 +2233,7 @@ function slHTML(s,idx,tot,forExport){
   }
   if(s.t==='table'){
     var isDarkTb=isDarkColor(bg.color||'#F4F4F2');
-    var tableTC = (isDarkTb ? mainTC : secTC) || tc;
+    var tableTC = tc;
     var cols = (s.columns && s.columns.length) ? s.columns : ['Colonne 1','Colonne 2'];
     var rows = s.rows || [];
     var colWidthsRaw = (s.colWidths && s.colWidths.length===cols.length) ? s.colWidths : cols.map(function(){return 100/cols.length;});
