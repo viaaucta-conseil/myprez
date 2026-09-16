@@ -1205,30 +1205,6 @@ input,textarea,select{font-family:var(--app-font);outline:none}
         <button class="tbtn tbtn-blue" style="width:100%;font-size:14px;padding:7px" onclick="openBrandKit()">Ouvrir le Brand Kit</button>
       </div>
       <div style="height:16px"></div>
-      <div class="sec-title">Barre accent (obar) &amp; point pied de page</div>
-      <div class="field">
-        <label>Couleur</label>
-        <div class="color-picker-wrap">
-          <input type="color" class="color-input" id="obarColor" value="#F05A1A" oninput="C[ac].obar=C[ac].obar||{};C[ac].obar.color=this.value;document.getElementById('obarColorHex').value=this.value;renderSlide()"/>
-          <input class="einp2" id="obarColorHex" value="#F05A1A" style="flex:1" oninput="var v=this.value;if(/^#[0-9a-fA-F]{6}$/.test(v)){document.getElementById('obarColor').value=v;C[ac].obar=C[ac].obar||{};C[ac].obar.color=v;renderSlide();}"/>
-        </div>
-      </div>
-      <div class="field">
-        <label>Longueur barre - <span id="obarWLbl">52px</span></label>
-        <input type="range" id="obarW" min="10" max="920" value="52" style="width:100%;accent-color:var(--orange)" oninput="C[ac].obar=C[ac].obar||{};C[ac].obar.w=+this.value;document.getElementById('obarWLbl').textContent=this.value+'px';renderSlide()"/>
-      </div>
-      <div class="field">
-        <label>Épaisseur barre - <span id="obarHLbl">5px</span></label>
-        <input type="range" id="obarH" min="1" max="20" value="5" style="width:100%;accent-color:var(--orange)" oninput="C[ac].obar=C[ac].obar||{};C[ac].obar.h=+this.value;document.getElementById('obarHLbl').textContent=this.value+'px';renderSlide()"/>
-      </div>
-      <div class="field">
-        <label>Longueur point pied - <span id="dotWLbl">20px</span></label>
-        <input type="range" id="dotW" min="4" max="80" value="20" style="width:100%;accent-color:var(--orange)" oninput="C[ac].obar=C[ac].obar||{};C[ac].obar.dotW=+this.value;document.getElementById('dotWLbl').textContent=this.value+'px';renderSlide()"/>
-      </div>
-      <div class="field">
-        <label>Épaisseur point pied - <span id="dotHLbl">5px</span></label>
-        <input type="range" id="dotH" min="1" max="20" value="5" style="width:100%;accent-color:var(--orange)" oninput="C[ac].obar=C[ac].obar||{};C[ac].obar.dotH=+this.value;document.getElementById('dotHLbl').textContent=this.value+'px';renderSlide()"/>
-      </div>
       <div class="field">
         <label>Police des titres</label>
         <select class="einp2" id="fontTitle" onchange="C[ac].fontTitle=this.value;renderSlide()">
@@ -3097,16 +3073,7 @@ function renderCarTab2(){
   document.getElementById('carSubtitle').value=c.subtitle||'';
   document.getElementById('carTag').value=c.tag||'';
   document.getElementById('carPilier').value=c.pilier||'';
-  var acc=c.accent||'#F05A1A';
-  // Obar + dot
-  var ob=c.obar||{};
-  var obarColor=ob.color||acc;
-  document.getElementById('obarColor').value=obarColor;
-  document.getElementById('obarColorHex').value=obarColor;
-  var obarW=ob.w!=null?ob.w:52; document.getElementById('obarW').value=obarW; document.getElementById('obarWLbl').textContent=obarW+'px';
-  var obarH=ob.h!=null?ob.h:5;  document.getElementById('obarH').value=obarH; document.getElementById('obarHLbl').textContent=obarH+'px';
-  var dotW=ob.dotW!=null?ob.dotW:20; document.getElementById('dotW').value=dotW; document.getElementById('dotWLbl').textContent=dotW+'px';
-  var dotH=ob.dotH!=null?ob.dotH:5;  document.getElementById('dotH').value=dotH; document.getElementById('dotHLbl').textContent=dotH+'px';
+  
   // Typography
   var ftEl=document.getElementById('fontTitle');
   if(ftEl) ftEl.value=c.fontTitle||"'Geist',sans-serif";
@@ -3153,7 +3120,9 @@ function resetCarDefaults(){
   if(!confirm('Remettre tous les paramètres du carrousel aux valeurs par défaut ?')) return;
   var c = car();
   c.accent          = '#F05A1A';
-  c.obar            = { color:'#F05A1A', w:52, h:5, dotW:20, dotH:5 };
+  var bk = mpGetBrandKit();
+  c.accent          = '#F05A1A';
+  c.obar            = { color: bk.accent||'#F05A1A', w: bk.obarW!=null?bk.obarW:52, h: bk.obarH!=null?bk.obarH:5, dotW: bk.dotW!=null?bk.dotW:20, dotH: bk.dotH!=null?bk.dotH:5 };
   c.fontTitle       = "'Geist',sans-serif";
   c.fontBody        = "'DM Sans',sans-serif";
   c.mainTextColor   = '#FFFFFF';
@@ -5592,7 +5561,24 @@ function openLegalModal(title, html){
         <div class="sec-title" style="margin-top:16px">Typographie</div>
         <div class="field"><label>Police des titres</label><select id="bkTitleFont"><option value="'Geist',sans-serif">Playfair Display</option><option value="'DM Sans',sans-serif">DM Sans</option><option value="'Barlow',sans-serif">Barlow</option><option value="'Syne',sans-serif">Syne</option><option value="'Raleway',sans-serif">Raleway</option><option value="'Outfit',sans-serif">Outfit</option><option value="'Plus Jakarta Sans',sans-serif">Plus Jakarta Sans</option><option value="'Space Grotesk',sans-serif">Space Grotesk</option><option value="'Inter',sans-serif">Inter</option><option value="'Libre Baskerville',Georgia,serif">Libre Baskerville</option></select></div>
         <div class="field"><label>Police du texte</label><select id="bkBodyFont"><option value="'DM Sans',sans-serif">DM Sans</option><option value="'Inter',sans-serif">Inter</option><option value="'Barlow',sans-serif">Barlow</option><option value="'Outfit',sans-serif">Outfit</option><option value="'Plus Jakarta Sans',sans-serif">Plus Jakarta Sans</option><option value="'Space Grotesk',sans-serif">Space Grotesk</option><option value="'Nunito',sans-serif">Nunito</option></select></div>
-      </div>
+              <div class="sec-title" style="margin-top:16px">Barre accent &amp; point pied de page</div>
+        <div class="field">
+          <label>Longueur barre - <span id="bkObarWLbl">52px</span></label>
+          <input type="range" id="bkObarW" min="10" max="920" value="52" style="width:100%;accent-color:var(--orange)" oninput="document.getElementById('bkObarWLbl').textContent=this.value+'px'"/>
+        </div>
+        <div class="field">
+          <label>Épaisseur barre - <span id="bkObarHLbl">5px</span></label>
+          <input type="range" id="bkObarH" min="1" max="20" value="5" style="width:100%;accent-color:var(--orange)" oninput="document.getElementById('bkObarHLbl').textContent=this.value+'px'"/>
+        </div>
+        <div class="field">
+          <label>Longueur point pied - <span id="bkDotWLbl">20px</span></label>
+          <input type="range" id="bkDotW" min="4" max="80" value="20" style="width:100%;accent-color:var(--orange)" oninput="document.getElementById('bkDotWLbl').textContent=this.value+'px'"/>
+        </div>
+        <div class="field">
+          <label>Épaisseur point pied - <span id="bkDotHLbl">5px</span></label>
+          <input type="range" id="bkDotH" min="1" max="20" value="5" style="width:100%;accent-color:var(--orange)" oninput="document.getElementById('bkDotHLbl').textContent=this.value+'px'"/>
+        </div>
+	  </div>
       <div>
         <div class="sec-title">Palette</div>
         <div class="brandkit-colors">
@@ -5683,7 +5669,7 @@ var _aiDraft = null;
 var _bkLogo = null;
 
 function mpGetBrandKit(){
-  var d={name:'',logo:null,primary:'#0D2B4E',secondary:'#1B3F6E',accent:'#F05A1A',titleFont:"'Geist',sans-serif",bodyFont:"'DM Sans',sans-serif"};
+  var d={name:'',logo:null,primary:'#0D2B4E',secondary:'#1B3F6E',accent:'#F05A1A',titleFont:"'Geist',sans-serif",bodyFont:"'DM Sans',sans-serif",obarW:52,obarH:5,dotW:20,dotH:5};
   try{var x=JSON.parse(localStorage.getItem(MP_BRAND_KEY)||'null');if(x)d=Object.assign(d,x);}catch(e){}
   return d;
 }
@@ -5700,6 +5686,10 @@ function openBrandKit(){
   document.getElementById('bkAccent').value=d.accent||'#F05A1A';
   document.getElementById('bkTitleFont').value=d.titleFont||"'Geist',sans-serif";
   document.getElementById('bkBodyFont').value=d.bodyFont||"'DM Sans',sans-serif";
+  var obarW=d.obarW!=null?d.obarW:52; document.getElementById('bkObarW').value=obarW; document.getElementById('bkObarWLbl').textContent=obarW+'px';
+  var obarH=d.obarH!=null?d.obarH:5;  document.getElementById('bkObarH').value=obarH; document.getElementById('bkObarHLbl').textContent=obarH+'px';
+  var dotW=d.dotW!=null?d.dotW:20;    document.getElementById('bkDotW').value=dotW;   document.getElementById('bkDotWLbl').textContent=dotW+'px';
+  var dotH=d.dotH!=null?d.dotH:5;     document.getElementById('bkDotH').value=dotH;   document.getElementById('bkDotHLbl').textContent=dotH+'px';
   _bkLogo=d.logo||null; mpRenderBrandKit();
   document.getElementById('ovBrandKit').classList.add('open');
 }
@@ -5715,14 +5705,18 @@ function mpRenderBrandKit(){
 function loadBrandKitLogo(e){var f=e.target.files[0];if(!f)return;if(f.size>2*1024*1024){notif('Logo trop lourd — max 2 Mo');return;}var r=new FileReader();r.onload=function(ev){_bkLogo=ev.target.result;mpRenderBrandKit();};r.readAsDataURL(f);e.target.value='';}
 function removeBrandKitLogo(){_bkLogo=null;mpRenderBrandKit();}
 function resetBrandKitDefaults(){
-  if(!confirm('Réinitialiser le Brand Kit aux valeurs par défaut ?\n\nCeci efface le nom, le logo, les couleurs et les polices saisis dans cette fenêtre. Cliquez ensuite sur "Enregistrer" pour confirmer.')) return;
-  var d={name:'',logo:null,primary:'#0D2B4E',secondary:'#1B3F6E',accent:'#F05A1A',titleFont:"'Geist',sans-serif",bodyFont:"'DM Sans',sans-serif"};
+  if(!confirm('Réinitialiser le Brand Kit aux valeurs par défaut ?\n\nCeci efface le nom, le logo, les couleurs, les polices et les réglages de la barre d\'accent saisis dans cette fenêtre. Cliquez ensuite sur "Enregistrer" pour confirmer.')) return;
+  var d={name:'',logo:null,primary:'#0D2B4E',secondary:'#1B3F6E',accent:'#F05A1A',titleFont:"'Geist',sans-serif",bodyFont:"'DM Sans',sans-serif",obarW:52,obarH:5,dotW:20,dotH:5};
   document.getElementById('bkName').value=d.name;
   document.getElementById('bkPrimary').value=d.primary;
   document.getElementById('bkSecondary').value=d.secondary;
   document.getElementById('bkAccent').value=d.accent;
   document.getElementById('bkTitleFont').value=d.titleFont;
   document.getElementById('bkBodyFont').value=d.bodyFont;
+  document.getElementById('bkObarW').value=d.obarW; document.getElementById('bkObarWLbl').textContent=d.obarW+'px';
+  document.getElementById('bkObarH').value=d.obarH; document.getElementById('bkObarHLbl').textContent=d.obarH+'px';
+  document.getElementById('bkDotW').value=d.dotW;   document.getElementById('bkDotWLbl').textContent=d.dotW+'px';
+  document.getElementById('bkDotH').value=d.dotH;   document.getElementById('bkDotHLbl').textContent=d.dotH+'px';
   _bkLogo=null;
   mpRenderBrandKit();
   notif('Brand Kit réinitialisé - cliquez "Enregistrer" pour confirmer.');
@@ -5731,6 +5725,7 @@ function mpApplyBrandKit(c,d){
   if(!c)return;
   c.brand=d.name||c.brand||'YOUR NAME - YOUR BRAND';
   c.accent=d.accent||'#F05A1A';
+  c.obar = { color: d.accent||'#F05A1A', w: d.obarW!=null?d.obarW:52, h: d.obarH!=null?d.obarH:5, dotW: d.dotW!=null?d.dotW:20, dotH: d.dotH!=null?d.dotH:5 };
   c.fontTitle=d.titleFont||c.fontTitle||"'Geist',sans-serif";
   c.fontBody=d.bodyFont||c.fontBody||"'DM Sans',sans-serif";
   c.mainTextColor='#FFFFFF'; c.secTextColor=d.primary||'#0D2B4E';
@@ -5747,7 +5742,7 @@ function mpApplyBrandKit(c,d){
   });
 }
 function saveBrandKit(apply){
-  var d={name:document.getElementById('bkName').value.trim(),logo:_bkLogo,primary:document.getElementById('bkPrimary').value,secondary:document.getElementById('bkSecondary').value,accent:document.getElementById('bkAccent').value,titleFont:document.getElementById('bkTitleFont').value,bodyFont:document.getElementById('bkBodyFont').value};
+    var d={name:document.getElementById('bkName').value.trim(),logo:_bkLogo,primary:document.getElementById('bkPrimary').value,secondary:document.getElementById('bkSecondary').value,accent:document.getElementById('bkAccent').value,titleFont:document.getElementById('bkTitleFont').value,bodyFont:document.getElementById('bkBodyFont').value,obarW:+document.getElementById('bkObarW').value,obarH:+document.getElementById('bkObarH').value,dotW:+document.getElementById('bkDotW').value,dotH:+document.getElementById('bkDotH').value};
   if(!mpSaveBrandKit(d)){notif('Impossible d’enregistrer le Brand Kit (stockage local plein).');return;}
   if(apply){
     histSave();
