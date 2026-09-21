@@ -1543,17 +1543,17 @@ input,textarea,select{font-family:var(--app-font);outline:none}
       </button>
     </div>
     </div>
-    <div class="field-hint" style="margin-bottom:14px">Un thème règle la palette et la police d'un coup. Affine ensuite manuellement ci-dessous si besoin - les slides exportées ne sont jamais affectées, seule l'interface change.</div>
+    <div class="field-hint" style="margin-bottom:14px">Un thème s'applique sur l'ensemble de l'interface. Les couleurs peuvent être modifiées indépendamment ci-dessous. Les slides exportées ne sont pas affectées.</div>
     <div class="field-row" style="margin-bottom:14px">
       <div class="field">
-        <label>Couleur principale (navy)</label>
+        <label>Couleur principale</label>
         <div class="color-picker-wrap">
           <input type="color" class="color-input" id="uiNavy" value="#0D2B4E" oninput="applyUIColor('--navy',this.value);applyUIColor('--navy2',lightenColor(this.value,15))"/>
           <input class="einp2" id="uiNavyHex" value="#0D2B4E" style="flex:1" oninput="document.getElementById('uiNavy').value=this.value;applyUIColor('--navy',this.value)"/>
         </div>
       </div>
       <div class="field">
-        <label>Couleur accent (orange)</label>
+        <label>Couleur accentuation</label>
         <div class="color-picker-wrap">
           <input type="color" class="color-input" id="uiOrange" value="#F05A1A" oninput="applyUIColor('--orange',this.value);applyUIColor('--orange2',lightenColor(this.value,15))"/>
           <input class="einp2" id="uiOrangeHex" value="#F05A1A" style="flex:1" oninput="document.getElementById('uiOrange').value=this.value;applyUIColor('--orange',this.value)"/>
