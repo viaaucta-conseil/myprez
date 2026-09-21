@@ -2807,7 +2807,7 @@ function renderEditor(){
     hContent += '<div class="field"><label>Alignement du texte</label><div style="display:flex;gap:6px;flex-wrap:wrap">'
       + alignOpts.map(function(o){
           var on = curAlign===o[0];
-          return '<button type="button" class="tbtn '+(on?'tbtn-orange':'tbtn-gray')+'" style="flex:1;font-size:10px;padding:7px 4px" onclick="updateSlAlign(\''+o[0]+'\')">'+o[1]+'</button>';
+          return '<button type="button" class="tbtn tbtn-orange" style="flex:1;font-size:10px;padding:7px 4px'+(on?'':';opacity:.5')+'" onclick="updateSlAlign(\''+o[0]+'\')">'+o[1]+'</button>';
         }).join('')
       + '</div></div>';
   }
