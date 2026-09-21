@@ -1506,16 +1506,42 @@ input,textarea,select{font-family:var(--app-font);outline:none}
         <span class="ui-theme-swatch" style="background:#B5622E"></span>
         <span class="ui-theme-name" style="color:#2B2621;font-family:'Libre Baskerville',Georgia,serif">Éditorial papier</span>
       </button>
-      <button type="button" class="ui-theme-btn" data-theme="studioDev" onclick="applyUITheme('studioDev')" style="background:#0B0F12;border-color:#1B242A">
+            <button type="button" class="ui-theme-btn" data-theme="studioDev" onclick="applyUITheme('studioDev')" style="background:#0B0F12;border-color:#1B242A">
         <span class="ui-theme-swatch" style="background:#131A1E;border:1px solid #1B242A"></span>
         <span class="ui-theme-swatch" style="background:#12B886"></span>
         <span class="ui-theme-name" style="color:#E7F5F0;font-family:'JetBrains Mono',monospace">Studio dev</span>
       </button>
-	  <button type="button" class="ui-theme-btn" data-theme="ardoisenordique" onclick="applyUITheme('ardoisenordique')" style="background:#F8FAFC;border-color:#E8D9C5">
-        <span class="ui-theme-swatch" style="background:#1D1D1F"></span>
+      <button type="button" class="ui-theme-btn" data-theme="nordique" onclick="applyUITheme('nordique')" style="background:#F8FAFC;border-color:#1E293B">
+        <span class="ui-theme-swatch" style="background:#1E293B"></span>
         <span class="ui-theme-swatch" style="background:#0EA5E9"></span>
-        <span class="ui-theme-name" style="color:#1E293B">Ardoise nordique</span>
+        <span class="ui-theme-name" style="color:#1E293B;font-family:'Inter',sans-serif">Ardoise nordique</span>
       </button>
+      <button type="button" class="ui-theme-btn" data-theme="terracotta" onclick="applyUITheme('terracotta')" style="background:#FBF6EF;border-color:#3D2B1F">
+        <span class="ui-theme-swatch" style="background:#3D2B1F"></span>
+        <span class="ui-theme-swatch" style="background:#C1502E"></span>
+        <span class="ui-theme-name" style="color:#3D2B1F;font-family:'Fraunces',Georgia,serif">Terracotta &amp; sable</span>
+      </button>
+      <button type="button" class="ui-theme-btn" data-theme="foretProfonde" onclick="applyUITheme('foretProfonde')" style="background:#F4F7F4;border-color:#0F2E1D">
+        <span class="ui-theme-swatch" style="background:#0F2E1D"></span>
+        <span class="ui-theme-swatch" style="background:#D4A017"></span>
+        <span class="ui-theme-name" style="color:#0F2E1D;font-family:'Raleway',sans-serif">Forêt profonde</span>
+      </button>
+      <button type="button" class="ui-theme-btn" data-theme="violetMinuit" onclick="applyUITheme('violetMinuit')" style="background:#F5F3FA;border-color:#1A1533">
+        <span class="ui-theme-swatch" style="background:#1A1533"></span>
+        <span class="ui-theme-swatch" style="background:#EC5F1D"></span>
+        <span class="ui-theme-name" style="color:#1A1533;font-family:'Syne',sans-serif">Violet minuit</span>
+      </button>
+      <button type="button" class="ui-theme-btn" data-theme="brumeOceane" onclick="applyUITheme('brumeOceane')" style="background:#F2F8FA;border-color:#0B3D4C">
+        <span class="ui-theme-swatch" style="background:#0B3D4C"></span>
+        <span class="ui-theme-swatch" style="background:#F2994A"></span>
+        <span class="ui-theme-name" style="color:#0B3D4C;font-family:'Nunito',sans-serif">Brume océane</span>
+      </button>
+      <button type="button" class="ui-theme-btn" data-theme="graphiteChaud" onclick="applyUITheme('graphiteChaud')" style="background:#FAFAFA;border-color:#18181B">
+        <span class="ui-theme-swatch" style="background:#18181B"></span>
+        <span class="ui-theme-swatch" style="background:#22C55E"></span>
+        <span class="ui-theme-name" style="color:#18181B;font-family:'Space Grotesk',sans-serif">Graphite chaud</span>
+      </button>
+    </div>
     </div>
     <div class="field-hint" style="margin-bottom:14px">Un thème règle la palette et la police d'un coup. Affine ensuite manuellement ci-dessous si besoin - les slides exportées ne sont jamais affectées, seule l'interface change.</div>
     <div class="field-row" style="margin-bottom:14px">
@@ -4614,7 +4640,7 @@ var UI_THEMES = {
       '--app-font':"'Libre Baskerville',Georgia,serif"
     }
   },
-  studioDev: {
+    studioDev: {
     label: 'Studio dev', icon: '▸',
     vars: {
       '--navy':'#0B0F12', '--navy2':'#1B242A', '--orange':'#12B886', '--orange2':'#20C997',
@@ -4623,15 +4649,60 @@ var UI_THEMES = {
       '--app-font':"'JetBrains Mono',monospace"
     }
   },
-  ardoisenordique: {
-    label: 'Ardoise nordique', icon: '☀',
+  nordique: {
+    label: 'Ardoise nordique', icon: '❄',
     vars: {
       '--navy':'#1E293B', '--navy2':'#334155', '--orange':'#0EA5E9', '--orange2':'#38BDF8',
       '--bg':'#F8FAFC', '--border':'#E2E8F0', '--surface-1':'#FFFFFF', '--surface-2':'#FFFFFF',
-      '--text-1':'#0F172A', '--text-2':'#64748B', '--gray':'#86868B',
-      '--app-font':"-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+      '--text-1':'#0F172A', '--text-2':'#64748B', '--gray':'#64748B',
+      '--app-font':"'Inter',sans-serif"
     }
   },
+  terracotta: {
+    label: 'Terracotta & sable', icon: '🏺',
+    vars: {
+      '--navy':'#3D2B1F', '--navy2':'#5C4433', '--orange':'#C1502E', '--orange2':'#D97B54',
+      '--bg':'#FBF6EF', '--border':'#E8D9C5', '--surface-1':'#F2E6D3', '--surface-2':'#FFFDF9',
+      '--text-1':'#2B1D14', '--text-2':'#8C7860', '--gray':'#8C7860',
+      '--app-font':"'Fraunces',Georgia,serif"
+    }
+  },
+  foretProfonde: {
+    label: 'Forêt profonde', icon: '🌲',
+    vars: {
+      '--navy':'#0F2E1D', '--navy2':'#1E4A32', '--orange':'#D4A017', '--orange2':'#E8BC4A',
+      '--bg':'#F4F7F4', '--border':'#DCE5DE', '--surface-1':'#FFFFFF', '--surface-2':'#FFFFFF',
+      '--text-1':'#0F2E1D', '--text-2':'#5C7368', '--gray':'#5C7368',
+      '--app-font':"'Raleway',sans-serif"
+    }
+  },
+  violetMinuit: {
+    label: 'Violet minuit', icon: '◆',
+    vars: {
+      '--navy':'#1A1533', '--navy2':'#2D2456', '--orange':'#EC5F1D', '--orange2':'#FF8447',
+      '--bg':'#F5F3FA', '--border':'#E0DCF0', '--surface-1':'#FFFFFF', '--surface-2':'#FFFFFF',
+      '--text-1':'#1A1533', '--text-2':'#7C74A0', '--gray':'#7C74A0',
+      '--app-font':"'Syne',sans-serif"
+    }
+  },
+  brumeOceane: {
+    label: 'Brume océane', icon: '🌊',
+    vars: {
+      '--navy':'#0B3D4C', '--navy2':'#15586B', '--orange':'#F2994A', '--orange2':'#F7B378',
+      '--bg':'#F2F8FA', '--border':'#D7E7EC', '--surface-1':'#FFFFFF', '--surface-2':'#FFFFFF',
+      '--text-1':'#0B3D4C', '--text-2':'#5E8A96', '--gray':'#5E8A96',
+      '--app-font':"'Nunito',sans-serif"
+    }
+  },
+  graphiteChaud: {
+    label: 'Graphite chaud', icon: '▪',
+    vars: {
+      '--navy':'#18181B', '--navy2':'#3F3F46', '--orange':'#22C55E', '--orange2':'#4ADE80',
+      '--bg':'#FAFAFA', '--border':'#E4E4E7', '--surface-1':'#FFFFFF', '--surface-2':'#FFFFFF',
+      '--text-1':'#18181B', '--text-2':'#71717A', '--gray':'#71717A',
+      '--app-font':"'Space Grotesk',sans-serif"
+    }
+  }
 };
 var UI_THEME_KEY = 'myprez_ui_theme';
 var UI_DEFAULTS = UI_THEMES.viaAucta.vars;
