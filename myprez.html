@@ -1326,7 +1326,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
     <!-- RIGHT PANEL - ÉDITER LA SLIDE -->
   <div class="panel-right">
     <div class="panel-right-header">
-      <span class="panel-right-title">✏️ Éditer la slide</span>
+      <span class="panel-right-title">Éditer la slide</span>
     </div>
     <div class="panel-right-body">
       <div style="display:flex;gap:6px;margin-bottom:4px">
@@ -1510,6 +1510,11 @@ input,textarea,select{font-family:var(--app-font);outline:none}
         <span class="ui-theme-swatch" style="background:#131A1E;border:1px solid #1B242A"></span>
         <span class="ui-theme-swatch" style="background:#12B886"></span>
         <span class="ui-theme-name" style="color:#E7F5F0;font-family:'JetBrains Mono',monospace">Studio dev</span>
+      </button>
+	  <button type="button" class="ui-theme-btn" data-theme="ardoisenordique" onclick="applyUITheme('ardoisenordique')" style="background:#F8FAFC;border-color:#E8D9C5">
+        <span class="ui-theme-swatch" style="background:#1D1D1F"></span>
+        <span class="ui-theme-swatch" style="background:#0EA5E9"></span>
+        <span class="ui-theme-name" style="color:#1E293B">Ardoise nordique</span>
       </button>
     </div>
     <div class="field-hint" style="margin-bottom:14px">Un thème règle la palette et la police d'un coup. Affine ensuite manuellement ci-dessous si besoin - les slides exportées ne sont jamais affectées, seule l'interface change.</div>
@@ -4617,7 +4622,16 @@ var UI_THEMES = {
       '--text-1':'#E7F5F0', '--text-2':'#5C7A72', '--gray':'#5C7A72',
       '--app-font':"'JetBrains Mono',monospace"
     }
-  }
+  },
+  ardoisenordique: {
+    label: 'Ardoise nordique', icon: '☀',
+    vars: {
+      '--navy':'#1E293B', '--navy2':'#334155', '--orange':'#0EA5E9', '--orange2':'#38BDF8',
+      '--bg':'#F8FAFC', '--border':'#E2E8F0', '--surface-1':'#FFFFFF', '--surface-2':'#FFFFFF',
+      '--text-1':'#0F172A', '--text-2':'#64748B', '--gray':'#86868B',
+      '--app-font':"-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+    }
+  },
 };
 var UI_THEME_KEY = 'myprez_ui_theme';
 var UI_DEFAULTS = UI_THEMES.viaAucta.vars;
