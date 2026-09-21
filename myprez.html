@@ -2087,6 +2087,7 @@ function slHTML(s,idx,tot,forExport){
   var logoSize  = car().logoSize != null ? car().logoSize : 40;
   var brandColorDark  = car().brandColorDark  || 'rgba(255,255,255,0.28)';
   var brandColorLight = car().brandColorLight || 'rgba(13,43,78,0.35)';
+  var align = s.align || 'left';
   function bot(dark, slideNum, totSlides){
     var brandColor= dark ? brandColorDark : brandColorLight;
     var numColor  = dark ? 'rgba(255,255,255,0.45)' : 'rgba(13,43,78,0.45)';
@@ -2111,7 +2112,7 @@ function slHTML(s,idx,tot,forExport){
     return '<div class="sl sl-cov" style="'+bgStyle+';color:'+coverTC+';font-family:'+fontBody+'">'
       +imgTag
       +'<div class="ptag" style="background:'+acc+';color:white;font-family:'+fontTitle+';font-size:'+fsp('ptag',50)+'">'+esc(s.tag||'')+'</div>'
-      +'<div style="position:relative;z-index:2">'
+      +'<div style="position:relative;z-index:2;text-align:'+align+'">'
       +'<div class="ttl" style="color:'+coverTC+';font-family:'+fontTitle+';font-size:'+fsp('ttl',120)+'">'+parseEM((s.title||'').replace(/\n/g,'↵'),acc).replace(/↵/g,'<br>')+'</div>'
       +'<div class="obar" style="border-radius:3px;'+obarStyle+'"></div>'
       +'<div class="sub" style="color:'+(isDarkCov?'rgba(255,255,255,0.48)':'rgba(13,43,78,0.55)')+';font-family:'+fontBody+';font-size:'+fsp('sub',60)+'">'+esc(s.sub||'')+'</div>'
@@ -2129,7 +2130,7 @@ function slHTML(s,idx,tot,forExport){
         +'<div class="wh-num" style="font-family:'+fontTitle+';font-size:'+fsp('wh_title',70)+'">'+num+'</div>'
         +'<div class="wh-title" style="font-family:'+fontTitle+';font-size:'+fsp('wh_title',50)+'">'+esc(s.pill || '')+'</div>'
       +'</div>'
-      +'<div class="wh-body" style="font-size:'+fsp('wh_body',40)+'">'
+      +'<div class="wh-body" style="font-size:'+fsp('wh_body',40)+';text-align:'+align+'">'
         +(Array.isArray(s.content) ? s.content.map(function(p){return '<p>'+esc(p)+'</p>';}).join('') : '')
         +(typeof s.stmt==='string'&&s.stmt.trim()!==''
           ? '<div class="stmt" style="color:'+wcTC+';font-family:'+fontTitle+';font-size:'+fsp('wh_stmt',50)+'">'+parseEM(s.stmt,acc)+'</div>' : '')
@@ -2145,7 +2146,7 @@ function slHTML(s,idx,tot,forExport){
     return '<div class="sl sl-dk" style="'+bgStyle+';font-family:'+fontBody+'">'
       +imgTag
       +'<div class="top"><div class="pill" style="background:'+acc+';color:white;font-family:'+fontTitle+';font-size:'+fsp('pill',50)+'">'+esc(s.pill||'')+'</div></div>'
-      +'<div class="body"><div class="obar" style="border-radius:3px;'+obarStyle+'"></div>'
+	  +'<div class="body" style="text-align:'+align+'"><div class="obar" style="border-radius:3px;'+obarStyle+'"></div>'
       +'<div class="stmt" style="color:'+hookTC+';font-family:'+fontTitle+';font-size:'+fsp('stmt',80)+'">'+parseEM(s.stmt||'',acc)+'</div>'
       +(s.stxt?'<div class="stxt" style="color:'+(isDark?'rgba(255,255,255,0.5)':'rgba(13,43,78,0.55)')+';font-family:'+fontBody+';font-size:'+fsp('stxt',40)+'">'+esc(s.stxt)+'</div>':'')
       +'</div>'
@@ -2164,7 +2165,7 @@ function slHTML(s,idx,tot,forExport){
     return '<div class="sl sl-nv" style="'+bgStyle+';font-family:'+fontBody+'">'
       +imgTag
       +'<div class="top"><div class="pill" style="background:'+acc+';color:white;font-family:'+fontTitle+';font-size:'+fsp('pill',50)+'">'+esc(s.pill||'')+'</div></div>'
-      +'<div class="body"><div class="obar" style="border-radius:3px;'+obarStyle+'"></div>'
+      +'<div class="body" style="text-align:'+align+'"><div class="obar" style="border-radius:3px;'+obarStyle+'"></div>'
       +'<div class="items">'+items+'</div></div>'
       +bot(isDark2, s.sn||String(n).padStart(2,'0'), tot)
       +'</div>';
@@ -2176,7 +2177,7 @@ function slHTML(s,idx,tot,forExport){
     return '<div class="sl sl-wh" style="'+bgStyle+';font-family:'+fontBody+'">'
       +imgTag
       +'<div class="top"><div class="pill" style="'+pillStyle+';font-family:'+fontTitle+';font-size:'+fsp('pill',50)+'">'+esc(s.pill||'')+'</div></div>'
-      +'<div class="body"><div class="obar" style="border-radius:3px;'+obarStyle+'"></div>'
+      +'<div class="body" style="text-align:'+align+'"><div class="obar" style="border-radius:3px;'+obarStyle+'"></div>'
       +'<div class="quote" style="color:'+quoteTC+';font-family:'+fontTitle+';font-size:'+fsp('quote',85)+'">'+parseEM(s.quote||'',acc)+'</div>'
       +(s.qsub?'<div class="qsub" style="color:'+(isD?'rgba(255,255,255,0.5)':'rgba(13,43,78,0.52)')+';font-family:'+fontBody+';font-size:'+fsp('qsub',40)+'">'+esc(s.qsub)+'</div>':'')
       +'</div>'
@@ -2186,7 +2187,7 @@ function slHTML(s,idx,tot,forExport){
   if(s.t==='cta'){
     var ctaTC = tc;
     var brandFs = car().brandFs != null ? car().brandFs : 32;
-    return '<div class="sl sl-ct" style="'+bgStyle+';font-family:'+fontBody+'">'
+    return '<div class="sl sl-ct" style="'+bgStyle+';font-family:'+fontBody+';text-align:'+align+'">'
       +imgTag
       +'<div class="eyebrow" style="font-family:'+fontBody+';font-size:'+fsp('eyebrow',40)+'">'+esc(s.eyebrow||'YOUR TAGLINE')+'</div>'
       +'<div class="main-t" style="color:'+ctaTC+';font-family:'+fontTitle+';font-size:'+fsp('main',100)+'">'+esc(s.main||'').replace(/\n/g,'<br>')+'</div>'
@@ -2799,6 +2800,19 @@ function renderEditor(){
   };
   
 
+  var ALIGN_TYPES = ['cover','whiteContent','hook','step','quote','cta'];
+  if(ALIGN_TYPES.indexOf(s.t)!==-1){
+    var curAlign = s.align || 'left';
+    var alignOpts = [['left','⯇ Gauche'],['center','◆ Centre'],['right','⯈ Droite'],['justify','☰ Justifié']];
+    hContent += '<div class="field"><label>Alignement du texte</label><div style="display:flex;gap:6px;flex-wrap:wrap">'
+      + alignOpts.map(function(o){
+          var on = curAlign===o[0];
+          return '<button type="button" class="tbtn '+(on?'tbtn-orange':'tbtn-gray')+'" style="flex:1;font-size:10px;padding:7px 4px" onclick="updateSlAlign(\''+o[0]+'\')">'+o[1]+'</button>';
+        }).join('')
+      + '</div></div>';
+  }
+
+	
   if(s.t==='cover'){
     hContent+=ea('tag','Étiquette',s.tag);
     hContent+=ea('title','Titre',s.title,3,'Utilisez &lt;em&gt;mot&lt;/em&gt; pour la couleur accent',true);
@@ -3562,6 +3576,14 @@ function updateSlKey(key, val){
   sl()[key] = val;
   document.getElementById('previewFrame').innerHTML = slHTML(sl(), as, car().slides.length, false);
   scale();
+}
+
+/* ═══ MISE EN PAGE TEXTE ═══ */	
+function updateSlAlign(val){
+  histSave();
+  sl().align = val;
+  renderEditor();
+  renderSlide();
 }
 
 /* ═══ CHART SLIDE ═══ */
