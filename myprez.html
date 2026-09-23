@@ -497,7 +497,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 .ui-theme-btn{border:2px solid transparent;border-radius:var(--rad-lg);padding:10px;display:flex;flex-direction:column;gap:6px;cursor:pointer;transition:all var(--tr-fast);text-align:left}
 .ui-theme-btn.on{box-shadow:0 0 0 2px var(--orange)}
 .ui-theme-btn:hover{transform:translateY(-1px)}
-.ui-theme-swatch{display:inline-block;width:14px;height:14px;border-radius:50%;margin-right:var(--sp-1)}
+.ui-theme-swatch{display:inline-block;width:14px;height:14px;border-radius:50%;margin-right:var(--sp-1);border:1px solid rgba(0,0,0,.12);box-shadow:0 0 0 1px rgba(255,255,255,.4) inset}
 .ui-theme-name{display:block;font-size:var(--fs-sm);font-weight:700;margin-top:2px}
 
 /* ═══ BIBLIOTHÈQUE DE TEMPLATES ═══ */
@@ -1514,63 +1514,11 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 
     <!-- Thème couleurs -->
     <div class="sec-title" style="margin-bottom:10px">Thème de l'interface</div>
-    <div class="ui-theme-grid" style="margin-bottom:16px">
-      <button type="button" class="ui-theme-btn on" data-theme="viaAucta" onclick="applyUITheme('viaAucta')" style="background:#F0F2F5;border-color:#0D2B4E">
-        <span class="ui-theme-swatch" style="background:#0D2B4E"></span>
-        <span class="ui-theme-swatch" style="background:#F05A1A"></span>
-        <span class="ui-theme-name" style="color:#0D2B4E">Via Aucta</span>
-      </button>
-      <button type="button" class="ui-theme-btn" data-theme="studioBlanc" onclick="applyUITheme('studioBlanc')" style="background:#F5F5F7;border-color:#E5E5EA">
-        <span class="ui-theme-swatch" style="background:#1D1D1F"></span>
-        <span class="ui-theme-swatch" style="background:#48484A"></span>
-        <span class="ui-theme-name" style="color:#1D1D1F">Studio blanc</span>
-      </button>
-      <button type="button" class="ui-theme-btn" data-theme="anthracite" onclick="applyUITheme('anthracite')" style="background:#1C1C1E;border-color:#3A3A3C">
-        <span class="ui-theme-swatch" style="background:#2C2C2E;border:1px solid #3A3A3C"></span>
-        <span class="ui-theme-swatch" style="background:#F05A1A"></span>
-        <span class="ui-theme-name" style="color:#F2F2F2">Anthracite</span>
-      </button>
-      <button type="button" class="ui-theme-btn" data-theme="editorial" onclick="applyUITheme('editorial')" style="background:#F7F3EC;border-color:#D8CCB4">
-        <span class="ui-theme-swatch" style="background:#2B2621"></span>
-        <span class="ui-theme-swatch" style="background:#B5622E"></span>
-        <span class="ui-theme-name" style="color:#2B2621;font-family:'Libre Baskerville',Georgia,serif">Éditorial papier</span>
-      </button>
-            <button type="button" class="ui-theme-btn" data-theme="studioDev" onclick="applyUITheme('studioDev')" style="background:#0B0F12;border-color:#1B242A">
-        <span class="ui-theme-swatch" style="background:#131A1E;border:1px solid #1B242A"></span>
-        <span class="ui-theme-swatch" style="background:#12B886"></span>
-        <span class="ui-theme-name" style="color:#E7F5F0;font-family:'JetBrains Mono',monospace">Studio dev</span>
-      </button>
-      <button type="button" class="ui-theme-btn" data-theme="nordique" onclick="applyUITheme('nordique')" style="background:#C6EBFF;border-color:#1E293B">
-        <span class="ui-theme-swatch" style="background:#A9B8B8"></span>
-        <span class="ui-theme-swatch" style="background:#0C8DC7"></span>
-        <span class="ui-theme-name" style="color:#1E293B;font-family:'Inter',sans-serif">Ardoise nordique</span>
-      </button>
-      <button type="button" class="ui-theme-btn" data-theme="terracotta" onclick="applyUITheme('terracotta')" style="background:#FBF6EF;border-color:#3D2B1F">
-        <span class="ui-theme-swatch" style="background:#3D2B1F"></span>
-        <span class="ui-theme-swatch" style="background:#C1502E"></span>
-        <span class="ui-theme-name" style="color:#3D2B1F;font-family:'Fraunces',Georgia,serif">Terracotta &amp; sable</span>
-      </button>
-      <button type="button" class="ui-theme-btn" data-theme="foretProfonde" onclick="applyUITheme('foretProfonde')" style="background:#F4F7F4;border-color:#0F2E1D">
-        <span class="ui-theme-swatch" style="background:#0F2E1D"></span>
-        <span class="ui-theme-swatch" style="background:#D4A017"></span>
-        <span class="ui-theme-name" style="color:#0F2E1D;font-family:'Raleway',sans-serif">Forêt profonde</span>
-      </button>
-      <button type="button" class="ui-theme-btn" data-theme="violetMinuit" onclick="applyUITheme('violetMinuit')" style="background:#F5F3FA;border-color:#1A1533">
-        <span class="ui-theme-swatch" style="background:#1A1533"></span>
-        <span class="ui-theme-swatch" style="background:#EC5F1D"></span>
-        <span class="ui-theme-name" style="color:#1A1533;font-family:'Syne',sans-serif">Violet minuit</span>
-      </button>
-      <button type="button" class="ui-theme-btn" data-theme="brumeOceane" onclick="applyUITheme('brumeOceane')" style="background:#F2F8FA;border-color:#0B3D4C">
-        <span class="ui-theme-swatch" style="background:#0B3D4C"></span>
-        <span class="ui-theme-swatch" style="background:#F2994A"></span>
-        <span class="ui-theme-name" style="color:#0B3D4C;font-family:'Nunito',sans-serif">Brume océane</span>
-      </button>
-      <button type="button" class="ui-theme-btn" data-theme="graphiteChaud" onclick="applyUITheme('graphiteChaud')" style="background:#FAFAFA;border-color:#18181B">
-        <span class="ui-theme-swatch" style="background:#18181B"></span>
-        <span class="ui-theme-swatch" style="background:#22C55E"></span>
-        <span class="ui-theme-name" style="color:#18181B;font-family:'Space Grotesk',sans-serif">Graphite chaud</span>
-      </button>
-    </div>
+    <!-- Les boutons ci-dessous sont générés par renderUIThemeGrid() à partir de
+         UI_THEMES : aucune couleur n'est codée en dur ici. Pour changer l'apparence
+         d'un thème (ou en ajouter un), il suffit d'éditer UI_THEMES — ce conteneur
+         se met à jour automatiquement, sans jamais pouvoir se désynchroniser. -->
+    <div class="ui-theme-grid" id="uiThemeGrid" style="margin-bottom:16px"></div>
     <div class="field-hint" style="margin-bottom:14px">Un thème s'applique sur l'ensemble de l'interface. Les couleurs peuvent être modifiées indépendamment ci-dessous. Les slides exportées ne sont pas affectées.</div>
     <div class="field-row" style="margin-bottom:14px">
       <div class="field">
@@ -1644,6 +1592,14 @@ var rz = document.getElementById('rz');
 ═══════════════════════════════════════════════════════════════ */
 
 /* ─── Identité visuelle par défaut ───────────────────────────────
+   ⚠ Ceci concerne le contenu produit par l'app (couleurs des
+   SLIDES exportées, du Brand Kit) — PAS la couleur de l'interface
+   de l'éditeur elle-même. Pour l'interface (menus, boutons, fonds
+   de panneaux), voir UI_THEMES plus bas. Les deux sont volontai-
+   rement indépendants : changer le thème de l'éditeur n'affecte
+   jamais les couleurs des présentations déjà créées, et inverse-
+   ment un carrousel orange peut très bien être conçu dans une
+   interface bleue "Ardoise nordique".
    Source UNIQUE pour toutes les couleurs/polices "par défaut" de
    l'app (nouveau carrousel, nouvelle slide, reset Brand Kit...).
    Ne jamais réécrire une couleur en dur ailleurs dans le code :
@@ -4678,11 +4634,40 @@ function notif(msg){
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   THÈMES D'INTERFACE (couleurs/police de l'app elle-même, PAS des
-   slides). Chaque thème redéfinit les variables CSS de :root
-   (--navy, --orange, --bg, --border, --surface-*, --text-*,
-   --app-font). Voir applyUITheme(name) plus bas pour l'application,
-   et loadSavedUITheme() pour la restauration au chargement.
+   THÈMES D'INTERFACE (couleurs/police de l'app elle-même — menus,
+   panneaux, boutons — PAS les slides ; voir le renvoi dans le
+   commentaire de DEFAULTS plus haut pour la distinction).
+
+   LÉGENDE — ce que contrôle chaque variable, dans l'interface :
+     --navy / --navy2   couleur principale de l'appli : barre du
+                         haut, onglets de carrousels, boutons "on"
+                         foncés. --navy2 = variante un peu plus
+                         claire (dégradés, survols).
+     --orange / --orange2  couleur d'ACCENT de l'interface : onglet
+                         actif, titres de section, bordures au
+                         survol, boutons d'action principaux.
+                         C'est CETTE paire qui doit changer d'un
+                         thème à l'autre pour que le thème se
+                         "voie" sur les boutons/survols.
+     --bg                fond général de la fenêtre (derrière les
+                         panneaux).
+     --border            couleur des séparateurs / bordures de champs.
+     --surface-1         fond des panneaux et des cartes (légèrement
+                         teinté par rapport à --bg).
+     --surface-2         fond des éléments "au-dessus" (modales,
+                         cartes actives) — généralement blanc pur.
+     --text-1 / --text-2 texte principal / texte secondaire (labels,
+                         hints). --gray = alias de --text-2, gardé
+                         pour compatibilité avec le CSS existant.
+     --app-font          police utilisée dans toute l'interface.
+
+   Voir applyUITheme(name) plus bas pour l'application, et
+   loadSavedUITheme() pour la restauration au chargement. Les
+   boutons de sélection de thème (modale ovCustom) sont générés
+   automatiquement à partir de cet objet par renderUIThemeGrid() —
+   ne JAMAIS coder en dur une couleur de thème ailleurs dans le
+   HTML : ça se désynchronise inévitablement (c'est ce qui s'est
+   produit avant cette rationalisation).
    PARAMÉTRAGE : pour ajouter/modifier un thème, éditer uniquement
    cet objet — rien d'autre à toucher.
 ═══════════════════════════════════════════════════════════════ */
@@ -4708,7 +4693,11 @@ var UI_THEMES = {
   anthracite: {
     label: 'Anthracite', icon: '☾',
     vars: {
-      '--navy':'#1C1C1E', '--navy2':'#2C2C2E', '--orange':'#F05A1A', '--orange2':'#FF7A3D',
+      /* Accent distinct du orange par défaut (#F05A1A) — avant cette
+         correction, ce thème réutilisait exactement la même couleur
+         d'accent que "Via Aucta", ce qui donnait l'impression que le
+         survol des panneaux "restait orange" quel que soit le thème. */
+      '--navy':'#1C1C1E', '--navy2':'#2C2C2E', '--orange':'#E8A33D', '--orange2':'#F2BE6B',
       '--bg':'#131315', '--border':'#3A3A3C', '--surface-1':'#2C2C2E', '--surface-2':'#1C1C1E',
       '--text-1':'#F2F2F2', '--text-2':'#8E8E93', '--gray':'#8E8E93',
       '--app-font':"'DM Sans',sans-serif"
@@ -4735,8 +4724,8 @@ var UI_THEMES = {
   nordique: {
     label: 'Ardoise nordique', icon: '❄',
     vars: {
-      '--navy':'#677070', '--navy2':'#334155', '--orange':'#0C8DC7', '--orange2':'#38BDF8',
-      '--bg':'#C0D0D0', '--border':'#9BA8A8', '--surface-1':'#A9B8B8', '--surface-2':'#A9B8B8',
+      '--navy':'#1E293B', '--navy2':'#334155', '--orange':'#0EA5E9', '--orange2':'#38BDF8',
+      '--bg':'#F8FAFC', '--border':'#E2E8F0', '--surface-1':'#FFFFFF', '--surface-2':'#FFFFFF',
       '--text-1':'#0F172A', '--text-2':'#64748B', '--gray':'#64748B',
       '--app-font':"'Inter',sans-serif"
     }
@@ -4821,13 +4810,28 @@ function loadSavedUITheme(){
   }
 }
 
+function renderUIThemeGrid(){
+  var wrap = document.getElementById('uiThemeGrid');
+  if(!wrap) return;
+  var savedName = null;
+  try{ savedName = localStorage.getItem(UI_THEME_KEY); }catch(e){}
+  if(!savedName || !UI_THEMES[savedName]) savedName = 'viaAucta';
+  var h = '';
+  Object.keys(UI_THEMES).forEach(function(key){
+    var t = UI_THEMES[key], v = t.vars;
+    var isOn = key === savedName;
+    h += '<button type="button" class="ui-theme-btn'+(isOn?' on':'')+'" data-theme="'+key+'" onclick="applyUITheme(\''+key+'\')" style="background:'+v['--bg']+';border-color:'+v['--navy']+'">'
+      + '<span class="ui-theme-swatch" style="background:'+v['--navy']+'"></span>'
+      + '<span class="ui-theme-swatch" style="background:'+v['--orange']+'"></span>'
+      + '<span class="ui-theme-name" style="color:'+v['--text-1']+';font-family:'+v['--app-font']+'">'+t.icon+' '+esc(t.label)+'</span>'
+      + '</button>';
+  });
+  wrap.innerHTML = h;
+}
+
 function openCustomModal(){
   document.getElementById('ovCustom').classList.add('open');
-  var saved = null;
-  try{ saved = localStorage.getItem(UI_THEME_KEY); }catch(e){}
-  document.querySelectorAll('.ui-theme-btn').forEach(function(b){
-    b.classList.toggle('on', b.dataset.theme === (saved || 'viaAucta'));
-  });
+  renderUIThemeGrid();
 }
 
 function applyUIColor(varName, val){
