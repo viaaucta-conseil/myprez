@@ -4938,7 +4938,7 @@ var TUTORIAL_STEPS = [
     text:"Visualisez votre slide en temps réel. Naviguez avec les flèches ← → ou les points sous l'aperçu." },
   { target:'#fmtDropdown',
     title:"Choisissez votre format",
-    text:"LinkedIn Carré, Vertical ou Horizontal, Facebook, Instagram Portrait, TikTok, ou PDF A4, tous regroupés dans ce menu déroulant. Le format s'applique à l'aperçu et à l'export final." },
+    text:"Formats LinkedIn, Facebook, Instagram, TikTok, PDF A4 ou PowerPoint, regroupés dans un unique menu déroulant. Il s'applique à l'aperçu et à l'export final." },
   /* ═══════════════════════════════════════════
 	{ target:'.panel-tabs', before:function(){ setPTab(0); },
     title:"Les 3 onglets de l'éditeur",
@@ -4954,7 +4954,7 @@ var TUTORIAL_STEPS = [
     title:"Éditez le contenu, à droite",
     text:"Le panneau de droite affiche l'édition de la slide sélectionnée. Les champs s'adaptent automatiquement selon le type de slide choisi." },
 	/* ═══════════════════════════════════════════
-    { target:'#acc_shapes',
+  { target:'#acc_shapes',
     title:"Bibliothèque de formes",
     text:"Toujours dans le panneau de droite : dépliez cette section pour ajouter des formes (flèches, rectangles, étoiles, texte libre...) sur n'importe quelle slide, puis glissez-les sur l'aperçu pour les positionner." },
   { target:'#pt1', before:function(){ setPTab(1); },
@@ -4964,7 +4964,7 @@ var TUTORIAL_STEPS = [
     title:"L'onglet Carrousel",
     text:"Les informations de ce carrousel sont regroupées ici. Votre identité visuelle globale se règle dans le Brand Kit, séparément." },
 	═══════════════════════════════════════════ */
-  { target:'#pc2 button[onclick="openBrandKit()"]', before:function(){},
+  { target:'#pc2 button[onclick="openBrandKit()"]', before:function(){ setPTab(2); },
     title:"Le Brand Kit",
     text:"Définissez une seule fois votre nom de marque, votre logo, vos couleurs et vos polices. Le Brand Kit est global et s'applique aux nouveaux carrousels ou à la présentation actuelle sur demande." },
   { target:'#tabsCarousels',
