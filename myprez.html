@@ -4936,7 +4936,8 @@ var TUTORIAL_STEPS = [
   { target:'#fmtDropdown',
     title:"Choisissez votre format",
     text:"LinkedIn Carré, Vertical ou Horizontal, Facebook, Instagram Portrait, TikTok, ou PDF A4, tous regroupés dans ce menu déroulant. Le format s'applique à l'aperçu et à l'export final." },
-  { target:'.panel-tabs', before:function(){ setPTab(0); },
+  /* ═══════════════════════════════════════════
+	{ target:'.panel-tabs', before:function(){ setPTab(0); },
     title:"Les 3 onglets de l'éditeur",
     text:"Contenu pour gérer la liste de vos slides, Fond pour leur apparence, et Carrousel pour les informations et réglages propres à ce carrousel." },
   { target:'#slideList', before:function(){ setPTab(0); },
@@ -4945,9 +4946,11 @@ var TUTORIAL_STEPS = [
   { target:'#addSlideRow', before:function(){ setPTab(0); },
     title:"Ajouter une slide",
     text:"Choisissez un type : couverture, accroche, étapes, image, graphique, tableau, citation, CTA ; puis cliquez + Ajouter." },
+	═══════════════════════════════════════════ */
   { target:'#slideEditor',
     title:"Éditez le contenu, à droite",
     text:"Le panneau de droite affiche l'édition de la slide sélectionnée. Les champs s'adaptent automatiquement selon le type de slide choisi." },
+	/* ═══════════════════════════════════════════
     { target:'#acc_shapes',
     title:"Bibliothèque de formes",
     text:"Toujours dans le panneau de droite : dépliez cette section pour ajouter des formes (flèches, rectangles, étoiles, texte libre...) sur n'importe quelle slide, puis glissez-les sur l'aperçu pour les positionner." },
@@ -4957,6 +4960,7 @@ var TUTORIAL_STEPS = [
   { target:'#pt2', before:function(){ setPTab(2); },
     title:"L'onglet Carrousel",
     text:"Les informations de ce carrousel sont regroupées ici. Votre identité visuelle globale se règle dans le Brand Kit, séparément." },
+	═══════════════════════════════════════════ */
   { target:'#pc2 button[onclick="openBrandKit()"]', before:function(){},
     title:"Le Brand Kit",
     text:"Définissez une seule fois votre nom de marque, votre logo, vos couleurs et vos polices. Le Brand Kit est global et s'applique aux nouveaux carrousels ou à la présentation actuelle sur demande." },
@@ -4972,12 +4976,14 @@ var TUTORIAL_STEPS = [
   { target:'#templatesTabBtn',
     title:"Bibliothèque de templates",
     text:"Des trames prêtes à l'emploi classées par pilier (Business, RH, Négociation, Communication...). Un clic sur un template crée un nouveau carrousel pré-rempli, entièrement modifiable." },
-  { target:'#acc_icons',
-    title:"Bibliothèque d'icônes",
-    text:"Toujours dans le panneau de droite : dépliez cette section pour insérer une icône ou un émoji directement à l'endroit du curseur dans un champ texte." },
   { target:'#customTabBtn',
     title:"Personnalisez l'interface",
     text:"Changez le thème visuel de l'outil (5 thèmes au choix) sans jamais affecter le style de vos slides exportées." }
+	/* ═══════════════════════════════════════════
+  { target:'#acc_icons',
+    title:"Bibliothèque d'icônes",
+    text:"Toujours dans le panneau de droite : dépliez cette section pour insérer une icône ou un émoji directement à l'endroit du curseur dans un champ texte." },
+	═══════════════════════════════════════════ */
 ];
 
 var _tutStep = 0;
