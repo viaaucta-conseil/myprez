@@ -6109,8 +6109,16 @@ function welcomeRenderContentGrid(){
   });
   wrap.innerHTML=h;
 }
+// L'étape 2 (type de contenu) n'a d'utilité que pour "template" (filtrer la bibliothèque)
+// et "ai" (orienter l'objectif du générateur) : pour "blank", il n'y a rien à filtrer ni
+// orienter, donc on crée directement le carrousel vierge, sans étape intermédiaire.
 function welcomeChoose(mode){
   _welcomeMode=mode;
+  if(mode==='blank'){
+    closeWelcome();
+    if(typeof addCar==='function') addCar();
+    return;
+  }
   welcomeRenderContentGrid();
   welcomeGoStep(2);
 }
@@ -6129,18 +6137,6 @@ function welcomeSelectContentType(id){
       if(goalSel) goalSel.value=ct.goal;
     }
     return;
-  }
-  if(_welcomeMode==='blank'){
-    if(typeof addCar==='function'){
-      addCar();
-      if(ct){
-        var c=car();
-        c.pilier=ct.pilier==='Tous'?'Nouveau':ct.pilier;
-        c.tag=ct.tag;
-        if(c.slides && c.slides[0]) c.slides[0].tag=ct.tag;
-        render();
-      }
-    }
   }
 }
 // Ouvre automatiquement l'accueil guidé une seule fois par chargement de page, et
