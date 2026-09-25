@@ -6072,23 +6072,24 @@ function openWelcome(){
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   TYPES DE CONTENU — étape 2 de l'accueil guidé (welcomeStep2).
+   TYPES DE CONTENU — étape 2 de l'accueil guidé (welcomeStep2),
+   affichée uniquement pour le choix "Construire avec un modèle"
+   (voir welcomeChoose : "ai" et "blank" n'en ont plus besoin et
+   sautent directement à leur destination).
    Chaque entrée : id (clé technique), icon/label/desc (affichage
    de la carte), pilier (filtre appliqué à la bibliothèque de
-   templates via selectTplCat), goal (pré-sélection du champ
-   "Objectif" du générateur IA), tag (texte injecté sur la 1ère
-   slide en mode "à partir de zéro").
+   templates via selectTplCat).
    PARAMÉTRAGE : pour ajouter/modifier un type de contenu, éditer
-   uniquement ce tableau — welcomeRenderContentGrid() et
-   welcomeSelectContentType() s'adaptent automatiquement.
+   uniquement ce tableau — welcomeRenderContentGrid() s'adapte
+   automatiquement.
 ═══════════════════════════════════════════════════════════════ */
 var CONTENT_TYPES = [
-  {id:'linkedin',   icon:'📑', label:'Carrousel LinkedIn',        desc:"Un format court et visuel pensé pour capter l'attention sur votre fil.", pilier:'Tous',         goal:'expertise', tag:'LINKEDIN'},
-  {id:'commercial', icon:'💼', label:'Présentation commerciale',   desc:'Convaincre un prospect, présenter une offre ou un devis.',                pilier:'Business',     goal:'sell',      tag:'COMMERCIAL'},
-  {id:'formation',  icon:'🎓', label:'Présentation de formation',  desc:"Structurer un contenu pédagogique, un atelier ou un module.",             pilier:'RH',           goal:'educate',   tag:'FORMATION'},
-  {id:'entreprise', icon:'🏢', label:"Présentation d'entreprise",  desc:'Présenter votre structure, vos valeurs, votre équipe, votre offre.',      pilier:'Business',     goal:'expertise', tag:'ENTREPRISE'},
-  {id:'casestudy',  icon:'📊', label:'Étude de cas',               desc:"Démontrer un résultat concret, chiffres et preuves à l'appui.",           pilier:'Business',     goal:'case',      tag:'ÉTUDE DE CAS'},
-  {id:'pedago',     icon:'💡', label:'Post pédagogique',           desc:"Expliquer un concept ou une méthode, étape par étape.",                    pilier:'Communication',goal:'educate',   tag:'PÉDAGOGIE'}
+  {id:'linkedin',   icon:'📑', label:'Carrousel LinkedIn',        desc:"Un format court et visuel pensé pour capter l'attention sur votre fil.", pilier:'Tous'},
+  {id:'commercial', icon:'💼', label:'Présentation commerciale',   desc:'Convaincre un prospect, présenter une offre ou un devis.',                pilier:'Business'},
+  {id:'formation',  icon:'🎓', label:'Présentation de formation',  desc:"Structurer un contenu pédagogique, un atelier ou un module.",             pilier:'RH'},
+  {id:'entreprise', icon:'🏢', label:"Présentation d'entreprise",  desc:'Présenter votre structure, vos valeurs, votre équipe, votre offre.',      pilier:'Business'},
+  {id:'casestudy',  icon:'📊', label:'Étude de cas',               desc:"Démontrer un résultat concret, chiffres et preuves à l'appui.",           pilier:'Business'},
+  {id:'pedago',     icon:'💡', label:'Post pédagogique',           desc:"Expliquer un concept ou une méthode, étape par étape.",                    pilier:'Communication'}
 ];
 var _welcomeMode = null;
 function welcomeGoStep(n){
@@ -6109,14 +6110,20 @@ function welcomeRenderContentGrid(){
   });
   wrap.innerHTML=h;
 }
-// L'étape 2 (type de contenu) n'a d'utilité que pour "template" (filtrer la bibliothèque)
-// et "ai" (orienter l'objectif du générateur) : pour "blank", il n'y a rien à filtrer ni
-// orienter, donc on crée directement le carrousel vierge, sans étape intermédiaire.
+// L'étape 2 (type de contenu) n'a d'utilité réelle que pour "template" (filtrer la
+// bibliothèque par pilier) : pour "ai" et "blank", elle n'apportait rien d'assez concret
+// pour justifier un clic supplémentaire — les deux ouvrent donc directement leur
+// destination (générateur IA / carrousel vierge).
 function welcomeChoose(mode){
   _welcomeMode=mode;
   if(mode==='blank'){
     closeWelcome();
     if(typeof addCar==='function') addCar();
+    return;
+  }
+  if(mode==='ai'){
+    closeWelcome();
+    if(typeof openAIGenerator==='function') openAIGenerator();
     return;
   }
   welcomeRenderContentGrid();
@@ -6128,15 +6135,6 @@ function welcomeSelectContentType(id){
   if(_welcomeMode==='template'){
     openTemplatesModal();
     if(ct && ct.pilier && typeof selectTplCat==='function') selectTplCat(ct.pilier);
-    return;
-  }
-  if(_welcomeMode==='ai'){
-    openAIGenerator();
-    if(ct){
-      var goalSel=document.getElementById('aiGoal');
-      if(goalSel) goalSel.value=ct.goal;
-    }
-    return;
   }
 }
 // Ouvre automatiquement l'accueil guidé une seule fois par chargement de page, et
