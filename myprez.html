@@ -6057,7 +6057,19 @@ function closeWelcomeAndMaybeTutorial(){
   try{ already = !!localStorage.getItem(TUTORIAL_KEY); }catch(e){}
   if(!already && typeof startTutorial==='function') setTimeout(startTutorial, 350);
 }
-function openWelcome(){welcomeGoStep(1);var o=document.getElementById('welcomeOverlay');if(o)o.classList.add('open');}
+// Ouvre l'accueil guidé, que ce soit à l'initiative de l'utilisateur (bouton "+ Nouveau
+// carrousel") ou automatiquement (mpMaybeShowWelcome). On pose IMMÉDIATEMENT le verrou
+// _welcomeShownThisLoad ici : avant ce correctif, seul le déclenchement automatique le
+// posait, donc si l'utilisateur ouvrait l'accueil lui-même juste avant que le minuteur
+// automatique (~1200ms après le chargement) se déclenche, celui-ci rouvrait l'écran
+// PAR-DESSUS sa sélection en cours et le réinitialisait à l'étape 1 — un bug de course
+// invisible en test manuel car il dépend du timing exact du chargement de la page.
+function openWelcome(){
+  _welcomeShownThisLoad = true;
+  welcomeGoStep(1);
+  var o=document.getElementById('welcomeOverlay');
+  if(o)o.classList.add('open');
+}
 
 /* ═══════════════════════════════════════════════════════════════
    TYPES DE CONTENU — étape 2 de l'accueil guidé (welcomeStep2).
@@ -6131,11 +6143,18 @@ function welcomeSelectContentType(id){
     }
   }
 }
+// Ouvre automatiquement l'accueil guidé une seule fois par chargement de page, et
+// seulement une fois la licence validée (lic-overlay masqué). Le garde-fou principal
+// est désormais dans openWelcome() lui-même (voir son commentaire) ; celui ci-dessous
+// est une seconde protection défensive, au cas où l'utilisateur aurait déjà l'accueil
+// ouvert au moment où ce minuteur se déclenche.
 function mpMaybeShowWelcome(){
   if(_welcomeShownThisLoad) return;
+  var overlay=document.getElementById('welcomeOverlay');
+  if(overlay && overlay.classList.contains('open')) return; // déjà ouvert (manuellement) : ne pas le réinitialiser
   var lic=document.getElementById('lic-overlay');
   if(!lic||lic.style.display==='none'){
-    _welcomeShownThisLoad=true;
+    _welcomeShownThisLoad=true; // posé tout de suite (pas dans le setTimeout) pour empêcher un second déclenchement pendant les 250ms d'attente
     setTimeout(openWelcome,250);
   }
 }
