@@ -86,7 +86,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 /* Format selector dans la topbar */
 .fmt-menu-btn{background:rgba(255,255,255,.08);color:rgba(255,255,255,.9);border:1px solid rgba(255,255,255,.15)}
 .fmt-menu-btn:hover{background:rgba(255,255,255,.16)}
-.export-menu button.fmt-menu-active{background:rgba(240,90,26,.12);color:var(--orange)}
+.export-menu button.fmt-menu-active{background:color-mix(in srgb, var(--orange) 12%, transparent);color:var(--orange)}
 .export-menu .fmt-dim{opacity:.55;font-weight:400;margin-left:auto;padding-left:10px;font-size:var(--fs-md)}
 .fmt-icon{font-size:12px}
 
@@ -101,7 +101,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 .ctab:hover{color:rgba(255,255,255,.8);background:rgba(255,255,255,.12)}
 .ctab.on{background:var(--bg);color:var(--text-1);border-color:rgba(255,255,255,.1)}
 .ctab-del{width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,.15);color:rgba(255,255,255,.5);font-size:var(--fs-2xs);display:flex;align-items:center;justify-content:center;transition:all var(--tr-fast)}
-.ctab.on .ctab-del{background:rgba(240,90,26,.15);color:var(--orange)}
+.ctab.on .ctab-del{background:color-mix(in srgb, var(--orange) 15%, transparent);color:var(--orange)}
 .ctab-del:hover{background:#EF4444!important;color:white!important}
 .ctab-new{border:1px dashed color-mix(in srgb, var(--orange) 40%, transparent);color:color-mix(in srgb, var(--orange) 80%, transparent);background:color-mix(in srgb, var(--orange) 8%, transparent)}
 .ctab-new:hover{background:color-mix(in srgb, var(--orange) 15%, transparent)!important;color:var(--orange)!important}
@@ -156,11 +156,11 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 .slide-item:hover{border-color:var(--orange);background:var(--surface-2)}
 .slide-item.on{background:var(--navy);border-color:var(--navy);color:white}
 .slide-badge{font-size:var(--fs-2xs);font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:2px 7px;border-radius:3px;flex-shrink:0}
-.slide-badge.cover{background:rgba(240,90,26,.15);color:var(--orange)}
+.slide-badge.cover{background:color-mix(in srgb, var(--orange) 15%, transparent);color:var(--orange)}
 .slide-badge.dark{background:rgba(6,14,26,.1);color:var(--text-2)}
 .slide-badge.navy{background:rgba(13,43,78,.12);color:var(--text-1)}
 .slide-badge.white{background:rgba(13,43,78,.08);color:var(--text-1);border:1px solid var(--border)}
-.slide-badge.cta{background:rgba(240,90,26,.12);color:var(--orange)}
+.slide-badge.cta{background:color-mix(in srgb, var(--orange) 12%, transparent);color:var(--orange)}
 .slide-item.on .slide-badge{background:rgba(255,255,255,.15);color:rgba(255,255,255,.8)}
 .slide-lbl{font-size:var(--fs-sm);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
 .slide-actions{display:flex;gap:3px}
@@ -176,7 +176,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 .slide-item.drag-over{border-color:var(--orange);background:rgba(212,160,23,.1);transform:translateY(-1px)}
 .slide-item.excluded{opacity:.5}
 .slide-item.locked{border-left:3px solid var(--orange)}
-.slide-act.excluded-on{background:rgba(240,90,26,.25);color:var(--orange);opacity:1}
+.slide-act.excluded-on{background:color-mix(in srgb, var(--orange) 25%, transparent);color:var(--orange);opacity:1}
 .add-slide-row{display:flex;gap:6px;margin-top:var(--sp-2)}
 .add-slide-row select{flex:1;background:var(--surface-1);border:1px solid var(--border);border-radius:var(--rad-md);padding:6px 8px;font-size:var(--fs-md);color:var(--text-1)}
 .btn-add-slide{background:var(--orange);color:white;padding:6px 12px;border-radius:var(--rad-md);font-size:var(--fs-md);font-weight:700;flex-shrink:0}
@@ -209,7 +209,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 .shape-list-fill{font-size:var(--fs-2xs);color:var(--gray);display:flex;align-items:center;gap:3px;white-space:nowrap}
 
 .shape-editable{position:absolute;z-index:40}
-.shape-outline{position:absolute;inset:-3px;border:1.5px dashed rgba(240,90,26,.85);border-radius:2px;pointer-events:none;opacity:0;transition:opacity .1s}
+.shape-outline{position:absolute;inset:-3px;border:1.5px dashed color-mix(in srgb, var(--orange) 85%, transparent);border-radius:2px;pointer-events:none;opacity:0;transition:opacity .1s}
 .shape-editable:hover .shape-outline{opacity:1}
 .shape-del-btn{position:absolute;top:-20px;right:-20px;width:40px;height:40px;border-radius:50%;background:#EF4444;color:white;font-size:20px;line-height:36px;text-align:center;border:3px solid white;cursor:pointer;z-index:60;opacity:0;transition:opacity .1s}
 .shape-rotate-handle{position:absolute;top:-52px;left:50%;transform:translateX(-50%);width:40px;height:40px;border-radius:50%;background:var(--surface-2);border:3px solid var(--orange);color:var(--orange);font-size:24px;line-height:32px;text-align:center;cursor:grab;z-index:60;opacity:0;transition:opacity .1s}
@@ -253,7 +253,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 .prog-dots{display:flex;gap:6px;align-items:center}
 .pdot{width:12px;height:12px;border-radius:50%;background:var(--border);cursor:pointer;border:none;transition:all var(--tr-fast)}
 .pdot.on{background:var(--orange);transform:scale(1.3)}
-.pdot:hover{background:rgba(240,90,26,.5)}
+.pdot:hover{background:color-mix(in srgb, var(--orange) 50%, transparent)}
 
 /* ═══════════════════════════════════════════
    SLIDE DESIGNS - 1080×1080 - FULL FIDELITY
@@ -522,8 +522,8 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 .img-lib-thumb-wrap{width:100%;aspect-ratio:1;border-radius:var(--rad-md);overflow:hidden;background:repeating-conic-gradient(#e2e8f0 0% 25%,#f8fafc 0% 50%) 50%/16px 16px;display:flex;align-items:center;justify-content:center;margin-bottom:6px}
 .img-lib-thumb{max-width:100%;max-height:100%;object-fit:contain}
 .img-lib-name{font-size:var(--fs-xs);padding:4px 6px}
-.img-lib-save-btn{background:rgba(240,90,26,.1);border:1px dashed rgba(240,90,26,.4);border-radius:5px;padding:5px 8px;font-size:var(--fs-xs);color:var(--orange);cursor:pointer;font-weight:600;transition:all var(--tr-fast);white-space:nowrap}
-.img-lib-save-btn:hover{background:rgba(240,90,26,.18)}
+.img-lib-save-btn{background:color-mix(in srgb, var(--orange) 10%, transparent);border:1px dashed color-mix(in srgb, var(--orange) 40%, transparent);border-radius:5px;padding:5px 8px;font-size:var(--fs-xs);color:var(--orange);cursor:pointer;font-weight:600;transition:all var(--tr-fast);white-space:nowrap}
+.img-lib-save-btn:hover{background:color-mix(in srgb, var(--orange) 18%, transparent)}
 .img-lib-pick-btn{background:var(--surface-1);border:1px solid var(--border);border-radius:5px;padding:5px 8px;font-size:var(--fs-xs);color:var(--text-1);cursor:pointer;font-weight:600;transition:all var(--tr-fast);white-space:nowrap}
 .img-lib-pick-btn:hover{border-color:var(--orange);color:var(--orange)}
 
@@ -1333,7 +1333,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 <div class="panel-center" id="centerPanel">
   <div class="center-preview-stack" id="centerPreviewStack">
 	<div id="hiddenSlideBanner" style="display:none;background:rgba(239,68,68,.12);color:#EF4444;border:1px solid rgba(239,68,68,.35);border-radius:6px;padding:6px 14px;font-size:14px;font-weight:700;margin-bottom:8px">🙈 Cette slide est masquée - elle n'apparaîtra pas dans les exports</div>
-	<div id="lockedSlideBanner" style="display:none;background:rgba(240,90,26,.12);color:var(--orange);border:1px solid rgba(240,90,26,.35);border-radius:6px;padding:6px 14px;font-size:14px;font-weight:700;margin-bottom:8px">🔒 Cette slide est verrouillée - déverrouillez-la pour la modifier</div>
+	<div id="lockedSlideBanner" style="display:none;background:color-mix(in srgb, var(--orange) 12%, transparent);color:var(--orange);border:1px solid color-mix(in srgb, var(--orange) 35%, transparent);border-radius:6px;padding:6px 14px;font-size:14px;font-weight:700;margin-bottom:8px">🔒 Cette slide est verrouillée - déverrouillez-la pour la modifier</div>
 	<div class="preview-wrap" id="previewWrap">
       <div class="preview-frame" id="previewFrame"></div>
     </div>
@@ -3944,16 +3944,18 @@ function _computeSnap(sh, others, threshold){
   return {x:sh.x+rx.delta, y:sh.y+ry.delta, snappedX:rx.snapped, snappedY:ry.snapped, refX:rx.ref, refY:ry.ref};
 }
 function _drawSnapGuides(snapInfo, slEl){
+  // border-left/top utilisent var(--orange) (couleur d'accent de l'INTERFACE) plutôt qu'une
+  // couleur figée : ce sont des repères d'édition, pas un élément du rendu de la slide.
   if(snapInfo.snappedX && snapInfo.refX!=null){
     var gx=document.createElement('div');
     gx.className='snap-guide';
-    gx.style.cssText='position:absolute;top:0;bottom:0;left:'+snapInfo.refX+'%;width:0;border-left:1.5px dashed #F05A1A;z-index:70;pointer-events:none';
+    gx.style.cssText='position:absolute;top:0;bottom:0;left:'+snapInfo.refX+'%;width:0;border-left:1.5px dashed var(--orange);z-index:70;pointer-events:none';
     slEl.appendChild(gx);
   }
   if(snapInfo.snappedY && snapInfo.refY!=null){
     var gy=document.createElement('div');
     gy.className='snap-guide';
-    gy.style.cssText='position:absolute;left:0;right:0;top:'+snapInfo.refY+'%;height:0;border-top:1.5px dashed #F05A1A;z-index:70;pointer-events:none';
+    gy.style.cssText='position:absolute;left:0;right:0;top:'+snapInfo.refY+'%;height:0;border-top:1.5px dashed var(--orange);z-index:70;pointer-events:none';
     slEl.appendChild(gy);
   }
 }
