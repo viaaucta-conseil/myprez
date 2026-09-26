@@ -178,6 +178,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 .slide-item.locked{border-left:3px solid var(--orange)}
 .slide-act.excluded-on{background:color-mix(in srgb, var(--orange) 25%, transparent);color:var(--orange);opacity:1}
 .add-slide-row{display:flex;gap:6px;margin-top:var(--sp-2)}
+.add-slide-row:hover{background:rgba(255,255,255,.16)}
 .add-slide-row select{flex:1;background:var(--surface-1);border:1px solid var(--border);border-radius:var(--rad-md);padding:6px 8px;font-size:var(--fs-md);color:var(--text-1)}
 .btn-add-slide{background:var(--orange);color:white;padding:6px 12px;border-radius:var(--rad-md);font-size:var(--fs-md);font-weight:700;flex-shrink:0}
 
@@ -1032,15 +1033,15 @@ input,textarea,select{font-family:var(--app-font);outline:none}
       <div class="slide-list" id="slideList"></div>
       <div class="add-slide-row" id="addSlideRow">
         <select id="addSlideType">
-          <option value="cover">Cover (Fond Navy)</option>
-          <option value="whiteContent">Etape (Fond blanc)</option>
-		  <option value="hook">Statement (Fond sombre)</option>
-          <option value="step">Étapes (Fond Navy)</option>
-          <option value="quote">Citation (Fond blanc)</option>
-		  <option value="image">Image (Plein écran)</option>
+          <option value="cover">Couverture</option>
+          <option value="whiteContent">Contenu</option>
+		  <option value="hook">Statement</option>
+          <option value="step">Liste</option>
+          <option value="quote">Citation</option>
+		  <option value="image">Image</option>
           <option value="chart">Graphique</option>
           <option value="table">Tableau</option>
-          <option value="cta">CTA (Fond orange)</option>
+          <option value="cta">CTA</option>
         </select>
         <button class="btn-add-slide" onclick="addSlide()">+ Ajouter</button>
       </div>
