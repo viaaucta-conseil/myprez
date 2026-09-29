@@ -2193,8 +2193,7 @@ function mpSearchRun(){
   var qLower = q.toLowerCase();
   var scopeEl = document.querySelector('input[name=searchScope]:checked');
   var scope = scopeEl ? scopeEl.value : 'current';
-  if(!q){ resultsEl.innerHTML = '<div class="field-hint" style="padding:10px 14px">Tapez au moins un mot pour lancer la recherche.</div>'; return; }
-  var results = [];
+    var results = [];
   var carIndices = scope==='current' ? [ac] : C.map(function(_,i){return i;});
   carIndices.forEach(function(ci){
     var c = C[ci];
