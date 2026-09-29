@@ -978,14 +978,13 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 <div id="lic-overlay">
   <div class="lic-logo">My Prez <span>·</span> GÉNÉRATEUR</div>
   <div class="lic-card">
-    <div class="lic-lock">🔐</div>
-    <h2>ACTIVATION REQUISE</h2>
+        <h2>ACTIVATION REQUISE</h2>
     <p>Ce logiciel est protégé par licence.<br>Entrez votre clé d'activation pour accéder à l'outil.</p>
     <input type="text" class="lic-input" id="licInput"
       placeholder="Collez votre clé de licence ici..."
       autocomplete="off" spellcheck="false"
       onkeydown="if(event.key==='Enter')licActivate()"/>
-    <button class="lic-btn" id="licBtn">⚡ ACTIVER</button>
+    <button class="lic-btn" id="licBtn">ACTIVER</button>
     <div class="lic-msg" id="licMsg"></div>
     <hr class="lic-divider"/>
     <p style="font-size:14px;color:#6b6b8a">Pas encore de licence ?<br>
@@ -1036,24 +1035,24 @@ input,textarea,select{font-family:var(--app-font);outline:none}
     <div class="export-dropdown" id="moreMenuDropdown">
       <button class="tbtn tbtn-gray" onclick="toggleMoreMenu(event)" title="Menu">☰ <span class="btn-label">Menu ▾</span></button>
       <div class="export-menu" id="moreMenu">
-        <button onclick="closeMoreMenu();copyPostWithHashtags()">📋 Copier post + hashtags</button>
-        <button onclick="closeMoreMenu();document.getElementById('fileIn').click()">📥 Charger</button>
-        <button onclick="closeMoreMenu();saveJSON()">💾 Sauvegarder</button>
-        <button onclick="closeMoreMenu();openVersionHistoryModal()">🕒 Historique des versions</button>
-        <button onclick="closeMoreMenu();openImageLibrary(null)">🖼 Bibliothèque d'images</button>
-        <button onclick="exportAllCarouselsPDF()">📦 Exporter tous les carrousels (PDF)</button>
-        <button onclick="openStatsDashboard()">📊 Tableau de bord</button>
-        <button id="licMenuBtn" style="display:none" onclick="closeMoreMenu();licShowInfo()">🔑 <span id="licMenuLabel">Licence</span></button>
-        <button id="licLogoutMenuBtn" style="display:none;color:#EF4444" onclick="closeMoreMenu();licLogout()">🔓 Déconnexion</button>
+        <button onclick="closeMoreMenu();copyPostWithHashtags()">Copier post + hashtags</button>
+        <button onclick="closeMoreMenu();document.getElementById('fileIn').click()">Charger</button>
+        <button onclick="closeMoreMenu();saveJSON()">Sauvegarder</button>
+        <button onclick="closeMoreMenu();openVersionHistoryModal()">Historique des versions</button>
+        <button onclick="closeMoreMenu();openImageLibrary(null)">Bibliothèque d'images</button>
+        <button onclick="exportAllCarouselsPDF()">Exporter tous les carrousels (PDF)</button>
+        <button onclick="openStatsDashboard()">Tableau de bord</button>
+        <button id="licMenuBtn" style="display:none" onclick="closeMoreMenu();licShowInfo()"><span id="licMenuLabel">Licence</span></button>
+        <button id="licLogoutMenuBtn" style="display:none;color:#EF4444" onclick="closeMoreMenu();licLogout()">Déconnexion</button>
       </div>
     </div>
     <div class="export-dropdown" id="exportDropdown">
       <button class="tbtn tbtn-orange" onclick="toggleExportMenu(event)" title="Export">⬇ <span class="btn-label">Export ▾</span></button>
       <div class="export-menu" id="exportMenu">
-        <button onclick="closeExportMenu();exportCurrentPNG()">⬇ PNG actuelle</button>
-        <button onclick="closeExportMenu();exportAllPNG()">⬇ Export slides PNG</button>
-        <button onclick="closeExportMenu();exportPDF()">📄 Export PDF</button>
-        <button onclick="closeExportMenu();exportPPT()">📊 Export PPT</button>
+        <button onclick="closeExportMenu();exportCurrentPNG()">PNG actuelle</button>
+        <button onclick="closeExportMenu();exportAllPNG()">Export slides PNG</button>
+        <button onclick="closeExportMenu();exportPDF()">Export PDF</button>
+        <button onclick="closeExportMenu();exportPPT()">Export PPT</button>
       </div>
     </div>
   </div>
@@ -1188,7 +1187,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
           <div class="upload-zone-icon">🖼</div>
           <p><strong>Cliquez pour choisir une image</strong><br>JPG, PNG, WebP - transparence préservée</p>
         </div>
-        <button type="button" class="img-lib-pick-btn" style="width:100%;margin-top:6px" onclick="openImageLibrary('bgImage')">📚 Choisir depuis ma bibliothèque</button>
+        <button type="button" class="img-lib-pick-btn" style="width:100%;margin-top:6px" onclick="openImageLibrary('bgImage')">Choisir depuis ma bibliothèque</button>
         <input type="file" id="bgImgInput" accept="image/*" style="display:none" onchange="loadBgImage(event)"/>
 
         <div class="field" style="margin-top:10px">
@@ -1409,7 +1408,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
     </div>
   </div>
     <div class="prod-notes-wrap">
-      <label class="prod-notes-label">📝 Notes personnelles <span style="font-weight:400;color:var(--gray);text-transform:none">- usage interne, non exportées</span></label>
+      <label class="prod-notes-label">Notes personnelles <span style="font-weight:400;color:var(--gray);text-transform:none">- usage interne, non exportées</span></label>
       <textarea id="slideNotesArea" class="prod-notes-area" rows="2" placeholder="Ex. : à valider avec le client, remplacer le chiffre XX avant publication..."
         onfocus="histSaveOnFocus()" onblur="histResetPending()"
         oninput="updateSlideNotes(this.value)"></textarea>
@@ -1424,10 +1423,10 @@ input,textarea,select{font-family:var(--app-font);outline:none}
     </div>
     <div class="panel-right-body">
       <div style="display:flex;gap:6px;margin-bottom:4px">
-        <button class="tbtn tbtn-orange" style="flex:1;font-size:14px;padding:6px" onclick="copySlideStyle()" title="Copie le fond et les tailles de police de cette slide">📋 Copier le style</button>
-        <button class="tbtn tbtn-orange" style="flex:1;font-size:14px;padding:6px" id="btnPasteStyle" onclick="pasteSlideStyle()" title="Applique le style copié à cette slide, sans toucher au texte">🎨 Coller le style</button>
+        <button class="tbtn tbtn-orange" style="flex:1;font-size:14px;padding:6px" onclick="copySlideStyle()" title="Copie le fond et les tailles de police de cette slide">Copier le style</button>
+        <button class="tbtn tbtn-orange" style="flex:1;font-size:14px;padding:6px" id="btnPasteStyle" onclick="pasteSlideStyle()" title="Applique le style copié à cette slide, sans toucher au texte">Coller le style</button>
       </div>
-      <button class="tbtn tbtn-gray" style="width:100%;font-size:14px;padding:6px;margin-bottom:4px" id="btnPasteStyleAll" onclick="pasteSlideStyleToAll()" title="Applique le style copié à toutes les slides non verrouillées du carrousel">🎨 Coller le style sur tout le carrousel</button>
+      <button class="tbtn tbtn-gray" style="width:100%;font-size:14px;padding:6px;margin-bottom:4px" id="btnPasteStyleAll" onclick="pasteSlideStyleToAll()" title="Applique le style copié à toutes les slides non verrouillées du carrousel">Coller le style sur tout le carrousel</button>
       <div id="styleClipboardHint" style="font-size:14px;color:var(--gray);margin-bottom:10px">Aucun style copié pour l'instant</div>
       <div id="slideEditor"></div>
     </div>
@@ -1445,7 +1444,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 <div class="overlay" id="ovPNG">
   <div class="modal" style="max-width:580px">
     <div class="modal-hdr">
-      <span class="modal-title">⬇ EXPORT PNG - <span id="pngLabel"></span></span>
+      <span class="modal-title">EXPORT PNG - <span id="pngLabel"></span></span>
       <button class="modal-close" onclick="closeOverlay('ovPNG')">✕ Fermer</button>
     </div>
     <div class="notice"><strong>Clic droit sur l'image → "Enregistrer l'image sous"</strong> pour sauvegarder en PNG 1080×1080 sur votre ordinateur.</div>
@@ -1457,7 +1456,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 <div class="overlay" id="ovAllPNG">
   <div class="modal" style="max-width:580px">
     <div class="modal-hdr">
-      <span class="modal-title">⬇ TOUTES LES SLIDES</span>
+      <span class="modal-title">TOUTES LES SLIDES</span>
       <button class="modal-close" onclick="closeOverlay('ovAllPNG')">✕ Fermer</button>
     </div>
     <div class="notice"><strong>Clic droit → Enregistrer l'image sous</strong> sur chacune des images.</div>
@@ -1469,7 +1468,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 <div class="overlay" id="ovPDF">
   <div class="modal" style="max-width:480px">
     <div class="modal-hdr">
-      <span class="modal-title">📄 EXPORT PDF</span>
+      <span class="modal-title">EXPORT PDF</span>
       <button class="modal-close" onclick="closeOverlay('ovPDF')">✕ Fermer</button>
     </div>
     <div id="pdfProgress" class="export-loading">
@@ -1489,7 +1488,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 <div class="overlay" id="ovPPT">
   <div class="modal" style="max-width:480px">
     <div class="modal-hdr">
-      <span class="modal-title">📊 EXPORT POWERPOINT</span>
+      <span class="modal-title">EXPORT POWERPOINT</span>
       <button class="modal-close" onclick="closeOverlay('ovPPT')">✕ Fermer</button>
     </div>
     <div id="pptProgress" class="export-loading">
@@ -1531,7 +1530,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 	<div class="overlay" id="ovPostPanel">
   <div class="modal" style="max-width:520px">
     <div class="modal-hdr">
-      <span class="modal-title">📝 POST, NOTES & COMMENTAIRES</span>
+      <span class="modal-title">POST, NOTES &amp; COMMENTAIRES</span>
       <button class="modal-close" onclick="closeOverlay('ovPostPanel')">✕ Fermer</button>
     </div>
     <div class="field">
@@ -1552,7 +1551,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
       </div>
     </div>
     <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-top:14px">
-      <button class="copy-post-btn" id="copyPostBtn" style="width:auto;padding:8px 16px" onclick="copyPost()">📋 Copier le post</button>
+      <button class="copy-post-btn" id="copyPostBtn" style="width:auto;padding:8px 16px" onclick="copyPost()">Copier le post</button>
       <button class="copy-post-btn" id="copyPostTagsBtn" style="width:auto;padding:8px 16px;background:var(--orange);color:#fff;border-color:var(--orange)" onclick="copyPostWithHashtags()" title="Copie le post suivi de vos hashtags rapides (ceux qui ne sont pas déjà dans le texte, 5 maximum), prêt à coller sur LinkedIn">📋 Copier le post + hashtags</button>
     </div>
   </div>
@@ -1561,12 +1560,12 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 <div class="overlay" id="ovVersionHistory">
   <div class="modal" style="max-width:560px">
     <div class="modal-hdr">
-      <span class="modal-title">🕒 HISTORIQUE DES VERSIONS</span>
+      <span class="modal-title">HISTORIQUE DES VERSIONS</span>
       <button class="modal-close" onclick="closeOverlay('ovVersionHistory')">✕ Fermer</button>
     </div>
     <div class="notice">Une version est enregistrée automatiquement toutes les quelques minutes pendant que vous travaillez, et juste avant la fermeture de l'onglet. Restaurer une version remplace l'état actuel de tous vos carrousels - sauvegardez au format JSON avant si vous voulez garder une trace du travail en cours.</div>
     <div style="display:flex;justify-content:flex-end;margin-bottom:10px">
-      <button class="tbtn tbtn-orange" style="font-size:14px;padding:5px 12px" onclick="maybeSnapshotVersion(true);renderVersionHistoryList()">📌 Enregistrer une version maintenant</button>
+      <button class="tbtn tbtn-orange" style="font-size:14px;padding:5px 12px" onclick="maybeSnapshotVersion(true);renderVersionHistoryList()">Enregistrer une version maintenant</button>
     </div>
     <div id="versionHistoryList" style="display:flex;flex-direction:column;gap:8px;max-height:420px;overflow-y:auto"></div>
   </div>
@@ -1575,7 +1574,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 <div class="overlay" id="ovCustom">
   <div class="modal" style="max-width:520px">
     <div class="modal-hdr">
-      <span class="modal-title">⚙ PERSONNALISATION DE L'INTERFACE</span>
+      <span class="modal-title">PERSONNALISATION DE L'INTERFACE</span>
       <button class="modal-close" onclick="closeOverlay('ovCustom')">✕ Fermer</button>
     </div>
 
@@ -1982,7 +1981,7 @@ function loadTemplate(id){
   render();
   closeOverlay('ovTemplates');
   mpLogCarouselCreated();
-  notif('Template "'+tpl.name+'" chargé dans un nouveau carrousel ✓');
+  notif('Template "'+tpl.name+'" chargé dans un nouveau carrousel.');
 }
 
 /* ═══════════════════════════════════════════
@@ -2028,7 +2027,7 @@ function addImageToLibrary(dataUrl){
   }
   var list2 = list.concat([{ id:'img'+Date.now()+Math.floor(Math.random()*1000), data:dataUrl, name:'Image '+(list.length+1), addedAt:Date.now() }]);
   if(list2.length > IMG_LIBRARY_MAX) list2 = list2.slice(list2.length - IMG_LIBRARY_MAX);
-  if(_saveImageLibrary(list2)) notif('Image enregistrée dans votre bibliothèque ✓');
+  if(_saveImageLibrary(list2)) notif('Image enregistrée dans votre bibliothèque.');
   else notif('Espace de stockage insuffisant. Supprimez des images de la bibliothèque.');
 }
 function openImageLibrary(target){
@@ -2103,7 +2102,7 @@ function useLibraryImage(id){
     renderSlide();
   }
   closeOverlay('ovImageLibrary');
-  notif('Image appliquée ✓');
+  notif('Image appliquée.');
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -2190,7 +2189,7 @@ function mpSearchRun(){
   var qLower = q.toLowerCase();
   var scopeEl = document.querySelector('input[name=searchScope]:checked');
   var scope = scopeEl ? scopeEl.value : 'current';
-  if(!q){ resultsEl.innerHTML = '<div class="field-hint" style="padding:10px 14px">Tapez au moins un mot pour lancer la recherche.</div>'; return; }
+  if(!q){ resultsEl.innerHTML = ''; return; }
   var results = [];
   var carIndices = scope==='current' ? [ac] : C.map(function(_,i){return i;});
   carIndices.forEach(function(ci){
@@ -3689,7 +3688,7 @@ function loadLogoImage(e){
     car().logoSize  = car().logoSize  || 40;
     updateLogoUI();
     renderSlide();
-    notif('Logo chargé ✓');
+    notif('Logo chargé.');
   };
   reader.readAsDataURL(file);
   // Reset input pour permettre de recharger le même fichier
@@ -3875,7 +3874,7 @@ function loadTmAvatar(e){
       var m=Math.min(img.width,img.height), sx=(img.width-m)/2, sy=(img.height-m)/2;
       cv.getContext('2d').drawImage(img,sx,sy,m,m,0,0,size,size);
       histSave(); sl().avatarData=cv.toDataURL('image/jpeg',0.88);
-      renderEditor(); renderSlide(); notif('Photo ajoutée ✓');
+      renderEditor(); renderSlide(); notif('Photo ajoutée.');
     };
     img.src=ev.target.result;
   };
@@ -3938,7 +3937,7 @@ function addSlide(){
 // Supprime la slide à l'index i (minimum 2 slides ; refuse si la slide est verrouillée)
 function delSlide(i){
   if(car().slides.length<=2){notif('Minimum 2 slides.');return;}
-  if(car().slides[i].locked){ notif('Cette slide est verrouillée 🔒. Déverrouillez-la avant de la supprimer.'); return; }
+  if(car().slides[i].locked){ notif('Cette slide est verrouillée. Déverrouillez-la avant de la supprimer.'); return; }
   histSave(); // snapshot pour permettre d'annuler la suppression
   car().slides.splice(i,1);if(as>=car().slides.length)as=car().slides.length-1; // si la slide active était la dernière, on recule d'un cran
   renumberSlideNumbers();
@@ -3974,10 +3973,10 @@ function copySlideStyle(){
     fs: s.fs ? JSON.parse(JSON.stringify(s.fs)) : null
   };
   updateStyleClipboardUI();
-  notif('Style copié ✓ - sélectionnez une autre slide puis "Coller le style"');
+  notif('Style copié - sélectionnez une autre slide puis "Coller le style"');
 }
 function pasteSlideStyle(){
-  if(sl().locked){ notif('Cette slide est verrouillée 🔒. Déverrouillez-la pour lui appliquer un style.'); return; }
+  if(sl().locked){ notif('Cette slide est verrouillée. Déverrouillez-la pour lui appliquer un style.'); return; }
   if(!_styleClipboard){ notif('Aucun style copié. Copiez-en un d\'abord.'); return; }
   histSave();
   if(_styleClipboard.bg) sl().bg = JSON.parse(JSON.stringify(_styleClipboard.bg));
@@ -3989,7 +3988,7 @@ function pasteSlideStyle(){
   renderEditor();
   renderSlide();
   if(ptab===1) syncBgPanelFromSlide();
-  notif('Style collé sur cette slide ✓');
+  notif('Style collé sur cette slide.');
 }
 // Applique le style copié à TOUTES les slides du carrousel actif (sauf celles verrouillées),
 // en une seule action d'historique (un seul undo pour tout annuler).
@@ -4009,7 +4008,7 @@ function pasteSlideStyleToAll(){
     applied++;
   });
   render();
-  notif('Style appliqué à '+applied+' slide(s)'+(skipped ? ' ('+skipped+' verrouillée(s) ignorée(s))' : '')+' ✓');
+  notif('Style appliqué à '+applied+' slide(s)'+(skipped ? ' ('+skipped+' verrouillée(s) ignorée(s))' : '')+'.');
 }
 function updateStyleClipboardUI(){
   var hint = document.getElementById('styleClipboardHint');
@@ -4050,7 +4049,7 @@ function toggleSlideLock(i){
   var s=car().slides[i];
   s.locked = !s.locked;
   render();
-  notif(s.locked ? 'Slide verrouillée 🔒. Son contenu est protégé' : 'Slide déverrouillée 🔓');
+  notif(s.locked ? 'Slide verrouillée. Son contenu est protégé' : 'Slide déverrouillée');
 }
 
 /* ── Dupliquer une slide ── */
@@ -4062,7 +4061,7 @@ function dupSlide(i){
   as=i+1;
   renumberSlideNumbers();
   render();
-  notif('Slide dupliquée ✓');
+  notif('Slide dupliquée.');
 }
 
 /* ── Drag & Drop ── */
@@ -4240,7 +4239,7 @@ function importChartCSV(){
   ta.value = '';
   renderEditor();
   renderSlide();
-  notif(parsed.length+' point'+(parsed.length>1?'s':'')+' importé'+(parsed.length>1?'s':'')+' ✓');
+  notif(parsed.length+' point'+(parsed.length>1?'s':'')+' importé'+(parsed.length>1?'s':'')+'.');
 }
 
 /* ═══ TABLE SLIDE ═══ */
@@ -4495,7 +4494,7 @@ function loadImgSlide(e){
     if(sl().imgHPos == null) sl().imgHPos = 50;
     if(sl().imgVPos == null) sl().imgVPos = 50;
     renderEditor(); renderSlide();
-    notif('Image chargée ✓');
+    notif('Image chargée.');
   };
   reader.readAsDataURL(file);
   e.target.value = '';
@@ -4774,7 +4773,7 @@ function applyBgToAll(){
   notif(skipped ? ('Fond appliqué - '+skipped+' slide'+(skipped>1?'s':'')+' verrouillée'+(skipped>1?'s':'')+' protégée'+(skipped>1?'s':'')) : 'Fond appliqué à toutes les slides');
 }
 function applyBgToCurrent(){
-  if(sl().locked){ notif('Cette slide est verrouillée 🔒. Déverrouillez-la pour modifier son fond.'); return; }
+  if(sl().locked){ notif('Cette slide est verrouillée. Déverrouillez-la pour modifier son fond.'); return; }
   histSave();
   sl().bg=JSON.parse(JSON.stringify(currentBg));
   renderSlide();notif('Fond appliqué à la slide '+( as+1));
@@ -4802,7 +4801,7 @@ function _flashCopyBtn(id, label){
   var btn=document.getElementById(id); if(!btn) return;
   var old=btn.getAttribute('data-label') || btn.textContent;
   btn.setAttribute('data-label', old);
-  btn.textContent='✓ Copié !';
+  btn.textContent='Copié !';
   setTimeout(function(){ btn.textContent=old; }, 2000);
 }
 function copyPost(){
@@ -4825,7 +4824,7 @@ function copyPostWithHashtags(){
   if(!r.text.trim()){ notif('Le post est vide.'); return; }
   mpCopyText(r.text, function(){
     _flashCopyBtn('copyPostTagsBtn');
-    notif('Post copié'+(r.added?' + '+r.added+' hashtag(s)':'')+' ✓ — prêt à coller sur LinkedIn');
+    notif('Post copié'+(r.added?' + '+r.added+' hashtag(s)':'')+' — prêt à coller sur LinkedIn');
   });
 }
 /* ═══ HASHTAGS ═══ */
@@ -4875,7 +4874,7 @@ function addCustomHashtag(){
   saveHashtags(list);
   input.value = '';
   renderHashtags();
-  notif(val + ' ajouté ✓');
+  notif(val + ' ajouté.');
 }
 
 function removeHashtag(i){
@@ -4889,7 +4888,7 @@ function resetHashtags(){
   if(!confirm('Réinitialiser la liste des hashtags ?')) return;
   saveHashtags(DEFAULT_HASHTAGS.slice());
   renderHashtags();
-  notif('Hashtags réinitialisés ✓');
+  notif('Hashtags réinitialisés.');
 }
 
 /* ═══ JSON ═══ */
@@ -4907,7 +4906,7 @@ function saveJSON(){
   a.click();
   document.body.removeChild(a);
   setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
-  notif('✓ Fichier ' + a.download + ' téléchargé !');
+  notif('Fichier ' + a.download + ' téléchargé.');
 }
 function loadFile(e){
   var f=e.target.files[0];if(!f)return;
@@ -5079,7 +5078,7 @@ function exportPDF(){
       document.getElementById('pdfDone').style.display='block';
       mpLogExportEvent('pdf');
     },
-    function(msg){ document.getElementById('pdfProgressTxt').textContent = '❌ Erreur '+msg; }
+    function(msg){ document.getElementById('pdfProgressTxt').textContent = 'Erreur '+msg; }
   );
 }
 // Exporte TOUS les carrousels en PDF, un fichier par carrousel, à la suite les uns des autres.
@@ -5092,7 +5091,7 @@ function exportAllCarouselsPDF(){
   var i = 0, done = 0, failed = 0;
   function nextCar(){
     if(i >= C.length){
-      document.getElementById('batchExportTxt').textContent = done+' carrousel(s) exporté(s)'+(failed?', '+failed+' échec(s)':'')+' ✓';
+      document.getElementById('batchExportTxt').textContent = done+' carrousel(s) exporté(s)'+(failed?', '+failed+' échec(s)':'')+'.';
       setTimeout(function(){ document.getElementById('ovBatchExport').classList.remove('open'); }, 2200);
       return;
     }
@@ -5100,7 +5099,7 @@ function exportAllCarouselsPDF(){
     mpGenerateCarouselPDF(i,
       function(s,tot){ document.getElementById('batchExportTxt').textContent = 'Carrousel '+(i+1)+'/'+C.length+' — '+title+' — slide '+s+'/'+tot; },
       function(){ mpLogExportEvent('pdf'); done++; i++; setTimeout(nextCar, 500); },
-      function(msg){ document.getElementById('batchExportTxt').textContent = '❌ '+title+' : '+msg; failed++; i++; setTimeout(nextCar, 700); }
+      function(msg){ document.getElementById('batchExportTxt').textContent = 'Erreur '+title+' : '+msg; failed++; i++; setTimeout(nextCar, 700); }
     );
   }
   nextCar();
@@ -5140,7 +5139,7 @@ function exportPPT(){
   // on affiche un message au lieu de laisser le spinner tourner indéfiniment.
   var safetyTimer = setTimeout(function(){
     document.getElementById('pptProgressTxt').textContent =
-      '❌ Délai dépassé. Réessayez, ou utilisez l\'export PDF en attendant.';
+      'Délai dépassé. Réessayez, ou utilisez l\'export PDF en attendant.';
   }, 45000);
 
   function finish(){
@@ -5175,7 +5174,7 @@ function exportPPT(){
       })
       .catch(function(e){
         clearTimeout(safetyTimer);
-        document.getElementById('pptProgressTxt').textContent = '❌ Erreur : ' + e.message;
+        document.getElementById('pptProgressTxt').textContent = 'Erreur : ' + e.message;
       });
   }
 
@@ -5197,7 +5196,7 @@ function exportPPT(){
           mpLogExportEvent('pptx');
         })
         .catch(function(e){
-          document.getElementById('pptProgressTxt').textContent = '❌ Erreur : ' + e.message;
+          document.getElementById('pptProgressTxt').textContent = 'Erreur : ' + e.message;
         });
       return;
     }
@@ -5213,7 +5212,7 @@ function exportPPT(){
         idx++;
         next();
       }).catch(function(e){
-        document.getElementById('pptProgressTxt').textContent = '❌ Erreur slide '+(idx+1)+' : '+e.message;
+        document.getElementById('pptProgressTxt').textContent = 'Erreur slide '+(idx+1)+' : '+e.message;
       });
     }, 220);
   }
@@ -5402,7 +5401,7 @@ function applyUITheme(name){
   document.querySelectorAll('.ui-theme-btn').forEach(function(b){
     b.classList.toggle('on', b.dataset.theme === name);
   });
-  notif('✓ Thème "' + theme.label + '" appliqué');
+  notif('Thème "' + theme.label + '" appliqué.');
 }
 
 function loadSavedUITheme(){
@@ -5497,7 +5496,7 @@ window.addEventListener('load',function(){
 
 var TUTORIAL_STEPS = [
   { target:null,
-    title:"Bienvenue dans My Prez 👋",
+    title:"Bienvenue dans My Prez",
     text:"Cet outil permet de créer des carrousels et présentations professionnels en quelques clics. Ce petit tour vous présente les sections principales. Vous pourrez le revoir à tout moment via le bouton ❓ Tutoriel." },
   { target:'#previewWrap', before:function(){ setPTab(0); },
     title:"L'aperçu central",
@@ -5600,7 +5599,7 @@ function positionTutorialStep(step, i){
   document.getElementById('tutTitle').textContent = step.title;
   document.getElementById('tutText').textContent  = step.text;
   document.getElementById('tutPrev').style.visibility = i === 0 ? 'hidden' : 'visible';
-  document.getElementById('tutNext').textContent = i === n - 1 ? 'Terminer ✓' : 'Suivant →';
+  document.getElementById('tutNext').textContent = i === n - 1 ? 'Terminer' : 'Suivant →';
 
   var el = step.target ? document.querySelector(step.target) : null;
   if(el){
@@ -5758,7 +5757,7 @@ function copyIcon(emoji){
     try{ el.setSelectionRange(pos,pos); }catch(e){}
     el.focus();
     el.dispatchEvent(new Event('input', {bubbles:true})); // déclenche les oninput existants (updateSl, C[ac].post=...)
-    notif(emoji + ' inséré ✓');
+    notif(emoji + ' inséré.');
     return;
   }
   // Aucun champ actif détecté (ex. modal ouvert sans avoir cliqué dans un champ avant) → repli sur le presse-papier
@@ -5884,7 +5883,7 @@ function restoreVersion(id){
   ac = 0; as = 0;
   render();
   closeOverlay('ovVersionHistory');
-  notif('Version du ' + _fmtVersionDate(v.ts) + ' restaurée ✓');
+  notif('Version du ' + _fmtVersionDate(v.ts) + ' restaurée.');
 }
 function deleteVersion(id){
   var list = _loadVersionHistory().filter(function(x){ return x.id !== id; });
@@ -5950,7 +5949,7 @@ window.addEventListener('load', function(){
       if (msg) {
         msg.style.display = 'block';
         msg.className = 'lic-msg err';
-        msg.textContent = '⚠️ ' + (reason || 'Votre licence a été invalidée. Reconnectez-vous.');
+        msg.textContent = reason || 'Votre licence a été invalidée. Reconnectez-vous.';
       }
     }
   }
@@ -6006,11 +6005,11 @@ window.addEventListener('load', function(){
     if (licBtn && licLabel) {
       licBtn.style.display = '';
       if (data.offline) {
-        licLabel.textContent = '📡 Licence — vérification différée';
+        licLabel.textContent = 'Licence — vérification différée';
       } else if (data.isShort) {
         licLabel.textContent = 'TEST — ' + data.minutesLeft + ' min restante' + (data.minutesLeft > 1 ? 's' : '');
       } else if (data.daysLeft <= 30) {
-        licLabel.textContent = '⚠️ Licence — ' + data.daysLeft + ' jr';
+        licLabel.textContent = 'Licence — ' + data.daysLeft + ' jr';
       } else {
         licLabel.textContent = 'Licence — ' + data.daysLeft + ' jr';
       }
@@ -6025,7 +6024,7 @@ window.addEventListener('load', function(){
 
   function licLogout() {
     var confirmed = confirm(
-      '⚠️ Déconnexion de la licence\n\n' +
+      'Déconnexion de la licence\n\n' +
       'Cette action va supprimer votre licence de cet appareil.\n' +
       'Vous devrez saisir à nouveau votre clé pour accéder à l\'outil.\n\n' +
       'Voulez-vous vraiment continuer ?'
@@ -6051,19 +6050,19 @@ window.addEventListener('load', function(){
   async function licActivate() {
     var input  = document.getElementById('licInput');
     var key    = input.value.trim();
-    if (!key) { showLicMsg('err', '⚠️ Entrez une clé de licence.'); return; }
-    showLicMsg('', '🔄 Vérification en cours…');
+    if (!key) { showLicMsg('err', 'Entrez une clé de licence.'); return; }
+    showLicMsg('', 'Vérification en cours…');
     console.log('[Licence] Envoi clé :', key);
     var result = await verifyLicense(key);
     console.log('[Licence] Réponse worker :', JSON.stringify(result));
     if (!result.valid) {
       input.classList.add('err'); input.classList.remove('ok');
       showLicMsg(result.expired ? 'warn' : 'err',
-                 (result.expired ? '⏰ ' : '✗ ') + (result.reason || 'Clé invalide'));
+                 (result.reason || 'Clé invalide'));
       return;
     }
     input.classList.add('ok'); input.classList.remove('err');
-    showLicMsg('ok', '✓ Activation réussie ! Bienvenue, ' + result.client + '.');
+    showLicMsg('ok', 'Activation réussie ! Bienvenue, ' + result.client + '.');
     localStorage.setItem(STORAGE_KEY, key);
     setTimeout(function() { unlockApp(result); }, 1000);
   }
@@ -6136,7 +6135,7 @@ viaauctaconseil@gmail.com
 
 `;
 
-    openLegalModal("🔑 Informations de licence", html);
+    openLegalModal("Informations de licence", html);
 
 }
 
@@ -6157,11 +6156,11 @@ viaauctaconseil@gmail.com
 
         var saved = localStorage.getItem(STORAGE_KEY);
     if (!saved) return;
-    showLicMsg('', '🔄 Vérification de la licence sauvegardée…');
+    showLicMsg('', 'Vérification de la licence sauvegardée…');
     var result = await verifyLicense(saved);
     if (result.valid) {
       try{ localStorage.setItem(LAST_OK_KEY, String(Date.now())); }catch(e){}
-      showLicMsg('ok', '✓ Licence reconnue — ' + result.client);
+      showLicMsg('ok', 'Licence reconnue — ' + result.client);
       setTimeout(function() { unlockApp(result); }, 800);
     } else if (result.networkError) {
       // Panne réseau/serveur : la clé reste enregistrée, on ne force jamais une nouvelle saisie pour ça.
@@ -6173,7 +6172,7 @@ viaauctaconseil@gmail.com
         unlockApp({ client: '', daysLeft: 0, type: 'offline', offline: true });
         scheduleRetry();
       } else {
-        showLicMsg('warn', '⚠️ ' + result.reason + ' Votre clé reste enregistrée — réessayez dans un instant.');
+        showLicMsg('warn', result.reason + ' Votre clé reste enregistrée — réessayez dans un instant.');
         scheduleRetry();
       }
     } else {
@@ -6186,7 +6185,7 @@ viaauctaconseil@gmail.com
           : result.reason;
         showLicMsg('warn', '⏰ ' + expMsg);
       } else {
-        showLicMsg('err', '✗ ' + result.reason);
+        showLicMsg('err', result.reason);
       }
     }
   });
@@ -6469,7 +6468,7 @@ function openLegalModal(title, html){
     </div>
     <div class="notice"><strong>Idée → structure → slides.</strong> My Prez peut utiliser un endpoint IA compatible pour rédiger réellement le contenu de chaque slide. Sans endpoint configuré, le mode de secours produit uniquement une structure éditoriale et l'indique clairement.</div>
     <div class="field">
-      <button type="button" class="tbtn tbtn-gray" style="width:100%" onclick="toggleAIImport()">📥 Importer un texte existant ou un lien ▾</button>
+      <button type="button" class="tbtn tbtn-gray" style="width:100%" onclick="toggleAIImport()">Importer un texte existant ou un lien ▾</button>
       <div id="aiImportPanel" style="display:none;margin-top:8px;padding:12px;background:var(--surface-1);border:1px solid var(--border);border-radius:var(--rad-md)">
         <div class="field"><label>Lien (article, page web…)</label>
           <div style="display:flex;gap:6px">
@@ -6496,7 +6495,15 @@ function openLegalModal(title, html){
     <div class="field" style="margin-top:6px">
       <label>Connexion IA</label>
       <input class="einp2" id="aiEndpoint" placeholder="https://votre-domaine/api/myprez-ai"/>
-      <div class="field-hint">Le serveur doit accepter un POST au format JSON et renvoyer un objet <code>{structure, slides, post}</code>. La clé API ne doit jamais être placée dans ce fichier HTML.</div>
+      <button type="button" class="tbtn tbtn-gray" style="width:100%;margin-top:6px" onclick="toggleAIHelp()">Comment connecter mon IA ? ▾</button>
+      <div id="aiHelpPanel" style="display:none;margin-top:8px;padding:12px;background:var(--surface-1);border:1px solid var(--border);border-radius:var(--rad-md);font-size:14px;line-height:1.7;color:var(--text-2)">
+        <ol style="margin:0;padding-left:18px">
+          <li>Créez un petit serveur relais (par exemple un Cloudflare Worker, gratuit) qui reçoit les demandes de My Prez et les transmet à votre IA (OpenAI, Claude…). C'est ce serveur qui garde votre clé secrète en sécurité — jamais ce fichier.</li>
+          <li>Collez ici l'adresse de ce serveur.</li>
+          <li>Sans adresse renseignée, My Prez utilise un mode de secours qui construit une structure de slides sans rédiger le texte à votre place.</li>
+        </ol>
+        <div style="margin-top:10px">Besoin d'aide pour créer ce serveur relais ? Transmettez ce point de départ à votre développeur ou à un assistant IA : « créer un Cloudflare Worker qui reçoit un POST JSON avec <code>{idea, goal, audience, tone, structure}</code> et répond avec <code>{title, post, slides}</code> ».</div>
+      </div>
     </div>
     <div id="aiStructureWrap" style="display:none">
       <div class="sec-title" style="margin-top:14px">Structure proposée</div>
@@ -6514,7 +6521,7 @@ function openLegalModal(title, html){
 <div class="overlay" id="ovAIProgress">
   <div class="modal" style="max-width:440px">
     <div class="modal-hdr">
-      <span class="modal-title">✦ GÉNÉRATION IA</span>
+      <span class="modal-title">GÉNÉRATION IA</span>
     </div>
     <div id="aiProgressWorking" class="export-loading">
       <div class="spinner"></div>
@@ -6532,7 +6539,7 @@ function openLegalModal(title, html){
 <div class="overlay" id="ovStats">
   <div class="modal" style="max-width:520px">
     <div class="modal-hdr">
-      <span class="modal-title">📊 TABLEAU DE BORD</span>
+      <span class="modal-title">TABLEAU DE BORD</span>
       <button class="modal-close" onclick="closeOverlay('ovStats')">✕ Fermer</button>
     </div>
     <div id="statsDashboardBody"></div>
@@ -6543,7 +6550,7 @@ function openLegalModal(title, html){
 <div class="overlay" id="ovBatchExport">
   <div class="modal" style="max-width:440px">
     <div class="modal-hdr">
-      <span class="modal-title">📦 EXPORT GROUPÉ</span>
+      <span class="modal-title">EXPORT GROUPÉ</span>
     </div>
     <div class="export-loading">
       <div class="spinner"></div>
@@ -6645,9 +6652,9 @@ function saveBrandKit(apply){
     histSave();
     mpApplyBrandKit(car(),d);
     render();
-    notif('Brand Kit appliqué au carrousel actuel ✓');
+    notif('Brand Kit appliqué au carrousel actuel.');
   } else {
-    notif('Brand Kit enregistré ✓');
+    notif('Brand Kit enregistré.');
   }
   closeOverlay('ovBrandKit');
 }
@@ -6778,6 +6785,10 @@ function toggleAIImport(){
   var p = document.getElementById('aiImportPanel');
   p.style.display = p.style.display==='none' ? 'block' : 'none';
 }
+function toggleAIHelp(){
+  var p = document.getElementById('aiHelpPanel');
+  p.style.display = p.style.display==='none' ? 'block' : 'none';
+}
 // Récupère le texte visible d'une page web — best-effort : de nombreux sites bloquent les requêtes
 // cross-origin faites depuis un navigateur (politique CORS, une contrainte du web, pas un bug de
 // l'app). En cas d'échec, on invite simplement à coller le texte directement.
@@ -6798,7 +6809,7 @@ async function mpFetchUrlText(){
     var text = (main ? main.textContent : '').replace(/\s+/g,' ').trim();
     if(!text) throw new Error('Aucun texte trouvé sur cette page.');
     document.getElementById('aiImportText').value = text.slice(0, 6000);
-    notif('Texte récupéré ✓ — vérifiez-le puis cliquez sur "Utiliser ce texte"');
+    notif('Texte récupéré — vérifiez-le puis cliquez sur "Utiliser ce texte"');
   }catch(e){
     notif('Impossible de récupérer cette page automatiquement (le site bloque probablement ce type de requête). Copiez-collez le texte directement ci-dessous.');
   }finally{
@@ -6814,7 +6825,7 @@ function mpUseImportedText(){
   var condensed = raw.replace(/\s+/g,' ').slice(0, 1500);
   document.getElementById('aiIdea').value = 'Génère une présentation à partir de ce texte existant :\n\n' + condensed;
   document.getElementById('aiImportPanel').style.display='none';
-  notif('Texte importé ✓ — cliquez sur "Générer la structure" pour continuer');
+  notif('Texte importé — cliquez sur "Générer la structure" pour continuer');
 }
 function mpCleanIdea(v){return (v||'').trim().replace(/\s+/g,' ');}
 function mpTitleFromIdea(idea){var x=idea.replace(/^je (veux|voudrais|souhaite)\s+/i,'').replace(/^il faut\s+/i,'').trim();if(x.length>70)x=x.slice(0,67)+'…';return x.charAt(0).toUpperCase()+x.slice(1);}
@@ -6864,7 +6875,7 @@ function mpPickPost(rawPost, title, coverTitle, idea){
   var t1 = (title||'').trim().toLowerCase();
   var t2 = (coverTitle||'').trim().toLowerCase();
   if(!post || post.toLowerCase()===t1 || post.toLowerCase()===t2){
-    return 'Un nouveau contenu sur '+mpTopicLabel(idea)+' - à retrouver en slides ci-contre.\n\n🎯 #Business #Stratégie';
+    return 'Un nouveau contenu sur '+mpTopicLabel(idea)+' - à retrouver en slides ci-contre.\n\n#Business #Stratégie';
   }
   return post;
 }
@@ -7009,7 +7020,7 @@ function createAICarousel(){
   mpApplyBrandKit(nc,mpGetBrandKit());
   C.push(nc);ac=C.length-1;as=0;render();closeOverlay('ovAIGenerator');
   mpLogCarouselCreated();
-  notif(nc===_aiDraft.aiCarousel?'Présentation rédigée par IA ✓':'Présentation créée avec la structure éditoriale.');
+  notif(nc===_aiDraft.aiCarousel?'Présentation rédigée par IA.':'Présentation créée avec la structure éditoriale.');
 }
 
 /* Nouveaux carrousels : Brand Kit appliqué automatiquement. */
