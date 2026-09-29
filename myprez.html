@@ -1558,9 +1558,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
     </div>
     <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-top:14px">
       <button class="copy-post-btn" id="copyPostBtn" style="width:auto;padding:8px 16px" onclick="copyPost()">📋 Copier le post</button>
-      <button class="copy-post-btn" id="copyPostTagsBtn" style="width:auto;padding:8px 16px;background:var(--orange);color:#fff;border-color:var(--orange)" onclick="copyPostWithHashtags()" title="Copie le post suivi de vos hashtags rapides (ceux qui ne sont pas déjà dans le texte, 5 maximum), prêt à coller sur LinkedIn">📋 Copier le post + hashtags</button>
     </div>
-  </div>
 </div>
 
 <div class="overlay" id="ovVersionHistory">
@@ -2151,6 +2149,86 @@ document.addEventListener('click', function(e){
   var dd = document.getElementById('fmtDropdown');
   if(dd && !dd.contains(e.target)) closeFmtMenu();
 });
+
+/* ═══ RECHERCHE (dans le carrousel actif ou dans tous les carrousels) ═══ */
+function toggleSearchPanel(e){
+  if(e) e.stopPropagation();
+  var panel = document.getElementById('searchPanel');
+  panel.classList.toggle('open');
+  if(panel.classList.contains('open')){
+    document.getElementById('searchInput').focus();
+    mpSearchRun();
+  }
+}
+function closeSearchPanel(){
+  document.getElementById('searchPanel').classList.remove('open');
+}
+document.addEventListener('click', function(e){
+  var dd = document.getElementById('searchDropdown');
+  if(dd && !dd.contains(e.target)) closeSearchPanel();
+});
+// Clés techniques à ignorer lors de l'extraction du texte d'une slide pour la recherche
+// (données binaires, géométrie, identifiants — jamais du texte utile à chercher).
+var MP_SEARCH_EXCLUDE_KEYS = {t:1,bg:1,sn:1,id:1,fs:1,align:1,locked:1,hidden:1,avatarData:1,imageData:1,
+  colWidths:1,chartKind:1,dotW:1,dotH:1,x:1,y:1,w:1,h:1,rotation:1,color:1,fontSize:1,shapes:1};
+function mpExtractSlideText(s){
+  var parts = [];
+  function walk(obj, depth){
+    if(obj==null || depth>2) return;
+    if(typeof obj==='string'){ if(obj.trim()) parts.push(obj); return; }
+    if(Array.isArray(obj)){ obj.forEach(function(v){ walk(v, depth+1); }); return; }
+    if(typeof obj==='object'){
+      Object.keys(obj).forEach(function(k){
+        if(MP_SEARCH_EXCLUDE_KEYS[k]) return;
+        walk(obj[k], depth+1);
+      });
+    }
+  }
+  walk(s, 0);
+  return parts.join(' ').replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim();
+}
+function mpSearchRun(){
+  var resultsEl = document.getElementById('searchResults');
+  var q = (document.getElementById('searchInput').value||'').trim();
+  var qLower = q.toLowerCase();
+  var scopeEl = document.querySelector('input[name=searchScope]:checked');
+  var scope = scopeEl ? scopeEl.value : 'current';
+  if(!q){ resultsEl.innerHTML = '<div class="field-hint" style="padding:10px 14px">Tapez au moins un mot pour lancer la recherche.</div>'; return; }
+  var results = [];
+  var carIndices = scope==='current' ? [ac] : C.map(function(_,i){return i;});
+  carIndices.forEach(function(ci){
+    var c = C[ci];
+    if(!c) return;
+    c.slides.forEach(function(s, si){
+      var text = mpExtractSlideText(s);
+      var pos = text.toLowerCase().indexOf(qLower);
+      if(pos!==-1){
+        var start = Math.max(0, pos-30);
+        var snippet = (start>0?'…':'')+text.slice(start, pos+q.length+40)+(pos+q.length+40<text.length?'…':'');
+        results.push({ci:ci, si:si, carTitle:c.title||'Sans titre', snippet:snippet});
+      }
+    });
+    var carHead = ((c.title||'')+' '+(c.post||''));
+    if(carHead.toLowerCase().indexOf(qLower)!==-1){
+      results.unshift({ci:ci, si:0, carTitle:c.title||'Sans titre', snippet:'(titre du carrousel ou texte du post)'});
+    }
+  });
+  if(!results.length){ resultsEl.innerHTML = '<div class="field-hint" style="padding:10px 14px">Aucun résultat pour « '+esc(q)+' ».</div>'; return; }
+  var reQ = q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  var reHi = new RegExp('('+reQ+')','ig');
+  resultsEl.innerHTML = results.slice(0,40).map(function(r){
+    var snipHi = esc(r.snippet).replace(reHi, '<mark>$1</mark>');
+    return '<div class="search-result" onclick="mpSearchGoTo('+r.ci+','+r.si+')">'
+      + '<div class="search-result-car">'+esc(r.carTitle)+' — slide '+(r.si+1)+'</div>'
+      + '<div class="search-result-snip">'+snipHi+'</div>'
+      + '</div>';
+  }).join('') + (results.length>40 ? '<div class="field-hint" style="padding:10px 14px">+ '+(results.length-40)+' autre(s) résultat(s), affinez votre recherche.</div>' : '');
+}
+function mpSearchGoTo(ci, si){
+  ac = ci; as = si;
+  render();
+  closeSearchPanel();
+}
 
 /* ═══ NAVIGATION MOBILE (Mode léger) ═══
    Un seul panneau visible à la fois sur petit écran, piloté par la
@@ -4720,7 +4798,10 @@ function copyPost(){
 function mpBuildPostWithHashtags(){
   var post=(document.getElementById('postArea').value||'').replace(/\s+$/,'');
   var present=(post.match(/#[\p{L}\p{N}_]+/gu)||[]).map(function(t){return t.toLowerCase();});
-  var extra=loadHashtags().filter(function(t){ return present.indexOf(String(t).toLowerCase())===-1; }).slice(0,5);
+  // Les hashtags de CE carrousel viennent de #hashtagsEditor (pas de loadHashtags(), qui est la
+  // banque de suggestions rapides indépendante du carrousel — deux choses différentes).
+  var carTags=(document.getElementById('hashtagsEditor').value||'').split('\n').map(function(t){return t.trim();}).filter(Boolean);
+  var extra=carTags.filter(function(t){ return present.indexOf(t.toLowerCase())===-1; }).slice(0,5);
   var txt = extra.length ? post+'\n\n'+extra.join(' ') : post;
   return {text:txt, added:extra.length};
 }
@@ -6372,6 +6453,22 @@ function openLegalModal(title, html){
       <button class="modal-close" onclick="closeOverlay('ovAIGenerator')">✕ Fermer</button>
     </div>
     <div class="notice"><strong>Idée → structure → slides.</strong> My Prez peut utiliser un endpoint IA compatible pour rédiger réellement le contenu de chaque slide. Sans endpoint configuré, le mode de secours produit uniquement une structure éditoriale et l'indique clairement.</div>
+    <div class="field">
+      <button type="button" class="tbtn tbtn-gray" style="width:100%" onclick="toggleAIImport()">📥 Importer un texte existant ou un lien ▾</button>
+      <div id="aiImportPanel" style="display:none;margin-top:8px;padding:12px;background:var(--surface-1);border:1px solid var(--border);border-radius:var(--rad-md)">
+        <div class="field"><label>Lien (article, page web…)</label>
+          <div style="display:flex;gap:6px">
+            <input class="einp2" id="aiImportUrl" placeholder="https://…" style="flex:1"/>
+            <button class="tbtn tbtn-gray" onclick="mpFetchUrlText()" id="aiImportFetchBtn">Récupérer</button>
+          </div>
+          <div class="field-hint">Fonctionne pour de nombreux blogs et articles, mais pas tous les sites — certains bloquent la récupération depuis un navigateur (limite du web, pas un bug de l'app). Si ça échoue, copiez-collez le texte directement ci-dessous.</div>
+        </div>
+        <div class="field"><label>Ou collez un texte existant (post, article, notes…)</label>
+          <textarea id="aiImportText" rows="6" placeholder="Collez ici le texte à partir duquel générer les slides…"></textarea>
+        </div>
+        <button class="tbtn tbtn-orange" style="width:100%" onclick="mpUseImportedText()">Utiliser ce texte comme base ↓</button>
+      </div>
+    </div>
     <div class="field"><label>Votre idée</label><textarea id="aiIdea" rows="4" placeholder="Ex. Je veux expliquer aux dirigeants pourquoi leurs réunions sont trop longues et leur donner une méthode simple pour les réduire."></textarea></div>
     <div class="field-row">
       <div class="field"><label>Objectif</label><select id="aiGoal"><option value="expertise">Partager une expertise</option><option value="sell">Présenter une offre</option><option value="educate">Expliquer une méthode</option><option value="opinion">Défendre une opinion</option><option value="case">Présenter un cas client</option></select></div>
@@ -6421,7 +6518,7 @@ function openLegalModal(title, html){
   <div class="modal" style="max-width:520px">
     <div class="modal-hdr">
       <span class="modal-title">📊 TABLEAU DE BORD</span>
-      <button class="modal-x" onclick="closeOverlay('ovStats')">✕</button>
+      <button class="modal-close" onclick="closeOverlay('ovStats')">✕ Fermer</button>
     </div>
     <div id="statsDashboardBody"></div>
   </div>
@@ -6660,6 +6757,49 @@ function openAIGenerator(){
   try{document.getElementById('aiEndpoint').value=localStorage.getItem('myprez_ai_endpoint')||'';}catch(e){}
   document.getElementById('ovAIGenerator').classList.add('open');
   setTimeout(function(){document.getElementById('aiIdea').focus();},100);
+}
+/* ═══ IMPORT D'UN TEXTE EXISTANT OU D'UN LIEN (base de la génération IA) ═══ */
+function toggleAIImport(){
+  var p = document.getElementById('aiImportPanel');
+  p.style.display = p.style.display==='none' ? 'block' : 'none';
+}
+// Récupère le texte visible d'une page web — best-effort : de nombreux sites bloquent les requêtes
+// cross-origin faites depuis un navigateur (politique CORS, une contrainte du web, pas un bug de
+// l'app). En cas d'échec, on invite simplement à coller le texte directement.
+async function mpFetchUrlText(){
+  var url = (document.getElementById('aiImportUrl').value||'').trim();
+  if(!url){ notif('Collez un lien d\'abord.'); return; }
+  if(!/^https?:\/\//i.test(url)) url = 'https://'+url;
+  var btn = document.getElementById('aiImportFetchBtn');
+  var oldLabel = btn.textContent;
+  btn.textContent = '…'; btn.disabled = true;
+  try{
+    var resp = await fetch(url, {mode:'cors'});
+    if(!resp.ok) throw new Error('HTTP '+resp.status);
+    var html = await resp.text();
+    var doc = new DOMParser().parseFromString(html, 'text/html');
+    doc.querySelectorAll('script,style,nav,footer,header,noscript,svg,form').forEach(function(el){ el.remove(); });
+    var main = doc.querySelector('article') || doc.querySelector('main') || doc.body;
+    var text = (main ? main.textContent : '').replace(/\s+/g,' ').trim();
+    if(!text) throw new Error('Aucun texte trouvé sur cette page.');
+    document.getElementById('aiImportText').value = text.slice(0, 6000);
+    notif('Texte récupéré ✓ — vérifiez-le puis cliquez sur "Utiliser ce texte"');
+  }catch(e){
+    notif('Impossible de récupérer cette page automatiquement (le site bloque probablement ce type de requête). Copiez-collez le texte directement ci-dessous.');
+  }finally{
+    btn.textContent = oldLabel; btn.disabled = false;
+  }
+}
+// Condense le texte importé (collé ou récupéré) en une "idée" exploitable par le pipeline de
+// génération déjà en place (mpStructure / mpCallAI) — on réutilise tel quel le moteur existant,
+// rien n'est dupliqué.
+function mpUseImportedText(){
+  var raw = (document.getElementById('aiImportText').value||'').trim();
+  if(!raw){ notif('Collez ou récupérez un texte d\'abord.'); return; }
+  var condensed = raw.replace(/\s+/g,' ').slice(0, 1500);
+  document.getElementById('aiIdea').value = 'Génère une présentation à partir de ce texte existant :\n\n' + condensed;
+  document.getElementById('aiImportPanel').style.display='none';
+  notif('Texte importé ✓ — cliquez sur "Générer la structure" pour continuer');
 }
 function mpCleanIdea(v){return (v||'').trim().replace(/\s+/g,' ');}
 function mpTitleFromIdea(idea){var x=idea.replace(/^je (veux|voudrais|souhaite)\s+/i,'').replace(/^il faut\s+/i,'').trim();if(x.length>70)x=x.slice(0,67)+'…';return x.charAt(0).toUpperCase()+x.slice(1);}
