@@ -174,12 +174,7 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 .slide-item:hover{border-color:var(--orange);background:var(--surface-2)}
 .slide-item.on{background:var(--navy);border-color:var(--navy);color:white}
 .slide-badge{font-size:var(--fs-2xs);font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:2px 7px;border-radius:3px;flex-shrink:0}
-.slide-badge.cover{background:color-mix(in srgb, var(--orange) 15%, transparent);color:var(--orange)}
-.slide-badge.dark{background:rgba(6,14,26,.1);color:var(--text-2)}
-.slide-badge.navy{background:rgba(13,43,78,.12);color:var(--text-1)}
-.slide-badge.white{background:rgba(13,43,78,.08);color:var(--text-1);border:1px solid var(--border)}
-.slide-badge.cta{background:color-mix(in srgb, var(--orange) 12%, transparent);color:var(--orange)}
-.slide-item.on .slide-badge{background:rgba(255,255,255,.15);color:rgba(255,255,255,.8)}
+.slide-item.on .slide-badge{background:rgba(255,255,255,.15)!important;color:rgba(255,255,255,.8)!important;border-color:transparent!important}
 .slide-lbl{font-size:var(--fs-sm);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
 .slide-actions{display:flex;gap:3px}
 .slide-act{width:20px;height:20px;border-radius:var(--rad-sm);background:rgba(255,255,255,.2);border:none;display:flex;align-items:center;justify-content:center;font-size:var(--fs-xs);cursor:pointer;transition:all var(--tr-fast);opacity:.6}
@@ -1558,7 +1553,9 @@ input,textarea,select{font-family:var(--app-font);outline:none}
     </div>
     <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-top:14px">
       <button class="copy-post-btn" id="copyPostBtn" style="width:auto;padding:8px 16px" onclick="copyPost()">📋 Copier le post</button>
+      <button class="copy-post-btn" id="copyPostTagsBtn" style="width:auto;padding:8px 16px;background:var(--orange);color:#fff;border-color:var(--orange)" onclick="copyPostWithHashtags()" title="Copie le post suivi de vos hashtags rapides (ceux qui ne sont pas déjà dans le texte, 5 maximum), prêt à coller sur LinkedIn">📋 Copier le post + hashtags</button>
     </div>
+  </div>
 </div>
 
 <div class="overlay" id="ovVersionHistory">
@@ -2193,7 +2190,8 @@ function mpSearchRun(){
   var qLower = q.toLowerCase();
   var scopeEl = document.querySelector('input[name=searchScope]:checked');
   var scope = scopeEl ? scopeEl.value : 'current';
-    var results = [];
+  if(!q){ resultsEl.innerHTML = '<div class="field-hint" style="padding:10px 14px">Tapez au moins un mot pour lancer la recherche.</div>'; return; }
+  var results = [];
   var carIndices = scope==='current' ? [ac] : C.map(function(_,i){return i;});
   carIndices.forEach(function(ci){
     var c = C[ci];
@@ -3125,13 +3123,31 @@ function renderSlide(){
   if(notesArea) notesArea.value = s.notes || '';
 }
 
+// Style de la pastille numérotée d'une slide dans la liste (panneau Contenu) : reflète la VRAIE
+// couleur de fond de CETTE slide (onglet Fond), pas une catégorie fixe par type — avant ce
+// correctif, "Image" partageait par erreur le même orange que "Couverture" et "CTA", sans lien
+// avec le fond réellement choisi.
+function mpSlideBadgeStyle(s){
+  var bg = s.bg || {};
+  var swatch = null;
+  if(bg.type==='solid' && bg.color){
+    swatch = bg.color;
+  } else if(bg.type==='gradient' && bg.gradient){
+    var firstHex = (bg.gradient.match(/#[0-9a-fA-F]{6}/)||[])[0];
+    swatch = firstHex || null;
+  }
+  if(swatch){
+    var dark = isDarkColor(swatch);
+    return 'background:'+swatch+';color:'+(dark?'#FFFFFF':'#0D2B4E')+(dark?'':';border:1px solid rgba(13,43,78,.15)');
+  }
+  // Fond image ou non déterminable : pastille neutre (la couleur dépend de la photo elle-même)
+  return 'background:var(--surface-1);color:var(--text-2);border:1px solid var(--border)';
+}
 function renderSlideList(){
   var slides=car().slides,h='';
-  var types={cover:'cover',hook:'dark',step:'navy',quote:'white',image:'cover',cta:'cta',chart:'navy',table:'white',beforeAfter:'navy',timeline:'navy',testimonial:'white',bigNumber:'dark'};
   var labels={cover:'Couverture',hook:'Statement',step:'Étapes',quote:'Citation',image:'Image',cta:'CTA',chart:'Graphique',table:'Tableau',beforeAfter:'Avant / Après',timeline:'Frise',testimonial:'Témoignage',bigNumber:'Grand chiffre'};
   for(var i=0;i<slides.length;i++){
     var s=slides[i];
-    var t=types[s.t]||'navy';
     var lbl=s.t==='cover'?'Couverture':s.t==='cta'?'Call to Action':(s.pill||labels[s.t]||s.t)+' '+String(i+1);
     var isHidden=!!s.hidden;
     var isLocked=!!s.locked;
@@ -3143,7 +3159,7 @@ function renderSlideList(){
       +' ondrop="dragDrop(event,'+i+')"'
       +' ondragend="dragEnd(event)">'
       +'<span class="slide-handle" title="Glisser pour réordonner">⠿</span>'
-      +'<span class="slide-badge '+t+'">'+String(i+1).padStart(2,'0')+'</span>'
+      +'<span class="slide-badge" style="'+mpSlideBadgeStyle(s)+'" title="Couleur de fond de cette slide">'+String(i+1).padStart(2,'0')+'</span>'
       +'<span class="slide-lbl">'+(isLocked?'🔒 ':'')+esc(lbl)+(isHidden?' <em style="font-style:normal;color:var(--gray);font-weight:600">(masquée)</em>':'')+'</span>'
       +'<div class="slide-actions">'
       +'<button class="slide-act'+(isLocked?' excluded-on':'')+'" onclick="event.stopPropagation();toggleSlideLock('+i+')" title="'+(isLocked?'Déverrouiller cette slide':'Verrouiller cette slide contre l\'édition')+'">'+(isLocked?'🔒':'🔓')+'</button>'
