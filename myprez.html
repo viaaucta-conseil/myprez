@@ -193,6 +193,10 @@ input,textarea,select{font-family:var(--app-font);outline:none}
 .add-slide-row{display:flex;gap:6px;margin-top:var(--sp-2)}
 .add-slide-row select{flex:1;background:var(--surface-1);border:1px solid var(--border);border-radius:var(--rad-md);padding:6px 8px;font-size:var(--fs-md);color:var(--text-1);cursor:pointer;transition:all var(--tr-fast)}
 .add-slide-row select:hover{border-color:var(--orange);color:var(--orange)}
+.add-slide-type-btn{flex:1;display:flex;align-items:center;justify-content:space-between;gap:6px;background:var(--surface-1);border:1px solid var(--border);border-radius:var(--rad-md);padding:6px 10px;font-size:var(--fs-md);font-weight:600;color:var(--text-1);cursor:pointer;transition:all var(--tr-fast);text-align:left}
+.add-slide-type-btn:hover{border-color:var(--orange);color:var(--orange)}
+.add-slide-type-btn .stype-arrow{transition:transform var(--tr-fast);flex-shrink:0;opacity:.6}
+.add-slide-type-btn.open .stype-arrow{transform:rotate(180deg)}
 .btn-add-slide{background:var(--orange);color:white;padding:6px 12px;border-radius:var(--rad-md);font-size:var(--fs-md);font-weight:700;flex-shrink:0}
 
 /* Items editor */
@@ -1087,22 +1091,29 @@ input,textarea,select{font-family:var(--app-font);outline:none}
     <div class="panel-content" id="pc0">
       <div class="sec-title">Slides</div>
       <div class="slide-list" id="slideList"></div>
-      <div class="add-slide-row" id="addSlideRow">
-        <select id="addSlideType">
-          <option value="cover">Cover (Fond Navy)</option>
-          <option value="whiteContent">Etape (Fond blanc)</option>
-		  <option value="hook">Statement (Fond sombre)</option>
-          <option value="step">Étapes (Fond Navy)</option>
-          <option value="quote">Citation (Fond blanc)</option>
-		  <option value="image">Image (Plein écran)</option>
-          <option value="chart">Graphique</option>
-          <option value="table">Tableau</option>
-          <option value="beforeAfter">Avant / Après</option>
-          <option value="timeline">Frise chronologique</option>
-          <option value="testimonial">Témoignage (avec avatar)</option>
-          <option value="bigNumber">Grand chiffre isolé</option>
-          <option value="cta">CTA (Fond orange)</option>
-        </select>
+            <div class="add-slide-row" id="addSlideRow">
+        <div class="export-dropdown" id="addSlideDropdown" style="flex:1;position:relative">
+          <button type="button" class="add-slide-type-btn" id="addSlideTypeBtn" onclick="toggleAddSlideMenu(event)">
+            <span id="addSlideTypeLabel">Cover (Fond Navy)</span>
+            <span class="stype-arrow">▾</span>
+          </button>
+          <div class="export-menu" id="addSlideMenu" style="width:100%;min-width:100%">
+            <button type="button" onclick="selectAddSlideType('cover',this.textContent)">Cover (Fond Navy)</button>
+            <button type="button" onclick="selectAddSlideType('whiteContent',this.textContent)">Etape (Fond blanc)</button>
+            <button type="button" onclick="selectAddSlideType('hook',this.textContent)">Statement (Fond sombre)</button>
+            <button type="button" onclick="selectAddSlideType('step',this.textContent)">Étapes (Fond Navy)</button>
+            <button type="button" onclick="selectAddSlideType('quote',this.textContent)">Citation (Fond blanc)</button>
+            <button type="button" onclick="selectAddSlideType('image',this.textContent)">Image (Plein écran)</button>
+            <button type="button" onclick="selectAddSlideType('chart',this.textContent)">Graphique</button>
+            <button type="button" onclick="selectAddSlideType('table',this.textContent)">Tableau</button>
+            <button type="button" onclick="selectAddSlideType('beforeAfter',this.textContent)">Avant / Après</button>
+            <button type="button" onclick="selectAddSlideType('timeline',this.textContent)">Frise chronologique</button>
+            <button type="button" onclick="selectAddSlideType('testimonial',this.textContent)">Témoignage (avec avatar)</button>
+            <button type="button" onclick="selectAddSlideType('bigNumber',this.textContent)">Grand chiffre isolé</button>
+            <button type="button" onclick="selectAddSlideType('cta',this.textContent)">CTA (Fond orange)</button>
+          </div>
+        </div>
+        <input type="hidden" id="addSlideType" value="cover"/>
         <button class="btn-add-slide" onclick="addSlide()">+ Ajouter</button>
       </div>
     </div>
@@ -2141,10 +2152,29 @@ function toggleFmtMenu(e){
 function closeFmtMenu(){
   document.getElementById('fmtMenu').classList.remove('open');
 }
+
+function toggleAddSlideMenu(e){
+  if(e) e.stopPropagation();
+  var menu = document.getElementById('addSlideMenu');
+  var btn = document.getElementById('addSlideTypeBtn');
+  var willOpen = !menu.classList.contains('open');
+  menu.classList.toggle('open', willOpen);
+  btn.classList.toggle('open', willOpen);
+}
+function closeAddSlideMenu(){
+  document.getElementById('addSlideMenu').classList.remove('open');
+  document.getElementById('addSlideTypeBtn').classList.remove('open');
+}
+function selectAddSlideType(val, label){
+  document.getElementById('addSlideType').value = val;
+  document.getElementById('addSlideTypeLabel').textContent = label;
+  closeAddSlideMenu();
+}
 document.addEventListener('click', function(e){
-  var dd = document.getElementById('fmtDropdown');
-  if(dd && !dd.contains(e.target)) closeFmtMenu();
+  var dd = document.getElementById('addSlideDropdown');
+  if(dd && !dd.contains(e.target)) closeAddSlideMenu();
 });
+
 
 /* ═══ RECHERCHE (dans le carrousel actif ou dans tous les carrousels) ═══ */
 function toggleSearchPanel(e){
