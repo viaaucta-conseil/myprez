@@ -6926,7 +6926,7 @@ function mpNormalizeAIResponse(raw,d){
 }
 
 	
-async function mpCallAI(d,endpoint){
+async function mpCallAI(d,endpoint){window._mpAIErr='';
   if(!endpoint)return null;
 
   try{
@@ -6981,7 +6981,7 @@ async function mpCallAI(d,endpoint){
     }
     return data;
   }catch(e){
-    console.error('[My Prez IA] ERREUR',e);
+    console.error('[My Prez IA] ERREUR',e);window._mpAIErr=e.message;
     var status =
       document.getElementById('aiStatus');
     if(status){
@@ -7017,7 +7017,7 @@ async function generateAIStructure(){
     finishAIProgress(true,'Le post et les slides ont été générés avec succès !');
   } else {
     document.getElementById('aiStatus').textContent='Le serveur IA n’a pas renvoyé le format attendu. La structure reste disponible.';
-    finishAIProgress(false,'La génération IA a échoué - la structure éditoriale reste disponible, vous pouvez tout de même modéliser les slides.');
+    finishAIProgress(false,'La génération IA a échoué'+(window._mpAIErr?' : '+window._mpAIErr:(ai&&typeof ai==='object'?' : réponse reçue sans liste "slides" (clés : '+Object.keys(ai).join(', ')+').':''))+' — la structure éditoriale reste disponible.');
   }
 }
 	
