@@ -6915,7 +6915,8 @@ function mpNormalizeAIResponse(raw,d){
     var title=mpClamp(x.title||'', 60), body=x.body||'', label=mpClamp(x.label||'', 20);
     if(t==='cover')return {t:'cover',bg:{type:'solid',color:primary,textColor:'#FFFFFF'},tag:label||'IA',title:title.toUpperCase(),sub:mpClamp(body,90)};
     if(t==='hook')return {t:'hook',bg:{type:'solid',color:'#060E1A',textColor:'#FFFFFF'},pill:label||'LE CONSTAT',stmt:mpClamp(title,90),stxt:mpClamp(body,130),sn:sn};
-    if(t==='step')return {t:'step',bg:{type:'solid',color:primary,textColor:'#FFFFFF'},pill:label||'LA MÉTHODE',items:[{n:'01',title:mpClamp(title,60),sub:mpClamp(body,140)}],sn:sn};
+    if(t==='step'){var _its=Array.isArray(x.items)&&x.items.length?x.items.slice(0,5).map(function(it,k){return {n:String(k+1).padStart(2,'0'),title:mpClamp(it.title||it.label||'',60),sub:mpClamp(it.body||it.sub||'',140)};}):[{n:'01',title:mpClamp(title,60),sub:mpClamp(body,140)}];return {t:'step',bg:{type:'solid',color:primary,textColor:'#FFFFFF'},pill:label||'LA MÉTHODE',items:_its,sn:sn};}
+    if(t==='chart'&&Array.isArray(x.items)){var _ci=x.items.filter(function(it){return it&&isFinite(parseFloat(it.value));}).slice(0,6).map(function(it,k){return {label:mpClamp(String(it.label||''),30),value:parseFloat(it.value),color:k%2?secondary:accent};});if(_ci.length>=2)return {t:'chart',bg:{type:'solid',color:primary,textColor:'#FFFFFF'},pill:label||mpClamp(title,20)||'À MESURER',chartKind:'bar',items:_ci,sn:sn};}
     if(t==='quote')return {t:'quote',bg:{type:'solid',color:'#F4F4F2',textColor:primary},pill:label||'À RETENIR',quote:mpClamp(body,110),qsub:mpClamp(title,90),sn:sn};
     if(t==='cta')return {t:'cta',bg:{type:'gradient',gradient:'135deg,'+accent+','+secondary,textColor:'#FFFFFF'},eyebrow:label||bk.name||'VOTRE MARQUE',main:mpClamp(title,60),ctxt:mpClamp(body,120),pill:label||'PASSER À L’ACTION'};
     return {t:'whiteContent',bg:{type:'solid',color:'#F4F4F2',textColor:primary},pill:label||title,content:[mpClamp(body,300)],stmt:'',tip:'',sn:sn};
@@ -6946,7 +6947,7 @@ async function mpCallAI(d,endpoint){
       slides: d.structure.length,
       structure: d.structure,
       format: 'My Prez',
-      output: 'Format JSON avec title, post et slides. Types autorisés: cover, hook, whiteContent, step, chart, quote, cta. Chaque slide doit contenir un texte réellement spécifique au sujet.'
+      output: 'Format JSON avec title, post et slides. Types autorisés: cover, hook, whiteContent, step, chart, quote, cta. Pour step, fournis items:[{title,body}] (3 à 5 étapes). Pour chart, fournis items:[{label,value}] avec des valeurs numériques uniquement si elles sont issues du texte fourni, sinon n\'utilise pas chart. Chaque slide doit contenir un texte réellement spécifique au sujet.'
     };
 
     var resp = await fetch(endpoint,{
@@ -7054,6 +7055,47 @@ function createAICarousel(){
 
 /* Le bouton Tutoriel reste accessible, mais le nouvel accueil remplace son lancement automatique. */
 try{if(!localStorage.getItem(MP_BRAND_KEY)){/* pas de création silencieuse, les valeurs par défaut restent dans l’éditeur */}}catch(e){}
+
+/* ═══ Édition IA en langage naturel (slide courante) ═══
+   Contrat serveur : POST {key, task:'edit_slide', instruction, slide} -> {slide:{...champs texte modifiés}} */
+(function(){
+  var KEYS=['pill','tag','title','sub','stmt','stxt','content','tip','quote','qsub','eyebrow','main','ctxt','items'];
+  function pick(s){var o={t:s.t};KEYS.forEach(function(k){if(s[k]!==undefined)o[k]=s[k];});return o;}
+  function build(){
+    if(document.getElementById('mpEditFab'))return;
+    var b=document.createElement('button');b.id='mpEditFab';b.textContent='✨ Modifier avec l\u2019IA';
+    b.style.cssText='position:fixed;right:18px;bottom:18px;z-index:60;background:var(--orange);color:#fff;border-radius:999px;padding:10px 16px;font-weight:700;font-size:13px;box-shadow:var(--shadow-md)';
+    var p=document.createElement('div');p.id='mpEditPanel';
+    p.style.cssText='display:none;position:fixed;right:18px;bottom:66px;z-index:60;width:320px;background:var(--surface-2);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-lg);padding:12px';
+    p.innerHTML='<div style="font-weight:700;margin-bottom:6px">Modifier la slide courante</div>'
+      +'<textarea id="mpEditTxt" rows="3" placeholder="Ex. : rends-la plus percutante, passe en 3 étapes, ton plus direct…" style="width:100%;border:1px solid var(--border);border-radius:8px;padding:8px;font-size:13px"></textarea>'
+      +'<div style="display:flex;gap:6px;align-items:center;margin-top:8px"><button id="mpEditGo" class="tbtn tbtn-orange">Appliquer</button><span id="mpEditSt" style="font-size:12px;color:var(--gray)"></span></div>';
+    document.body.appendChild(b);document.body.appendChild(p);
+    b.onclick=function(){p.style.display=p.style.display==='none'?'block':'none';};
+    document.getElementById('mpEditGo').onclick=run;
+  }
+  async function run(){
+    var st=document.getElementById('mpEditSt'),ins=(document.getElementById('mpEditTxt').value||'').trim();
+    var ep=localStorage.getItem('myprez_ai_endpoint');
+    if(!ins){st.textContent='Décrivez la modification.';return;}
+    if(!ep){st.textContent='Configurez d\u2019abord l\u2019endpoint IA (générateur IA).';return;}
+    var s=sl();if(s.locked){st.textContent='Slide verrouillée.';return;}
+    st.textContent='En cours…';
+    try{
+      var key=(typeof window.myprezGetLicenseKey==='function')?window.myprezGetLicenseKey():'';
+      var r=await fetch(ep,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({key:key,task:'edit_slide',instruction:ins,slide:pick(s),tone:'professionnel, en français'})});
+      var d=await r.json();if(!r.ok)throw new Error(d&&d.error||('HTTP '+r.status));
+      var n=d.slide||d.data&&d.data.slide;if(!n||typeof n!=='object')throw new Error('Réponse inattendue');
+      histSave();
+      KEYS.forEach(function(k){if(n[k]===undefined)return;
+        if(k==='items'){if(Array.isArray(n.items)&&n.items.length)s.items=n.items.slice(0,8);}
+        else if(k==='content'){if(Array.isArray(n.content))s.content=n.content.map(String);else if(typeof n.content==='string')s.content=[n.content];}
+        else if(typeof n[k]==='string')s[k]=n[k];});
+      render();st.textContent='Modifié ✓ (annulable avec Annuler)';
+    }catch(e){st.textContent='Erreur : '+e.message;}
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',build);else build();
+})();
 </script>
 
 </body>
