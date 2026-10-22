@@ -6515,7 +6515,7 @@ function openLegalModal(title, html){
     </div>
     <div class="field" style="margin-top:6px">
       <label>Connexion IA</label>
-      <input class="einp2" id="aiEndpoint" placeholder="https://votre-domaine/api/myprez-ai"/>
+      <input class="einp2" id="aiEndpoint" type="password" autocomplete="off" placeholder="Collez votre clé API (Gemini, OpenAI ou Anthropic)"/>
       <button type="button" class="tbtn tbtn-gray" style="width:100%;margin-top:6px" onclick="toggleAIHelp()">Comment connecter mon IA ? ▾</button>
       <div id="aiHelpPanel" style="display:none;margin-top:8px;padding:12px;background:var(--surface-1);border:1px solid var(--border);border-radius:var(--rad-md);font-size:14px;line-height:1.7;color:var(--text-2)">
         <ol style="margin:0;padding-left:18px">
@@ -6926,6 +6926,36 @@ function mpNormalizeAIResponse(raw,d){
 }
 
 	
+
+/* ═══ IA directe : l'utilisateur colle sa clé API (Gemini AIza…, OpenAI sk-…, Anthropic sk-ant-…) ═══ */
+var MP_SYS_GEN='Tu es un expert du contenu LinkedIn B2B. Réponds uniquement en JSON valide : {"title":"...","post":"...","slides":[{"type":"cover|hook|whiteContent|step|chart|quote|cta","title":"...","body":"...","label":"...","items":[{"title":"","body":""}]}]}. Pour chart, items:[{"label":"","value":0}] uniquement avec des chiffres fournis. Autant de slides que demandé, texte réel, jamais de placeholder. Français.';
+var MP_SYS_EDIT='Tu es un éditeur de carrousels LinkedIn. Réécris la slide selon l\u2019instruction. Réponds uniquement en JSON : {"slide":{...}} en gardant les mêmes clés que la slide reçue. Français, concis.';
+function mpIsApiKey(v){return !!v&&!/^https?:\/\//i.test(v);}
+async function mpDirectAI(key,system,user){
+  var url,opt,pick;
+  if(/^sk-ant-/.test(key)){
+    url='https://api.anthropic.com/v1/messages';
+    opt={headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-haiku-5-5',max_tokens:4096,system:system,messages:[{role:'user',content:user}]})};
+    pick=function(d){return (d.content||[]).map(function(b){return b.text||'';}).join('');};
+  }else if(/^sk-/.test(key)){
+    url='https://api.openai.com/v1/chat/completions';
+    opt={headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
+      body:JSON.stringify({model:'gpt-4o-mini',response_format:{type:'json_object'},messages:[{role:'system',content:system},{role:'user',content:user}]})};
+    pick=function(d){return d.choices&&d.choices[0]&&d.choices[0].message.content||'';};
+  }else if(/^AIza/.test(key)){
+    url='https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key='+encodeURIComponent(key);
+    opt={headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({systemInstruction:{parts:[{text:system}]},contents:[{role:'user',parts:[{text:user}]}],generationConfig:{responseMimeType:'application/json',temperature:0.7}})};
+    pick=function(d){return d.candidates&&d.candidates[0]&&d.candidates[0].content.parts.map(function(x){return x.text||'';}).join('')||'';};
+  }else throw new Error('Clé non reconnue : attendu Gemini (AIza…), OpenAI (sk-…) ou Anthropic (sk-ant-…).');
+  var r=await fetch(url,{method:'POST',headers:opt.headers,body:opt.body});
+  var d=await r.json().catch(function(){return {};});
+  if(!r.ok)throw new Error('Erreur IA HTTP '+r.status+' : '+((d.error&&(d.error.message||d.error))||''));
+  var t=pick(d).replace(/```json|```/g,'').trim();
+  var a=t.indexOf('{'),b=t.lastIndexOf('}');
+  try{return JSON.parse(t.slice(a,b+1));}catch(e){throw new Error('Réponse IA non exploitable, réessayez.');}
+}
 async function mpCallAI(d,endpoint){window._mpAIErr='';
   if(!endpoint)return null;
 
@@ -6950,6 +6980,9 @@ async function mpCallAI(d,endpoint){window._mpAIErr='';
       output: 'Format JSON avec title, post et slides. Types autorisés: cover, hook, whiteContent, step, chart, quote, cta. Pour step, fournis items:[{title,body}] (3 à 5 étapes). Pour chart, fournis items:[{label,value}] avec des valeurs numériques uniquement si elles sont issues du texte fourni, sinon n\'utilise pas chart. Chaque slide doit contenir un texte réellement spécifique au sujet.'
     };
 
+    if(mpIsApiKey(endpoint)){
+      return await mpDirectAI(endpoint,MP_SYS_GEN,'Sujet : '+d.idea+'\nObjectif : '+d.goal+'\nAudience : '+d.audience+'\nTon : '+d.tone+'\nNombre de slides : '+d.structure.length+'\nStructure : '+JSON.stringify(d.structure)+'\n'+prompt.output);
+    }
     var resp = await fetch(endpoint,{
       method:'POST',
       headers:{
@@ -7082,6 +7115,7 @@ try{if(!localStorage.getItem(MP_BRAND_KEY)){/* pas de création silencieuse, les
     var s=sl();if(s.locked){st.textContent='Slide verrouillée.';return;}
     st.textContent='En cours…';
     try{
+      if(mpIsApiKey(ep)){var dd=await mpDirectAI(ep,MP_SYS_EDIT,'Instruction : '+ins+'\nSlide : '+JSON.stringify(pick(s)));var n0=dd.slide||dd;histSave();KEYS.forEach(function(k){if(n0[k]===undefined)return;if(k==='items'){if(Array.isArray(n0.items)&&n0.items.length)s.items=n0.items.slice(0,8);}else if(k==='content'){if(Array.isArray(n0.content))s.content=n0.content.map(String);else if(typeof n0.content==='string')s.content=[n0.content];}else if(typeof n0[k]==='string')s[k]=n0[k];});render();st.textContent='Modifié ✓ (annulable avec Annuler)';return;}
       var key=(typeof window.myprezGetLicenseKey==='function')?window.myprezGetLicenseKey():'';
       var r=await fetch(ep,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({key:key,task:'edit_slide',instruction:ins,slide:pick(s),tone:'professionnel, en français'})});
       var d=await r.json();if(!r.ok)throw new Error(d&&d.error||('HTTP '+r.status));
@@ -7097,7 +7131,7 @@ try{if(!localStorage.getItem(MP_BRAND_KEY)){/* pas de création silencieuse, les
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',build);else build();
 })();
 
-console.info('[My Prez] build 2026-10-21-b : erreurs IA détaillées');
+console.info('[My Prez] build 2026-10-22-c : clé API directe');
 </script>
 
 </body>
