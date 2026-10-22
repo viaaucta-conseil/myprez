@@ -6932,26 +6932,32 @@ var MP_SYS_GEN='Tu es un expert du contenu LinkedIn B2B. Réponds uniquement en 
 var MP_SYS_EDIT='Tu es un éditeur de carrousels LinkedIn. Réécris la slide selon l\u2019instruction. Réponds uniquement en JSON : {"slide":{...}} en gardant les mêmes clés que la slide reçue. Français, concis.';
 function mpIsApiKey(v){return !!v&&!/^https?:\/\//i.test(v);}
 async function mpDirectAI(key,system,user){
+  key=String(key).replace(/\s+/g,'').replace(/^["']+|["']+$/g,'');
   var url,opt,pick;
   if(/^sk-ant-/.test(key)){
     url='https://api.anthropic.com/v1/messages';
     opt={headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
       body:JSON.stringify({model:'claude-haiku-5-5',max_tokens:4096,system:system,messages:[{role:'user',content:user}]})};
     pick=function(d){return (d.content||[]).map(function(b){return b.text||'';}).join('');};
+  }else if(/^gsk_/.test(key)){
+    url='https://api.groq.com/openai/v1/chat/completions';
+    opt={headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
+      body:JSON.stringify({model:'llama-3.3-70b-versatile',response_format:{type:'json_object'},messages:[{role:'system',content:system},{role:'user',content:user}]})};
+    pick=function(d){return d.choices&&d.choices[0]&&d.choices[0].message.content||'';};
   }else if(/^sk-/.test(key)){
     url='https://api.openai.com/v1/chat/completions';
     opt={headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
       body:JSON.stringify({model:'gpt-4o-mini',response_format:{type:'json_object'},messages:[{role:'system',content:system},{role:'user',content:user}]})};
     pick=function(d){return d.choices&&d.choices[0]&&d.choices[0].message.content||'';};
-  }else if(/^AIza/.test(key)){
+  }else{ /* par défaut : Gemini (le format des clés Google peut évoluer) */
     url='https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key='+encodeURIComponent(key);
     opt={headers:{'Content-Type':'application/json'},
       body:JSON.stringify({systemInstruction:{parts:[{text:system}]},contents:[{role:'user',parts:[{text:user}]}],generationConfig:{responseMimeType:'application/json',temperature:0.7}})};
     pick=function(d){return d.candidates&&d.candidates[0]&&d.candidates[0].content.parts.map(function(x){return x.text||'';}).join('')||'';};
-  }else throw new Error('Clé non reconnue : attendu Gemini (AIza…), OpenAI (sk-…) ou Anthropic (sk-ant-…).');
+  }
   var r=await fetch(url,{method:'POST',headers:opt.headers,body:opt.body});
   var d=await r.json().catch(function(){return {};});
-  if(!r.ok)throw new Error('Erreur IA HTTP '+r.status+' : '+((d.error&&(d.error.message||d.error))||''));
+  if(!r.ok)throw new Error('Erreur IA HTTP '+r.status+' (clé commençant par « '+key.slice(0,4)+' ») : '+((d.error&&(d.error.message||d.error))||''));
   var t=pick(d).replace(/```json|```/g,'').trim();
   var a=t.indexOf('{'),b=t.lastIndexOf('}');
   try{return JSON.parse(t.slice(a,b+1));}catch(e){throw new Error('Réponse IA non exploitable, réessayez.');}
@@ -7131,7 +7137,7 @@ try{if(!localStorage.getItem(MP_BRAND_KEY)){/* pas de création silencieuse, les
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',build);else build();
 })();
 
-console.info('[My Prez] build 2026-10-22-c : clé API directe');
+console.info('[My Prez] build 2026-10-22-d : clé API directe (Gemini/OpenAI/Anthropic/Groq)');
 </script>
 
 </body>
